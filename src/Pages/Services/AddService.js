@@ -16,8 +16,6 @@ const AddService = () => {
   const [triggerClose, setTriggerClose] = useState()
 
   const [locations, setLocations] = useState()
-
-  const [toggleQuestions, setToggleQuestions] = useState(1)
   
   const serviceName = useRef("")
   const serviceVendor = useRef("")
@@ -25,8 +23,7 @@ const AddService = () => {
   const serviceLocationID = useRef("")
   const serviceLocationName = useRef("")
   const serviceAssetID = useRef("")
-  const serviceCompanyID = useRef("")
-  const serviceCompanyName = useRef("")
+  const serviceAccessType = useRef("")
   const serviceMRC = useRef("")
   const serviceDetailsBandwidth = useRef("")
   const serviceDetailsIPRange = useRef("")
@@ -60,7 +57,7 @@ const AddService = () => {
   
   const handleSubmit = async(e) => {
     const data = {
-      Name: serviceName.current.value,
+      
       Vendor: serviceVendor.current.value,
       Type: serviceType.current.value,
       LocationID: serviceLocationID.current.value,
@@ -68,11 +65,8 @@ const AddService = () => {
       CompanyID: userContext.userSession.currentCompanyID,
       CompanyName: userContext.userSession.currentCompany,
       Bandwidth: serviceDetailsBandwidth.current.value,
-      PublicIP: serviceDetailsIPRange.current.value,
-      LANIP: serviceDetailsLANEdgeIP.current.value,
-      ASN: serviceDetailsASN.current.value,
-      Notes: serviceDetailsNotes.current.value,
-      MRC: serviceMRC.current.value,
+      AccessType: serviceAccessType.current.value,
+
       
     }  
     console.log(data)
@@ -88,7 +82,7 @@ const AddService = () => {
     setTimeout(() => {setModalState(false)}, 1000)
   }
   const handleChange = () => {
-    console.log(serviceDetails.current)
+    console.log()
   }
 
   return (
@@ -103,8 +97,7 @@ const AddService = () => {
         <div className="modal-card-body">
 
           <form>
-            {toggleQuestions === 1 ? 
-            <>
+          
             <div className="field">
               <label className="label">Service Location</label>
               <div className="control">
@@ -120,15 +113,6 @@ const AddService = () => {
               </div>
             </div>
 
-            
-{/** 
-            <div className="field">
-              <label className="label">Service Name</label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={serviceName} />
-              </div>
-            </div>
-*/}
             <div className="field">
               <div className="control">
               <label className="label">Vendor</label>
@@ -153,6 +137,21 @@ const AddService = () => {
               </div>
             </div>
 
+            <div className="field">            
+            <label className="label">Access Type</label>
+              <div className="control">
+                <div className="select is-rounded is-fullwidth">
+                <select type="select" ref={serviceAccessType} >
+                  <option> </option>
+                  <option>T1</option>
+                  <option>Ethernet</option>
+                  <option>Cable</option>
+                  <option>Fiber</option>
+                </select>
+                </div>
+              </div>
+            </div>
+
             <div className="field">
               <label className="label">Asset ID</label>
               <div className="control">
@@ -167,21 +166,6 @@ const AddService = () => {
               </div>
             </div>
 
-            </> : toggleQuestions === 2 ?
-            <>
-            <div className="field">
-              <div className="control">
-              <label className="label">Vendor Managed Router</label>
-                <div className="select is-rounded is-fullwidth">
-                  <select type="select" ref={serviceDetailsIPRange}>
-                    <option> </option>
-                    <option>Yes</option>
-                    <option>No</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
             <div className="field">
               <div className="control">
               <label className="label">Bandwidth</label>
@@ -189,39 +173,6 @@ const AddService = () => {
               </div>
             </div>
 
-            {/** Add Tooltip indicating to use /subnet size when entering. Have function to destructure subnet to provide usable range and gateway address.*/}  
-            <div className="field">
-              <div className="control">
-              <label className="label">Public IP Range</label>
-                <input className="input is-rounded" type="text" ref={serviceDetailsIPRange} />
-              </div>
-            </div>
-
-            <div className="field">
-              <div className="control">
-              <label className="label">LAN Edge IP</label>
-                <input className="input is-rounded" type="text" ref={serviceDetailsLANEdgeIP} />
-              </div>
-            </div>
-
-            <div className="field">
-              <div className="control">
-              <label className="label">ASN</label>
-                <input className="input is-rounded" type="text" ref={serviceDetailsASN} />
-              </div>
-            </div>
-
-            </> : toggleQuestions === 3 ?
-            <>
-
-            <div className="field">
-              <div className="control">
-              <label className="label">Notes</label>
-                <textarea className="textarea is-rounded" type="text" ref={serviceDetailsNotes} />
-              </div>
-            </div>
-
-            </> : ""}
           </form>
 
         <div className="block">
@@ -230,14 +181,8 @@ const AddService = () => {
         </div>
         <div className="modal-card-foot">
 
-          
-          {toggleQuestions < 3 ? 
-          <button className="button level-item" onClick={() => setToggleQuestions(toggleQuestions + 1)}>Next</button> :
-          ""}
-          {toggleQuestions > 1 ? 
-          <button className="button level-item" onClick={() => setToggleQuestions(toggleQuestions - 1)}>Back</button> : ""}
           <button className="button level-item" type="submit" onClick={handleSubmit}>
-            Finish
+            Add Service
           </button>
         
         </div>
