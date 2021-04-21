@@ -1,0 +1,37 @@
+<div className="block">
+        <div className="tile is-ancestor has-text-centered">
+        
+        <div className="tile is-parent" >
+        <article className="tile box is-child notification has-background-info-lighter">
+        <p className="title is-7 has-text-weight-bold">
+          LOCATIONS
+        </p>
+        <p className="button is-rounded is-large has-text-weight-bold">
+          
+        </p>
+        </article>
+        </div>
+        
+        <div className="tile is-parent">
+        <article className="tile is-child notification is-primary">
+        <p className="title is-5">
+          <div className="block">Open Orders</div>
+          <Link to="/services">#</Link>
+        </p>
+        </article>
+        </div>
+        
+        <div className="tile is-parent">
+        <article className="tile is-child notification is-primary ">
+        <p className="title is-5">Open Tickets</p>
+        <p className="subtitle is-small">...</p>
+        </article>
+        </div>
+
+        <div className="tile is-parent">
+        <article className="tile is-child notification is-primary ">
+        <p className="title is-5">Monthly Spend</p>
+        <p className="subtitle is-small">...</p>
+        </article>
+        </div>
+        </div>

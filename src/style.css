@@ -1,0 +1,21 @@
+.error {
+  color: crimson;
+  font-style: italic;
+}
+span div{
+  width: 100%
+}
+.navBtn button{
+  padding: .1em 5em;
+  border: 1px solid #cccccc;
+  margin-right: .5em;
+  font-size: .1em;
+  float: right;
+}
+.infoBox table{
+  border: 1px solid;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
