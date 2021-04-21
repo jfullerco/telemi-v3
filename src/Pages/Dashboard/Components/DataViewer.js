@@ -17,6 +17,8 @@ import AddAccount from '../../Accounts/AddAccount'
 
 const DataViewer = (props) => {
   const userContext = useContext(stateContext)
+  const {dataLoading} = userContext.userSession
+  
   const currentCompany = userContext.userSession
   const history = useHistory()
 
@@ -144,6 +146,18 @@ const DataViewer = (props) => {
     fetchOrders()
     fetchAccounts()
   }, [currentCompany])
+
+  useEffect(() => {
+    reRender()
+    userContext.setDataLoading(false)
+  }, [dataLoading])
+
+  const reRender = () => {
+    dataLoading != false ? (fetchLocations(),
+    fetchServices(),
+    fetchOrders(),
+    fetchAccounts()) : ""
+  }
   
   const fetchLocations = async() => {
 

@@ -39,6 +39,15 @@ const SiteList = () => {
   
   }, [])
 
+  useEffect(() => {
+    reRender()
+    userContext.setDataLoading(false)
+  }, [dataLoading])
+
+  const reRender = () => {
+    dataLoading != false ? fetchLocations() : ""
+  }
+
   const fetchLocations = async() => {
    
     const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
