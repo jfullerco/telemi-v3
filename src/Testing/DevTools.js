@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {stateContext} from '../stateContext'
+import {stateContext} from '../Contexts/stateContext'
 
 const DevTools = (props) => {
   const userContext = useContext(stateContext)
