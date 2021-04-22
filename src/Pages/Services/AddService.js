@@ -66,6 +66,7 @@ const AddService = () => {
       CompanyName: userContext.userSession.currentCompany,
       Bandwidth: serviceDetailsBandwidth.current.value,
       AccessType: serviceAccessType.current.value,
+      AssetID: serviceAssetID.current.value,
 
       
     }  
