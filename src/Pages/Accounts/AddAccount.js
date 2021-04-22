@@ -57,6 +57,7 @@ const AddAccount = () => {
 
     console.log(data)
     const res = await db.collection("Accounts").doc().set(data)
+    userContext.setDataLoading(true)
     autoClose()
 
   }

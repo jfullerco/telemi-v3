@@ -71,6 +71,7 @@ const AddService = () => {
     }  
     console.log(data)
     const res = await db.collection("Services").doc().set(data)
+    userContext.setDataLoading(true)
     autoClose()
   }
 

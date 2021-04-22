@@ -294,11 +294,13 @@ return (
       <nav className="level">
         <table className="table is-striped is-hoverable is-fullwidth">
           <thead>
+            <tr>
             <th className="px-6">Vendor</th>
             <th className="px-6">Account Number</th>
             <th className="px-6">Sub Account Number</th>
             <th className="px-6">Monthly Cost</th>
             <th><button className="button is-rounded is-small" onClick={handleToggleAccountAddModal}>add</button></th>
+            </tr>
           </thead>
           <tbody>
           {accounts != undefined ? accounts.map(account => (
@@ -437,11 +439,13 @@ return (
     <nav className="level">
       <table className="table is-striped is-fullwidth">
         <thead>
+          <tr>
           <th className="px-6">Vendor</th>
           <th className="px-6">Ticket Number</th>
           <th className="px-6">Date</th>
           <th className="px-6">Location</th>
           <th><button className="button is-rounded is-small" onClick={handleToggleOrderAddModal}>add</button></th>
+          </tr>
         </thead>
         <tbody>
         {tickets != undefined ? orders.map(order => (
@@ -486,7 +490,8 @@ return (
     <div className="table-container">
     <nav className="level is-centered">
       <table className="table is-striped is-fullwidth ">
-        <thead><tr>
+        <thead>
+          <tr>
           <th className="px-6">Email</th>
           <th><button className="button is-rounded is-small" onClick={handleToggleUsersAddModal}>add</button></th>
           </tr>

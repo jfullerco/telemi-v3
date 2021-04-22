@@ -35,6 +35,7 @@ const AddLocation = () => {
     }  
     console.log(data)
     const res = await db.collection("Locations").doc().set(data)
+    userContext.setDataLoading(true)
     autoClose()
   }
 

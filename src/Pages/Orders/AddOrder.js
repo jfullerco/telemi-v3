@@ -49,6 +49,7 @@ const AddOrder = () => {
     }  
     console.log(data)
     const res = await db.collection("Orders").doc().set(data)
+    userContext.setDataLoading(true)
     autoClose()
   }
 
