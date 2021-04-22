@@ -94,8 +94,8 @@ console.log({userCompanies})
     <div className="field has-addons has-addons-centered">
     <div className="control is-expanded">
       <div className="select is-rounded is-fullwidth">
-        <select onChange={handleChange} defaultValue={activeCompanyID.current.value}>
-          {activeCompanyID.current.value != "" ? <option value={activeCompanyID.current.value}>{activeCompanyName.current.value}</option> : ""}
+        <select onChange={handleChange}>
+          
           {(userCompanies != "" && dataLoading != true) ? userCompanies.map(company => (
             <option key={company.id} value={company.id} name={company.Name} >
               {company.Name}
