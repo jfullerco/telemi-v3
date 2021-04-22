@@ -31,10 +31,10 @@ const AddAccount = () => {
   const fetchAccounts = async() => {
    
     const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-console.log(accountsRef)
-    const parentAccountsRef = await accountsRef.where("ParentAccountID", "==", "Parent").get()
-console.log(parentAccountsRef)
-    const accounts = parentAccountsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+
+    
+
+    const accounts = accountsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
 
     setAccounts(accounts)
 

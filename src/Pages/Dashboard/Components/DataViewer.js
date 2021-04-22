@@ -194,7 +194,7 @@ const DataViewer = (props) => {
 
   const fetchAccounts = async() => {
 
-    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
+    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).orderBy("ParentAccountNum").get()
 
     const accounts = accountsRef.docs.map(doc => ({
       id: doc.id,
