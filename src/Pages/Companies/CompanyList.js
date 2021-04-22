@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 
 
 import {useAuth} from '../../Contexts/AuthContext'
@@ -18,6 +18,9 @@ const CompanyList = () => {
   const [loading, setLoading] = useState()
   
   const [userCompanies, setUserCompanies] = useState([])
+  const activeCompanyID = useRef("")
+  const activeCompanyName = useRef("")
+  
   const [selectedCompany, setSelectedCompany] = useState({
     id: "",
     Name: ""
@@ -40,14 +43,15 @@ const CompanyList = () => {
     dataLoading != false ? fetchCompanies() : ""
   }
 
-
+console.log(activeCompanyName.current)
   const handleChange = (e) => {
     const id = e.target.value
     const name = e.target.options[e.target.selectedIndex].text
-    
+    activeCompanyID.current = id
+    activeCompanyName.current = name
     userContext.setCurrentCompanyID(id)
     userContext.setCurrentCompany(name)
-
+    
   }
 console.log({userCompanies})
   const fetchCompanies = async() => {
@@ -67,6 +71,18 @@ console.log({userCompanies})
 
   }
 
+  const fetchCompaniesRefresh = async() => {
+   
+    const companiesRef = await db.collection("Companies").where("Users", "array-contains", "jonathan@jfuller.co").get()
+
+    userContext.setDataLoading(false)
+
+    const companies = companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    setUserCompanies(companies)
+    setLoading(false)
+
+  }
+
   const toggleAddCompany = () => {
     
     setAddCompanyModalState(!addCompanyModalState)
@@ -78,9 +94,10 @@ console.log({userCompanies})
     <div className="field has-addons has-addons-centered">
     <div className="control is-expanded">
       <div className="select is-rounded is-fullwidth">
-        <select onChange={handleChange}>
+        <select onChange={handleChange} defaultValue={activeCompanyID.current.value}>
+          {activeCompanyID.current.value != "" ? <option value={activeCompanyID.current.value}>{activeCompanyName.current.value}</option> : ""}
           {(userCompanies != "" && dataLoading != true) ? userCompanies.map(company => (
-            <option key={company.id} value={company.id} name={company.Name}>
+            <option key={company.id} value={company.id} name={company.Name} >
               {company.Name}
               
             </option>
