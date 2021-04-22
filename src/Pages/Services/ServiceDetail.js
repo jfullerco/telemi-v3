@@ -14,14 +14,11 @@ const ServiceDetail = () => {
 
   const [locations, setLocations] = useState()
 
-  const serviceName = useRef("")
   const serviceVendor = useRef("")
   const serviceType = useRef("")
   const serviceLocationID = useRef("")
   const serviceLocationName = useRef("")
   const serviceAssetID = useRef("")
-  const serviceCompanyID = useRef("")
-  const serviceCompanyName = useRef("")
   const serviceMRC = useRef("")
   const serviceDetailsBandwidth = useRef("")
   const serviceOrderID = useRef("")
@@ -52,14 +49,15 @@ const ServiceDetail = () => {
 
   const handleSubmit = async(e) => {
     const data = {
-      Name: serviceName.current.value,
       Vendor: serviceVendor.current.value,
       Type: serviceType.current.value,
       LocationID: serviceLocationID.current.value,
       LocationName: serviceLocationID.current[serviceLocationID.current.selectedIndex].text,
       CompanyID: userContext.userSession.currentCompanyID,
       CompanyName: userContext.userSession.currentCompany,
-      
+      Bandwidth: serviceDetailsBandwidth.current.value,
+      AccessType: serviceAccessType.current.value,
+      AssetID: serviceAssetID.current.value,
       MRC: serviceMRC.current.value,
       
     }  
@@ -103,11 +101,6 @@ const ServiceDetail = () => {
         </div>
         <section className="modal-card-body"> 
           <form>
-            
-            <label className="label">
-              Service Name
-            </label>
-            <input className="input" type="text" ref={serviceName} defaultValue={activeService.Name} />
 
             <label className="label">
               Service Location
@@ -127,10 +120,37 @@ const ServiceDetail = () => {
             </label>
             <input className="input" type="text" ref={serviceVendor} defaultValue={activeService.Vendor} />
 
-            <label className="label">
-              Type
-            </label>
-            <input className="input" type="text" ref={serviceType} defaulValue={activeService.Type} />
+            <div className="field">            
+            <label className="label">Type</label>
+              <div className="control">
+                <div className="select is-rounded is-fullwidth">
+                <select type="select" ref={serviceType} defaulValue={activeService.Type}>
+                  <option> </option>
+                  <option>Data Only</option>
+                  <option>Voice/Data</option>
+                  <option>Voice Only</option>
+                  <option>Security</option>
+                  <option>Hosting</option>
+                  <option>Mobility</option>
+                </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="field">            
+            <label className="label">Access Type</label>
+              <div className="control">
+                <div className="select is-rounded is-fullwidth">
+                <select type="select" ref={serviceAccessType} defaultValue={activeService.AccessType}>
+                  <option> </option>
+                  <option>T1</option>
+                  <option>Ethernet</option>
+                  <option>Cable</option>
+                  <option>Fiber</option>
+                </select>
+                </div>
+              </div>
+            </div>
 
             <label className="label">
               Asset ID
@@ -141,6 +161,13 @@ const ServiceDetail = () => {
               Monthly Cost
             </label>
             <input className="input" type="text" ref={serviceMRC} defaultValue={activeService.MRC}/>
+
+            <div className="field">
+              <div className="control">
+              <label className="label">Bandwidth</label>
+                <input className="input is-rounded" type="text" ref={serviceDetailsBandwidth} defaultValue={activeService.Bandwidth} />
+              </div>
+            </div>
 
           </form>
 
