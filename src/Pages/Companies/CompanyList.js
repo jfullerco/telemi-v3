@@ -28,7 +28,7 @@ const CompanyList = () => {
   const [addCompanyModalState, setAddCompanyModalState] = useState(false)
 
   useEffect(() => {
-
+    userContext.userSession.currentCompany != "" ? fetchCompaniesRefresh() :
     fetchCompanies()
     setLoading(false)
 
@@ -40,7 +40,7 @@ const CompanyList = () => {
   }, [dataLoading])
 
   const reRender = () => {
-    dataLoading != false ? fetchCompanies() : ""
+    dataLoading != false ? fetchCompaniesRefresh() : ""
   }
 
 console.log(activeCompanyName.current)
@@ -95,7 +95,7 @@ console.log({userCompanies})
     <div className="control is-expanded">
       <div className="select is-rounded is-fullwidth">
         <select onChange={handleChange}>
-          
+          {userContext.userSession.currentCompanyID != "" ? <option value={userContext.userSession.currentCompanyID}>{userContext.userSession.currentCompany}</option> : ""}
           {(userCompanies != "" && dataLoading != true) ? userCompanies.map(company => (
             <option key={company.id} value={company.id} name={company.Name} >
               {company.Name}
