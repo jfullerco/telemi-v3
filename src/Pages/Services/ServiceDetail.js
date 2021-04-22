@@ -141,7 +141,7 @@ const ServiceDetail = () => {
             <label className="label">Access Type</label>
               <div className="control">
                 <div className="select is-rounded is-fullwidth">
-                <select type="select" ref={serviceAccessType} defaultValue={activeService.AccessType}>
+                <select type="select" ref={serviceType} defaultValue={activeService.AccessType}>
                   <option> </option>
                   <option>T1</option>
                   <option>Ethernet</option>
