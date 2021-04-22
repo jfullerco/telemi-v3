@@ -17,32 +17,29 @@ const AddTicket = () => {
 
   const [locations, setLocations] = useState()
   
-  const orderNum = useRef("")
-  const companyID = useRef("")
-  const companyName = useRef("")
-  const orderDate = useRef("")
-  const orderType = useRef("")
-  const orderStatus = useRef("")
-  const orderServiceType = useRef("")
-  const orderMRC = useRef("")
-  const orderDetails = useRef("")
-  const orderNotes = useRef("")
-  const orderMilestones = useRef("")
-  const orderVendor = useRef("")
-  const orderLocationID = useRef("")
-  const orderLocationName = useRef("")
+  const ticketNum = useRef("")
+  const ticketDate = useRef("")
+  const ticketType = useRef("")
+  const ticketStatus = useRef("")
+  const ticketDetails = useRef("")
+  const ticketLocationID = useRef("")
+  const ticketLocationName = useRef("")
+  const ticketAccountID = useRef("")
+  const ticketAccountNum = useRef("")
+  const ticketCompletedDate = useRef("")
+  
 
   const handleSubmit = async(e) => {
     const data = {
-      OrderNum: orderNum.current.value,
+      TicketNum: ticketNum.current.value,
       CompanyID: userContext.userSession.currentCompanyID,
       CompanyName: userContext.userSession.currentCompany,
-      OrderDate: orderDate.current.value,
-      OrderType: orderType.current.value,
-      OrderStatus: orderStatus.current.value,
-      OrderServiceType: orderServiceType.current.value,
-      OrderVendor: orderVendor.current.value,
-      OrderMRC: orderMRC.current.value,
+      TicketDate: ticketDate.current.value,
+      TicketType: ticketType.current.value,
+      TicketStatus: ticketStatus.current.value,
+      TicketDetails: ticketDetails.current.value,
+      TicketLocationID: ticketLocationID.current.value,
+      TicketLocationName: ticketLocationName.current.value,
       LocationID: orderLocationID.current.value,
       LocationName: orderLocationID.current[orderLocationID.current.selectedIndex].text
     }  
