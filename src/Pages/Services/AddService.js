@@ -20,6 +20,7 @@ const AddService = () => {
   const serviceName = useRef("")
   const serviceVendor = useRef("")
   const serviceType = useRef("")
+  const serviceVendorServiceName = useRef("")
   const serviceLocationID = useRef("")
   const serviceLocationName = useRef("")
   const serviceAssetID = useRef("")
@@ -60,6 +61,7 @@ const AddService = () => {
       
       Vendor: serviceVendor.current.value,
       Type: serviceType.current.value,
+      VendorServiceName: serviceVendorServiceName.current.value,
       LocationID: serviceLocationID.current.value,
       LocationName: serviceLocationID.current[serviceLocationID.current.selectedIndex].text,
       CompanyID: userContext.userSession.currentCompanyID,
@@ -136,6 +138,13 @@ const AddService = () => {
                   <option>Mobility</option>
                 </select>
                 </div>
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">Vendor Service Name</label>
+              <div className="control">
+                <input className="input is-rounded" type="text" ref={serviceVendorServiceName} />
               </div>
             </div>
 

@@ -4,7 +4,7 @@ import {Link, useHistory} from 'react-router-dom'
 import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
 
-import ServiceDetail from '../../Services/ServiceDetail'
+import EditServiceModal from '../../Services/EditServiceModal'
 import AddService from '../../Services/AddService'
 import LocationDetail from '../../Locations/LocationDetail'
 import AddLocation from '../../Locations/AddLocation'
@@ -140,6 +140,11 @@ const DataViewer = (props) => {
     history.push("/accountdetail")
   }
 
+  const handleServiceDetail = (id) => {
+    userContext.setCurrentServiceID(id) 
+    history.push("/servicedetail")
+  }
+
   useEffect(() => {
     fetchLocations()
     fetchServices()
@@ -183,7 +188,7 @@ const DataViewer = (props) => {
 
   const fetchServices = async() => {
 
-    const servicesRef = await db.collection("Services").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
+    const servicesRef = await db.collection("Services").where("CompanyID", "==", userContext.userSession.currentCompanyID).orderBy("LocationName").get()
 
     const services = servicesRef.docs.map(doc => ({
       id: doc.id,
@@ -228,7 +233,7 @@ const DataViewer = (props) => {
 
 return (
   <>
-    {toggleServicesDetailModal != false ? <ServiceDetail /> : ""}
+    {toggleServicesDetailModal != false ? <EditServiceModal /> : ""}
     {toggleServicesAddModal != false ? <AddService /> : ""}
     
     
@@ -249,20 +254,26 @@ return (
       <nav className="level">
         <table className="table is-striped is-hoverable is-fullwidth">
           <thead>
+            <tr>
             <th className="px-6">Vendor</th>
-            <th className="px-6">Type</th>
+            <th className="px-6">Vendor Service Name</th>
             <th className="px-6">Location</th>
             <th className="px-6">Asset ID</th>
             <th><button className="button is-rounded is-small" onClick={handleToggleServicesAddModal}>add</button></th>
+            </tr>
           </thead>
           <tbody>
           {services != undefined ? services.map(service => (
-            <tr key={service.id}>
+            <tr key={service.id} onClick={() => handleServiceDetail(service.id)}>
               <td className="px-6">{service.Vendor}</td>
-              <td className="px-6">{service.Type} {location.Address2}</td>
+              <td className="px-6">{service.VendorServiceName} </td>
               <td className="px-6">{service.LocationName}</td>
               <td className="px-6">{service.AssetID}</td>
-              <td><button className="button is-rounded is-small" onClick={()=>handleToggleServicesDetailModal(service.id)}>edit</button></td>
+              <td>
+                
+                <button className="button is-rounded is-small" onClick={()=>handleToggleServicesDetailModal(service.id)}>edit</button>
+                
+                </td>
             </tr>
           )) : "No services added"}
           
@@ -474,7 +485,6 @@ return (
       </nav>
     </div> : ""}
 
-    
     {toggleUsersAddModal != false ? "" : ""}
     <div className="title">
       <button className="button is-medium is-dark is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleUsersView}>
@@ -482,10 +492,9 @@ return (
       <span className="is-size-7 ml-3">
       {users != undefined ? <span className="tag is-light"> {users.length}</span> : ""}
       </span>
-      </button>
-      
+      </button>      
     </div>
-
+    
     {toggleUsersView != false ? 
     <div className="table-container">
     <nav className="level is-centered">
@@ -507,8 +516,6 @@ return (
             </td>
           </tr>
         )) : "No Users added"}
-        
-
         </tbody>    
       </table>
       </nav>

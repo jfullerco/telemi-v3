@@ -5,10 +5,12 @@ import {stateContext} from '../Contexts/stateContext'
 import {auth} from '../Contexts/firebase'
 
 const LogoutButton = () => {
+
   const history = useHistory()
   const userContext = useContext(stateContext)
   
   const [isActive, setIsActive] = useState(false)
+
   const logOut = () => {
     
     userContext.setLoggedIn(false)
@@ -20,7 +22,7 @@ const LogoutButton = () => {
     <div className="navbar-brand">
 
       <div className="navbar-item">
-        <Link to="/" className="has-text-white">
+        <Link to="/dashboard" className="has-text-white">
           TELEMI
         </Link>
       </div>
@@ -56,6 +58,7 @@ const LogoutButton = () => {
           <Link to={`/dashboard`} className="navbar-item">
             Dashboard
           </Link>
+          <a onClick={() => history.push("/reports")} className="navbar-item">Reports</a>
           <a onClick={logOut} className="navbar-item">
             Logout
           </a>

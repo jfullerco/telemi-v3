@@ -9,6 +9,7 @@ import Dashboard from './Pages/Dashboard'
 import Login from './Pages/Login'
 import LogoutButton from './Components/LogoutButton'
 import AccountDetail from './Pages/Accounts/AccountDetail'
+import ServiceDetail from './Pages/Services/ServiceDetail'
 
 import DevTools from './Testing/DevTools'
 import "./style.css"
@@ -32,6 +33,7 @@ export default function App() {
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/login" component={Login} />
             <Route path="/accountdetail" component={AccountDetail} />
+            <Route path="/servicedetail" component={ServiceDetail} />
             
             
           

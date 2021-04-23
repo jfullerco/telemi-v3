@@ -4,7 +4,7 @@ import {Link, useHistory} from 'react-router-dom'
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
 
-const ServiceDetail = () => {
+const EditServiceModal = () => {
   
   const userContext = useContext(stateContext)
   const currentLocationID = userContext
@@ -213,4 +213,4 @@ const ServiceDetail = () => {
     </div>
   )
 }
-export default ServiceDetail
+export default EditServiceModal
