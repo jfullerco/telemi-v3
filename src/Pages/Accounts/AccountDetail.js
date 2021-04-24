@@ -117,6 +117,10 @@ console.log()
               <div className="control">
                 <div className="select is-rounded is-fullwidth">
                   <select className="select" ref={accountParentAccountID}>
+                  
+                  {activeAccount.ParentAccountNum !="Parent" ? 
+                  <option value={activeAccount.id}>{activeAccount.ParentAccountNum}</option> : ""}
+
                   <option value="Parent" name="Parent"></option>
                   {accounts != undefined ? accounts.map(account => (
                     <option key={account.id} value={account.id} name={account.AccountNum} >
