@@ -303,12 +303,13 @@ return (
     {toggleAccountView != false ? 
       <div className="table-container">
       <nav className="level">
-        <table className="table is-striped is-hoverable is-fullwidth">
+        <table className="table is-striped is-hoverable is-fullwidth has-text-centered">
           <thead>
             <tr>
             <th className="px-6">Vendor</th>
-            <th className="px-6">Account Number</th>
-            <th className="px-6">Sub Account Number</th>
+            <th className="px-6">Account</th>
+            <th className="px-6">Sub Account</th>
+            <th className="px-6">Location Linked</th>
             <th className="px-6">Monthly Cost</th>
             <th><button className="button is-rounded is-small" onClick={handleToggleAccountAddModal}>add</button></th>
             </tr>
@@ -318,10 +319,11 @@ return (
             
             <tr key={account.id} onClick={() => handleAccountDetail(account.id)}>
             {console.log(account)}
-              <td className="px-6">{account.Vendor}</td>
-              <td className="px-6">{account.ParentAccountID === "Parent" ? account.AccountNum : account.ParentAccountNum}</td>
-              <td className="px-6">{account.ParentAccountID != "Parent" ? account.AccountNum : ""}</td>
-              <td className="px-6">$ {account.PostTaxMRC}</td>
+              <td >{account.Vendor}</td>
+              <td >{account.ParentAccountID === "Parent" ? account.AccountNum : account.ParentAccountNum}</td>
+              <td >{account.ParentAccountID != "Parent" ? account.AccountNum : ""}</td>
+              <td >{account.AccountServiceLocationName} </td>
+              <td >$ {account.PostTaxMRC}</td>
               <td><button className="button is-rounded is-small" onClick={()=>handleToggleAccountDetailModal(account.id)}>edit</button></td>
             </tr>
             
