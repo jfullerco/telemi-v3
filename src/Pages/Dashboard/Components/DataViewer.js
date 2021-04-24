@@ -238,7 +238,7 @@ return (
     
     
     <div className="title">
-      <button className="button is-medium is-dark is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleServicesView}>
+      <button className="button is-medium is-black is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleServicesView}>
         Services 
         <div className="is-size-7 ml-3">
         {services != undefined ? 
@@ -289,7 +289,7 @@ return (
     
     
     <div className="title">
-      <button className="button is-medium is-dark is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleAccountView}>
+      <button className="button is-medium is-black is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleAccountView}>
         Accounts 
         <div className="is-size-7 ml-3">
         {accounts != undefined ? 
@@ -338,7 +338,7 @@ return (
     {toggleLocationAddModal != false ? <AddLocation /> : ""}
 
     <div className="title">
-      <button className="button is-medium is-dark is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleLocationView}>
+      <button className="button is-medium is-black is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleLocationView}>
       Locations 
       <div className="is-size-7 ml-3">
         {locations != undefined ? 
@@ -382,7 +382,7 @@ return (
     {toggleOrderAddModal != false ? <AddOrder /> : ""}
 
     <div className="title">
-      <button className="button is-medium is-dark is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleOrderView}>
+      <button className="button is-medium is-black is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleOrderView}>
         Orders 
       <span className="is-size-7 ml-3">
         {orders != undefined ? 
@@ -436,7 +436,7 @@ return (
     {toggleTicketDetailModal != false ? <TicketDetail /> : ""}
     {toggleTicketAddModal != false ? <AddTicket /> : ""}
     <div className="title">
-      <button className="button is-medium is-dark is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleTicketView}>
+      <button className="button is-medium is-black is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleTicketView}>
       Tickets
       <span className="is-size-7 ml-3">
       {tickets != undefined ? <span className="tag is-light">{tickets.length}</span> : ""}
@@ -487,7 +487,7 @@ return (
 
     {toggleUsersAddModal != false ? "" : ""}
     <div className="title">
-      <button className="button is-medium is-dark is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleUsersView}>
+      <button className="button is-medium is-black is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleUsersView}>
       Users
       <span className="is-size-7 ml-3">
       {users != undefined ? <span className="tag is-light"> {users.length}</span> : ""}

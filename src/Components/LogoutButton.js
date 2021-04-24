@@ -18,7 +18,7 @@ const LogoutButton = () => {
   }
 
   return (
-    <div className="navbar is-dark" role="navigation" aria-label="main navigation">
+    <div className="navbar is-black" role="navigation" aria-label="main navigation">
     <div className="navbar-brand">
 
       <div className="navbar-item">

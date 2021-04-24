@@ -78,7 +78,7 @@ const AddNote = (props) => {
             <div className="field">
               <div className="control">
               <label className="label">Note</label>
-                <textarea className="textarea is-rounded" type="text" ref={serviceDetailsNotes} />
+                <textarea className="textarea is-rounded" type="text" ref={noteAttached} />
               </div>
             </div>
 

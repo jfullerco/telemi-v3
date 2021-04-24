@@ -20,8 +20,8 @@ const DevTools = (props) => {
     <>
     {view === "true" ? (
       
-    <div className="notification mt-5 is-dark">
-      <p className="title is-5">conView</p>
+    <div className="notification mt-5 is-black">
+      <p className="title is-5">contextViewer</p>
       <div className="box">
 
         <p className="sub-title">

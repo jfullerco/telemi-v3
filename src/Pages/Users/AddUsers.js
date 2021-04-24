@@ -21,7 +21,20 @@ const AddUsers = () => {
   }
   return(
     <>
-    
+    <div className="field">
+    <label>Email</label>
+    <input className="input is-rounded" ref={userEmail} />
+    </div>
+
+    <div className="field">
+    <label>First Name</label>
+    <input className="input is-rounded" ref={userFirstName} />
+
+    <div className="field">
+    <label>Last Name</label>
+    <input className="input is-rounded" ref={userLastName} />
+    </div>
+    </div>
     </>
   )
 }

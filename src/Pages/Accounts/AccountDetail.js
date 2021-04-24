@@ -18,6 +18,7 @@ const AccountDetail = () => {
 
   const [activeAccount, setActiveAccount] = useState()
   const [accounts, setAccounts] = useState()
+  const [locations, setLocations] = useState()
   
   const accountAccountNum = useRef("")
   const accountVendor = useRef("")
@@ -39,6 +40,7 @@ console.log(accountAccountNum.current.className)
   useEffect(() => {
     fetchAccount()
     fetchAccounts()
+    fetchLocations()
   },[])
 
   const fetchAccount = async() => {
@@ -59,6 +61,20 @@ console.log(accountAccountNum.current.className)
     setAccounts(accounts)
 
   }
+
+  const fetchLocations = async() => {
+   
+    const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
+
+    const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    setLocations(locations)
+
+  }
+  
+  const handleLocationChange = (e) => {
+    accountServiceLocationID.current.value = e.target.value
+    accountServiceLocationName.current.value = e.target.name
+  }
   
   const handleSubmit = async(e) => {
 
@@ -78,6 +94,8 @@ console.log(accountAccountNum.current.className)
       ContractSignedDate: accountContractSignedDate.current.value,
       ContractTerm: accountContractTerm.current.value,
       ContractExpiresDate: accountContractExpiresDate.current.value,
+      AccountServiceLocationID: accountServiceLocationID.current.value,
+      AccountServiceLocationName: accountServiceLocationID.current[accountServiceLocationID.current.selectedIndex].text
       
     }  
 
@@ -114,6 +132,22 @@ console.log()
               <label className="label" >Account Number</label>
               <div className="control">
                 <input className="input is-rounded" type="text" ref={accountAccountNum} defaultValue={activeAccount.AccountNum} />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">Assign Location</label>
+              <div className="control">
+                <div className="select is-rounded is-fullwidth">
+                  <select className="select" ref={accountServiceLocationID}>
+                  <option value={activeAccount.AccountServiceLocationID}>{activeAccount.AccountServiceLocationName}</option>
+                  {locations != undefined ? locations.map(location => (
+                    <option key={location.id} value={location.id} name={location.Name} >
+                      {location.Name}
+                    </option>
+                  )) : "Add a location before adding a service"}
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -188,7 +222,7 @@ console.log()
 
             </> 
           </form>
-        <AddNote attachedTo="Accounts" attachedID={activeAccountID} />
+        {/** <AddNote attachedTo="Accounts" attachedID={activeAccount.id} /> */}
         <div className="block">
           <div className="notification is-danger is-hidden">{addAccountError}</div>
          {success === true ?  <div className="notification is-success">Account Added</div> : ""}

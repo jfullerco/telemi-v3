@@ -32,7 +32,7 @@ const Dashboard = () => {
        <div className="block" id="dashboardHero"> 
         <section className="hero is-small">
           <div className="hero-body">
-            <p className="title">Dashboard</p>
+            <p className="title has-text-black">Dashboard</p>
           </div>
         </section>
       </div>
