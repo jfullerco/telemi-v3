@@ -230,6 +230,10 @@ const DataViewer = (props) => {
 
   }
 
+  const handleCheckExistingLocation = (e) => {
+    
+  }
+
 
 return (
   <>
@@ -256,7 +260,7 @@ return (
           <thead>
             <tr>
             <th className="px-6">Vendor</th>
-            <th className="px-6">Vendor Service Name</th>
+            <th className="px-6">Vendor Service</th>
             <th className="px-6">Location</th>
             <th className="px-6">Asset ID</th>
             <th><button className="button is-rounded is-small" onClick={handleToggleServicesAddModal}>add</button></th>
