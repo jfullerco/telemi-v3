@@ -1,7 +1,9 @@
 import React, {useEffect, useState, useRef, useContext} from 'react'
 import {useHistory} from 'react-router-dom'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDollarSign } from '@fortawesome/free-solid-svg-icons'
+import { faSave } from '@fortawesome/free-solid-svg-icons'
 
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
@@ -125,8 +127,14 @@ console.log()
     <div>
     {activeAccount != undefined ? ( <>
       <div className="title">{activeAccount.AccountNum} Detail</div>
+        
         <form>
             <>
+            <div className="level-right">
+              <span className="icon-text is-clickable" onClick={handleSubmit}>
+                <span>Update</span> <FontAwesomeIcon icon={faSave} />
+              </span>
+            </div>
             <div className="field">
               <label className="label">Parent Account</label>
               <div className="control">
@@ -268,8 +276,8 @@ console.log()
         </div>
         <div className="modal-card-foot">
         
-          <button className="button level-item" type="submit" onClick={handleSubmit}>
-            Finish
+          <button className="button is-black is-outlined is-rounded level-item" type="submit" onClick={handleSubmit}>
+            Update Account
           </button>
         
         </div>

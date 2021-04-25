@@ -4,6 +4,9 @@ import {Link, useHistory} from 'react-router-dom'
 import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArchive } from '@fortawesome/free-solid-svg-icons'
+
 import EditServiceModal from '../../Services/EditServiceModal'
 import AddService from '../../Services/AddService'
 import LocationDetail from '../../Locations/LocationDetail'
@@ -294,15 +297,22 @@ return (
     
     
     <div className="title">
-      <button className="button is-medium is-black is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleAccountView}>
-        Accounts 
-        <div className="is-size-7 ml-3">
-        {accounts != undefined ? 
-          <span className="tag is-light">
-            {accounts.length}
-          </span> : ""}
+      <div className="field has-addons">
+        <p className="control is-expanded has-icons-left">
+          <button className="button is-medium is-fullwidth is-black is-rounded has-text-weight-bold" onClick={handleToggleAccountView}>
+          <span className="icon is-left px-6">
+            <FontAwesomeIcon icon={faArchive} />
+          </span>
+          Accounts 
+            <div className="is-size-7 ml-3">
+              {accounts != undefined ? 
+              <span className="tag is-light">
+                {accounts.length}
+              </span> : ""}
+            </div>
+          </button>
+        </p>
       </div>
-      </button>
     </div>
 
     {toggleAccountView != false ? 
