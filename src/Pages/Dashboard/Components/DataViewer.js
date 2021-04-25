@@ -5,7 +5,7 @@ import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArchive } from '@fortawesome/free-solid-svg-icons'
+import { faArchive, faServer } from '@fortawesome/free-solid-svg-icons'
 
 import EditServiceModal from '../../Services/EditServiceModal'
 import AddService from '../../Services/AddService'
@@ -244,17 +244,23 @@ return (
     {toggleServicesDetailModal != false ? <EditServiceModal /> : ""}
     {toggleServicesAddModal != false ? <AddService /> : ""}
     
-    
     <div className="title">
-      <button className="button is-medium is-black is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleServicesView}>
-        Services 
-        <div className="is-size-7 ml-3">
-        {services != undefined ? 
-          <span className="tag is-light">
-            {services.length}
-          </span> : ""}
+      <div className="field has-addons">
+        <p className="control is-expanded has-icons-left">
+          <button className="button is-medium is-fullwidth is-black is-rounded has-text-weight-bold" onClick={handleToggleServicesView}>
+          <span className="icon is-left px-6">
+            <FontAwesomeIcon icon={faServer} />
+          </span>
+          Services 
+            <div className="is-size-7 ml-3">
+              {services != undefined ? 
+              <span className="tag is-light">
+                {services.length}
+              </span> : ""}
+            </div>
+          </button>
+        </p>
       </div>
-      </button>
     </div>
 
     {toggleServicesView != false ? 
