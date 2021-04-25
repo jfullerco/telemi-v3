@@ -137,6 +137,7 @@ const DataViewer = (props) => {
 
   const handleAccountDetail = (id) => {
     userContext.setCurrentAccountID(id)
+    userContext.setDataLoading(true)
     history.push("/accountdetail")
   }
 

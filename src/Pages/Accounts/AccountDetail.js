@@ -11,6 +11,7 @@ import AddNote from '../Dashboard/Components/AddNote'
 const AccountDetail = () => {
 
   const userContext = useContext(stateContext)
+  const {dataLoading} = userContext
   const history = useHistory()
   
   const [addAccountError, setAddAccountError] = useState("")
@@ -19,6 +20,7 @@ const AccountDetail = () => {
   const [activeAccount, setActiveAccount] = useState()
   const [accounts, setAccounts] = useState()
   const [locations, setLocations] = useState()
+  const [servicesByLocation, setServicesByLocation] = useState()
   
   const accountAccountNum = useRef("")
   const accountVendor = useRef("")
@@ -35,12 +37,14 @@ const AccountDetail = () => {
   const accountContractExpiresDate = useRef("")
   const accountServiceLocationID = useRef("")
   const accountServiceLocationName = useRef("")
+  const accountServiceID = useRef("")
 console.log(accountAccountNum.current.className)
 
   useEffect(() => {
     fetchAccount()
     fetchAccounts()
     fetchLocations()
+    
   },[])
 
   const fetchAccount = async() => {
@@ -50,7 +54,7 @@ console.log(accountAccountNum.current.className)
     const data = await accountRef.data()
     const id = await accountRef.id
     setActiveAccount(data)
-
+    userContext.setDataLoading(false)
   }
 
   const fetchAccounts = async() => {
@@ -69,6 +73,16 @@ console.log(accountAccountNum.current.className)
     const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
     setLocations(locations)
 
+  }
+
+  const fetchServices = async() => {
+
+    const servicesRef = await db.collection("Services").where("LocationID", "==", activeAccount.AccountServiceLocationID).get()
+
+    const services = servicesRef.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()}))
+    setServicesByLocation(services)
   }
   
   const handleLocationChange = (e) => {
@@ -95,8 +109,9 @@ console.log(accountAccountNum.current.className)
       ContractTerm: accountContractTerm.current.value,
       ContractExpiresDate: accountContractExpiresDate.current.value,
       AccountServiceLocationID: accountServiceLocationID.current.value,
-      AccountServiceLocationName: accountServiceLocationID.current[accountServiceLocationID.current.selectedIndex].text
-      
+      AccountServiceLocationName: accountServiceLocationID.current[accountServiceLocationID.current.selectedIndex].text,
+      AccountServiceID: accountServiceID.current.value,
+      AccountServiceName: accountServiceID.current[accountServiceID.current.selectedIndex].text
     }  
 
     console.log(data)
@@ -133,9 +148,16 @@ console.log()
             </div>
 
             <div className="field">
-              <label className="label" >Account Number</label>
+              <label className="label">Account Number</label>
               <div className="control">
                 <input className="input is-rounded" type="text" ref={accountAccountNum} defaultValue={activeAccount.AccountNum} />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">Vendor</label>
+              <div className="control">
+                <input className="input is-rounded" type="text" ref={accountVendor} defaultValue={activeAccount.Vendor} />
               </div>
             </div>
 
@@ -143,7 +165,7 @@ console.log()
               <label className="label">Assign Location</label>
               <div className="control">
                 <div className="select is-rounded is-fullwidth">
-                  <select className="select" ref={accountServiceLocationID}>
+                  <select className="select" ref={accountServiceLocationID} onChange={() => {fetchServices()}}>
                   <option value={activeAccount.AccountServiceLocationID}>{activeAccount.AccountServiceLocationName}</option>
                   {locations != undefined ? locations.map(location => (
                     <option key={location.id} value={location.id} name={location.Name} >
@@ -156,9 +178,22 @@ console.log()
             </div>
 
             <div className="field">
-              <label className="label">Vendor</label>
+              <label className="label">Assign Service</label>
               <div className="control">
-                <input className="input is-rounded" type="text" ref={accountVendor} defaultValue={activeAccount.Vendor} />
+                <div className="select is-rounded is-fullwidth">
+                  <select className="select" ref={accountServiceID} onClick={() => {fetchServices()}}>
+
+                  {activeAccount.AccountServiceID != undefined ? 
+                  <option value={activeAccount.AccountServiceID}>{activeAccount.AccountServiceName}</option> : 
+                  <option></option> }
+
+                  {servicesByLocation != undefined ? servicesByLocation.map(service => (
+                    <option key={service.id} value={service.id} name={service.AssetID} >
+                      {service.AssetID} - {service.VendorServiceName}
+                    </option>
+                  )) : "Add a location before adding a service"}
+                  </select>
+                </div>
               </div>
             </div>
 
