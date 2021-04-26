@@ -133,7 +133,6 @@ console.log()
         <form>
             <>
 
-            <TextInput inputFieldValue={accountAccountNum} />
             <div className="level-right">
               <span className="icon-text is-clickable" onClick={handleSubmit}>
                 <span>Update</span> <FontAwesomeIcon icon={faSave} />
