@@ -27,6 +27,12 @@ export const StateProvider = (props) => {
       dataLoading: false,
 
     }
+
+    const formFields = {
+      tickets: {
+        ticketNum: ""
+      }
+    }
     
     const [userSession, dispatch] = useReducer(stateReducer, initialState)
 
