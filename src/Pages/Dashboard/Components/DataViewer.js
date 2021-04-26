@@ -5,7 +5,8 @@ import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArchive, faServer } from '@fortawesome/free-solid-svg-icons'
+import { faArchive, faNetworkWired, faBuilding, faSort } from '@fortawesome/free-solid-svg-icons'
+
 
 import EditServiceModal from '../../Services/EditServiceModal'
 import AddService from '../../Services/AddService'
@@ -249,7 +250,7 @@ return (
         <p className="control is-expanded has-icons-left">
           <button className="button is-medium is-fullwidth is-black is-rounded has-text-weight-bold" onClick={handleToggleServicesView}>
           <span className="icon is-left px-6">
-            <FontAwesomeIcon icon={faServer} />
+            <FontAwesomeIcon icon={faNetworkWired} />
           </span>
           Services 
             <div className="is-size-7 ml-3">
@@ -269,7 +270,9 @@ return (
         <table className="table is-striped is-hoverable is-fullwidth">
           <thead>
             <tr>
-            <th className="px-6">Vendor</th>
+            <th className="px-6">
+              Vendor
+            </th>
             <th className="px-6">Vendor Service</th>
             <th className="px-6">Location</th>
             <th className="px-6">Asset ID</th>
@@ -361,16 +364,24 @@ return (
     {toggleLocationAddModal != false ? <AddLocation /> : ""}
 
     <div className="title">
-      <button className="button is-medium is-black is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleLocationView}>
-      Locations 
-      <div className="is-size-7 ml-3">
-        {locations != undefined ? 
-          <span className="tag is-light">
-            {locations.length}
-          </span> : ""}
+      <div className="field has-addons">
+        <p className="control is-expanded has-icons-left">
+          <button className="button is-medium is-fullwidth is-black is-rounded has-text-weight-bold" onClick={handleToggleLocationView}>
+          <span className="icon is-left px-6">
+            <FontAwesomeIcon icon={faBuilding} />
+          </span>
+          Locations
+            <div className="is-size-7 ml-3">
+              {locations != undefined ? 
+              <span className="tag is-light">
+                {locations.length}
+              </span> : ""}
+            </div>
+          </button>
+        </p>
       </div>
-      </button>
     </div>
+    
     {toggleLocationView != false ? 
     <div className="table-container">
     <nav className="level">
