@@ -7,6 +7,7 @@ import { faSave } from '@fortawesome/free-solid-svg-icons'
 
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
+import TextInput from '../../Components/Forms/TextInput'
 
 import AddNote from '../Dashboard/Components/AddNote'
 
@@ -40,7 +41,8 @@ const AccountDetail = () => {
   const accountServiceLocationID = useRef("")
   const accountServiceLocationName = useRef("")
   const accountServiceID = useRef("")
-console.log(accountAccountNum.current.className)
+  const testInput = useRef("")
+console.log(testInput.current.value)
 
   useEffect(() => {
     fetchAccount()
@@ -130,7 +132,8 @@ console.log()
         
         <form>
             <>
-            
+
+            <TextInput inputFieldValue={accountAccountNum} />
             <div className="level-right">
               <span className="icon-text is-clickable" onClick={handleSubmit}>
                 <span>Update</span> <FontAwesomeIcon icon={faSave} />

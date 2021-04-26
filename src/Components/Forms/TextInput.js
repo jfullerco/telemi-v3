@@ -1,19 +1,15 @@
 import React, { useRef } from 'react'
 
-const TextInput = (props) => {
+const TextInput = ({inputFieldName, inputFieldValue, inputFieldChange}) => {
 
-  const inputFieldName = props.inputFieldName
-  const inputFieldValue = props.inputFieldValue
-
-  const inputValueRef = useRef("")
-  const inputNameRef = useRef(inputFieldName)
+  const handleChange = () => {
+   inputFieldChange == typeof Function ? inputFieldChange() : console.log("You have not passed a function")
+  }
 
   return(
     <>
-      <input className="input is-rounded" name={inputNameRef} defaultValue={inputFieldValue} ref={inputValueRef}/>
+      <input className="input is-rounded" name={inputFieldName} ref={inputFieldValue} onChange={handleChange}/>
     </>
   )
 }
-
-export {inputValueRef, inputNameRef}
 export default TextInput
