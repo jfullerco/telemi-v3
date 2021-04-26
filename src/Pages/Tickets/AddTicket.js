@@ -11,19 +11,19 @@ const AddTicket = () => {
   const history = useHistory()
   
   const [modalState, setModalState] = useState(true)
-  const [addOrderError, setAddOrderError] = useState("")
+  const [addTicketError, setAddTicketError] = useState("")
   const [success, setSuccess] = useState(false)
   const [triggerClose, setTriggerClose] = useState()
 
   const [locations, setLocations] = useState()
   
   const ticketNum = useRef("")
+  const ticketLocationID = useRef("")
+  const ticketVendor = useRef("")
   const ticketDate = useRef("")
   const ticketType = useRef("")
   const ticketStatus = useRef("")
   const ticketDetails = useRef("")
-  const ticketLocationID = useRef("")
-  const ticketLocationName = useRef("")
   const ticketAccountID = useRef("")
   const ticketAccountNum = useRef("")
   const ticketCompletedDate = useRef("")
@@ -34,14 +34,15 @@ const AddTicket = () => {
       TicketNum: ticketNum.current.value,
       CompanyID: userContext.userSession.currentCompanyID,
       CompanyName: userContext.userSession.currentCompany,
-      TicketDate: ticketDate.current.value,
-      TicketType: ticketType.current.value,
-      TicketStatus: ticketStatus.current.value,
-      TicketDetails: ticketDetails.current.value,
-      TicketLocationID: ticketLocationID.current.value,
-      TicketLocationName: ticketLocationName.current.value,
-      LocationID: orderLocationID.current.value,
-      LocationName: orderLocationID.current[orderLocationID.current.selectedIndex].text
+      DateSubmitted: ticketDate.current.value,
+      Type: ticketType.current.value,
+      Status: ticketStatus.current.value,
+      Details: ticketDetails.current.value,
+      LocationID: ticketLocationID.current.value,
+      LocationName: ticketLocationID.current[orderLocationID.current.selectedIndex].text,
+      AccountID: ticketAccountID,
+      AccountNum: ticketAccountID.current[ticketAccountID.current.selectedIndex].text
+
     }  
     console.log(data)
     const res = await db.collection("Orders").doc().set(data)
@@ -62,11 +63,16 @@ const AddTicket = () => {
     setLocations(locations)
 
   }
-  
-  const handleLocationChange = (e) => {
-    orderLocationID.current.value = e.target.value
-    orderLocationName.current.value = e.target.name
+
+  const fetchAccounts = async() => {
+   
+    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
+
+    const accounts = accountsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    setAccounts(accounts)
+
   }
+
   const handleModalClose = () => {
     setModalState(false)
   }
@@ -81,47 +87,66 @@ const AddTicket = () => {
       <div className="modal-background"></div>
       <div className="modal-card">
       <div className="modal-card-head">
-        <p className="modal-card-title">Add Order</p>
+        <p className="modal-card-title">Add Ticket</p>
       </div>
         <section className="modal-card-body">
           <form>
 
-            <label className="label">Service Location</label>
+            <label className="label">Location</label>
             <div className="select is-fullwidth">
-              <select className="select" ref={orderLocationID}>
+              <select className="select" ref={ticketLocationID}>
               {locations != undefined ? locations.map(location => (
                 <option key={location.id} value={location.id} name={location.Name} >
                   {location.Name}
                 </option>
-              )) : "Add a location before adding a service"}
+              )) : "Add a location before adding a ticket"}
+              </select>
+            </div>
+
+            <label className="label">Related Account</label>
+            <div className="select is-fullwidth">
+              <select className="select" ref={ticketAccountID}>
+              {accounts != undefined ? accounts.map(account => (
+                <option key={account.id} value={account.id} name={account.AccountNum} >
+                  {account.AccountNum}
+                </option>
+              )) : "Add an Account before adding a ticket"}
               </select>
             </div>
 
             <label className="label">Vendor</label>
-            <input className="input" type="text" ref={orderVendor} />
-            <label className="label">Order Number</label>
-            <input className="input" type="text" ref={orderNum} />
-            <label className="label">Date Ordered</label>
-            <input className="input" type="text" ref={orderDate} />
-            <label className="label">Type of Order</label>
-            <input className="input" type="text" ref={orderType} />
+            <input className="input" type="text" ref={ticketVendor} />
+
+            <label className="label">Date Submitted</label>
+            <input className="input" type="text" ref={ticketDate} />
+            
+            <label className="label">Type of Ticket</label>
+            <div className="select is-fullwidth">
+              <select className="select" ref={ticketType}>
+                <option> Dispute </option>
+                <option> Disconnect </option>
+                <option> Service </option>
+                <option> Order </option>
+              </select>
+            </div>
+
             <label className="label">Status</label>
-            <input className="input" type="text" ref={orderStatus} />
-            <label className="label">Service Ordered</label>
-            <input className="input" type="text" ref={orderServiceType} />
-            <label className="label">Monthly Cost</label>
-            <input className="input" type="text" ref={orderMRC} />
+            <input className="input" type="text" ref={ticketStatus} />
+
+            <label className="label">Details</label>
+            <input className="input" type="textarea" ref={ticketDetails} />
+
           </form>
         <div className="block">
-          <div className="notification is-danger is-hidden">{addOrderError}</div>
-         {success === true ?  <div className="notification is-success">Order Added</div> : ""}
+          <div className="notification is-danger is-hidden">{addTicketError}</div>
+         {success === true ?  <div className="notification is-success">Ticket Added</div> : ""}
         </div>
         <div className="modal-card-foot">
           
           <button className="button level-item"
           type="submit" onClick={handleSubmit}
           >
-            Add Order
+            Add Ticket
           </button>
         
         </div>

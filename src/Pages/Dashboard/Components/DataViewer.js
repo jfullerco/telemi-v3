@@ -292,7 +292,9 @@ return (
                 
                 </td>
             </tr>
-          )) : "No services added"}
+          )) : 
+            <tr> No services added </tr>
+          }
           
 
           </tbody>    
@@ -351,7 +353,9 @@ return (
               <td><button className="button is-rounded is-small" onClick={()=>handleToggleAccountDetailModal(account.id)}>edit</button></td>
             </tr>
             
-          )) : "No accounts added"}
+          )) : 
+            <tr>No accounts added</tr> 
+          }
           
 
           </tbody>    
@@ -404,7 +408,9 @@ return (
             <td className="px-6">{location.State}</td>
             <td><button className="button is-rounded is-small" onClick={()=>handleToggleLocationDetailModal(location.id)}>edit</button></td>
           </tr>
-        )) : "No locations to display"}
+        )) : 
+          <tr>No locations to display</tr>
+        }
         
 
         </tbody>    
@@ -459,7 +465,9 @@ return (
               <button className="button is-rounded is-small" onClick={()=>handleToggleOrderDetailModal(order.id)}>edit</button>
             </td>
           </tr>
-        )) : "No orders added"}
+        )) : 
+          <tr>No orders added</tr>
+        }
         
 
         </tbody>    
@@ -511,7 +519,9 @@ return (
               <button className="button is-rounded is-small" onClick={()=>handleToggleLocationDetailModal(location.id)}>edit</button>
             </td>
           </tr>
-        )) : "No tickets added"}
+        )) : 
+          <tr>No tickets added</tr>
+        }
         
 
         </tbody>    
@@ -549,7 +559,9 @@ return (
               {/** Insert Edit / Delete User */}
             </td>
           </tr>
-        )) : "No Users added"}
+        )) : 
+          <tr>No Users added</tr>
+        }
         </tbody>    
       </table>
       </nav>
