@@ -248,7 +248,7 @@ return (
     <div className="title">
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
-          <button className="button is-medium is-fullwidth is-black is-rounded has-text-weight-bold" onClick={handleToggleServicesView}>
+          <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleServicesView}>
           <span className="icon is-left px-6">
             <FontAwesomeIcon icon={faNetworkWired} />
           </span>
@@ -268,7 +268,7 @@ return (
       <div className="table-container">
       <nav className="level">
         <table className="table is-striped is-hoverable is-fullwidth">
-          <thead>
+          <thead className="is-size-6">
             <tr>
             <th className="px-6">
               Vendor
@@ -279,7 +279,7 @@ return (
             <th><button className="button is-rounded is-small" onClick={handleToggleServicesAddModal}>add</button></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="is-size-7">
           {services != undefined ? services.map(service => (
             <tr key={service.id} onClick={() => handleServiceDetail(service.id)}>
               <td className="px-6">{service.Vendor}</td>
@@ -310,7 +310,7 @@ return (
     <div className="title">
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
-          <button className="button is-medium is-fullwidth is-black is-rounded has-text-weight-bold" onClick={handleToggleAccountView}>
+          <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleAccountView}>
           <span className="icon is-left px-6">
             <FontAwesomeIcon icon={faArchive} />
           </span>
@@ -370,7 +370,7 @@ return (
     <div className="title">
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
-          <button className="button is-medium is-fullwidth is-black is-rounded has-text-weight-bold" onClick={handleToggleLocationView}>
+          <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleLocationView}>
           <span className="icon is-left px-6">
             <FontAwesomeIcon icon={faBuilding} />
           </span>
@@ -422,7 +422,7 @@ return (
     {toggleOrderAddModal != false ? <AddOrder /> : ""}
 
     <div className="title">
-      <button className="button is-medium is-black is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleOrderView}>
+      <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleOrderView}>
         Orders 
       <span className="is-size-7 ml-3">
         {orders != undefined ? 
@@ -478,7 +478,7 @@ return (
     {toggleTicketDetailModal != false ? <TicketDetail /> : ""}
     {toggleTicketAddModal != false ? <AddTicket /> : ""}
     <div className="title">
-      <button className="button is-medium is-black is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleTicketView}>
+      <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleTicketView}>
       Tickets
       <span className="is-size-7 ml-3">
       {tickets != undefined ? <span className="tag is-light">{tickets.length}</span> : ""}
@@ -531,7 +531,7 @@ return (
 
     {toggleUsersAddModal != false ? "" : ""}
     <div className="title">
-      <button className="button is-medium is-black is-rounded is-fullwidth has-text-weight-bold" onClick={handleToggleUsersView}>
+      <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleUsersView}>
       Users
       <span className="is-size-7 ml-3">
       {users != undefined ? <span className="tag is-light"> {users.length}</span> : ""}

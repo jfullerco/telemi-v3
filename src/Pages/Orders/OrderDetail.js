@@ -2,6 +2,8 @@ import React, {useState, useRef, useContext, useEffect} from 'react'
 
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
+import TextInput from '../../Components/Forms/TextInput'
+import SelectInput from '../../Components/Forms/SelectInput'
 
 const OrderDetail = () => {
 
@@ -66,15 +68,15 @@ const OrderDetail = () => {
    
     const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
 
-    const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    const locations = locationsRef.docs.map(doc => ({id: doc.id, name: doc.data().Name, ...doc.data()}))
     setLocations(locations)
 
   }
   
-  const handleLocationChange = (e) => {
-    orderLocationID.current.value = e.target.value
-    orderLocationName.current.value = e.target.name
+  const handleLocationChange = () => {
+   console.log(orderLocationName)
   }
+
   const handleModalClose = () => {
     setModalState(false)
   }
@@ -82,6 +84,8 @@ const OrderDetail = () => {
   const autoClose = () => {
     setTimeout(() => {setModalState(false)}, 1000)
   }
+
+  
   return(
     <div className={modalState === true ? "modal is-active" : "modal"}>
       <div className="modal-background"></div>
@@ -91,6 +95,15 @@ const OrderDetail = () => {
       </div>
         <section className="modal-card-body">
           <form>
+
+          <SelectInput
+            selectFieldOptionsData={locations}
+            selectFieldLabel="Order Location"
+            selectFieldValue={activeOrder != undefined ? activeOrder.LocationID : ""}
+            selectFieldIDRef={orderLocationID}
+            selectFieldNameRef={orderLocationName}
+            selectFieldChange={()=>handleLocationChange()}
+             />
 
             <label className="label">Service Location</label>
             <div className="select is-fullwidth">
