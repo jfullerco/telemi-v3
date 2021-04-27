@@ -332,7 +332,7 @@ return (
       <div className="table-container">
       <nav className="level">
         <table className="table is-striped is-hoverable is-fullwidth has-text-centered">
-          <thead>
+          <thead className="is-size-6">
             <tr>
             <th className="px-6">Vendor</th>
             <th className="px-6">Account</th>
@@ -342,11 +342,10 @@ return (
             <th><button className="button is-rounded is-small" onClick={handleToggleAccountAddModal}>add</button></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="is-size-7">
           {accounts != undefined ? accounts.map(account => (
             
             <tr key={account.id} onClick={() => handleAccountDetail(account.id)}>
-            {console.log(account)}
               <td >{account.Vendor}</td>
               <td >{account.ParentAccountID === "Parent" ? account.AccountNum : account.ParentAccountNum}</td>
               <td >{account.ParentAccountID != "Parent" ? account.AccountNum : ""}</td>
@@ -392,7 +391,7 @@ return (
     <div className="table-container">
     <nav className="level">
       <table className="table is-hoverable is-fullwidth">
-        <thead>
+        <thead className="is-size-6">
           <tr>  
             <th className="px-6">Location Name</th>
             <th className="px-6">Address</th>
@@ -401,7 +400,7 @@ return (
             <th><button className="button is-rounded is-small" onClick={handleToggleLocationAddModal}>add</button></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="is-size-7">
         {locations != undefined ? locations.map(location => (
           <tr key={location.id}>
             <td className="px-6">{location.Name}</td>
@@ -439,7 +438,7 @@ return (
     <div className="table-container">
     <nav className="level">
       <table className="table is-striped is-fullwidth">
-        <thead>
+        <thead className="is-size-6">
         <tr>
           <th className="px-6">Vendor</th>
           <th className="px-6">Order Num</th>
@@ -448,7 +447,7 @@ return (
           <th><button className="button is-rounded is-small" onClick={handleToggleOrderAddModal}>add</button></th>
         </tr>
         </thead>
-        <tbody>
+        <tbody className="is-size-7">
         {orders != undefined ? orders.map(order => (
           <tr key={order.id}>
             <td className="px-6">
@@ -493,7 +492,7 @@ return (
     <div className="table-container">
     <nav className="level">
       <table className="table is-striped is-fullwidth">
-        <thead>
+        <thead className="is-size-6">
           <tr>
           <th className="px-6">Vendor</th>
           <th className="px-6">Ticket Number</th>
@@ -502,7 +501,7 @@ return (
           <th><button className="button is-rounded is-small" onClick={handleToggleOrderAddModal}>add</button></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="is-size-7">
         {tickets != undefined ? orders.map(order => (
           <tr key={order.id}>
             <td className="px-6">
@@ -545,13 +544,13 @@ return (
     <div className="table-container">
     <nav className="level is-centered">
       <table className="table is-striped is-fullwidth ">
-        <thead>
+        <thead className="is-size-6">
           <tr>
           <th className="px-6">Email</th>
           <th><button className="button is-rounded is-small" onClick={handleToggleUsersAddModal}>add</button></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="is-size-7">
         {users != undefined ? users.map(user => (
           <tr key={user.id}>
             <td className="px-6">
