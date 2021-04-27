@@ -2,12 +2,14 @@ import React, {useState, useContext} from 'react'
 import {Link, Redirect, useHistory} from 'react-router-dom'
 
 import {stateContext} from '../Contexts/stateContext'
+import {useAuth} from '../Contexts/AuthContext'
 import {auth} from '../Contexts/firebase'
 
 const LogoutButton = () => {
 
   const history = useHistory()
   const userContext = useContext(stateContext)
+  const {currentUser} = useAuth()
   
   const [isActive, setIsActive] = useState(false)
 
@@ -48,7 +50,7 @@ const LogoutButton = () => {
       >
 
       <div className="navbar-end">
-        {userContext.userSession.loggedIn != undefined ? (
+        {currentUser != undefined ? (
           <>
           <div className="navbar-item">
           <div className="button is-small is-rounded">

@@ -4,6 +4,7 @@ import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
 import TextInput from '../../Components/Forms/TextInput'
 import SelectInput from '../../Components/Forms/SelectInput'
+import TextArea from '../../Components/Forms/TextArea'
 
 const OrderDetail = () => {
 
@@ -15,7 +16,11 @@ const OrderDetail = () => {
   const [triggerClose, setTriggerClose] = useState()
 
   const [locations, setLocations] = useState()
-  const [activeOrder, setActiveOrder] = useState()
+  const [activeOrder, setActiveOrder] = useState({
+    LocationName: "",
+    LocationID: "",
+    Vendor: ""
+  })
   
   const orderNum = useRef("")
   const companyID = useRef("")
@@ -53,15 +58,20 @@ const OrderDetail = () => {
   }
 
   useEffect(() => {
-
+    
+    fetchOrder()
     fetchLocations()
 
   },[])
 
   const fetchOrder = async() => {
-    const orderRef = db.collection("Orders").doc(userContext.userSession.currentOrderID).get()
-    const order = orderRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
-    setActiveOrder(order)
+    
+    const orderRef = await db.collection("Orders").doc(userContext.userSession.currentOrderID).get()
+    
+    const data = await orderRef.data()
+    const id = await orderRef.id
+    setActiveOrder(data)
+
   }
   
   const fetchLocations = async() => {
@@ -99,39 +109,61 @@ const OrderDetail = () => {
           <SelectInput
             selectFieldOptionsData={locations}
             selectFieldLabel="Order Location"
-            selectFieldValue={activeOrder != undefined ? activeOrder.LocationID : ""}
+            selectFieldValue={activeOrder.LocationID}
+            selectFieldCurrentName={activeOrder.LocationName}
             selectFieldIDRef={orderLocationID}
             selectFieldNameRef={orderLocationName}
             selectFieldChange={()=>handleLocationChange()}
              />
+             
+          <TextInput 
+            inputFieldLabel="Vendor"
+            inputFieldRef={orderVendor}
+            inputFieldValue={activeOrder.OrderVendor}
+          />
 
-            <label className="label">Service Location</label>
-            <div className="select is-fullwidth">
-              <select className="select" ref={orderLocationID}>
-              {locations != undefined ? locations.map(location => (
-                <option key={location.id} value={location.id} name={location.Name} >
-                  {location.Name}
-                </option>
-              )) : "Add a location before adding a service"}
-              </select>
-            </div>
+          <TextInput 
+            inputFieldLabel="Service Ordered"
+            inputFieldRef={orderServiceType}
+            inputFieldValue={activeOrder.OrderServiceType}
+          />
 
-            <label className="label">Vendor</label>
-            <input className="input" type="text" ref={orderVendor} />
-            <label className="label">Order Number</label>
-            <input className="input" type="text" ref={orderNum} />
-            <label className="label">Date Ordered</label>
-            <input className="input" type="text" ref={orderDate} />
-            <label className="label">Type of Order</label>
-            <input className="input" type="text" ref={orderType} />
-            <label className="label">Status</label>
-            <input className="input" type="text" ref={orderStatus} />
-            <label className="label">Service Ordered</label>
-            <input className="input" type="text" ref={orderServiceType} />
-            <label className="label">Monthly Cost</label>
-            <input className="input" type="text" ref={orderMRC} />
-            <label className="label">Notes</label>
-            <textarea className="textarea" type="textarea" ref={orderNotes} />
+          <TextInput 
+            inputFieldLabel="Order Number"
+            inputFieldRef={orderNum}
+            inputFieldValue={activeOrder.OrderNum}
+          />  
+
+          <TextInput 
+            inputFieldLabel="Date Ordered"
+            inputFieldRef={orderDate}
+            inputFieldValue={activeOrder.OrderDate}
+          />  
+
+          <TextInput 
+            inputFieldLabel="Order Type"
+            inputFieldRef={orderType}
+            inputFieldValue={activeOrder.OrderType}
+          />
+
+          <TextInput 
+            inputFieldLabel="Status"
+            inputFieldRef={orderStatus}
+            inputFieldValue={activeOrder.OrderStatus}
+          />  
+
+          <TextInput 
+            inputFieldLabel="Quoted Monthly Cost"
+            inputFieldRef={orderMRC}
+            inputFieldValue={activeOrder.OrderMRC}
+          />
+          
+          <TextArea 
+            inputFieldLabel="Notes"
+            inputFieldRef={orderNotes}
+            inputFieldValue={activeOrder.OrderNotes}
+          />  
+            
           </form>
         <div className="block">
           <div className="notification is-danger is-hidden">{addOrderError}</div>

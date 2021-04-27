@@ -107,7 +107,9 @@ const DataViewer = (props) => {
     setToggleLocationView(!toggleLocationView)
   }
 
-  const handleToggleOrderDetailModal = () => {
+  const handleToggleOrderDetailModal = (id) => {
+    console.log(id)
+    userContext.setCurrentOrderID(id)
     setToggleOrderDetailModal(!toggleOrderDetailModal)
   }
 
