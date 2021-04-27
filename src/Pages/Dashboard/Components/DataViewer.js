@@ -78,6 +78,8 @@ const DataViewer = (props) => {
   }
 
   const handleToggleServicesView = () => {
+    userContext.setDataLoading(true)
+    fetchServices()
     setToggleServicesView(!toggleServicesView)
   }
 
@@ -154,7 +156,6 @@ const DataViewer = (props) => {
 
   useEffect(() => {
     fetchLocations()
-    fetchServices()
     fetchOrders()
     fetchAccounts()
   }, [currentCompany])
@@ -201,6 +202,7 @@ const DataViewer = (props) => {
       id: doc.id,
       ...doc.data()}))
     setServices(services)
+    userContext.setDataLoading(false)
 
   }
 
@@ -267,6 +269,7 @@ return (
     </div>
 
     {toggleServicesView != false ? 
+      
       <div className="table-container">
       <nav className="level">
         <table className="table is-striped is-hoverable is-fullwidth">
@@ -282,7 +285,8 @@ return (
             </tr>
           </thead>
           <tbody className="is-size-7">
-          {services != undefined ? services.map(service => (
+          {userContext.userSession.dataLoading != true ?
+          services != undefined ? services.map(service => (
             <tr key={service.id} onClick={() => handleServiceDetail(service.id)}>
               <td className="px-6">{service.Vendor}</td>
               <td className="px-6">{service.VendorServiceName} </td>
@@ -295,14 +299,21 @@ return (
                 </td>
             </tr>
           )) : 
-            <tr> No services added </tr>
-          }
+            <tr> 
+              <td> 
+                <button className="button is-rounded is-small" onClick={handleToggleServicesAddModal}>
+                  Add a service
+                </button> 
+              </td> 
+            </tr>
           
+          : <tr><td>Fetching Data...</td></tr>}
 
           </tbody>    
         </table>
         </nav>
       </div>
+      
     : ""}
 
     {toggleAccountDetailModal != false ? <AccountDetail /> : ""}
@@ -343,7 +354,8 @@ return (
             </tr>
           </thead>
           <tbody className="is-size-7">
-          {accounts != undefined ? accounts.map(account => (
+          {userContext.userSession.dataLoading != true ?
+            accounts != undefined ? accounts.map(account => (
             
             <tr key={account.id} onClick={() => handleAccountDetail(account.id)}>
               <td >{account.Vendor}</td>
@@ -355,9 +367,15 @@ return (
             </tr>
             
           )) : 
-            <tr>No accounts added</tr> 
-          }
+            <tr> 
+              <td> 
+                <button className="button is-rounded is-small" onClick={handleToggleAccountAddModal}>
+                  Add an Account
+                </button> 
+              </td> 
+            </tr> 
           
+        : <tr><td>Fetching Data...</td></tr>}
 
           </tbody>    
         </table>
@@ -401,7 +419,8 @@ return (
           </tr>
         </thead>
         <tbody className="is-size-7">
-        {locations != undefined ? locations.map(location => (
+        {userContext.userSession.dataLoading != true ?
+          locations != undefined ? locations.map(location => (
           <tr key={location.id}>
             <td className="px-6">{location.Name}</td>
             <td className="px-6">{location.Address1} {location.Address2}</td>
@@ -410,8 +429,14 @@ return (
             <td><button className="button is-rounded is-small" onClick={()=>handleToggleLocationDetailModal(location.id)}>edit</button></td>
           </tr>
         )) : 
-          <tr>No locations to display</tr>
-        }
+          <tr> 
+              <td> 
+                <button className="button is-rounded is-small" onClick={handleToggleLocationAddModal}>
+                  Add a Location
+                </button> 
+              </td> 
+            </tr>
+          : <tr><td>Fetching Data...</td></tr>}
         
 
         </tbody>    
@@ -448,7 +473,8 @@ return (
         </tr>
         </thead>
         <tbody className="is-size-7">
-        {orders != undefined ? orders.map(order => (
+        {userContext.userSession.dataLoading != true ?
+          orders != undefined ? orders.map(order => (
           <tr key={order.id}>
             <td className="px-6">
               {order.OrderVendor}
@@ -467,8 +493,14 @@ return (
             </td>
           </tr>
         )) : 
-          <tr>No orders added</tr>
-        }
+          <tr> 
+              <td> 
+                <button className="button is-rounded is-small" onClick={handleToggleOrderAddModal}>
+                  Add an Order
+                </button> 
+              </td> 
+            </tr>
+        : <tr><td>Fetching Data...</td></tr>}
         
 
         </tbody>    
@@ -502,7 +534,8 @@ return (
           </tr>
         </thead>
         <tbody className="is-size-7">
-        {tickets != undefined ? orders.map(order => (
+        {userContext.userSession.dataLoading != true ?
+          tickets != undefined ? orders.map(order => (
           <tr key={order.id}>
             <td className="px-6">
               {order.OrderVendor}
@@ -521,8 +554,14 @@ return (
             </td>
           </tr>
         )) : 
-          <tr>No tickets added</tr>
-        }
+          <tr> 
+              <td> 
+                <button className="button is-rounded is-small" onClick={handleToggleTicketAddModal}>
+                  Add a Ticket
+                </button> 
+              </td> 
+            </tr>
+        : <tr><td>Fetching Data...</td></tr>}
         
 
         </tbody>    
@@ -551,7 +590,8 @@ return (
           </tr>
         </thead>
         <tbody className="is-size-7">
-        {users != undefined ? users.map(user => (
+        {userContext.userSession.dataLoading != true ?
+          users != undefined ? users.map(user => (
           <tr key={user.id}>
             <td className="px-6">
               {user.Email}
@@ -561,8 +601,14 @@ return (
             </td>
           </tr>
         )) : 
-          <tr>No Users added</tr>
-        }
+          <tr> 
+              <td> 
+                <button className="button is-rounded is-small" onClick={handleToggleUserAddModal}>
+                  Add a User
+                </button> 
+              </td> 
+            </tr>
+        : <tr><td>Fetching Data...</td></tr>}
         </tbody>    
       </table>
       </nav>
