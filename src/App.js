@@ -38,7 +38,7 @@ export default function App() {
             
           
           </Switch>
-        <DevTools view="true" />
+        <DevTools view="false" />
         </div>  
         
       <div className="footer">
