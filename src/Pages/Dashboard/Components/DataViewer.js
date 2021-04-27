@@ -5,7 +5,7 @@ import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArchive, faNetworkWired, faBuilding, faSort } from '@fortawesome/free-solid-svg-icons'
+import { faArchive, faNetworkWired, faBuilding, faSort, faCube } from '@fortawesome/free-solid-svg-icons'
 
 
 import EditServiceModal from '../../Services/EditServiceModal'
@@ -92,6 +92,8 @@ const DataViewer = (props) => {
   }
 
   const handleToggleAccountView = () => {
+    userContext.setDataLoading(true)
+    fetchAccounts()
     setToggleAccountView(!toggleAccountView)
   }
   
@@ -106,6 +108,8 @@ const DataViewer = (props) => {
   }
 
   const handleToggleLocationView = () => {
+    userContext.setDataLoading(true)
+    fetchLocations()
     setToggleLocationView(!toggleLocationView)
   }
 
@@ -120,6 +124,8 @@ const DataViewer = (props) => {
   }
 
   const handleToggleOrderView = () => {
+    userContext.setDataLoading(true)
+    fetchOrders()
     setToggleOrderView(!toggleOrderView)
   }
 
@@ -154,10 +160,10 @@ const DataViewer = (props) => {
     history.push("/servicedetail")
   }
 
-  useEffect(() => {
-    fetchLocations()
-    fetchOrders()
-    fetchAccounts()
+  /** useEffect(() => {
+    
+    
+    
   }, [currentCompany])
 
   useEffect(() => {
@@ -171,6 +177,7 @@ const DataViewer = (props) => {
     fetchOrders(),
     fetchAccounts()) : ""
   }
+  **/
   
   const fetchLocations = async() => {
 
@@ -180,7 +187,7 @@ const DataViewer = (props) => {
       id: doc.id,
       ...doc.data()}))
     setLocations(locations)
-
+    userContext.setDataLoading(false)
   }
 
   const fetchOrders = async() => {
@@ -191,7 +198,7 @@ const DataViewer = (props) => {
       id: doc.id,
       ...doc.data()}))
     setOrders(orders)
-
+    userContext.setDataLoading(false)
   }
 
   const fetchServices = async() => {
@@ -214,7 +221,7 @@ const DataViewer = (props) => {
       id: doc.id,
       ...doc.data()}))
     setAccounts(accounts)
-
+    userContext.setDataLoading(false)
   }
 
   const fetchTickets = async() => {
@@ -448,7 +455,12 @@ return (
     {toggleOrderAddModal != false ? <AddOrder /> : ""}
 
     <div className="title">
+    <div className="field has-addons">
+        <p className="control is-expanded has-icons-left">
       <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleOrderView}>
+      <span className="icon is-left px-6">
+        <FontAwesomeIcon icon={faCube} />
+      </span>
         Orders 
       <span className="is-size-7 ml-3">
         {orders != undefined ? 
@@ -457,7 +469,8 @@ return (
           </span> : ""}
       </span>
       </button>
-      
+      </p>
+    </div>  
     </div>
     {toggleOrderView != false ? 
     <div className="table-container">
