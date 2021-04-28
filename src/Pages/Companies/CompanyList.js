@@ -58,7 +58,7 @@ console.log({userCompanies})
    
     const companiesRef = await db.collection("Companies").where("Users", "array-contains", "jonathan@jfuller.co").get()
 
-    const initialCompanyRef = await db.collection("Companies").where("Users", "array-contains", "jonathan@jfuller.co").limit(1).get()
+    const initialCompanyRef = await db.collection("Companies").where("Users", "array-contains", currentUser).limit(1).get()
 
     const initialCompanyID = initialCompanyRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
     userContext.setCurrentCompanyID(initialCompanyID[0].id)
