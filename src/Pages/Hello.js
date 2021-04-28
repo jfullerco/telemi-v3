@@ -22,7 +22,7 @@ const Hello = () => {
                     </div></div>
                     <div className="level">
                       <div className="column level-right">
-                        <button className="button is-small is-rounded" onClick={handleModalState}>
+                        <button className="button is-small is-rounded is-black" onClick={handleModalState}>
                           create your free account
                         </button>
                         

@@ -22,16 +22,22 @@ export function AuthProvider({children}) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
+      currentUser != undefined ? setCurrentUser() : 
       setCurrentUser(user.email)
       setLoading(false)
     })
     return unsubscribe
   },[])
 
+  const logOutUser = () => {
+    setCurrentUser()
+  }
+
   const value = {
     currentUser,
     signup,
-    login
+    login,
+    logOutUser
   }
 
   return (

@@ -9,13 +9,14 @@ const LogoutButton = () => {
 
   const history = useHistory()
   const userContext = useContext(stateContext)
-  const {currentUser} = useAuth()
+  const {currentUser, logOutUser} = useAuth()
   
   const [isActive, setIsActive] = useState(false)
 
-  const logOut = () => {
+  const logOut = async() => {
     
-    userContext.setLoggedIn(false)
+    await auth.signOut()
+    logOutUser()
     history.push("/")
   }
 
