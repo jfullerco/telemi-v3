@@ -102,7 +102,7 @@ console.log({userCompanies})
               
             </option>
           )) : (
-            <option>Loading data...</option>
+            <option>Add a Company</option>
           )}
         </select>
       </div>
