@@ -56,7 +56,7 @@ console.log(activeCompanyName.current)
 console.log({userCompanies})
   const fetchCompanies = async() => {
    
-    const companiesRef = await db.collection("Companies").where("Users", "array-contains", "jonathan@jfuller.co").get()
+    const companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser).get()
 
     const initialCompanyRef = await db.collection("Companies").where("Users", "array-contains", currentUser).limit(1).get()
 
