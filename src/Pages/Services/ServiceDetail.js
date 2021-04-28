@@ -62,7 +62,7 @@ const ServiceDetail = () => {
     console.log(data)
     const res = await db.collection("Services").doc(userContext.userSession.currentServiceID).set(data)
     userContext.setDataLoading(true)
-    autoClose()
+    history.push("/dashboard")
   }
 
   useEffect(() => {

@@ -24,7 +24,7 @@ export default function App() {
       <Router>
       <LogoutButton />
       <div className="container is-max-desktop"> 
-      <div className="column">
+      <div id="wrapper" className="column">
       
        
           <Switch>

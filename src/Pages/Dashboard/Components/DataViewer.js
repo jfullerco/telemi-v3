@@ -616,7 +616,7 @@ return (
         )) : 
           <tr> 
               <td> 
-                <button className="button is-rounded is-small" onClick={handleToggleUserAddModal}>
+                <button className="button is-rounded is-small" onClick={handleToggleUsersAddModal}>
                   Add a User
                 </button> 
               </td> 
