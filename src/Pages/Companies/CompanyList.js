@@ -73,7 +73,7 @@ console.log({userCompanies})
 
   const fetchCompaniesRefresh = async() => {
    
-    const companiesRef = await db.collection("Companies").where("Users", "array-contains", "jonathan@jfuller.co").get()
+    const companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser).get()
 
     userContext.setDataLoading(false)
 
