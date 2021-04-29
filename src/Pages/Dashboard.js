@@ -8,6 +8,7 @@ import LogoutButton from '../Components/LogoutButton'
 import CompanyList from './Companies/CompanyList'
 import TotalLocations from './Dashboard/Components/TotalLocations'
 import DataViewer from './Dashboard/Components/DataViewer'
+import AlternateDashboard from './Dashboard/AlternateDashboard'
 
 const Dashboard = () => {
   
@@ -41,7 +42,8 @@ const Dashboard = () => {
         <CompanyList />
       </div>
       <div>
-        <DataViewer />
+        {/** <DataViewer /> **/}
+        <AlternateDashboard />
       </div>
       </>
       : 
