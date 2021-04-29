@@ -45,13 +45,14 @@ const CompanyList = () => {
 
 console.log(activeCompanyName.current)
   const handleChange = (e) => {
+    userContext.setDataLoading(true)
     const id = e.target.value
     const name = e.target.options[e.target.selectedIndex].text
     activeCompanyID.current = id
     activeCompanyName.current = name
     userContext.setCurrentCompanyID(id)
     userContext.setCurrentCompany(name)
-    
+    userContext.setDataLoading(false)
   }
 console.log({userCompanies})
   const fetchCompanies = async() => {

@@ -1,112 +1,50 @@
-import React, {useState, useEffect, useContext} from 'react'
-import {Link, useHistory} from 'react-router-dom'
-
+import React, {useRef, useContext, useEffect, useState} from 'react'
 import {stateContext} from '../../Contexts/stateContext'
-import { db } from '../../Contexts/firebase'
+import {db} from '../../Contexts/firebase'
 
-import SiteListNav from '../../Components/Elements/SiteListNav'
-import AddLocation from './AddLocation'
-import LocationDetail from './LocationDetail'
-
-const SiteList = () => {
-  
+const LocationList = () => {
   const userContext = useContext(stateContext)
-  const currentCompany = userContext
+  const {currentCompanyID, dataLoading} = userContext.userSession
+  const [activeLocations, setActiveLocations] = useState()
 
-  const [toggleModal, setToggleModal] = useState(false)
-  const [toggleDetailModal, setToggleDetailModal] = useState(false)
-  const [detailPanelState, setDetailPanelState] = useState(false)
-  
-  const toggleAddLocationModal = () => {
-    setToggleModal(!toggleModal)
-  }
-
-  const handleToggleDetailModal = (id) => {
-    
-    userContext.setCurrentLocationID(id)
-    setToggleDetailModal(!toggleDetailModal)
-  }
-
-  const handleToggleDetailPanel = () => {
-    setDetailPanelState(!detailPanelState)
-  }
-
-  const [userLocations, setUserLocations] = useState("")
-  
   useEffect(() => {
-    
+    console.log(userContext.userSession)
     fetchLocations()
-  
-  }, [])
+  },[])
 
   useEffect(() => {
-    reRender()
-    userContext.setDataLoading(false)
-  }, [dataLoading])
-
-  const reRender = () => {
-    dataLoading != false ? fetchLocations() : ""
-  }
+    fetchLocations()
+  },[currentCompanyID])
 
   const fetchLocations = async() => {
-   
+    
     const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
-    setUserLocations(locations)
-
+    const locations = locationsRef.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()}))
+      
+    setActiveLocations(locations)
+    console.log(activeLocations)
   }
 
-  return (
+  return(
     <>
-        <div className="block"> 
-          <section className="hero is-info is-small">
-            <div className="hero-body">
-              <p className="title">Locations</p>
-            <div className="subtitle"></div>
-            </div>
-          </section>
-        </div>
-              
-        <div className="block">
+      {activeLocations != undefined ? activeLocations.map(location => (
       
-        <div className="block">
-          {toggleModal === true ? <AddLocation /> : ""}
-          <div className="button-group">
-            <button className="button is-rounded is-small" onClick={toggleAddLocationModal}>
-              Add Location
-            </button>
-          </div>
-        </div>
+      <div className="card block px-2 py-2">
+          <div className="title is-size-6 has-text-weight-semibold">{location.Name}</div>
+          <span className="has-text-weight-light is-size-7">{location.Address1} {location.Address2}</span>
+          <span className="level-right">
+          <div className="tag is-rounded"># of services</div>
+          <div className="tag is-rounded"># of orders</div>
+          <div className="tag is-rounded"># of tickets</div>
+          </span>
+        
       
-        {(userLocations != "") ? userLocations.map(location => (
-        <div className="block" key={location.id}>
-          
-            <div className="field has-addons">
-              <div className="control is-expanded">
-              <div className="button is-rounded is-info is-outlined is-fullwidth" onClick={(id) => handleToggleDetailModal(location.id)} >
-                
-                  <div value={location.id}> {location.Name} </div>
-                  
-              </div>
-              </div>
-              <div className="control">
-                <div className="button is-info is-rounded" onClick={handleToggleDetailPanel}>...</div>
-              </div>
-            </div>
-            {toggleDetailModal != false ? <LocationDetail /> : ""}
-            
-        </div>
-        )
-        ) : (
-        <span>
-          <div className="button is-rounded is-danger">
-              No sites have been added
-          </div>
-        </span>
-        )}
-        </div>
+      </div>
+      
+      )) : ""}
     </>
   )
 }
-export default SiteList
+export default LocationList

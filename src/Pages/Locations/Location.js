@@ -19,7 +19,7 @@ import AddTicket from '../../Tickets/AddTicket'
 import AccountDetail from '../../Accounts/AccountDetail'
 import AddAccount from '../../Accounts/AddAccount'
 
-const DataViewer = (props) => {
+const Location = (props) => {
   const userContext = useContext(stateContext)
   const {dataLoading} = userContext.userSession
   
@@ -32,164 +32,6 @@ const DataViewer = (props) => {
   const [accounts, setAccounts] = useState()
   const [tickets, setTickets] = useState()
   const [users, setUsers] = useState()
-
-  const [toggleServicesDetailModal, setToggleServicesDetailModal] = useState(false)
-
-  const [toggleServicesAddModal, setToggleServicesAddModal] = useState(false)
-
-  const [toggleServicesView, setToggleServicesView] = useState(false)
-
-  const [toggleAccountDetailModal, setToggleAccountDetailModal] = useState(false)
-
-  const [toggleAccountAddModal, setToggleAccountAddModal] = useState(false)
-
-  const [toggleAccountView, setToggleAccountView] = useState(false)
-
-  const [toggleLocationDetailModal, setToggleLocationDetailModal] = useState(false)
-
-  const [toggleLocationAddModal, setToggleLocationAddModal] = useState(false)
-
-  const [toggleLocationView, setToggleLocationView] = useState(false)
-
-  const [toggleOrderDetailModal, setToggleOrderDetailModal] = useState(false)
-
-  const [toggleOrderAddModal, setToggleOrderAddModal] = useState(false)
-  
-  const [toggleOrderView, setToggleOrderView] = useState(false)
-
-  const [toggleTicketAddModal, setToggleTicketAddModal] = useState(false)
-
-  const [toggleTicketDetailModal, setToggleTicketDetailModal] = useState(false)
-  
-  const [toggleTicketView, setToggleTicketView] = useState(false)
-
-  const [toggleUsersAddModal, setToggleUsersAddModal] = useState(false)
-
-  const [toggleUsersView, setToggleUsersView] = useState(false)
-
-  const handleToggleServicesAddModal = () => {
-    setToggleServicesAddModal(!toggleServicesAddModal)
-  }
-
-  const handleToggleServicesDetailModal = (id) => {
-    
-    userContext.setCurrentServiceID(id)
-    history.push("/service")
-    
-  }
-
-  const handleToggleServicesView = () => {
-    userContext.setDataLoading(true)
-    fetchServices()
-    setToggleServicesView(!toggleServicesView)
-  }
-
-  const handleToggleAccountAddModal = () => {
-    setToggleAccountAddModal(!toggleAccountAddModal)
-  }
-
-  const handleToggleAccountDetailModal = () => {
-    setToggleAccountDetailModal(!toggleAccountDetailModal)
-  }
-
-  const handleToggleAccountView = () => {
-    userContext.setDataLoading(true)
-    fetchAccounts()
-    setToggleAccountView(!toggleAccountView)
-  }
-  
-  const handleToggleLocationDetailModal = (id) => {
-    
-    userContext.setCurrentLocationID(id)
-    setToggleLocationDetailModal(!toggleLocationDetailModal)
-  }
-
-  const handleToggleLocationAddModal = () => {
-    setToggleLocationAddModal(!toggleLocationAddModal)
-  }
-
-  const handleToggleLocationView = () => {
-    userContext.setDataLoading(true)
-    fetchLocations()
-    setToggleLocationView(!toggleLocationView)
-  }
-
-  const handleToggleOrderDetailModal = (id) => {
-    console.log(id)
-    userContext.setCurrentOrderID(id)
-    setToggleOrderDetailModal(!toggleOrderDetailModal)
-  }
-
-  const handleToggleOrderAddModal = () => {
-    setToggleOrderAddModal(!toggleOrderAddModal)
-  }
-
-  const handleToggleOrderView = () => {
-    userContext.setDataLoading(true)
-    fetchOrders()
-    setToggleOrderView(!toggleOrderView)
-  }
-
-  const handleToggleTicketDetailModal = () => {
-    setToggleTicketDetailModal(!toggleTicketDetailModal)
-  }
-
-  const handleToggleTicketAddModal = () => {
-    setToggleTicketAddModal(!toggleTicketAddModal)
-  }
-
-  const handleToggleTicketView = () => {
-    setToggleTicketView(!toggleTicketView)
-  }
-
-  const handleToggleUsersAddModal = () => {
-    setToggleUsersAddModal(!toggleUsersAddModal)
-  }
-
-  const handleToggleUsersView = () => {
-    setToggleUsersView(!toggleUsersView)
-  }
-
-  const handleAccountDetail = (id) => {
-    userContext.setCurrentAccountID(id)
-    userContext.setDataLoading(true)
-    history.push("/accountdetail")
-  }
-
-  const handleServiceDetail = (id) => {
-    userContext.setCurrentServiceID(id) 
-    history.push("/servicedetail")
-  }
-
-  /** useEffect(() => {
-    
-    
-    
-  }, [currentCompany])
-
-  useEffect(() => {
-    reRender()
-    userContext.setDataLoading(false)
-  }, [dataLoading])
-
-  const reRender = () => {
-    dataLoading != false ? (fetchLocations(),
-    fetchServices(),
-    fetchOrders(),
-    fetchAccounts()) : ""
-  }
-  **/
-  
-  const fetchLocations = async() => {
-
-    const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const locations = locationsRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setLocations(locations)
-    userContext.setDataLoading(false)
-  }
 
   const fetchOrders = async() => {
 
@@ -631,4 +473,4 @@ return (
   </>
 )
 }
-export default DataViewer
+export default Location
