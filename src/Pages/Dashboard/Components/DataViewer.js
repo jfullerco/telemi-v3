@@ -284,6 +284,7 @@ return (
         <table className="table is-striped is-hoverable is-fullwidth">
           <thead className="is-size-6">
             <tr>
+            <th></th>
             <th className="px-6">
               Vendor
             </th>
@@ -296,11 +297,17 @@ return (
           <tbody className="is-size-7">
           {userContext.userSession.dataLoading != true ?
           services != undefined ? services.map(service => (
+            
             <tr key={service.id} onClick={() => handleServiceDetail(service.id)}>
+              <td>{service.Status === "Active" ? <div className="tag is-primary is-rounded">Active</div> : ""}</td>
               <td className="px-6">{service.Vendor}</td>
               <td className="px-6">{service.VendorServiceName} </td>
               <td className="px-6">{service.LocationName}</td>
-              <td className="px-6">{service.AssetID}</td>
+              <td className="px-6">
+              
+              {service.AssetID}
+              
+              </td>
               <td>
                 
                 <button className="button is-rounded is-small" onClick={()=>handleToggleServicesDetailModal(service.id)}>edit</button>
