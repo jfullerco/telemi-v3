@@ -84,7 +84,11 @@ const OrderDetail = () => {
   }
   
   const handleLocationChange = () => {
-   console.log(orderLocationName)
+   console.log(orderLocationID.current[orderLocationID.current.selectedIndex].text)
+  }
+
+  const handleVendorChange = () => {
+    console.log(orderVendor.current.value)
   }
 
   const handleModalClose = () => {
@@ -107,19 +111,20 @@ const OrderDetail = () => {
           <form>
 
           <SelectInput
-            selectFieldOptionsData={locations}
-            selectFieldLabel="Order Location"
-            selectFieldValue={activeOrder.LocationID}
-            selectFieldCurrentName={activeOrder.LocationName}
-            selectFieldIDRef={orderLocationID}
-            selectFieldNameRef={orderLocationName}
-            selectFieldChange={()=>handleLocationChange()}
+            fieldOptions={locations}
+            fieldLabel="Order Location"
+            fieldInitialValue={activeOrder.LocationID}
+            fieldInitialOption={activeOrder.LocationName}
+            fieldIDRef={orderLocationID}
+            fieldNameRef={orderLocationName}
+            fieldChange={()=>handleLocationChange()}
              />
              
           <TextInput 
             inputFieldLabel="Vendor"
             inputFieldRef={orderVendor}
             inputFieldValue={activeOrder.OrderVendor}
+            inputFieldChange={() => {handleVendorChange()}}
           />
 
           <TextInput 

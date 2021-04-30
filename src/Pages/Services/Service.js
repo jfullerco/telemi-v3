@@ -12,9 +12,11 @@ const Service = () => {
   const {currentServiceID, dataLoading} = userContext.userSession 
   const history = useHistory()
   const [activeService, setActiveService] = useState()
+  const [relatedAccounts, setRelatedAccounts] = useState()
 
   useEffect(() => {
     fetchService()
+    fetchRelatedAccounts()
   },[])
 
   const fetchService = async() => {
@@ -24,12 +26,18 @@ const Service = () => {
     setActiveService(data)
   }
 
+  const fetchRelatedAccounts = async() => {
+    const accountsRef = await db.collection("Accounts").where("AccountServiceID", "==", currentServiceID).get()
+    const accounts = accountsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    setRelatedAccounts(accounts)
+  }
+
   return(
     <>
       <button className="button is-small is-rounded" onClick={()=>{history.push("/dashboard")}}>
         <FontAwesomeIcon icon={faArrowAltCircleLeft} />
       </button>
-      <p className="block py-3">
+      <div className="block py-3">
         {activeService != undefined ?
         <> 
         <button className="button is-rounded is-black is-fullwidth">Service Details - {activeService.AssetID}</button>
@@ -43,14 +51,14 @@ const Service = () => {
         <thead className="is-size-6">
             <tr>
               <th className="px-6">
-                Asset ID
+               <span className="tag is-medium"> Asset ID </span>
               </th>
               <th className="px-6">
-                Location
+               <span className="tag is-medium"> Location </span>
               </th>
             </tr>
           </thead>
-          <tbody className="is-size-7">
+          <tbody className="is-size-6">
             <tr>
               <td className="px-6">{activeService.AssetID}</td>
               <td className="px-6">{activeService.LocationName}</td> 
@@ -60,14 +68,14 @@ const Service = () => {
           <thead className="is-size-6">
             <tr>
               <th className="px-6">
-                Vendor
+               <span className="tag is-medium"> Vendor </span>
               </th>
               <th className="px-6">
-                Service Name
+               <span className="tag is-medium"> Service Name </span>
               </th>
             </tr>
           </thead>
-          <tbody className="is-size-7">
+          <tbody className="is-size-6">
             <tr>
               <td className="px-6">{activeService.Vendor}</td>
               <td className="px-6">{activeService.VendorServiceName}</td> 
@@ -77,17 +85,42 @@ const Service = () => {
           <thead className="is-size-6">
             <tr>
               <th className="px-6">
-                Details
+                <span className="tag is-medium">Details</span>
+              </th>
+              <th className="px-6">
+                <span className="tag is-medium">Related Accounts</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody className="is-size-6">
+            <tr>
+              <td className="px-6">
+                <p className="block"><strong>Type:</strong> {activeService.Type}</p>
+                <p className="block"><strong>Access Handoff:</strong> {activeService.AccessType}</p>
+                <p className="block"><strong>Bandwidth:</strong> {activeService.Bandwidth}</p>
+              </td> 
+            <td className="px-6">
+              {relatedAccounts != undefined ? relatedAccounts.map(account => (
+              <button className="button is-small is-rounded is-black is-outlined" key={account.id}>
+                {account.AccountNum}
+              </button>
+              )) : ""}
+            </td>
+            </tr>
+          </tbody>
+          {/** Break */}
+          <thead className="is-size-6">
+            <tr>
+              <th className="px-6">
+               <span className="tag is-medium">Notes</span>
               </th>
               <th></th>
             </tr>
           </thead>
-          <tbody className="is-size-7">
+          <tbody className="is-size-6">
             <tr>
               <td className="px-6">
-              <p className="block"><strong>Type:</strong> {activeService.Type}</p>
-              <p className="block"><strong>Access Handoff:</strong> {activeService.AccessType}</p>
-              <p className="block"><strong>Bandwidth:</strong> {activeService.Bandwidth}</p>
+              {activeService.Notes}
               </td> 
             </tr>
           </tbody>
@@ -99,7 +132,7 @@ const Service = () => {
         </>
 
         : ""}
-      </p>
+      </div>
     </>
   )
 }

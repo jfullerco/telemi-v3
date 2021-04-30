@@ -73,8 +73,7 @@ const DataViewer = (props) => {
 
   const handleToggleServicesDetailModal = (id) => {
     
-    userContext.setCurrentServiceID(id)
-    history.push("/service")
+    setToggleServicesDetailModal(!toggleServicesDetailModal)
     
   }
 
@@ -159,7 +158,8 @@ const DataViewer = (props) => {
   const handleServiceDetail = (id) => {
     
     userContext.setCurrentServiceID(id)
-    history.push("/service")
+    setToggleServicesDetailModal(!toggleServicesDetailModal)
+    
   }
 
   /** useEffect(() => {
@@ -303,7 +303,7 @@ return (
               <td className="px-6">{service.AssetID}</td>
               <td>
                 
-                <button className="button is-rounded is-small" onClick={()=>handleServicesDetail(service.id)}>edit</button>
+                <button className="button is-rounded is-small" onClick={()=>handleToggleServicesDetailModal(service.id)}>edit</button>
                 
                 </td>
             </tr>
