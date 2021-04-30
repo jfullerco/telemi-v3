@@ -10,7 +10,7 @@ import SelectInput from '../../Components/Forms/SelectInput'
 const ServiceDetail = () => {
   
   const userContext = useContext(stateContext)
-  const {serviceTypes, accessTypes} = userContext
+  const {serviceTypes, accessTypes, serviceStatusType} = userContext
   
   const history = useHistory()
   
@@ -27,6 +27,7 @@ const ServiceDetail = () => {
   const serviceAccessType = useRef("")
   const serviceMRC = useRef("")
   const serviceDetailsBandwidth = useRef("")
+  const serviceStatus = useRef("")
 
   const [modalState, setModalState] = useState(true)
 
@@ -62,6 +63,7 @@ const ServiceDetail = () => {
       AccessType: serviceAccessType.current.value,
       AssetID: serviceAssetID.current.value,
       MRC: serviceMRC.current.value,
+      Status: serviceStatus.current.value
       
     }  
     console.log(data)
@@ -164,6 +166,16 @@ const ServiceDetail = () => {
               inputFieldLabel="Monthly Cost"
               inputFieldRef={serviceMRC}
               inputFieldValue={activeService.MRC}
+            />
+
+            <SelectInput 
+              fieldOptions={serviceStatusType}
+              fieldLabel="Status"
+              fieldInitialValue={activeService.Status}
+              fieldInitialOption={activeService.Status}
+              fieldIDRef={serviceStatus}
+              fieldNameRef={serviceStatus}
+              fieldChange={()=>console.log("Status Selection Changed")}
             />
 
           </form>

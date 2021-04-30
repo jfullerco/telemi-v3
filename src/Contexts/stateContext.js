@@ -64,6 +64,17 @@ export const StateProvider = (props) => {
       Name: "Cable/DSL" },
     ]
 
+    const serviceStatusType = [
+      { id: "Active",
+      Name: "Active" },
+      { id: "Disconnected",
+      Name: "Disconnected" },
+      { id: "Pending Activation",
+      Name: "Pending Activation" },
+      { id: "Pending Disconnect",
+      Name: "Pending Disconnect" },
+    ]
+
     const fetchCompanies = async(currentUser) => {
       return await db.collection("Companies").where("Users", "array-contains", currentUser).get()
     }
@@ -195,6 +206,7 @@ export const StateProvider = (props) => {
           setCurrentAccountNum,
           serviceTypes,
           accessTypes,
+          serviceStatusType,
           fetchCompanies,
           userSession
       }}>
