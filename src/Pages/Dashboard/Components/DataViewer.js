@@ -9,6 +9,7 @@ import { faArchive, faNetworkWired, faBuilding, faSort, faCube } from '@fortawes
 
 
 import EditServiceModal from '../../Services/EditServiceModal'
+import ServiceDetail from '../../Services/ServiceDetail'
 import AddService from '../../Services/AddService'
 import LocationDetail from '../../Locations/LocationDetail'
 import AddLocation from '../../Locations/AddLocation'
@@ -159,7 +160,7 @@ const DataViewer = (props) => {
     
     userContext.setCurrentServiceID(id)
     setToggleServicesDetailModal(!toggleServicesDetailModal)
-    
+
   }
 
   /** useEffect(() => {
@@ -255,7 +256,7 @@ const DataViewer = (props) => {
 
 return (
   <>
-    {toggleServicesDetailModal != false ? <EditServiceModal /> : ""}
+    {toggleServicesDetailModal != false ? <ServiceDetail /> : ""}
     {toggleServicesAddModal != false ? <AddService /> : ""}
     
     <div className="title">

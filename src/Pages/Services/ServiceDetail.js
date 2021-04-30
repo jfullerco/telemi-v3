@@ -4,10 +4,14 @@ import {Link, useHistory} from 'react-router-dom'
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
 
+import TextInput from '../../Components/Forms/TextInput'
+import SelectInput from '../../Components/Forms/SelectInput'
+
 const ServiceDetail = () => {
   
   const userContext = useContext(stateContext)
-  const currentLocationID = userContext
+  const {serviceTypes, accessTypes} = userContext
+  
   const history = useHistory()
   
   const [success, setSuccess] = useState(false)
@@ -27,6 +31,7 @@ const ServiceDetail = () => {
   const [modalState, setModalState] = useState(true)
 
   const [activeService, setActiveService] = useState("")
+
   
   useEffect(() => {
     
@@ -62,7 +67,7 @@ const ServiceDetail = () => {
     console.log(data)
     const res = await db.collection("Services").doc(userContext.userSession.currentServiceID).set(data)
     userContext.setDataLoading(true)
-    history.push("/dashboard")
+    autoClose()
   }
 
   useEffect(() => {
@@ -101,90 +106,65 @@ const ServiceDetail = () => {
         <section className="modal-card-body"> 
           <form>
 
-            <label className="label">
-              Service Location
-            </label>
-            <div className="select is-rounded is-fullwidth">
-              <select className="select" ref={serviceLocationID} defaultValue={activeService.id}>
-              <option value={activeService.LocationID}>{activeService.LocationName}</option>
-              {locations != undefined ? locations.map(location => (
-                <option key={location.id} value={location.id} name={location.Name} >
-                  {location.Name}
-                </option>
-              )) : "All your locations are belong to us..."}
-              </select>
-            </div>
-
-            <div className="field">
-              <label className="label">
-                Vendor
-              </label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={serviceVendor} defaultValue={activeService.Vendor} />
-              </div>
-            </div>
-
-            <div className="field">            
-            <label className="label">Type</label>
-              <div className="control">
-                <div className="select is-rounded is-fullwidth">
-                <select type="select" ref={serviceType} defaulValue={activeService.Type}>
-                  <option value={activeService.Type}>{activeService.Type} </option>
-                  <option>Data Only</option>
-                  <option>Voice/Data</option>
-                  <option>Voice Only</option>
-                  <option>Security</option>
-                  <option>Hosting</option>
-                  <option>Mobility</option>
-                </select>
-                </div>
-              </div>
-            </div>
-
-            <label className="label">
-              Vendor Service Name
-            </label>
-            <input className="input is-rounded" type="text" ref={serviceVendorServiceName} defaultValue={activeService.VendorServiceName} />
-
-            <div className="field">            
-            <label className="label">Access Type</label>
-              <div className="control">
-                <div className="select is-rounded is-fullwidth">
-                <select type="select" ref={serviceAccessType} defaultValue={activeService.AccessType}>
-                  <option value={activeService.AccessType}>{activeService.AccessType} </option>
-                  <option>T1</option>
-                  <option>Ethernet</option>
-                  <option>Cable</option>
-                  <option>Fiber</option>
-                </select>
-                </div>
-              </div>
-            </div>
+            <SelectInput 
+              fieldOptions={locations}
+              fieldLabel="Service Location"
+              fieldInitialValue={activeService.LocationID}
+              fieldInitialOption={activeService.LocationName}
+              fieldIDRef={serviceLocationID}
+              fieldNameRef={serviceLocationName}
+              fieldChange={()=> console.log("Changed Selection")}
+            />
             
-            <div className="field">
-              <label className="label">
-                Asset ID
-              </label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={serviceAssetID} defaultValue={activeService.AssetID} />
-              </div>
-            </div>
+            <TextInput 
+              inputFieldLabel="Vendor"
+              inputFieldRef={serviceVendor}
+              inputFieldValue={activeService.Vendor}
+            />
 
-            <div className="field">
-              <label className="label">
-                Monthly Cost
-              </label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={serviceMRC} defaultValue={activeService.MRC}/>
-              </div>
-            </div>
+            <SelectInput 
+              fieldOptions={serviceTypes}
+              fieldLabel="Type"
+              fieldInitialValue={activeService.Type}
+              fieldInitialOption={activeService.Type}
+              fieldIDRef={serviceType}
+              fieldNameRef={serviceType}
+              fieldChange={()=>console.log("Type Selection Changed")}
+            />
 
-            <div className="field">
-              <div className="control">
-              <label className="label">Bandwidth</label>
-                <input className="input is-rounded" type="text" ref={serviceDetailsBandwidth} defaultValue={activeService.Bandwidth} />
-              </div>
-            </div>
+            <TextInput 
+              inputFieldLabel="Service Name"
+              inputFieldRef={serviceVendorServiceName}
+              inputFieldValue={activeService.VendorServiceName}
+            />
+
+            <SelectInput 
+              fieldOptions={accessTypes}
+              fieldLabel="Access Type"
+              fieldInitialValue={activeService.AccessType}
+              fieldInitialOption={activeService.AccessType}
+              fieldIDRef={serviceAccessType}
+              fieldNameRef={serviceAccessType}
+              fieldChange={()=>console.log("Access Type Selection Changed")}
+            />
+            
+            <TextInput 
+              inputFieldLabel="Asset ID"
+              inputFieldRef={serviceAssetID}
+              inputFieldValue={activeService.AssetID}
+            />
+
+            <TextInput 
+              inputFieldLabel="Bandwidth"
+              inputFieldRef={serviceDetailsBandwidth}
+              inputFieldValue={activeService.Bandwidth}
+            />
+
+            <TextInput 
+              inputFieldLabel="Monthly Cost"
+              inputFieldRef={serviceMRC}
+              inputFieldValue={activeService.MRC}
+            />
 
           </form>
 
@@ -199,7 +179,7 @@ const ServiceDetail = () => {
           <button className="button is-rounded"
           type="submit" onClick={handleSubmit}
           >
-            Save Changes
+            Update Service
           </button>
 
           

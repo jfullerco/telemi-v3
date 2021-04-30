@@ -28,11 +28,40 @@ export const StateProvider = (props) => {
 
     }
 
-    const formFields = {
-      tickets: {
-        ticketNum: ""
-      }
-    }
+    const serviceTypes = [
+    { id: "Dedicated Internet",
+      Name: "Dedicated Internet" },
+    { id: "Dedicated Internet with Voice",
+      Name: "Dedicated Internet with Voice" },
+    { id: "MPLS",
+      Name: "MPLS" },
+    { id: "MPLS with Voice",
+      Name: "MPLS with Voice" },
+    { id: "SIP Voice",
+      Name: "SIP Voice" },
+    { id: "Legacy Voice",
+      Name: "Legacy Voice" },
+    { id: "UCaaS",
+      Name: "UCaaS" },
+    { id: "Managed Security",
+      Name: "Managed Security" },
+    { id: "Hosting",
+      Name: "Hosting" },
+    { id: "Mobility",
+      Name: "Mobility" }
+    ]
+
+    const accessTypes = [
+      { id: "T1",
+      Name: "T1" },
+      { id: "Ethernet",
+      Name: "Ethernet" },
+      { id: "Fiber",
+      Name: "Fiber" },
+      { id: "Cable/DSL",
+      Name: "Cable/DSL" },
+
+    ]
     
     const [userSession, dispatch] = useReducer(stateReducer, initialState)
 
@@ -159,6 +188,8 @@ export const StateProvider = (props) => {
           setCurrentOrderNum,
           setCurrentAccountID,
           setCurrentAccountNum,
+          serviceTypes,
+          accessTypes,
           userSession
       }}>
         {props.children}
