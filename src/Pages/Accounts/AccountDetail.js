@@ -103,11 +103,9 @@ const AccountDetail = () => {
       Vendor: accountVendor.current.value,
       PreTaxMRC: accountPreTaxMRC.current.value,
       PostTaxMRC: accountPostTaxMRC.current.value,
-      
+      SubAccountNum: subAccountNum.current.value,
       GroupNum: accountGroupNum.current.value,
       InternalBillingCode: accountInternalBillingCode.current.value,
-      
-      
       AccountServiceLocationID: accountServiceLocationID.current.value,
       AccountServiceLocationName: accountServiceLocationID.current[accountServiceLocationID.current.selectedIndex].text,
       AccountServiceID: accountServiceID.current.value,
