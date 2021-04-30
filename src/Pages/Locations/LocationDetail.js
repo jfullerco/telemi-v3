@@ -4,8 +4,7 @@ import {Link, useHistory} from 'react-router-dom'
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
 
-import SiteListNav from '../../Components/Elements/SiteListNav'
-import AddService from '../Services/AddService'
+import TextInput from '../../Components/Forms/TextInput'
 
 const LocationDetail = () => {
   
@@ -83,20 +82,49 @@ const LocationDetail = () => {
         <section className="modal-card-body">
           
           <form>
-            <label className="label">Location Name</label>
-            <input className="input" type="text" ref={locationName} defaultValue={activeLocation.Name} />
-            <label className="label">Address 1</label>
-            <input className="input" type="text" ref={locationAddress1} defaultValue={activeLocation.Address1} />
-            <label className="label">Address 2</label>
-            <input className="input" type="text" ref={locationAddress2} defaultValue={activeLocation.Address2} />
-            <label className="label">City</label>
-            <input className="input" type="text" ref={locationCity} defaulValue={activeLocation.City} />
-            <label className="label">State</label>
-            <input className="input" type="text" ref={locationState} defaultValue={activeLocation.State} />
-            <label className="label">Zip</label>
-            <input className="input" type="text" ref={locationZip} defaultValue={activeLocation.Zip}/>
-            <label className="label">Phone</label>
-            <input className="input" type="text" ref={locationPhone} defaultValue={activeLocation.Phone} />
+
+            <TextInput
+              inputFieldLabel="Location Name"
+              inputFieldRef={locationName}
+              inputFieldValue={activeLocation.Name}
+            />
+            
+            <TextInput
+              inputFieldLabel="Address 1"
+              inputFieldRef={locationAddress1}
+              inputFieldValue={activeLocation.Address1}
+            />
+
+            <TextInput
+              inputFieldLabel="Address 2"
+              inputFieldRef={locationAddress2}
+              inputFieldValue={activeLocation.Address2}
+            />
+
+            <TextInput
+              inputFieldLabel="City"
+              inputFieldRef={locationCity}
+              inputFieldValue={activeLocation.City}
+            />
+
+            <TextInput
+              inputFieldLabel="State"
+              inputFieldRef={locationState}
+              inputFieldValue={activeLocation.State}
+            />
+
+            <TextInput
+              inputFieldLabel="Zip"
+              inputFieldRef={locationZip}
+              inputFieldValue={activeLocation.Zip}
+            />
+
+            <TextInput
+              inputFieldLabel="Phone"
+              inputFieldRef={locationPhone}
+              inputFieldValue={activeLocation.Phone}
+            />
+
           </form>
 
         {/* Error Status Block */}

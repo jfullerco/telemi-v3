@@ -172,7 +172,7 @@ const OrderDetail = () => {
           </form>
         <div className="block">
           <div className="notification is-danger is-hidden">{addOrderError}</div>
-         {success === true ?  <div className="notification is-success">Order Added</div> : ""}
+         {success === true ?  <div className="notification is-success">Order Changed</div> : ""}
         </div>
         <div className="modal-card-foot">
           

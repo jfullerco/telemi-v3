@@ -3,7 +3,7 @@ import React, { useRef } from 'react'
 const TextInput = ({inputFieldName, inputFieldRef, inputFieldValue, inputFieldLabel, inputFieldChange}) => {
 
   const handleChange = () => {
-   inputFieldChange()
+   inputFieldChange != undefined ? inputFieldChange() : ""
   }
 
   return(
