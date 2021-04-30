@@ -105,8 +105,12 @@ const OrderDetail = () => {
       <div className="modal-background"></div>
       <div className="modal-card">
       <div className="modal-card-head">
-        <p className="modal-card-title">Add Order</p>
+
+        <p className="modal-card-title">
+          Order {activeOrder.OrderNum} Details
+        </p>
       </div>
+
         <section className="modal-card-body">
           <form>
 
@@ -124,7 +128,7 @@ const OrderDetail = () => {
             inputFieldLabel="Vendor"
             inputFieldRef={orderVendor}
             inputFieldValue={activeOrder.OrderVendor}
-            inputFieldChange={() => {handleVendorChange()}}
+            
           />
 
           <TextInput 

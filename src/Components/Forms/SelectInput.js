@@ -11,6 +11,7 @@ const SelectInput = ({
   
   const selectRef = useRef("")
   const handleChange = () => {
+    
    fieldChange()
   }
 

@@ -1,5 +1,7 @@
 import React, {useState, createContext, useReducer} from 'react'
 import stateReducer from './stateReducer'
+import {db} from './firebase'
+
 
 
 export const stateContext = createContext({})
@@ -60,8 +62,11 @@ export const StateProvider = (props) => {
       Name: "Fiber" },
       { id: "Cable/DSL",
       Name: "Cable/DSL" },
-
     ]
+
+    const fetchCompanies = async(currentUser) => {
+      return await db.collection("Companies").where("Users", "array-contains", currentUser).get()
+    }
     
     const [userSession, dispatch] = useReducer(stateReducer, initialState)
 
@@ -190,6 +195,7 @@ export const StateProvider = (props) => {
           setCurrentAccountNum,
           serviceTypes,
           accessTypes,
+          fetchCompanies,
           userSession
       }}>
         {props.children}

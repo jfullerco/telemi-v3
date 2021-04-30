@@ -7,9 +7,10 @@ import { faSave } from '@fortawesome/free-solid-svg-icons'
 
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
-import TextInput from '../../Components/Forms/TextInput'
 
-import AddNote from '../Dashboard/Components/AddNote'
+import TextInput from '../../Components/Forms/TextInput'
+import SelectInput from '../../Components/Forms/SelectInput'
+import SelectInputProps from '../../Components/Forms/SelectInputProps'
 
 const AccountDetail = () => {
 
@@ -21,35 +22,32 @@ const AccountDetail = () => {
   const [success, setSuccess] = useState(false)
 
   const [activeAccount, setActiveAccount] = useState()
-  const [accounts, setAccounts] = useState()
   const [locations, setLocations] = useState()
   const [servicesByLocation, setServicesByLocation] = useState()
+  const [toggleServiceList, setToggleServiceList] = useState()
   
-  const accountAccountNum = useRef("")
+  const accountNum = useRef("")
+  const subAccountNum = useRef("")
   const accountVendor = useRef("")
-  const accountPreTaxMRC = useRef("")
-  const accountPostTaxMRC = useRef("")
-  const accountParentAccountID = useRef("")
-  const accountParentAccountName = useRef("")
-  const accountVendorBillType = useRef("")
   const accountGroupNum = useRef("")
   const accountInternalBillingCode = useRef("")
-  const accountNotes = useRef("")
-  const accountContractSignedDate = useRef("")
-  const accountContractTerm = useRef("")
-  const accountContractExpiresDate = useRef("")
   const accountServiceLocationID = useRef("")
   const accountServiceLocationName = useRef("")
   const accountServiceID = useRef("")
-  const testInput = useRef("")
-console.log(testInput.current.value)
+  const accountPreTaxMRC = useRef("")
+  const accountPostTaxMRC = useRef("")
+  
 
   useEffect(() => {
     fetchAccount()
-    fetchAccounts()
     fetchLocations()
     
   },[])
+
+  useEffect(() => {
+    accountServiceLocationID.current.value != undefined ?
+    fetchServices() : ""
+  },[toggleServiceList])
 
   const fetchAccount = async() => {
    
@@ -66,6 +64,7 @@ console.log(testInput.current.value)
     const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
 
     const accounts = accountsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    console.log(accounts)
     setAccounts(accounts)
 
   }
@@ -74,44 +73,41 @@ console.log(testInput.current.value)
    
     const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
 
-    const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    const locations = locationsRef.docs.map(doc => ({id: doc.id, Name: doc.Name, ...doc.data()}))
     setLocations(locations)
 
   }
 
   const fetchServices = async() => {
-
-    const servicesRef = await db.collection("Services").where("LocationID", "==", activeAccount.AccountServiceLocationID).get()
+    
+    const servicesRef = await db.collection("Services").where("LocationID", "==", accountServiceLocationID.current.value).get()
 
     const services = servicesRef.docs.map(doc => ({
       id: doc.id,
       ...doc.data()}))
     setServicesByLocation(services)
+    
   }
   
-  const handleLocationChange = (e) => {
-    accountServiceLocationID.current.value = e.target.value
-    accountServiceLocationName.current.value = e.target.name
+  const handleToggleServiceList = () => {
+    setToggleServiceList(!toggleServiceList)
   }
   
   const handleSubmit = async(e) => {
 
     const data = {
 
-      AccountNum: accountAccountNum.current.value,
+      AccountNum: accountNum.current.value,
       CompanyID: userContext.userSession.currentCompanyID,
       CompanyName: userContext.userSession.currentCompany,
       Vendor: accountVendor.current.value,
       PreTaxMRC: accountPreTaxMRC.current.value,
       PostTaxMRC: accountPostTaxMRC.current.value,
-      ParentAccountID: accountParentAccountID.current.value,
-      ParentAccountNum: accountParentAccountID.current[accountParentAccountID.current.selectedIndex].text,
+      
       GroupNum: accountGroupNum.current.value,
       InternalBillingCode: accountInternalBillingCode.current.value,
-      Notes: accountNotes.current.value,
-      ContractSignedDate: accountContractSignedDate.current.value,
-      ContractTerm: accountContractTerm.current.value,
-      ContractExpiresDate: accountContractExpiresDate.current.value,
+      
+      
       AccountServiceLocationID: accountServiceLocationID.current.value,
       AccountServiceLocationName: accountServiceLocationID.current[accountServiceLocationID.current.selectedIndex].text,
       AccountServiceID: accountServiceID.current.value,
@@ -128,7 +124,9 @@ console.log()
   return (
     <div>
     {activeAccount != undefined ? ( <>
-      <div className="title">{activeAccount.AccountNum} Detail</div>
+      <div className="title">
+        Account {activeAccount.AccountNum} Detail
+      </div>
         
         <form>
             <>
@@ -138,138 +136,72 @@ console.log()
                 <span>Update</span> <FontAwesomeIcon icon={faSave} />
               </span>
             </div>
-            <div className="field">
-              <label className="label">Parent Account</label>
-              <div className="control">
-                <div className="select is-rounded is-fullwidth">
-                  <select className="select" ref={accountParentAccountID}>
-                  
-                  {activeAccount.ParentAccountNum !="Parent" ? 
-                  <option value={activeAccount.id}>{activeAccount.ParentAccountNum}</option> : ""}
 
-                  <option value="Parent" name="Parent"></option>
-                  {accounts != undefined ? accounts.map(account => (
-                    <option key={account.id} value={account.id} name={account.AccountNum} >
-                      {account.AccountNum}
-                    </option>
-                  )) : "No other accounts added"}
-                  </select>
-                </div>
-              </div>
-            </div>
+            <TextInput 
+              inputFieldLabel="Account Number"
+              inputFieldRef={accountNum}
+              inputFieldValue={activeAccount.AccountNum}
+            />
 
-            <div className="field">
-              <label className="label">Account Number</label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={accountAccountNum} defaultValue={activeAccount.AccountNum} />
-              </div>
-            </div>
+            <TextInput 
+              inputFieldLabel="Sub Account Number"
+              inputFieldRef={subAccountNum}
+              inputFieldValue={activeAccount.SubAccountNum}
+            />
+            
+            <TextInput 
+              inputFieldLabel="Vendor"
+              inputFieldRef={accountVendor}
+              inputFieldValue={activeAccount.Vendor}
+            />
 
-            <div className="field">
-              <label className="label">Vendor</label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={accountVendor} defaultValue={activeAccount.Vendor} />
-              </div>
-            </div>
+            <SelectInput 
+              fieldOptions={locations}
+              fieldLabel="Related Location"
+              fieldInitialValue={activeAccount.AccountServiceLocationID}
+              fieldInitialOption={activeAccount.AccountServiceLocationName}
+              fieldIDRef={accountServiceLocationID}
+              fieldChange={()=>handleToggleServiceList()}
+            />
 
-            <div className="field">
-              <label className="label">Assign Location</label>
-              <div className="control">
-                <div className="select is-rounded is-fullwidth">
-                  <select className="select" ref={accountServiceLocationID} onChange={() => {fetchServices()}}>
-                  <option value={activeAccount.AccountServiceLocationID}>{activeAccount.AccountServiceLocationName}</option>
-                  {locations != undefined ? locations.map(location => (
-                    <option key={location.id} value={location.id} name={location.Name} >
-                      {location.Name}
-                    </option>
-                  )) : "Add a location before adding a service"}
-                  </select>
-                </div>
-              </div>
-            </div>
+            <SelectInputProps 
+              fieldLabel="Related Service"
+              fieldInitialValue={activeAccount.AccountServiceID}
+              fieldInitialOption={activeAccount.AccountServiceName}
+              fieldIDRef={accountServiceID}
+            >
+              {servicesByLocation != undefined ? 
+                servicesByLocation.map(service => (
+                  <option value={service.id} key={service.id}> 
+                  {service.AssetID}</option>
+                )) : (
+                  <option></option>
+              )}
+            </SelectInputProps>
 
-            <div className="field">
-              <label className="label">Assign Service</label>
-              <div className="control">
-                <div className="select is-rounded is-fullwidth">
-                  <select className="select" ref={accountServiceID} onClick={() => {fetchServices()}}>
+            <TextInput 
+              inputFieldLabel="Pre-Tax Cost"
+              inputFieldRef={accountPreTaxMRC}
+              inputFieldValue={activeAccount.PreTaxMRC}
+            />
 
-                  {activeAccount.AccountServiceID != undefined ? 
-                  <option value={activeAccount.AccountServiceID}>{activeAccount.AccountServiceName}</option> : 
-                  <option></option> }
+            <TextInput 
+              inputFieldLabel="Post-Tax Cost"
+              inputFieldRef={accountPostTaxMRC}
+              inputFieldValue={activeAccount.PostTaxMRC}
+            />
 
-                  {servicesByLocation != undefined ? servicesByLocation.map(service => (
-                    <option key={service.id} value={service.id} name={service.AssetID} >
-                      {service.AssetID} - {service.VendorServiceName}
-                    </option>
-                  )) : "Add a location before adding a service"}
-                  </select>
-                </div>
-              </div>
-            </div>
+            <TextInput 
+              inputFieldLabel="Bill Group Number"
+              inputFieldRef={accountGroupNum}
+              inputFieldValue={activeAccount.GroupNum}
+            />
 
-            <div className="field">
-              <label className="label">Pre-Tax Cost</label>
-              <p className="control has-icons-left">
-                <input className="input is-rounded" type="text" ref={accountPreTaxMRC} defaultValue={activeAccount.PreTaxMRC} />
-                <span className="icon is-small is-left">
-                <FontAwesomeIcon icon={faDollarSign} />
-                </span>
-              </p>
-            </div>
-
-            <div className="field">
-              <label className="label">Post-Tax Cost</label>
-              <p className="control has-icons-left">
-                <input className="input is-rounded" type="text" ref={accountPostTaxMRC} defaultValue={activeAccount.PostTaxMRC} />
-                <span className="icon is-small is-left">
-                <FontAwesomeIcon icon={faDollarSign} />
-                </span>
-              </p>
-            </div>
-
-            <div className="field">
-              <label className="label">Bill Group Number</label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={accountGroupNum} defaultValue={activeAccount.GroupNum} />
-              </div>
-            </div>
-
-            <div className="field">
-              <label className="label">Internal Billing Code</label>
-              <div className="control"> 
-                <input className="input is-rounded" type="text" name="Internal Billing Code" ref={accountInternalBillingCode} defaultValue={activeAccount.InternalBillingCode} />
-              </div>
-            </div>
- 
-            <div className="field">
-              <label className="label">Contract Signed Date</label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={accountContractSignedDate} defaultValue={activeAccount.ContractSignedDate} />
-              </div>
-            </div>
-
-            <div className="field">
-            <label className="label">Contract Term</label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={accountContractTerm} defaultValue={activeAccount.ContractTerm} />
-              </div>
-            </div>
-
-            <div className="field">
-            <label className="label">Contract Expires</label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={accountContractExpiresDate} defaultValue={activeAccount.ContractExpiresDate} />
-              </div>
-            </div>
-
-            <div className="field">
-            <label className="label">Notes</label>
-              <div className="control">
-                <textarea className="textarea is-rounded" type="text" ref={accountNotes} defaultValue={activeAccount.Notes} />
-              </div>
-            </div>
-
+            <TextInput 
+              inputFieldLabel="Internal Billing Code"
+              inputFieldRef={accountInternalBillingCode}
+              inputFieldValue={activeAccount.InternalBillingCode}
+            />
             </> 
           </form>
         {/** <AddNote attachedTo="Accounts" attachedID={activeAccount.id} /> */}

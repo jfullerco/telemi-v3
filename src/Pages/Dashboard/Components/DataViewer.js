@@ -22,9 +22,8 @@ import AddAccount from '../../Accounts/AddAccount'
 
 const DataViewer = (props) => {
   const userContext = useContext(stateContext)
-  const {dataLoading} = userContext.userSession
-  
-  const currentCompany = userContext.userSession
+  const {dataLoading, currentCompany} = userContext.userSession
+
   const history = useHistory()
 
   const [locations, setLocations] = useState()
