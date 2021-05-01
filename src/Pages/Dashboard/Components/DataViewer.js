@@ -7,6 +7,8 @@ import {db} from '../../../Contexts/firebase'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArchive, faNetworkWired, faBuilding, faSort, faCube } from '@fortawesome/free-solid-svg-icons'
 
+import DeleteButton from '../../../Components/Buttons/DeleteButton'
+
 
 import EditServiceModal from '../../Services/EditServiceModal'
 import ServiceDetail from '../../Services/ServiceDetail'
@@ -298,7 +300,7 @@ return (
           {userContext.userSession.dataLoading != true ?
           services != undefined ? services.map(service => (
             
-            <tr key={service.id} onClick={() => handleServiceDetail(service.id)}>
+            <tr key={service.id} >
               <td>{service.Status === "Active" ? <div className="tag is-primary is-rounded">Active</div> : ""}</td>
               <td className="px-6">{service.Vendor}</td>
               <td className="px-6">{service.VendorServiceName} </td>
@@ -311,6 +313,8 @@ return (
               <td>
                 
                 <button className="button is-rounded is-small" onClick={()=>handleToggleServicesDetailModal(service.id)}>edit</button>
+
+                <DeleteButton colRef="Services" docRef={service.id} />
                 
                 </td>
             </tr>
