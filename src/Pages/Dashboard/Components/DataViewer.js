@@ -5,7 +5,7 @@ import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArchive, faNetworkWired, faBuilding, faSort, faCube } from '@fortawesome/free-solid-svg-icons'
+import { faArchive, faNetworkWired, faBuilding, faSort, faCube, faTimesCircle, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import DeleteButton from '../../../Components/Buttons/DeleteButton'
 

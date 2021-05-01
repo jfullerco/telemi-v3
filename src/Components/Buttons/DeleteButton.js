@@ -1,5 +1,9 @@
 import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import {db} from '../../Contexts/firebase'
+
+const 
 
 const DeleteButton = ({colRef, docRef}) => {
 
@@ -10,7 +14,7 @@ const DeleteButton = ({colRef, docRef}) => {
   }
 
   return(
-    <button className="button is-small is-rounded" onClick={()=>handleClick(colRef, docRef)}> Delete</button>
+    <FontAwesomeIcon icon={faTimesCircle} onClick={()=>handleClick(colRef, docRef)} />
   )
 }
 export default DeleteButton
