@@ -5,7 +5,7 @@ import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArchive, faNetworkWired, faBuilding, faSort, faCube, faTimesCircle, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faArchive, faNetworkWired, faBuilding, faSort, faCube, faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import DeleteButton from '../../../Components/Buttons/DeleteButton'
 
@@ -293,7 +293,11 @@ return (
             <th className="px-6">Vendor Service</th>
             <th className="px-6">Location</th>
             <th className="px-6">Asset ID</th>
-            <th><button className="button is-rounded is-small" onClick={handleToggleServicesAddModal}>add</button></th>
+            <th>
+            <span className="icon is-left">
+                <FontAwesomeIcon icon={faPlus} onClick={handleToggleServicesAddModal} />
+              </span>
+            </th>
             </tr>
           </thead>
           <tbody className="is-size-7">
@@ -312,10 +316,11 @@ return (
               </td>
               <td>
                 
-                <button className="button is-rounded is-small" onClick={()=>handleToggleServicesDetailModal(service.id)}>edit</button>
-
+                <span className="icon is-left">
+                <FontAwesomeIcon icon={faEdit} onClick={(e)=>handleServiceDetail(service.id)} /></span>
+                <span className="icon is-right">
                 <DeleteButton colRef="Services" docRef={service.id} />
-                
+                </span>
                 </td>
             </tr>
           )) : 

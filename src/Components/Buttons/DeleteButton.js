@@ -3,8 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import {db} from '../../Contexts/firebase'
 
-const 
-
 const DeleteButton = ({colRef, docRef}) => {
 
   const handleClick = async() => {
