@@ -108,11 +108,21 @@ const AddOrder = () => {
                 )}
             </SelectInputProps>
             
-            <TextInput 
-              inputFieldLabel="Vendor"
-              inputFieldRef={orderVendor}
-              inputFieldValue={""}
-            />
+            <SelectInputProps
+              fieldLabel="Vendor"
+              fieldInitialValue=""
+              fieldInitialOption=""
+              fieldIDRef={orderVendor}>
+                <option>AT&T</option>
+                <option>Verizon</option>
+                <option>CenturyLink</option>
+                <option>Lumos</option>
+                <option>Windstream</option>
+                <option>Spectrum</option>
+                <option>Comcast</option>
+                <option>Masergy</option>
+                <option>Microsoft</option>
+            </SelectInputProps>
 
             <TextInput 
               inputFieldLabel="Service Ordered"

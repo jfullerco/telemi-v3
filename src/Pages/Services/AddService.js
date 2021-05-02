@@ -4,9 +4,15 @@ import {useHistory} from 'react-router-dom'
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
+import TextInput from '../../Components/Forms/TextInput'
+import SelectInput from '../../Components/Forms/SelectInput'
+import SelectInputProps from '../../Components/Forms/SelectInputProps'
+
 const AddService = () => {
 
   const userContext = useContext(stateContext)
+
+  const {serviceTypes, accessTypes} = userContext
 
   const history = useHistory()
   
@@ -102,87 +108,93 @@ const AddService = () => {
 
           <form>
           
-            <div className="field">
-              <label className="label">Service Location</label>
-              <div className="control">
-                <div className="select is-rounded is-fullwidth">
-                  <select className="select" onChange={handleChange} ref={serviceLocationID}>
-                  {locations != undefined ? locations.map(location => (
-                    <option key={location.id} value={location.id} name={location.Name} >
-                      {location.Name}
-                    </option>
-                  )) : "Add a location before adding a service"}
-                  </select>
-                </div>
-              </div>
-            </div>
+            <SelectInputProps 
+              fieldLabel="Service Location"
+              fieldInitialValue={""}
+              fieldInitialOption={""}
+              fieldIDRef={serviceLocationID}>
+                {locations != undefined ? 
+                  locations.map(location => (
+                    <option value={location.id} key={location.id}> 
+                    {location.Name}</option>
+                )) : (
+                  <option></option>
+                )}
+            </SelectInputProps>
 
-            <div className="field">
-              <div className="control">
-              <label className="label">Vendor</label>
-                <input className="input is-rounded" type="text" ref={serviceVendor} />
-              </div>
-            </div>
-            
-            <div className="field">            
-            <label className="label">Type</label>
-              <div className="control">
-                <div className="select is-rounded is-fullwidth">
-                <select type="select" ref={serviceType} >
+            <SelectInputProps
+              fieldLabel="Vendor"
+              fieldInitialValue=""
+              fieldInitialOption=""
+              fieldIDRef={serviceVendor}>
+                <option>AT&T</option>
+                <option>Verizon</option>
+                <option>CenturyLink</option>
+                <option>Lumos</option>
+                <option>Windstream</option>
+                <option>Spectrum</option>
+                <option>Comcast</option>
+                <option>Masergy</option>
+                <option>Microsoft</option>
+            </SelectInputProps>
+
+            <SelectInputProps
+              fieldLabel="Type"
+              fieldInitialValue=""
+              fieldInitialOption=""
+              fieldIDRef={serviceType}>
                   <option> </option>
                   <option>Data Only</option>
                   <option>Voice/Data</option>
                   <option>Voice Only</option>
                   <option>Security</option>
                   <option>Hosting</option>
-                  <option>Mobility</option>
-                </select>
-                </div>
-              </div>
-            </div>
+                  <option>Mobility</option>  
+            </SelectInputProps>
+            
+            <SelectInput 
+              fieldOptions={serviceTypes}
+              fieldLabel="Type"
+              fieldInitialValue={""}
+              fieldInitialOption={""}
+              fieldIDRef={serviceType}
+              fieldNameRef={serviceType}
+              fieldChange={()=>console.log("Type Selection Changed")}
+            />
 
-            <div className="field">
-              <label className="label">Vendor Service Name</label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={serviceVendorServiceName} />
-              </div>
-            </div>
+            <TextInput 
+              inputFieldLabel="Vendor Product Name"
+              inputFieldRef={serviceVendorServiceName}
+              inputFieldValue={""}
+            />
 
-            <div className="field">            
-            <label className="label">Access Type</label>
-              <div className="control">
-                <div className="select is-rounded is-fullwidth">
-                <select type="select" ref={serviceAccessType} >
-                  <option> </option>
-                  <option>T1</option>
-                  <option>Ethernet</option>
-                  <option>Cable</option>
-                  <option>Fiber</option>
-                </select>
-                </div>
-              </div>
-            </div>
+            <SelectInput 
+              fieldOptions={accessTypes}
+              fieldLabel="Access Type"
+              fieldInitialValue={""}
+              fieldInitialOption={""}
+              fieldIDRef={serviceAccessType}
+              fieldNameRef={serviceAccessType}
+              fieldChange={()=>console.log("Access Type Selection Changed")}
+            />
 
-            <div className="field">
-              <label className="label">Asset ID</label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={serviceAssetID} />
-              </div>
-            </div>
+            <TextInput 
+              inputFieldLabel="Asset ID"
+              inputFieldRef={serviceAssetID}
+              inputFieldValue={""}
+            />
 
-            <div className="field">
-              <div className="control">
-              <label className="label">Monthly Cost</label>
-                <input className="input is-rounded" type="text" ref={serviceMRC} />
-              </div>
-            </div>
+            <TextInput 
+              inputFieldLabel="Monthly Cost"
+              inputFieldRef={serviceMRC}
+              inputFieldValue={""}
+            />
 
-            <div className="field">
-              <div className="control">
-              <label className="label">Bandwidth</label>
-                <input className="input is-rounded" type="text" ref={serviceDetailsBandwidth} />
-              </div>
-            </div>
+            <TextInput 
+              inputFieldLabel="Bandwidth"
+              inputFieldRef={serviceDetailsBandwidth}
+              inputFieldValue={""}
+            />
 
           </form>
 
@@ -192,7 +204,7 @@ const AddService = () => {
         </div>
         <div className="modal-card-foot">
 
-          <button className="button level-item" type="submit" onClick={handleSubmit}>
+          <button className="button is-rounded level-item" type="submit" onClick={handleSubmit}>
             Add Service
           </button>
         

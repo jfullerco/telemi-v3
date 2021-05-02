@@ -8,7 +8,7 @@ import Hello from './Pages/Hello'
 import Dashboard from './Pages/Dashboard'
 import Login from './Pages/Login'
 import LogoutButton from './Components/LogoutButton'
-import LocationList from './Pages/Locations/LocationList'
+
 import AccountDetail from './Pages/Accounts/AccountDetail'
 import ServiceDetail from './Pages/Services/ServiceDetail'
 import Service from './Pages/Services/Service'
@@ -34,7 +34,7 @@ export default function App() {
             <Route exact path="/"  component={Hello} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/login" component={Login} />
-            <Route path="/locations" component={LocationList} />
+            
             <Route path="/accountdetail" component={AccountDetail} />
             <Route path="/servicedetail" component={ServiceDetail} />
             <Route path="/service" component={Service} />

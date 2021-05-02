@@ -147,11 +147,21 @@ console.log()
               inputFieldValue={activeAccount.SubAccountNum}
             />
             
-            <TextInput 
-              inputFieldLabel="Vendor"
-              inputFieldRef={accountVendor}
-              inputFieldValue={activeAccount.Vendor}
-            />
+            <SelectInputProps
+              fieldLabel="Vendor"
+              fieldInitialValue={activeAccount.Vendor}
+              fieldInitialOption={activeAccount.Vendor}
+              fieldIDRef={accountVendor}>
+                <option>AT&T</option>
+                <option>Verizon</option>
+                <option>CenturyLink</option>
+                <option>Lumos</option>
+                <option>Windstream</option>
+                <option>Spectrum</option>
+                <option>Comcast</option>
+                <option>Masergy</option>
+                <option>Microsoft</option>
+            </SelectInputProps>
 
             <SelectInput 
               fieldOptions={locations}
