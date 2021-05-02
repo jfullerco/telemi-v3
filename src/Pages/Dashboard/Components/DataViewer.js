@@ -295,7 +295,10 @@ return (
             <th className="px-6">Asset ID</th>
             <th>
             <span className="icon is-left">
-                <FontAwesomeIcon icon={faPlus} onClick={handleToggleServicesAddModal} />
+              <FontAwesomeIcon 
+                icon={faPlus} 
+                onClick={handleToggleServicesAddModal} 
+              />
               </span>
             </th>
             </tr>
@@ -370,12 +373,19 @@ return (
         <table className="table is-striped is-hoverable is-fullwidth has-text-centered">
           <thead className="is-size-6">
             <tr>
-            <th className="px-6">Vendor</th>
-            <th className="px-6">Account</th>
-            <th className="px-6">Sub Account</th>
-            <th className="px-6">Location Linked</th>
-            <th className="px-6">Monthly Cost</th>
-            <th><button className="button is-rounded is-small" onClick={handleToggleAccountAddModal}>add</button></th>
+            <th className="px-5">Vendor</th>
+            <th className="px-5">Account</th>
+            <th className="px-5">Sub Account</th>
+            <th className="px-5">Location Linked</th>
+            <th className="px-5">Monthly Cost</th>
+            <th>
+              <span className="icon is-left">
+              <FontAwesomeIcon 
+                icon={faPlus} 
+                onClick={handleToggleAccountAddModal} 
+              />
+              </span>
+            </th>
             </tr>
           </thead>
           <tbody className="is-size-7">
@@ -388,7 +398,14 @@ return (
               <td >{account.ParentAccountID != "Parent" ? account.AccountNum : ""}</td>
               <td >{account.AccountServiceLocationName} </td>
               <td >$ {account.PostTaxMRC}</td>
-              <td><button className="button is-rounded is-small" onClick={()=>handleToggleAccountDetailModal(account.id)}>edit</button></td>
+              <td>
+                <span className="icon is-left">
+                <FontAwesomeIcon icon={faEdit} onClick={(e)=>handleToggleAccountDetailModal(account.id)} /></span>
+                <span className="icon is-right">
+                <DeleteButton colRef="Accounts" docRef={account.id} />
+                </span>
+              
+              </td>
             </tr>
             
           )) : 

@@ -4,6 +4,9 @@ import {useHistory} from 'react-router-dom'
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
+import TextInput from '../../Components/Forms/TextInput'
+import SelectInputProps from '../../Components/Forms/SelectInputProps'
+
 const AddOrder = () => {
 
   const userContext = useContext(stateContext)
@@ -45,7 +48,7 @@ const AddOrder = () => {
       OrderMRC: orderMRC.current.value,
       LocationID: orderLocationID.current.value,
       LocationName: orderLocationID.current[orderLocationID.current.selectedIndex].text,
-      OrderNotes: orderNotes.current.value
+      
     }  
     console.log(data)
     const res = await db.collection("Orders").doc().set(data)
@@ -91,41 +94,78 @@ const AddOrder = () => {
         <section className="modal-card-body">
           <form>
 
-            <label className="label">Service Location</label>
-            <div className="select is-fullwidth">
-              <select className="select" ref={orderLocationID}>
-              {locations != undefined ? locations.map(location => (
-                <option key={location.id} value={location.id} name={location.Name} >
-                  {location.Name}
-                </option>
-              )) : "Add a location before adding a service"}
-              </select>
-            </div>
+            <SelectInputProps 
+              fieldLabel="Service Location"
+              fieldInitialValue={""}
+              fieldInitialOption={""}
+              fieldIDRef={orderLocationID}>
+                {locations != undefined ? 
+                  locations.map(location => (
+                    <option value={location.id} key={location.id}> 
+                    {location.Name}</option>
+                )) : (
+                  <option></option>
+                )}
+            </SelectInputProps>
+            
+            <TextInput 
+              inputFieldLabel="Vendor"
+              inputFieldRef={orderVendor}
+              inputFieldValue={""}
+            />
 
-            <label className="label">Vendor</label>
-            <input className="input" type="text" ref={orderVendor} />
-            <label className="label">Order Number</label>
-            <input className="input" type="text" ref={orderNum} />
-            <label className="label">Date Ordered</label>
-            <input className="input" type="text" ref={orderDate} />
-            <label className="label">Type of Order</label>
-            <input className="input" type="text" ref={orderType} />
-            <label className="label">Status</label>
-            <input className="input" type="text" ref={orderStatus} />
-            <label className="label">Service Ordered</label>
-            <input className="input" type="text" ref={orderServiceType} />
-            <label className="label">Monthly Cost</label>
-            <input className="input" type="text" ref={orderMRC} />
-            <label className="label">Notes</label>
-            <textarea className="textarea" type="textarea" ref={orderNotes} />
-          </form>
+            <TextInput 
+              inputFieldLabel="Service Ordered"
+              inputFieldRef={orderServiceType}
+              inputFieldValue={""}
+            />
+
+            <TextInput 
+              inputFieldLabel="Order Number"
+              inputFieldRef={orderNum}
+              inputFieldValue={""}
+            />
+
+            <TextInput 
+              inputFieldLabel="Monthly Cost"
+              inputFieldRef={orderMRC}
+              inputFieldValue={""}
+            />
+
+            <TextInput 
+              inputFieldLabel="Date Ordered"
+              inputFieldRef={orderDate}
+              inputFieldValue={""}
+            />
+
+            <SelectInputProps
+              fieldLabel="Type"
+              fieldInitialValue="New"
+              fieldInitialOption="New"
+              fieldIDRef={orderType}>
+                <option>New</option>
+                <option>Upgrade</option>
+                <option>Replacement</option>
+                <option>MACD</option>
+              </SelectInputProps>
+
+            <SelectInputProps
+              fieldLabel="Status"
+              fieldInitialValue=""
+              fieldInitialOption=""
+              fieldIDRef={orderStatus}>
+                <option>Pending Completion</option>
+                <option>Completed</option>
+                <option>Cancelled</option>
+            </SelectInputProps>
+          </form>    
         <div className="block">
           <div className="notification is-danger is-hidden">{addOrderError}</div>
          {success === true ?  <div className="notification is-success">Order Added</div> : ""}
         </div>
         <div className="modal-card-foot">
           
-          <button className="button level-item"
+          <button className="button is-rounded level-item"
           type="submit" onClick={handleSubmit}
           >
             Add Order
