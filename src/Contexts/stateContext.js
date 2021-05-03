@@ -35,6 +35,8 @@ export const StateProvider = (props) => {
       Name: "Dedicated Internet" },
     { id: "Dedicated Internet with Voice",
       Name: "Dedicated Internet with Voice" },
+    { id: "Switched Ethernet",
+      Name: "Switched Ethernet" },
     { id: "MPLS",
       Name: "MPLS" },
     { id: "MPLS with Voice",

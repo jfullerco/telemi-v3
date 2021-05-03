@@ -103,7 +103,7 @@ const AddLocation = () => {
         </div>
         <div className="modal-card-foot">
           
-          <button className="button level-item"
+          <button className="button is-rounded level-item"
           type="submit" onClick={handleSubmit}
           >
             Add Location

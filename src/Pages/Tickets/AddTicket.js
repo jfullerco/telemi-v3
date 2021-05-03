@@ -46,7 +46,8 @@ const AddTicket = () => {
       LocationID: ticketLocationID.current.value,
       LocationName: ticketLocationID.current[ticketLocationID.current.selectedIndex].text,
       AccountID: ticketAccountID.current.value,
-      AccountNum: ticketAccountID.current[ticketAccountID.current.selectedIndex].text
+      AccountNum: ticketAccountID.current[ticketAccountID.current.selectedIndex].text,
+      Vendor: ticketVendor.current.value
 
     }  
     console.log(data)

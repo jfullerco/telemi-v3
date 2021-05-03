@@ -131,7 +131,8 @@ const DataViewer = (props) => {
     setToggleOrderView(!toggleOrderView)
   }
 
-  const handleToggleTicketDetailModal = () => {
+  const handleToggleTicketDetailModal = (id) => {
+    userContext.setCurrentTicketID(id)
     setToggleTicketDetailModal(!toggleTicketDetailModal)
   }
 
