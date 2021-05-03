@@ -4,6 +4,8 @@ import {useHistory} from 'react-router-dom'
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
+import TextInput from '../../Components/Forms/TextInput'
+
 const AddLocation = () => {
 
   const userContext = useContext(stateContext)
@@ -57,20 +59,43 @@ const AddLocation = () => {
       </div>
         <section className="modal-card-body">
           <form>
-            <label className="label">Location Name</label>
-            <input className="input" type="text" ref={locationName} />
-            <label className="label">Address 1</label>
-            <input className="input" type="text" ref={locationAddress1} />
-            <label className="label">Address 2</label>
-            <input className="input" type="text" ref={locationAddress2} />
-            <label className="label">City</label>
-            <input className="input" type="text" ref={locationCity} />
-            <label className="label">State</label>
-            <input className="input" type="text" ref={locationState} />
-            <label className="label">Zip</label>
-            <input className="input" type="text" ref={locationZip} />
-            <label className="label">Phone</label>
-            <input className="input" type="text" ref={locationPhone} />
+
+            <TextInput 
+              inputFieldLabel="Location Name"
+              inputFieldRef={locationName}
+              inputFieldValue={""}
+            />
+            <TextInput 
+              inputFieldLabel="Address 1"
+              inputFieldRef={locationAddress1}
+              inputFieldValue={""}
+            />
+            <TextInput 
+              inputFieldLabel="Address 2"
+              inputFieldRef={locationAddress2}
+              inputFieldValue={""}
+            />
+            <TextInput 
+              inputFieldLabel="City"
+              inputFieldRef={locationCity}
+              inputFieldValue={""}
+            />
+            <TextInput 
+              inputFieldLabel="State"
+              inputFieldRef={locationState}
+              inputFieldValue={""}
+            />
+            <TextInput 
+              inputFieldLabel="Zip"
+              inputFieldRef={locationZip}
+              inputFieldValue={""}
+            />
+            <TextInput 
+              inputFieldLabel="Phone"
+              inputFieldRef={locationPhone}
+              inputFieldValue={""}
+            />
+            
           </form>
         <div className="block">
           <div className="notification is-danger is-hidden">{addLocationError}</div>
