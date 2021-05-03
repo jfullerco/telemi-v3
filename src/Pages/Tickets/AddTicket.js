@@ -4,6 +4,10 @@ import {useHistory} from 'react-router-dom'
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
+import TextInput from '../../Components/Forms/TextInput'
+import TextArea from '../../Components/Forms/TextArea'
+import SelectInputProps from '../../Components/Forms/SelectInputProps'
+
 const AddTicket = () => {
 
   const userContext = useContext(stateContext)
@@ -16,6 +20,7 @@ const AddTicket = () => {
   const [triggerClose, setTriggerClose] = useState()
 
   const [locations, setLocations] = useState()
+  const [accounts, setAccounts] = useState()
   
   const ticketNum = useRef("")
   const ticketLocationID = useRef("")
@@ -39,19 +44,20 @@ const AddTicket = () => {
       Status: ticketStatus.current.value,
       Details: ticketDetails.current.value,
       LocationID: ticketLocationID.current.value,
-      LocationName: ticketLocationID.current[orderLocationID.current.selectedIndex].text,
-      AccountID: ticketAccountID,
+      LocationName: ticketLocationID.current[ticketLocationID.current.selectedIndex].text,
+      AccountID: ticketAccountID.current.value,
       AccountNum: ticketAccountID.current[ticketAccountID.current.selectedIndex].text
 
     }  
     console.log(data)
-    const res = await db.collection("Orders").doc().set(data)
+    const res = await db.collection("Tickets").doc().set(data)
     autoClose()
   }
 
   useEffect(() => {
 
     fetchLocations()
+    fetchAccounts()
 
   },[])
 
@@ -91,50 +97,88 @@ const AddTicket = () => {
       </div>
         <section className="modal-card-body">
           <form>
+            <TextInput 
+              inputFieldLabel="Ticket Number"
+              inputFieldRef={ticketNum}
+              inputFieldValue={""}
+            />
+            <SelectInputProps 
+              fieldLabel="Service Location"
+              fieldInitialValue={""}
+              fieldInitialOption={""}
+              fieldIDRef={ticketLocationID}>
+                {locations != undefined ? 
+                  locations.map(location => (
+                    <option value={location.id} key={location.id}> 
+                    {location.Name}</option>
+                )) : (
+                  <option></option>
+                )}
+            </SelectInputProps>
 
-            <label className="label">Location</label>
-            <div className="select is-fullwidth">
-              <select className="select" ref={ticketLocationID}>
-              {locations != undefined ? locations.map(location => (
-                <option key={location.id} value={location.id} name={location.Name} >
-                  {location.Name}
-                </option>
-              )) : "Add a location before adding a ticket"}
-              </select>
-            </div>
+            <SelectInputProps 
+              fieldLabel="Related Account"
+              fieldInitialValue={""}
+              fieldInitialOption={""}
+              fieldIDRef={ticketAccountID}>
+                {accounts != undefined ? 
+                  accounts.map(account => (
+                    <option value={account.id} key={account.id}> 
+                    {account.AccountNum}</option>
+                )) : (
+                  <option></option>
+                )}
+            </SelectInputProps>
 
-            <label className="label">Related Account</label>
-            <div className="select is-fullwidth">
-              <select className="select" ref={ticketAccountID}>
-              {accounts != undefined ? accounts.map(account => (
-                <option key={account.id} value={account.id} name={account.AccountNum} >
-                  {account.AccountNum}
-                </option>
-              )) : "Add an Account before adding a ticket"}
-              </select>
-            </div>
+            <SelectInputProps
+              fieldLabel="Vendor"
+              fieldInitialValue=""
+              fieldInitialOption=""
+              fieldIDRef={ticketVendor}>
+                <option>AT&T</option>
+                <option>Verizon</option>
+                <option>CenturyLink</option>
+                <option>Lumos</option>
+                <option>Windstream</option>
+                <option>Spectrum</option>
+                <option>Comcast</option>
+                <option>Masergy</option>
+                <option>Microsoft</option>
+            </SelectInputProps>
 
-            <label className="label">Vendor</label>
-            <input className="input" type="text" ref={ticketVendor} />
+            <TextInput 
+              inputFieldLabel="Date Submitted"
+              inputFieldRef={ticketDate}
+              inputFieldValue={""}
+            />
 
-            <label className="label">Date Submitted</label>
-            <input className="input" type="text" ref={ticketDate} />
-            
-            <label className="label">Type of Ticket</label>
-            <div className="select is-fullwidth">
-              <select className="select" ref={ticketType}>
+            <SelectInputProps
+              fieldLabel="Type"
+              fieldInitialValue=""
+              fieldInitialOption=""
+              fieldIDRef={ticketType}>
                 <option> Dispute </option>
                 <option> Disconnect </option>
                 <option> Service </option>
                 <option> Order </option>
-              </select>
-            </div>
+            </SelectInputProps>
+            
+            <SelectInputProps
+              fieldLabel="Status"
+              fieldInitialValue=""
+              fieldInitialOption=""
+              fieldIDRef={ticketStatus}>
+                <option> Active </option>
+                <option> Closed/Resolved </option>
+                <option> Closed/Unresolved </option>
+                <option> Completed </option>
+            </SelectInputProps>
 
-            <label className="label">Status</label>
-            <input className="input" type="text" ref={ticketStatus} />
-
-            <label className="label">Details</label>
-            <input className="input" type="textarea" ref={ticketDetails} />
+            <TextArea 
+              inputFieldLabel="Details"
+              inputFieldRef={ticketDetails}
+              inputFieldValue={""}
+            />
 
           </form>
         <div className="block">
@@ -143,7 +187,7 @@ const AddTicket = () => {
         </div>
         <div className="modal-card-foot">
           
-          <button className="button level-item"
+          <button className="button is-rounded level-item"
           type="submit" onClick={handleSubmit}
           >
             Add Ticket

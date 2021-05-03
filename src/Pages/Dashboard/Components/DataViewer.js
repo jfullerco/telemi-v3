@@ -140,6 +140,7 @@ const DataViewer = (props) => {
   }
 
   const handleToggleTicketView = () => {
+    fetchTickets()
     setToggleTicketView(!toggleTicketView)
   }
 
@@ -457,7 +458,14 @@ return (
             <th className="px-6">Address</th>
             <th className="px-6">City</th>
             <th className="px-6">State</th>
-            <th><button className="button is-rounded is-small" onClick={handleToggleLocationAddModal}>add</button></th>
+            <th>
+              <span className="icon is-left">
+              <FontAwesomeIcon 
+                icon={faPlus} 
+                onClick={handleToggleLocationAddModal} 
+              />
+              </span>
+            </th>
           </tr>
         </thead>
         <tbody className="is-size-7">
@@ -517,7 +525,14 @@ return (
           <th className="px-6">Order Num</th>
           <th className="px-6">Date</th>
           <th className="px-6">Location</th>
-          <th><button className="button is-rounded is-small" onClick={handleToggleOrderAddModal}>add</button></th>
+          <th>
+          <span className="icon is-left">
+              <FontAwesomeIcon 
+                icon={faPlus} 
+                onClick={handleToggleOrderAddModal} 
+              />
+            </span>
+          </th>
         </tr>
         </thead>
         <tbody className="is-size-7">
@@ -574,31 +589,43 @@ return (
       <table className="table is-striped is-fullwidth">
         <thead className="is-size-6">
           <tr>
-          <th className="px-6">Vendor</th>
+          <th></th>
           <th className="px-6">Ticket Number</th>
           <th className="px-6">Date</th>
           <th className="px-6">Location</th>
-          <th><button className="button is-rounded is-small" onClick={handleToggleOrderAddModal}>add</button></th>
+          <th className="px-6">Vendor</th>
+          <th>
+
+          <span className="icon is-left">
+              <FontAwesomeIcon 
+                icon={faPlus} 
+                onClick={handleToggleTicketAddModal} 
+              />
+          </span>
+          </th>
           </tr>
         </thead>
         <tbody className="is-size-7">
         {userContext.userSession.dataLoading != true ?
-          tickets != undefined ? orders.map(order => (
-          <tr key={order.id}>
-            <td className="px-6">
-              {order.OrderVendor}
+          tickets != undefined ? tickets.map(ticket => (
+          <tr key={ticket.id}>
+            <td>
+              {ticket.Status}
             </td>
             <td className="px-6">
-              {order.OrderNum}
+              {ticket.TicketNum}
             </td>
             <td className="px-6">
-              {order.OrderDate}
+              {ticket.DateSubmitted}
             </td>
             <td className="px-6">
-              {order.LocationName}
+              {ticket.LocationName}
+            </td>
+            <td className="px-6">
+              {ticket.Vendor}
             </td>
             <td>
-              <button className="button is-rounded is-small" onClick={()=>handleToggleLocationDetailModal(location.id)}>edit</button>
+              <button className="button is-rounded is-small" onClick={()=>handleToggleTicketDetailModal(ticket.id)}>edit</button>
             </td>
           </tr>
         )) : 
@@ -634,7 +661,14 @@ return (
         <thead className="is-size-6">
           <tr>
           <th className="px-6">Email</th>
-          <th><button className="button is-rounded is-small" onClick={handleToggleUsersAddModal}>add</button></th>
+          <th>
+            <span className="icon is-left">
+              <FontAwesomeIcon 
+                icon={faPlus} 
+                onClick={handleToggleUsersAddModal} 
+              />
+            </span>
+          </th>
           </tr>
         </thead>
         <tbody className="is-size-7">
