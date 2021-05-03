@@ -166,24 +166,28 @@ const DataViewer = (props) => {
 
   }
 
-  /** useEffect(() => {
-    
-    
-    
+  useEffect(() => {
+    fetchLocations(),
+    fetchServices(),
+    fetchOrders(),
+    fetchAccounts()
   }, [currentCompany])
 
-  useEffect(() => {
+  {/**useEffect(() => {
     reRender()
     userContext.setDataLoading(false)
   }, [dataLoading])
 
   const reRender = () => {
-    dataLoading != false ? (fetchLocations(),
+    dataLoading != false ? (
+    fetchLocations(),
     fetchServices(),
     fetchOrders(),
-    fetchAccounts()) : ""
+    fetchAccounts()
+    ) : ""
   }
-  **/
+  **/}
+  
   
   const fetchLocations = async() => {
 
@@ -289,12 +293,12 @@ return (
           <thead className="is-size-6">
             <tr>
             <th></th>
-            <th className="px-6">
+            <th className="px-3">
               Vendor
             </th>
-            <th className="px-6">Vendor Service</th>
-            <th className="px-6">Location</th>
-            <th className="px-6">Asset ID</th>
+            <th className="px-3">Vendor Service</th>
+            <th className="px-3">Location</th>
+            <th className="px-3">Asset ID</th>
             <th>
             <span className="icon is-left">
               <FontAwesomeIcon 
@@ -311,10 +315,10 @@ return (
             
             <tr key={service.id} >
               <td>{service.Status === "Active" ? <div className="tag is-primary is-rounded">Active</div> : ""}</td>
-              <td className="px-6">{service.Vendor}</td>
-              <td className="px-6">{service.VendorServiceName} </td>
-              <td className="px-6">{service.LocationName}</td>
-              <td className="px-6">
+              <td className="px-3">{service.Vendor}</td>
+              <td className="px-3">{service.VendorServiceName} </td>
+              <td className="px-3">{service.LocationName}</td>
+              <td className="px-3">
               
               {service.AssetID}
               
