@@ -16,8 +16,10 @@ const AddServiceModal = () => {
 
   const history = useHistory()
   
+  const [modalState, setModalState] = useState(true)
   const [addServiceError, setAddServiceError] = useState("")
   const [success, setSuccess] = useState(false)
+  const [triggerClose, setTriggerClose] = useState()
 
   const [locations, setLocations] = useState()
   
@@ -55,6 +57,11 @@ const AddServiceModal = () => {
 
   }
   
+  const handleLocationChange = (e) => {
+    serviceLocationID.current.value = e.target.value
+    serviceLocationName.current.value = e.target.name
+  }
+  
   const handleSubmit = async(e) => {
     const data = {
       
@@ -77,19 +84,28 @@ const AddServiceModal = () => {
     autoClose()
   }
 
+  const handleModalClose = () => {
+    setModalState(false)
+  }
+
   const autoClose = () => {
-    setTimeout(() => {history.push("/dashboard")}, 1000)
+    setTimeout(() => {setModalState(false)}, 1000)
   }
   const handleChange = () => {
     console.log()
   }
 
   return (
-
-      <>
-        <span className="title">
+    <div className={modalState === true ? "modal is-active" : "modal"}>
+      <div className="modal-background"></div>
+      <div className="modal-card">
+        <div className="modal-card-head">
+        <div className="modal-card-title">
           Add Service
-        </span>  
+          </div>
+        </div>
+        <div className="modal-card-body">
+
           <form>
           
             <SelectInputProps 
@@ -192,9 +208,13 @@ const AddServiceModal = () => {
             Add Service
           </button>
         
-        </div>     
-    </>
-      
+        </div>
+
+        <button className="modal-close is-large" aria-label="close" onClick={handleModalClose}></button>
+          
+        </div>
+      </div>
+    </div>
   )
 }
 export default AddServiceModal
