@@ -11,7 +11,7 @@ import LogoutButton from './Components/LogoutButton'
 
 import AccountDetail from './Pages/Accounts/AccountDetail'
 import ServiceDetail from './Pages/Services/ServiceDetail'
-import Service from './Pages/Services/Service'
+import AddService from './Pages/Services/AddService'
 
 import DevTools from './Testing/DevTools'
 import "./style.css"
@@ -37,7 +37,8 @@ export default function App() {
             
             <Route path="/accountdetail" component={AccountDetail} />
             <Route path="/servicedetail" component={ServiceDetail} />
-            <Route path="/service" component={Service} />
+            
+            <Route path="/addservice" component={AddService} />
             
             
           

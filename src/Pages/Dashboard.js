@@ -8,23 +8,20 @@ import LogoutButton from '../Components/LogoutButton'
 import CompanyList from './Companies/CompanyList'
 import TotalLocations from './Dashboard/Components/TotalLocations'
 import DataViewer from './Dashboard/Components/DataViewer'
+import ServicesTable from './Dashboard/Components/ServicesTable'
 
 
 const Dashboard = () => {
   
   const userContext = useContext(stateContext)
   const history = useHistory()
-  const {dataLoading} = userContext.userSession
-  const [toggleModal, setToggleModal] = useState(false)
+  const {dataLoading, toggleAdmin} = userContext.userSession
+  
   const {currentUser} = useAuth()
   console.log(currentUser)
   useEffect(() => {
     userContext.setLoggedIn(currentUser)
   },[])
-
-  const toggleAssetModal = () => {
-    setToggleModal(!toggleModal)
-  }
   
   return (  
        
@@ -42,7 +39,8 @@ const Dashboard = () => {
         <CompanyList />
       </div>
       <div>
-        <DataViewer />
+        <ServicesTable />
+        <DataViewer visible={toggleAdmin} />
       </div>
       </>
       : 

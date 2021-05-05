@@ -90,6 +90,8 @@ const AddServiceModal = () => {
         <span className="title">
           Add Service
         </span>  
+        <span className="level-item level-right"><button className="button is-rounded" onClick={()=>autoClose()}>X</button></span>
+        <p className="block" />
           <form>
           
             <SelectInputProps 

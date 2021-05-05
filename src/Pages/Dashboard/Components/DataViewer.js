@@ -22,7 +22,7 @@ import AddTicket from '../../Tickets/AddTicket'
 import AccountDetail from '../../Accounts/AccountDetail'
 import AddAccount from '../../Accounts/AddAccount'
 
-const DataViewer = (props) => {
+const DataViewer = ({visible}) => {
   const userContext = useContext(stateContext)
   const {dataLoading, currentCompany} = userContext.userSession
 
@@ -173,7 +173,7 @@ const DataViewer = (props) => {
     fetchAccounts()
   }, [currentCompany])
 
-  {/**useEffect(() => {
+  useEffect(() => {
     reRender()
     userContext.setDataLoading(false)
   }, [dataLoading])
@@ -186,7 +186,7 @@ const DataViewer = (props) => {
     fetchAccounts()
     ) : ""
   }
-  **/}
+  
   
   
   const fetchLocations = async() => {
@@ -263,13 +263,16 @@ const DataViewer = (props) => {
 
 return (
   <>
+  {visible != false ?
+  <>
+    
     {toggleServicesDetailModal != false ? <ServiceDetail /> : ""}
-    {toggleServicesAddModal != false ? <AddService /> : ""}
+     
     
     <div className="title">
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
-          <button className="button is-fullwidth is-link  is-rounded has-text-weight-bold" onClick={handleToggleServicesView}>
+          <button className="button is-fullwidth is-black is-focused is-rounded has-text-weight-bold" onClick={handleToggleServicesView}>
           Services 
           </button>
         </p>
@@ -294,7 +297,7 @@ return (
             <span className="icon is-left">
               <FontAwesomeIcon 
                 icon={faPlus} 
-                onClick={handleToggleServicesAddModal} 
+                onClick={() => history.push("/addservice")} 
               />
               </span>
             </th>
@@ -686,7 +689,7 @@ return (
       </nav>
     </div> : ""}
   
-  </>
+  </> : ""} </>
 )
 }
 export default DataViewer

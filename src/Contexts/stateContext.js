@@ -77,6 +77,9 @@ export const StateProvider = (props) => {
       Name: "Pending Disconnect" },
     ]
 
+    const [toggleAdmin, setToggleAdmin] = useState(false)
+    const [toggleDevTools, setToggleDevTools] = useState(false)
+
     const fetchCompanies = async(currentUser) => {
       return await db.collection("Companies").where("Users", "array-contains", currentUser).get()
     }
@@ -210,6 +213,10 @@ export const StateProvider = (props) => {
           accessTypes,
           serviceStatusType,
           fetchCompanies,
+          toggleAdmin,
+          setToggleDevTools,
+          toggleAdmin,
+          setToggleAdmin,
           userSession
       }}>
         {props.children}
