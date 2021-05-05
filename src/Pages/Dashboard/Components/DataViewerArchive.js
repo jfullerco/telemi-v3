@@ -5,7 +5,7 @@ import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faArchive, faNetworkWired, faBuilding, faSort, faCube, faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import DeleteButton from '../../../Components/Buttons/DeleteButton'
 
@@ -269,14 +269,23 @@ return (
     <div className="title">
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
-          <button className="button is-fullwidth is-link  is-rounded has-text-weight-bold" onClick={handleToggleServicesView}>
+          <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleServicesView}>
+          <span className="icon is-left px-6">
+            <FontAwesomeIcon icon={faNetworkWired} />
+          </span>
           Services 
+            <div className="is-size-7 ml-3">
+              {services != undefined ? 
+              <span className="tag is-light">
+                {services.length}
+              </span> : ""}
+            </div>
           </button>
         </p>
       </div>
     </div>
 
-    {toggleServicesView != true ? 
+    {toggleServicesView != false ? 
       
       <div className="table-container">
       <nav className="level">
@@ -349,7 +358,9 @@ return (
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
           <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleAccountView}>
-          
+          <span className="icon is-left px-6">
+            <FontAwesomeIcon icon={faArchive} />
+          </span>
           Accounts 
             <div className="is-size-7 ml-3">
               {accounts != undefined ? 
@@ -427,7 +438,9 @@ return (
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
           <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleLocationView}>
-          
+          <span className="icon is-left px-6">
+            <FontAwesomeIcon icon={faBuilding} />
+          </span>
           Locations
             <div className="is-size-7 ml-3">
               {locations != undefined ? 
@@ -493,7 +506,9 @@ return (
     <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
       <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleOrderView}>
-      
+      <span className="icon is-left px-6">
+        <FontAwesomeIcon icon={faCube} />
+      </span>
         Orders 
       <span className="is-size-7 ml-3">
         {orders != undefined ? 
