@@ -19,26 +19,31 @@ const Dashboard = () => {
   const {dataLoading, toggleAdmin} = userContext.userSession
   
   
-  const {currentUser} = useAuth()
-  console.log(currentUser)
   
+  const { currentUser } = useAuth()
+  
+  
+
+  
+
   useEffect(() => {
-    userContext.setLoggedIn(currentUser)
-    fetchUser()
+    console.log(currentUser)
   },[])
+  
 
   const fetchUser = async() => {
-    const userRef = await db.collection("Users").where("Email", "==", currentUser).get()
+    
+    const userRef = await db.collection("Users").where("Email", "==", activeUser).get()
     const user = userRef.docs.map(doc => ({id: doc.id, userFirstName: doc.FirstName, userType: doc.Type, ...doc.data()}))
     userContext.setUserFirstName(user.userFirstName)
     userContext.setUserType(user.userType)
-
+    console.log(user)
   }
   
   return (  
        
       <> 
-      {currentUser != undefined ? 
+      {currentUser != undefined ?
       <>
        <div className="block" id="dashboardHero"> 
         <section className="hero is-small">
@@ -48,11 +53,11 @@ const Dashboard = () => {
         </section>
       </div>
       <div className="block" id="companyList">
-        <CompanyList />
+        {/**<CompanyList />**/}
       </div>
       <div>
-        <UserDashboard />
-        <DataViewer visible={toggleAdmin} />
+        {/**<UserDashboard />**/}
+       {/** <DataViewer visible={toggleAdmin} />**/}
       </div>
       </>
       : 
