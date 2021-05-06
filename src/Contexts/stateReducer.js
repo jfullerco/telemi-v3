@@ -70,5 +70,15 @@ export default (state, action) => {
         ...state,
         dataLoading: action.payload
       };  
+    case "SET_USER_TYPE":
+      return {
+        ...state,
+        userType: action.payload
+      };  
+    case "SET_USER_FNAME":
+      return {
+        ...state,
+        userFirstName: action.payload
+      };  
   };
 }

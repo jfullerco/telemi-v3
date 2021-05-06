@@ -12,7 +12,8 @@ export const StateProvider = (props) => {
 
     const initialState = {
 
-      userLevel: "",
+      userType: "",
+      userFirstName: "",
       loggedIn: false,
       currentCompanyID: "",
       currentCompany: "",
@@ -93,10 +94,17 @@ export const StateProvider = (props) => {
         })
       };
 
-      const setUserLevel = (userLevel) => {
+      const setUserType = (userType) => {
         dispatch({
-          type: "SET_USER_LEVEL",
-          payload: userLevel
+          type: "SET_USER_TYPE",
+          payload: userType
+        })
+      };
+
+      const setUserFirstName = (name) => {
+        dispatch({
+          type: "SET_USER_FNAME",
+          payload: name
         })
       };
 

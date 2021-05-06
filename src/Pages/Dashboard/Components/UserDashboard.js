@@ -61,7 +61,7 @@ const ServicesTable = () => {
         
         <p className="control is-expanded">
           <button className="button is-fullwidth is-link has-text-weight-bold">
-          Services 
+          {toggleTable} 
           </button>
         </p>
         <p className="control is-link is-rounded">

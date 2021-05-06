@@ -2,13 +2,14 @@ import React, {useState, useEffect, useContext} from 'react'
 import {Route, Link, useParams, useHistory} from 'react-router-dom'
 
 import { stateContext } from '../Contexts/stateContext'
-import {useAuth} from '../Contexts/AuthContext'
+import { useAuth } from '../Contexts/AuthContext'
+import { db } from '../Contexts/firebase'
 
 import LogoutButton from '../Components/LogoutButton'
 import CompanyList from './Companies/CompanyList'
 import TotalLocations from './Dashboard/Components/TotalLocations'
 import DataViewer from './Dashboard/Components/DataViewer'
-import ServicesTable from './Dashboard/Components/ServicesTable'
+import UserDashboard from './Dashboard/Components/UserDashboard'
 
 
 const Dashboard = () => {
@@ -17,11 +18,22 @@ const Dashboard = () => {
   const history = useHistory()
   const {dataLoading, toggleAdmin} = userContext.userSession
   
+  
   const {currentUser} = useAuth()
   console.log(currentUser)
+  
   useEffect(() => {
     userContext.setLoggedIn(currentUser)
+    fetchUser()
   },[])
+
+  const fetchUser = async() => {
+    const userRef = await db.collection("Users").where("Email", "==", currentUser).get()
+    const user = userRef.docs.map(doc => ({id: doc.id, userFirstName: doc.FirstName, userType: doc.Type, ...doc.data()}))
+    userContext.setUserFirstName(user.userFirstName)
+    userContext.setUserType(user.userType)
+
+  }
   
   return (  
        
@@ -31,7 +43,7 @@ const Dashboard = () => {
        <div className="block" id="dashboardHero"> 
         <section className="hero is-small">
           <div className="hero-body">
-            <p className="title has-text-black">Dashboard</p>
+            <p className="title has-text-black">Hello {userContext.userSession.userFirstName}</p>
           </div>
         </section>
       </div>
@@ -39,7 +51,7 @@ const Dashboard = () => {
         <CompanyList />
       </div>
       <div>
-        <ServicesTable />
+        <UserDashboard />
         <DataViewer visible={toggleAdmin} />
       </div>
       </>
