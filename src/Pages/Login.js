@@ -27,6 +27,7 @@ export default function Login() {
       setLoginError('Failed to login')
     }
     setLoading(false)
+   
   }
 
   const handleModalClose = () => {
