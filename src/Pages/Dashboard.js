@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import {Route, Link, useParams, useHistory} from 'react-router-dom'
 
 import { stateContext } from '../Contexts/stateContext'
-import { useAuth } from '../Contexts/AuthContext'
+
 import { db } from '../Contexts/firebase'
 
 import LogoutButton from '../Components/LogoutButton'
@@ -17,14 +17,14 @@ const Dashboard = () => {
   const userContext = useContext(stateContext)
   const {currentUser} = userContext.userSession
   const history = useHistory()
-  const {dataLoading, toggleAdmin} = userContext.userSession
+  
   
   
   
   console.log(currentUser)
 
   useEffect(() => {
-    userContext.userSession.currentUser != undefined ? fetchUser() : ""
+    userContext.userSession.currentUser != "" ? fetchUser() : ""
   },[])
   
 
