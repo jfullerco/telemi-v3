@@ -13,6 +13,7 @@ export const StateProvider = (props) => {
     const initialState = {
 
       userType: "",
+      currentUser: "",
       userFirstName: "",
       loggedIn: false,
       currentCompanyID: "",
@@ -91,6 +92,13 @@ export const StateProvider = (props) => {
         dispatch({
           type: "LOGGED_IN",
           payload: loginState
+        })
+      };
+
+      const setCurrentUser = (user) => {
+        dispatch({
+          type: "SET_CURRENT_USER",
+          payload: user
         })
       };
 
@@ -225,6 +233,9 @@ export const StateProvider = (props) => {
           setToggleDevTools,
           toggleAdmin,
           setToggleAdmin,
+          setUserFirstName,
+          setUserType,
+          setCurrentUser,
           userSession
       }}>
         {props.children}

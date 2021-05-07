@@ -15,29 +15,26 @@ import UserDashboard from './Dashboard/Components/UserDashboard'
 const Dashboard = () => {
   
   const userContext = useContext(stateContext)
+  const {currentUser} = userContext.userSession
   const history = useHistory()
   const {dataLoading, toggleAdmin} = userContext.userSession
   
   
   
-  const { currentUser } = useAuth()
-  
-  
-
-  
+  console.log(currentUser)
 
   useEffect(() => {
-    console.log(currentUser)
+    userContext.userSession.currentUser != undefined ? fetchUser() : ""
   },[])
   
 
   const fetchUser = async() => {
     
-    const userRef = await db.collection("Users").where("Email", "==", activeUser).get()
+    const userRef = await db.collection("Users").where("Email", "==", userContext.userSession.currentUser).get()
     const user = userRef.docs.map(doc => ({id: doc.id, userFirstName: doc.FirstName, userType: doc.Type, ...doc.data()}))
     userContext.setUserFirstName(user.userFirstName)
     userContext.setUserType(user.userType)
-    console.log(user)
+    
   }
   
   return (  

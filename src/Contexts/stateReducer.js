@@ -5,6 +5,11 @@ export default (state, action) => {
         ...state,
         currentCompanyID: action.payload
       }
+    case "SET_CURRENT_USER":
+      return {
+        ...state,
+        currentUser: action.payload
+      }
     case "SET_CURRENT_COMPANY":
       return {
         ...state,

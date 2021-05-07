@@ -57,9 +57,9 @@ console.log(activeCompanyName.current)
 console.log({userCompanies})
   const fetchCompanies = async() => {
    
-    const companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser).get()
+    const companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser.email).get()
 
-    const initialCompanyRef = await db.collection("Companies").where("Users", "array-contains", currentUser).limit(1).get()
+    const initialCompanyRef = await db.collection("Companies").where("Users", "array-contains", currentUser.email).limit(1).get()
     
     const initialCompanyID = initialCompanyRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
     userContext.setCurrentCompanyID(initialCompanyID[0].id)

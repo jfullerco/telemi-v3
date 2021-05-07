@@ -24,7 +24,8 @@ export default function Login() {
       await login(emailRef.current.value, passwordRef.current.value)
       history.push("/dashboard")
     } catch {
-      setLoginError('Failed to login')
+      setLoginError('Email or Password is incorrect')
+      console.log(loginError)
     }
     setLoading(false)
    
@@ -40,19 +41,32 @@ export default function Login() {
       <div className="modal-card">
         <div className="modal-card-head">Login</div>
         <div className="modal-card-body">
-          <form>
-            <label>Email</label>
-            <input className="input" type="email" ref={emailRef} />
-            <label>Password</label>
-            <input className="input" type="password" ref={passwordRef}/>
-          </form>
-        <div className="block">
-          <div className="notification is-danger is-hidden">{loginError}</div>
-        </div>
+          
+          <form onSubmit={handleSubmit}>
+            <div className="field">
+              <label>Email</label>
+                <div className="control">
+                  <input className="input" type="email" ref={emailRef} />
+                </div>
+            </div>
+            <div className="field">
+              <label>Password</label>
+                <div className="control">
+                  <input className="input" type="password" ref={passwordRef}/>
+                </div>
+            </div>
+          
+        
+            <div className={loginError != "" ? "block notification is-danger" : "block"}>
+              <div className="level-item is-centered">{loginError != "" ? loginError : ""}</div>
+            </div>
+        
         <div className="modal-card-foot">
           
-          <button className={loading !== true ? "button level-item" : "button is-loading"} 
-          type="submit" disabled={loading} onClick={handleSubmit}
+          <button 
+            type="submit" 
+            className={loading !== true ? "button level-item" : "button is-loading"} 
+            disabled={loading}
           >
             Login
           </button>
@@ -62,7 +76,13 @@ export default function Login() {
           <Link to="/register">Register</Link></div>
         
         </div>
-        <button className="modal-close is-large" aria-label="close" onClick={handleModalClose}></button>  
+        </form>
+          <button 
+            className="modal-close is-large" 
+            aria-label="close" 
+            onClick={()=>handleModalClose}
+          >
+          </button>  
         </div>
       </div>
     </div>
