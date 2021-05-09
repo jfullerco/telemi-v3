@@ -15,25 +15,22 @@ import UserDashboard from './Dashboard/Components/UserDashboard'
 const Dashboard = () => {
   
   const userContext = useContext(stateContext)
-  const {currentUser} = userContext.userSession
+  const {currentUser, userFirstName} = userContext.userSession
   const history = useHistory()
   
-  
-  
-  
-  console.log(currentUser)
+  const isUserLoggedIn = currentUser != undefined ? currentUser : ""
 
   useEffect(() => {
-    userContext.userSession.currentUser != "" ? fetchUser() : ""
-  },[])
+    fetchUser(currentUser)
+  },[isUserLoggedIn])
   
 
-  const fetchUser = async() => {
+  const fetchUser = async(email) => {
     
-    const userRef = await db.collection("Users").where("Email", "==", userContext.userSession.currentUser).get()
-    const user = userRef.docs.map(doc => ({id: doc.id, userFirstName: doc.FirstName, userType: doc.Type, ...doc.data()}))
-    userContext.setUserFirstName(user.userFirstName)
-    userContext.setUserType(user.userType)
+    const userRef = await db.collection("Users").where("Email", "==", email).get()
+    const user = userRef.docs.map(doc => ({id: doc.id, FirstName: doc.FirstName, Type: doc.Type, ...doc.data()}))
+    userContext.setUserFirstName(user[0].FirstName)
+    userContext.setUserType(user[0].Type)
     
   }
   
@@ -42,15 +39,15 @@ const Dashboard = () => {
       <> 
       {currentUser != undefined ?
       <>
-       <div className="block" id="dashboardHero"> 
+       <div className="block"> 
         <section className="hero is-small">
           <div className="hero-body">
-            <p className="title has-text-black">Hello {userContext.userSession.userFirstName}</p>
+            <p className="title has-text-black">Hello {userFirstName}</p>
           </div>
         </section>
       </div>
       <div className="block" id="companyList">
-        {/**<CompanyList />**/}
+      <CompanyList />
       </div>
       <div>
         {/**<UserDashboard />**/}

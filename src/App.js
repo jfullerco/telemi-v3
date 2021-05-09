@@ -9,6 +9,8 @@ import Dashboard from './Pages/Dashboard'
 import Login from './Pages/Login'
 import LogoutButton from './Components/LogoutButton'
 
+import AddCompany from './Pages/Companies/AddCompany'
+import CompanyDetail from './Pages/Companies/CompanyDetail'
 import AccountDetail from './Pages/Accounts/AccountDetail'
 import ServiceDetail from './Pages/Services/ServiceDetail'
 import AddService from './Pages/Services/AddService'
@@ -34,7 +36,8 @@ export default function App() {
             <Route exact path="/"  component={Hello} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/login" component={Login} />
-            
+            <Route path="/addcompany" component={AddCompany} />
+            <Route path="/companydetails" component={CompanyDetail} />
             <Route path="/accountdetail" component={AccountDetail} />
             <Route path="/servicedetail" component={ServiceDetail} />
             

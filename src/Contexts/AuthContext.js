@@ -27,7 +27,7 @@ export function AuthProvider({children}) {
     const unsubscribe = auth.onAuthStateChanged(user => {
        
       setCurrentUser(user)
-      setCurrentUser(user.email)
+      userContext.setCurrentUser(user.email)
       setLoading(false)
     })
     return unsubscribe

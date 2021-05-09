@@ -1,38 +1,35 @@
 import React, { useState, useEffect, useContext, useRef } from 'react'
 
-
-import {useAuth} from '../../Contexts/AuthContext'
+import {useHistory} from 'react-router-dom'
 
 import {stateContext} from '../../Contexts/stateContext'
 
 import { db } from '../../Contexts/firebase'
 
-import AddCompany from './AddCompany'
+
 
 const CompanyList = () => {
 
-  const {currentUser} = useAuth()
   const userContext = useContext(stateContext)
-  const {dataLoading} = userContext.userSession
-  
-  const [loading, setLoading] = useState()
+  const history = useHistory()
+  const {dataLoading, currentUser} = userContext.userSession
   
   const [userCompanies, setUserCompanies] = useState([])
-  const activeCompanyID = useRef("")
-  const activeCompanyName = useRef("")
-  
   const [selectedCompany, setSelectedCompany] = useState({
     id: "",
     Name: ""
   })
-  const [addCompanyModalState, setAddCompanyModalState] = useState(false)
+  const [toggleCompanyList, setToggleCompanyList] = useState(false)
+
+  const activeCompanyID = useRef("")
+  const activeCompanyName = useRef("")
+
+  const isUserLoggedIn = currentUser != undefined ? currentUser : ""
 
   useEffect(() => {
-    userContext.userSession.currentCompany != "" ? fetchCompaniesRefresh() :
+    
     fetchCompanies()
-    setLoading(false)
-
-  }, []) 
+  }, [isUserLoggedIn]) 
 
   useEffect(() => {
     reRender()
@@ -43,7 +40,6 @@ const CompanyList = () => {
     dataLoading != false ? fetchCompaniesRefresh() : ""
   }
 
-console.log(activeCompanyName.current)
   const handleChange = (e) => {
     userContext.setDataLoading(true)
     const id = e.target.value
@@ -54,12 +50,12 @@ console.log(activeCompanyName.current)
     userContext.setCurrentCompany(name)
     userContext.setDataLoading(false)
   }
-console.log({userCompanies})
+
   const fetchCompanies = async() => {
    
-    const companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser.email).get()
+    const companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser).get()
 
-    const initialCompanyRef = await db.collection("Companies").where("Users", "array-contains", currentUser.email).limit(1).get()
+    const initialCompanyRef = await db.collection("Companies").where("Users", "array-contains", currentUser).limit(1).get()
     
     const initialCompanyID = initialCompanyRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
     userContext.setCurrentCompanyID(initialCompanyID[0].id)
@@ -68,7 +64,6 @@ console.log({userCompanies})
 
     const companies = companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
     setUserCompanies(companies)
-    setLoading(false)
 
   }
 
@@ -88,16 +83,25 @@ console.log({userCompanies})
     
     setAddCompanyModalState(!addCompanyModalState)
   }
+
+  const handleAddCompany = () => {
+    history.push("/addcompany")
+  }
+
+  const handleToggleCompanyList = () => {
+    setToggleCompanyList(!toggleCompanyList)
+  }
   
   return (
     <>
-    {addCompanyModalState != false ? <AddCompany /> : ""}
-    <div className="field has-addons has-addons-centered">
-    <div className="control is-expanded">
-      <div className="select is-rounded is-fullwidth">
-        <select onChange={handleChange}>
-          {userContext.userSession.currentCompanyID != "" ? <option value={userContext.userSession.currentCompanyID}>{userContext.userSession.currentCompany}</option> : ""}
-          {(userCompanies != "" && dataLoading != true) ? userCompanies.map(company => (
+    {toggleCompanyList != false ? 
+    <>
+      <div className="field has-addons has-addons-centered">
+        <div className="control is-expanded">
+          <div className="select is-rounded is-fullwidth">
+            <select onChange={handleChange}>
+            <option></option>
+            {(userCompanies != "" && dataLoading != true) ? userCompanies.map(company => (
             <option key={company.id} value={company.id} name={company.Name} >
               {company.Name}
               
@@ -109,15 +113,20 @@ console.log({userCompanies})
       </div>
       </div>
         <div className="control">
-        {
+        
+           <button className="button is-black is-rounded" onClick={handleChangeActiveCompany}>  
+            Switch
+          </button>
            
-          <button className="button is-black is-rounded" onClick={toggleAddCompany}>  
-            Add Company
-          </button> 
-         }
+         
         </div>
-    
+        <div className="control">
+          <button className="button is-rounded is-small" onClick={handleAddCompany}>  
+            Add Company
+          </button>
+        </div>
     </div>
+    </> : "" }
     </>
   )
 }
