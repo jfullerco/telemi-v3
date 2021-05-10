@@ -117,7 +117,7 @@ const CompanyList = () => {
             </div>
           </div>
           <div className="control">
-            <button className="button is-rounded is-link" onClick={handleAddCompany}>  
+            <button className="button is-rounded is-black" onClick={handleAddCompany}>  
               Add
             </button> 
           </div>

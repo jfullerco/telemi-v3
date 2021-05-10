@@ -28,15 +28,14 @@ const AddCompany = () => {
   }
 
   const handleModalClose = () => {
-    setModalState(false)
+    autoClose()
   }
 
   const autoClose = () => {
     
     setTimeout(() => {
-      
       setModalState(false)
-
+      history.push("/dashboard")
     }, 2000)
     
   }

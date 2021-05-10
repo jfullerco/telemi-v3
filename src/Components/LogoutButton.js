@@ -13,6 +13,10 @@ const LogoutButton = () => {
   
   const [isActive, setIsActive] = useState(false)
 
+  const handleNewUserButton = () => {
+    history.push("/signup")
+  }
+
   const logOut = async() => {
     
     await auth.signOut()
@@ -51,12 +55,11 @@ const LogoutButton = () => {
       >
 
       <div className="navbar-end">
+        
         {currentUser != undefined ? (
           <>
           <div className="navbar-item">
-          <div className="button is-small is-rounded">
-            Create Account
-          </div>
+          
           </div>
           <Link to={`/dashboard`} className="navbar-item">
             Dashboard
@@ -68,7 +71,9 @@ const LogoutButton = () => {
           </>
         ) : (
           <>
-          
+          <div className="navbar-item" onClick={handleNewUserButton}>
+          <button className="button is-small is-rounded">Create Account</button>
+          </div>
           <Link to="/login" className="navbar-item" >
             Login
           </Link>
