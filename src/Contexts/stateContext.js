@@ -16,6 +16,7 @@ export const StateProvider = (props) => {
       currentUser: "",
       userFirstName: "",
       loggedIn: false,
+      companies: "",
       currentCompanyID: "",
       currentCompany: "",
       currentLocationID: "",
@@ -116,6 +117,13 @@ export const StateProvider = (props) => {
         })
       };
 
+      const setCompanies = (companies) => {
+        dispatch({
+          type: "SET_COMPANIES",
+          payload: companies
+        })
+      };
+
       const setCurrentCompanyID = (id) => {
         dispatch({
           type: "SET_CURRENT_COMPANYID",
@@ -213,6 +221,7 @@ export const StateProvider = (props) => {
       <Provider value={{ 
           setDataLoading,
           setLoggedIn,
+          setCompanies,
           setCurrentCompanyID,
           setCurrentCompany,
           setCurrentLocationID,

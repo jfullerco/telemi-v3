@@ -20,6 +20,11 @@ export default (state, action) => {
         ...state,
         loggedIn: action.payload
       };
+    case "SET_COMPANIES":
+      return {
+        ...state,
+        companies: action.payload
+      };
     case "SET_CURRENT_LOCATIONID":
       return {
         ...state,

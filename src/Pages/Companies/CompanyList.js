@@ -28,7 +28,7 @@ const CompanyList = () => {
 
   useEffect(() => {
     
-    fetchCompanies()
+    console.log(userContext.userSession.companies)
   }, [isUserLoggedIn]) 
 
   useEffect(() => {
@@ -105,8 +105,8 @@ const CompanyList = () => {
           <div className="control is-expanded">
             <div className="select is-rounded is-fullwidth">
               <select onChange={handleChange}>
-              <option></option>
-              {(userCompanies != "" && dataLoading != true) ? userCompanies.map(company => (
+              
+              {(userContext.userSession.companies != "") ? userContext.userSession.companies.map(company => (
               <option key={company.id} value={company.id} name={company.Name} >
               {company.Name}
               </option>

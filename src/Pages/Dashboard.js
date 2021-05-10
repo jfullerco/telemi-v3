@@ -21,8 +21,12 @@ const Dashboard = () => {
   const isUserLoggedIn = currentUser != undefined ? currentUser : ""
 
   useEffect(() => {
+
     fetchUser(currentUser)
+    fetchCompanies()
   },[isUserLoggedIn])
+
+  
   
 
   const fetchUser = async(email) => {
@@ -32,6 +36,18 @@ const Dashboard = () => {
     userContext.setUserFirstName(user[0].FirstName)
     userContext.setUserType(user[0].Type)
     
+  }
+
+  const fetchCompanies = async() => {
+   
+    const companiesRef = await db.collection("Companies").where("Users", "array-contains", `${currentUser}`).get()
+    const companies = companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    
+    userContext.setCurrentCompanyID(companies[0].id)
+    userContext.setCurrentCompany(companies[0].Name)
+    userContext.setCompanies(companies)
+    userContext.setDataLoading(false)
+
   }
   
   return (  
@@ -51,7 +67,7 @@ const Dashboard = () => {
       </div>
       <div>
         {/**<UserDashboard />**/}
-       {/** <DataViewer visible={toggleAdmin} />**/}
+        <DataViewer />
       </div>
       </>
       : 
