@@ -91,42 +91,39 @@ const CompanyList = () => {
   const handleToggleCompanyList = () => {
     setToggleCompanyList(!toggleCompanyList)
   }
+
+  const handleChangeActiveCompany = () => {
+
+  }
   
   return (
+
     <>
-    {toggleCompanyList != false ? 
-    <>
-      <div className="field has-addons has-addons-centered">
-        <div className="control is-expanded">
-          <div className="select is-rounded is-fullwidth">
-            <select onChange={handleChange}>
-            <option></option>
-            {(userCompanies != "" && dataLoading != true) ? userCompanies.map(company => (
-            <option key={company.id} value={company.id} name={company.Name} >
+      {
+        userContext.userSession.userType != "User" ? 
+        <div className="field has-addons has-addons-centered">
+          <div className="control is-expanded">
+            <div className="select is-rounded is-fullwidth">
+              <select onChange={handleChange}>
+              <option></option>
+              {(userCompanies != "" && dataLoading != true) ? userCompanies.map(company => (
+              <option key={company.id} value={company.id} name={company.Name} >
               {company.Name}
-              
-            </option>
-          )) : (
-            <option>Add a Company</option>
-          )}
-        </select>
-      </div>
-      </div>
-        <div className="control">
-        
-           <button className="button is-black is-rounded" onClick={handleChangeActiveCompany}>  
-            Switch
-          </button>
-           
-         
+              </option>
+              )) : (
+              <option>Add a Company</option>
+              )}
+              </select>
+            </div>
+          </div>
+          <div className="control">
+            <button className="button is-rounded is-link" onClick={handleAddCompany}>  
+              Add
+            </button> 
+          </div>
         </div>
-        <div className="control">
-          <button className="button is-rounded is-small" onClick={handleAddCompany}>  
-            Add Company
-          </button>
-        </div>
-    </div>
-    </> : "" }
+        : <span className="notification is-warning">Admin permissions required</span>
+      }
     </>
   )
 }
