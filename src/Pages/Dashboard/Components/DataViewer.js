@@ -286,13 +286,21 @@ return (
         <table className="table is-striped is-hoverable is-fullwidth">
           <thead className="is-size-6">
             <tr>
-            <th></th>
-            <th className="px-3">
+            <th>
               Vendor
             </th>
-            <th className="px-3">Vendor Service</th>
-            <th className="px-3">Location</th>
-            <th className="px-3">Asset ID</th>
+            <th>
+              Type
+            </th>
+            <th>
+              Vendor Service
+            </th>
+            <th>
+              Location
+            </th>
+            <th>
+              Asset ID
+            </th>
             <th>
             <span className="icon is-left">
               <FontAwesomeIcon 
@@ -304,19 +312,16 @@ return (
             </tr>
           </thead>
           <tbody className="is-size-7">
+
           {userContext.userSession.dataLoading != true ?
-          services != undefined ? services.map(service => (
+            services != undefined ? services.map(service => (
             
             <tr key={service.id} >
-              <td>{service.Status === "Active" ? <div className="tag is-primary is-rounded">Active</div> : ""}</td>
-              <td className="px-3">{service.Vendor}</td>
-              <td className="px-3">{service.VendorServiceName} </td>
-              <td className="px-3">{service.LocationName}</td>
-              <td className="px-3">
-              
-              {service.AssetID}
-              
-              </td>
+              <td>{service.Vendor}</td>
+              <td>{service.Type}</td>
+              <td>{service.VendorServiceName} </td>
+              <td>{service.LocationName}</td>
+              <td>{service.AssetID}</td>
               <td>
                 
                 <span className="icon is-left">
@@ -354,12 +359,7 @@ return (
           <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleAccountView}>
           
           Accounts 
-            <div className="is-size-7 ml-3">
-              {accounts != undefined ? 
-              <span className="tag is-light">
-                {accounts.length}
-              </span> : ""}
-            </div>
+            
           </button>
         </p>
       </div>
@@ -432,12 +432,7 @@ return (
           <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleLocationView}>
           
           Locations
-            <div className="is-size-7 ml-3">
-              {locations != undefined ? 
-              <span className="tag is-light">
-                {locations.length}
-              </span> : ""}
-            </div>
+            
           </button>
         </p>
       </div>
@@ -498,12 +493,7 @@ return (
       <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleOrderView}>
       
         Orders 
-      <span className="is-size-7 ml-3">
-        {orders != undefined ? 
-          <span className="tag is-light">
-            {orders.length}
-          </span> : ""}
-      </span>
+      
       </button>
       </p>
     </div>  
@@ -569,9 +559,7 @@ return (
     <div className="title">
       <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleTicketView}>
       Tickets
-      <span className="is-size-7 ml-3">
-      {tickets != undefined ? <span className="tag is-light">{tickets.length}</span> : ""}
-      </span>
+      
       </button>
       
     </div>
@@ -641,9 +629,7 @@ return (
     <div className="title">
       <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleUsersView}>
       Users
-      <span className="is-size-7 ml-3">
-      {users != undefined ? <span className="tag is-light"> {users.length}</span> : ""}
-      </span>
+      
       </button>      
     </div>
     
