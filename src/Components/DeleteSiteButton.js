@@ -9,6 +9,7 @@ const DeleteSiteButton = ({id}) => {
   const history = useHistory()
   const clientID = localStorage.clientID
   const userContext = useContext(stateContext)
+  
   const deleteEntry = async () => {
     console.log(localStorage.clientID)
     siteService.delSite(id)

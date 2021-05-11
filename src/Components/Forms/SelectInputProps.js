@@ -9,7 +9,7 @@ const SelectInputProps = (props) => {
       <label className="label">{props.fieldLabel}</label>
         <div className="control">
         <div className="select is-rounded is-fullwidth">
-          <select type="select" ref={props.fieldIDRef} defaultValue={props.fieldInitialOption}>
+          <select type="select" ref={props.fieldIDRef} defaultValue={props.fieldInitialOption} onChange={props.onChange}>
 
             {props.fieldInitialValue != undefined ? 
               <option value={props.fieldInitialValue}>

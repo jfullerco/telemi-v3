@@ -8,7 +8,7 @@ const Hello = () => {
     setModalState(!modalState)
   }
   const currentUser = useAuth()
-  console.log(currentUser)
+  
   return (
     <div>
     

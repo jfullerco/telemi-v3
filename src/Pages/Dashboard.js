@@ -15,15 +15,16 @@ import UserDashboard from './Dashboard/Components/UserDashboard'
 const Dashboard = () => {
   
   const userContext = useContext(stateContext)
-  const {currentUser, userFirstName} = userContext.userSession
+  const {currentUser, userFirstName, currentCompany} = userContext.userSession
   const history = useHistory()
-  
+
+
   const isUserLoggedIn = currentUser != undefined ? currentUser : ""
+  
 
   useEffect(() => {
-
     fetchUser(currentUser)
-    fetchCompanies()
+    isCurrentCompany()
   },[isUserLoggedIn])
 
   
@@ -38,8 +39,12 @@ const Dashboard = () => {
     
   }
 
+  const isCurrentCompany = () => {
+    userContext.userSession.currentCompany == "" ? fetchCompanies() : ""
+  }
+
   const fetchCompanies = async() => {
-   
+    
     const companiesRef = await db.collection("Companies").where("Users", "array-contains", `${currentUser}`).get()
     const companies = companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
     
@@ -56,11 +61,9 @@ const Dashboard = () => {
       {currentUser != undefined ?
       <>
        <div className="block"> 
-        <section className="hero is-small">
-          <div className="hero-body">
-            <p className="title has-text-black">Hello {userFirstName}</p>
-          </div>
-        </section>
+        
+            <p className="title has-text-black">Hello, {userFirstName}</p>
+          
       </div>
       <div className="block" id="companyList">
       <CompanyList />

@@ -6,6 +6,8 @@ import {stateContext} from '../../Contexts/stateContext'
 
 import { db } from '../../Contexts/firebase'
 
+import SelectInputProps from '../../Components/Forms/SelectInputProps'
+
 
 
 const CompanyList = () => {
@@ -19,7 +21,7 @@ const CompanyList = () => {
     id: "",
     Name: ""
   })
-  const [toggleCompanyList, setToggleCompanyList] = useState(false)
+  
 
   const activeCompanyID = useRef("")
   const activeCompanyName = useRef("")
@@ -32,7 +34,7 @@ const CompanyList = () => {
   }, [isUserLoggedIn]) 
 
   useEffect(() => {
-    reRender()
+    
     userContext.setDataLoading(false)
   }, [dataLoading])
 
@@ -88,10 +90,6 @@ const CompanyList = () => {
     history.push("/addcompany")
   }
 
-  const handleToggleCompanyList = () => {
-    setToggleCompanyList(!toggleCompanyList)
-  }
-
   const handleChangeActiveCompany = () => {
 
   }
@@ -101,28 +99,25 @@ const CompanyList = () => {
     <>
       {
         userContext.userSession.userType != "User" ? 
-        <div className="field has-addons has-addons-centered">
-          <div className="control is-expanded">
-            <div className="select is-rounded is-fullwidth">
-              <select onChange={handleChange}>
-              
-              {(userContext.userSession.companies != "") ? userContext.userSession.companies.map(company => (
-              <option key={company.id} value={company.id} name={company.Name} >
-              {company.Name}
-              </option>
-              )) : (
-              <option>Add a Company</option>
-              )}
-              </select>
-            </div>
-          </div>
-          <div className="control">
-            <button className="button is-rounded is-black" onClick={handleAddCompany}>  
-              Add
-            </button> 
-          </div>
-        </div>
-        : <span className="notification is-warning">Admin permissions required</span>
+        <>
+        <span className="title is-5 has-text-black">{userContext.userSession.currentCompany}</span>
+        <SelectInputProps 
+              fieldLabel=""
+              fieldInitialValue={userContext.userSession.currentCompanyID}
+              fieldInitialOption={""}
+              fieldIDRef={activeCompanyID}
+              onChange={handleChange}>
+                {userContext.userSession.companies != "" ? 
+                  userContext.userSession.companies.map(company => (
+                    <option value={company.id} key={company.id}> 
+                    {company.Name}</option>
+                )) : (
+                  <option></option>
+                )}
+            </SelectInputProps>
+        
+        </>
+        : <span className="title is-5 has-text-black">{userContext.userSession.currentCompany}</span>
       }
     </>
   )
