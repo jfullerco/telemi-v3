@@ -200,6 +200,17 @@ const DataViewer = ({visible}) => {
     userContext.setDataLoading(false)
   }
 
+  const fetchLocationsSort = async(value) => {
+
+    const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).orderBy(value).get()
+
+    const locations = locationsRef.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()}))
+    setLocations(locations)
+    userContext.setDataLoading(false)
+  }
+
   const fetchOrders = async() => {
 
     const ordersRef = await db.collection("Orders").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
@@ -466,12 +477,12 @@ return (
     <div className="table-container">
     <nav className="level">
       <table className="table is-hoverable is-fullwidth">
-        <thead className="is-size-6">
+        <thead >
           <tr>  
-            <th className="px-6">Location Name</th>
-            <th className="px-6">Address</th>
-            <th className="px-6">City</th>
-            <th className="px-6">State</th>
+            <th>Location Name</th>
+            <th>Address</th>
+            <th><a onClick={()=>fetchLocationsSort("City")}>City</a></th>
+            <th>State</th>
             <th>
               <span className="icon is-left">
               <FontAwesomeIcon 
