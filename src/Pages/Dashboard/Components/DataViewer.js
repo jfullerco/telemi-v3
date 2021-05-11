@@ -223,6 +223,30 @@ const DataViewer = ({visible}) => {
 
   }
 
+  const fetchServicesFilter = async(key, value) => {
+  
+    const servicesRef = await db.collection("Services").where("CompanyID", "==", userContext.userSession.currentCompanyID).where(key, "==", value).get()
+
+    const services = servicesRef.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()}))
+    setServices(services)
+    userContext.setDataLoading(false)
+
+  }
+
+  const fetchServicesSort = async(value) => {
+    console.log(value)
+    const servicesRef = await db.collection("Services").where("CompanyID", "==", userContext.userSession.currentCompanyID).orderBy(value).get()
+
+    const services = servicesRef.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()}))
+    setServices(services)
+    userContext.setDataLoading(false)
+
+  }
+
   const fetchAccounts = async() => {
 
     const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).orderBy("ParentAccountNum").get()
@@ -293,7 +317,7 @@ return (
               Type
             </th>
             <th>
-              Vendor Service
+              <a onClick={()=>fetchServicesSort("VendorServiceName")}>Product</a>
             </th>
             <th>
               Location
@@ -319,7 +343,7 @@ return (
             <tr key={service.id} >
               <td>{service.Vendor}</td>
               <td>{service.Type}</td>
-              <td>{service.VendorServiceName} </td>
+              <td><a onClick={()=>{fetchServicesFilter("VendorServiceName", service.VendorServiceName)}}>{service.VendorServiceName}</a> </td>
               <td>{service.LocationName}</td>
               <td>{service.AssetID}</td>
               <td>
