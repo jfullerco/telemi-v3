@@ -31,6 +31,7 @@ const AddServiceModal = () => {
   const serviceAccessType = useRef("")
   const serviceMRC = useRef("")
   const serviceDetailsBandwidth = useRef("")
+  const serviceHostName = useRef("")
   const serviceDetailsIPRange = useRef("")
   const serviceDetailsLANEdgeIP = useRef("")
   const serviceDetailsASN = useRef("")
@@ -68,6 +69,7 @@ const AddServiceModal = () => {
       Bandwidth: serviceDetailsBandwidth.current.value,
       AccessType: serviceAccessType.current.value,
       AssetID: serviceAssetID.current.value,
+      HostName: serviceHostName.current.value
 
       
     }  
@@ -89,11 +91,15 @@ const AddServiceModal = () => {
       <>
         <span className="title">
           Add Service
-        </span>  
-        <span className="level-item level-right"><button className="button is-rounded" onClick={()=>autoClose()}>X</button></span>
+        </span> 
+        <div className="level-right">
+          <button className="button is-small is-link is-rounded mr-1" type="submit" onClick={handleSubmit}>Save</button>
+          <button className="button is-small is-rounded mr-1" onClick={()=>autoClose()}>Close</button>
+        </div> 
         <p className="block" />
           <form>
-          
+          <div className="columns">
+          <div className="column">
             <SelectInputProps 
               fieldLabel="Service Location"
               fieldInitialValue={""}
@@ -108,6 +114,17 @@ const AddServiceModal = () => {
                 )}
             </SelectInputProps>
 
+            <SelectInput 
+              fieldOptions={serviceTypes}
+              fieldLabel="Type"
+              fieldInitialValue={""}
+              fieldInitialOption={""}
+              fieldIDRef={serviceType}
+              fieldNameRef={serviceType}
+              fieldChange={()=>console.log("Type Selection Changed")}
+            />
+          <div className="columns">
+          <div className="column is-half">
             <SelectInputProps
               fieldLabel="Vendor"
               fieldInitialValue=""
@@ -123,37 +140,18 @@ const AddServiceModal = () => {
                 <option>Masergy</option>
                 <option>Microsoft</option>
             </SelectInputProps>
-
-            <SelectInputProps
-              fieldLabel="Type"
-              fieldInitialValue=""
-              fieldInitialOption=""
-              fieldIDRef={serviceType}>
-                  <option> </option>
-                  <option>Data Only</option>
-                  <option>Voice/Data</option>
-                  <option>Voice Only</option>
-                  <option>Security</option>
-                  <option>Hosting</option>
-                  <option>Mobility</option>  
-            </SelectInputProps>
-            
-            <SelectInput 
-              fieldOptions={serviceTypes}
-              fieldLabel="Type"
-              fieldInitialValue={""}
-              fieldInitialOption={""}
-              fieldIDRef={serviceType}
-              fieldNameRef={serviceType}
-              fieldChange={()=>console.log("Type Selection Changed")}
-            />
-
+            </div>
+          <div className="column is-half">
             <TextInput 
-              inputFieldLabel="Vendor Product Name"
+              inputFieldLabel="Product"
               inputFieldRef={serviceVendorServiceName}
               inputFieldValue={""}
             />
-
+          </div>
+          </div>
+                       
+          <div className="columns">
+          <div className="column is-half">
             <SelectInput 
               fieldOptions={accessTypes}
               fieldLabel="Access Type"
@@ -163,25 +161,43 @@ const AddServiceModal = () => {
               fieldNameRef={serviceAccessType}
               fieldChange={()=>console.log("Access Type Selection Changed")}
             />
-
-            <TextInput 
-              inputFieldLabel="Asset ID"
-              inputFieldRef={serviceAssetID}
-              inputFieldValue={""}
-            />
-
-            <TextInput 
-              inputFieldLabel="Monthly Cost"
-              inputFieldRef={serviceMRC}
-              inputFieldValue={""}
-            />
-
+          </div>
+          <div className="column is-half">
             <TextInput 
               inputFieldLabel="Bandwidth"
               inputFieldRef={serviceDetailsBandwidth}
               inputFieldValue={""}
             />
+          </div>
+          </div>
 
+          <div className="columns">
+          <div className="column is-half">
+            <TextInput 
+              inputFieldLabel="Asset ID"
+              inputFieldRef={serviceAssetID}
+              inputFieldValue={""}
+            />
+          </div>
+          <div className="column is-half">
+            <TextInput 
+              inputFieldLabel="Hostname"
+              inputFieldRef={serviceHostName}
+              inputFieldValue={""}
+            />
+          </div>
+          </div>
+          <div className="columns">
+          <div className="column is-half">
+            <TextInput 
+              inputFieldLabel="Monthly Cost"
+              inputFieldRef={serviceMRC}
+              inputFieldValue={""}
+            />
+          </div>
+          </div>  
+          </div>
+          </div>
           </form>
 
         <div className="block">
@@ -190,9 +206,10 @@ const AddServiceModal = () => {
         </div>
         <div className="modal-card-foot">
 
-          <button className="button is-rounded level-item" type="submit" onClick={handleSubmit}>
-            Add Service
+          <button className="button is-rounded is-link level-item" type="submit" onClick={handleSubmit}>
+            Save
           </button>
+          <button className="button is-rounded mr-1" onClick={()=>autoClose()}>Close</button>
         
         </div>     
     </>
