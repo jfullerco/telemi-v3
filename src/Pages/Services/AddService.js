@@ -7,6 +7,7 @@ import {stateContext} from '../../Contexts/stateContext'
 import TextInput from '../../Components/Forms/TextInput'
 import SelectInput from '../../Components/Forms/SelectInput'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
+import TextInputAC from '../../Components/Forms/TextInputAC'
 
 const AddServiceModal = () => {
 
@@ -20,6 +21,7 @@ const AddServiceModal = () => {
   const [success, setSuccess] = useState(false)
 
   const [locations, setLocations] = useState()
+  const [dropDown, setDropDown] = useState(false)
   
   const serviceName = useRef("")
   const serviceVendor = useRef("")
@@ -82,8 +84,9 @@ const AddServiceModal = () => {
   const autoClose = () => {
     setTimeout(() => {history.push("/dashboard")}, 1000)
   }
-  const handleChange = () => {
-    console.log()
+  const handleChange = (e) => {
+    setDropDown(true)
+    const locationAC = locations.find((location, index)=> {location.Name })
   }
 
   return (
@@ -100,6 +103,7 @@ const AddServiceModal = () => {
           <form>
           <div className="columns">
           <div className="column">
+            <TextInputAC handleChange={(e)=>handleChange(e)} dropDownState={dropDown}> </TextInputAC>
             <SelectInputProps 
               fieldLabel="Service Location"
               fieldInitialValue={""}
