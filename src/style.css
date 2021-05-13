@@ -3,7 +3,16 @@ body {
         flex-direction: column;
       }
  
-      #wrapper {
-        flex: 1;
-        min-height: 90vh;
+#wrapper {
+          flex: 1;
+          min-height: 90vh;
+      }
+
+.dropdown {
+          display: flex;
+          
+      }
+
+.dropdown-trigger, .dropdown-menu {
+            width: 100%;
       }

@@ -22,6 +22,7 @@ const AddServiceModal = () => {
 
   const [locations, setLocations] = useState()
   const [dropDown, setDropDown] = useState(false)
+  const [suggestLocation, setSuggestLocation] = useState()
   
   const serviceName = useRef("")
   const serviceVendor = useRef("")
@@ -43,6 +44,7 @@ const AddServiceModal = () => {
   const serviceAccountID = useRef("")
   const serviceAccountNum = useRef("")
   const serviceSubAccountNum = useRef("")
+  const testRef = useRef("")
   
 
   useEffect(() => {
@@ -64,8 +66,8 @@ const AddServiceModal = () => {
       Vendor: serviceVendor.current.value,
       Type: serviceType.current.value,
       VendorServiceName: serviceVendorServiceName.current.value,
-      LocationID: serviceLocationID.current.value,
-      LocationName: serviceLocationID.current[serviceLocationID.current.selectedIndex].text,
+      LocationID: serviceLocationID.current,
+      LocationName: serviceLocationName.current,
       CompanyID: userContext.userSession.currentCompanyID,
       CompanyName: userContext.userSession.currentCompany,
       Bandwidth: serviceDetailsBandwidth.current.value,
@@ -86,7 +88,18 @@ const AddServiceModal = () => {
   }
   const handleChange = (e) => {
     setDropDown(true)
-    const locationAC = locations.find((location, index)=> {location.Name })
+    const {value} = e.target
+    const locationAC = locations.filter(({Name, Address1, State, City}) => Name.indexOf(value) > -1 || Address1.indexOf(value) > 1 || State.indexOf(value) > -1 || City.indexOf(value) > -1 )
+    serviceLocationName.current = value
+    setDropDown(locationAC)
+  }
+
+  const handleSuggestedRef = (name, id) => {
+    console.log(name)
+    console.log(id)
+    serviceLocationID.current = id
+    serviceLocationName.current = name
+    setDropDown("")
   }
 
   return (
@@ -103,20 +116,22 @@ const AddServiceModal = () => {
           <form>
           <div className="columns">
           <div className="column">
-            <TextInputAC handleChange={(e)=>handleChange(e)} dropDownState={dropDown}> </TextInputAC>
-            <SelectInputProps 
-              fieldLabel="Service Location"
-              fieldInitialValue={""}
-              fieldInitialOption={""}
-              fieldIDRef={serviceLocationID}>
-                {locations != undefined ? 
-                  locations.map(location => (
-                    <option value={location.id} key={location.id}> 
-                    {location.Name}</option>
-                )) : (
-                  <option></option>
-                )}
-            </SelectInputProps>
+
+            <TextInputAC handleChange={(e)=>handleChange(e)} 
+              label="Service Location" 
+              value={serviceLocationName.current} 
+              dropDownState={dropDown}>
+                {dropDown != "" ? 
+                  <ul> 
+                  {dropDown.map(d => 
+                    <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.Name, d.id)}>
+                      <li >{d.Name}</li>
+                    </a>
+                  )}
+                  </ul> : ""} 
+            </TextInputAC>
+
+            
 
             <SelectInput 
               fieldOptions={serviceTypes}
