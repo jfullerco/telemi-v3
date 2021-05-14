@@ -171,6 +171,7 @@ const DataViewer = ({visible}) => {
     fetchServices(),
     fetchOrders(),
     fetchAccounts()
+    
   }, [currentCompany])
 
   useEffect(() => {
@@ -601,15 +602,28 @@ return (
     
     {toggleTicketView != false ? 
     <div className="table-container">
-    <nav className="level">
+    <nav className="level-center">
       <table className="table is-striped is-fullwidth">
         <thead className="is-size-6">
           <tr>
-          <th></th>
-          <th className="px-6">Ticket Number</th>
-          <th className="px-6">Date</th>
-          <th className="px-6">Location</th>
-          <th className="px-6">Vendor</th>
+          <th>
+            Status
+          </th>
+          <th>
+            Type
+          </th>
+          <th>
+            Ticket Number
+          </th>
+          <th>
+            Date
+          </th>
+          <th>
+            Location
+          </th>
+          <th>
+            Vendor
+          </th>
           <th>
 
           <span className="icon is-left">
@@ -628,16 +642,19 @@ return (
             <td>
               {ticket.Status}
             </td>
-            <td className="px-6">
+            <td>
+              {ticket.Type}
+            </td>
+            <td>
               {ticket.TicketNum}
             </td>
-            <td className="px-6">
+            <td>
               {ticket.DateSubmitted}
             </td>
-            <td className="px-6">
+            <td>
               {ticket.LocationName}
             </td>
-            <td className="px-6">
+            <td>
               {ticket.Vendor}
             </td>
             <td>
