@@ -1,0 +1,13 @@
+<SelectInputProps 
+              fieldLabel="Service Location"
+              fieldInitialValue={""}
+              fieldInitialOption={""}
+              fieldIDRef={ticketLocationID}>
+                {locations != undefined ? 
+                  locations.map(location => (
+                    <option value={location.id} key={location.id}> 
+                    {location.Name}</option>
+                )) : (
+                  <option></option>
+                )}
+            </SelectInputProps>

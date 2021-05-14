@@ -7,23 +7,24 @@ import {stateContext} from '../../Contexts/stateContext'
 import TextInput from '../../Components/Forms/TextInput'
 import TextArea from '../../Components/Forms/TextArea'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
+import TextInputAC from '../../Components/Forms/TextInputAC'
+import Modal from '../../Components/Modal'
 
-const AddTicket = () => {
+const AddTicket = (props) => {
 
   const userContext = useContext(stateContext)
 
   const history = useHistory()
   
   const [modalState, setModalState] = useState(true)
-  const [addTicketError, setAddTicketError] = useState("")
-  const [success, setSuccess] = useState(false)
-  const [triggerClose, setTriggerClose] = useState()
 
-  const [locations, setLocations] = useState()
-  const [accounts, setAccounts] = useState()
+  const [locations, setLocations] = useState(props.locations)
+  const [accounts, setAccounts] = useState(props.accounts)
+  const [dropDown, setDropDown] = useState(false)
   
   const ticketNum = useRef("")
   const ticketLocationID = useRef("")
+  const ticketLocationName = useRef("")
   const ticketVendor = useRef("")
   const ticketDate = useRef("")
   const ticketType = useRef("")
@@ -43,8 +44,8 @@ const AddTicket = () => {
       Type: ticketType.current.value,
       Status: ticketStatus.current.value,
       Details: ticketDetails.current.value,
-      LocationID: ticketLocationID.current.value,
-      LocationName: ticketLocationID.current[ticketLocationID.current.selectedIndex].text,
+      LocationID: ticketLocationID.current,
+      LocationName: ticketLocationName.current,
       AccountID: ticketAccountID.current.value,
       AccountNum: ticketAccountID.current[ticketAccountID.current.selectedIndex].text,
       Vendor: ticketVendor.current.value
@@ -55,67 +56,53 @@ const AddTicket = () => {
     autoClose()
   }
 
-  useEffect(() => {
-
-    fetchLocations()
-    fetchAccounts()
-
-  },[])
-
-  const fetchLocations = async() => {
-   
-    const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
-    setLocations(locations)
-
-  }
-
-  const fetchAccounts = async() => {
-   
-    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const accounts = accountsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
-    setAccounts(accounts)
-
-  }
-
   const handleModalClose = () => {
     setModalState(false)
   }
 
   const autoClose = () => {
-    setTimeout(() => {setModalState(false)}, 1000)
+    setTimeout(() => {setModalState(!modalState)}, 1000)
+  }
+
+  const handleChange = (e) => {
+    setDropDown("")
+    const {value} = e.target
+    const locationAC = locations.filter(({Name, Address1, State, City}) => Name.indexOf(value) > -1 || Address1.indexOf(value) > 1 || State.indexOf(value) > -1 || City.indexOf(value) > -1 )
+    ticketLocationName.current = value
+    setDropDown(locationAC)
+  }
+
+  const handleSuggestedRef = (name, id) => {
+    console.log(name)
+    console.log(id)
+    ticketLocationID.current = id
+    ticketLocationName.current = name
+    setDropDown("")
   }
   
 
   return (
-    <div className={modalState === true ? "modal is-active" : "modal"}>
-      <div className="modal-background"></div>
-      <div className="modal-card">
-      <div className="modal-card-head">
-        <p className="modal-card-title">Add Ticket</p>
-      </div>
-        <section className="modal-card-body">
+    <Modal title="Add Ticket" handleSubmit={handleSubmit} modalState={modalState}>
           <form>
             <TextInput 
               inputFieldLabel="Ticket Number"
               inputFieldRef={ticketNum}
               inputFieldValue={""}
             />
-            <SelectInputProps 
-              fieldLabel="Service Location"
-              fieldInitialValue={""}
-              fieldInitialOption={""}
-              fieldIDRef={ticketLocationID}>
-                {locations != undefined ? 
-                  locations.map(location => (
-                    <option value={location.id} key={location.id}> 
-                    {location.Name}</option>
-                )) : (
-                  <option></option>
-                )}
-            </SelectInputProps>
+
+            <TextInputAC handleChange={(e)=>handleChange(e)} 
+              label="Service Location" 
+              value={ticketLocationName.current} 
+              dropDownState={dropDown}>
+                {dropDown != "" ? 
+                  <ul> 
+                  {dropDown.map(d => 
+                    <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.Name, d.id)}>
+                      <li >{d.Name}</li>
+                    </a>
+                  )}
+                  </ul> : ""} 
+            </TextInputAC>
 
             <SelectInputProps 
               fieldLabel="Related Account"
@@ -182,23 +169,7 @@ const AddTicket = () => {
             />
 
           </form>
-        <div className="block">
-          <div className="notification is-danger is-hidden">{addTicketError}</div>
-         {success === true ?  <div className="notification is-success">Ticket Added</div> : ""}
-        </div>
-        <div className="modal-card-foot">
-          
-          <button className="button is-rounded level-item"
-          type="submit" onClick={handleSubmit}
-          >
-            Add Ticket
-          </button>
-        
-        </div>
-        <button className="modal-close is-large" aria-label="close" onClick={handleModalClose}></button>  
-        </section>
-      </div>
-    </div>
+    </Modal>    
   )
 }
 export default AddTicket

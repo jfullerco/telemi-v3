@@ -7,19 +7,15 @@ import {stateContext} from '../../Contexts/stateContext'
 import TextInput from '../../Components/Forms/TextInput'
 import SelectInput from '../../Components/Forms/SelectInput'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
+import Modal from '../../Components/Modal'
 
 const AddServiceModal = () => {
 
   const userContext = useContext(stateContext)
-
   const {serviceTypes, accessTypes} = userContext
-
   const history = useHistory()
   
   const [modalState, setModalState] = useState(true)
-  const [addServiceError, setAddServiceError] = useState("")
-  const [success, setSuccess] = useState(false)
-  const [triggerClose, setTriggerClose] = useState()
 
   const [locations, setLocations] = useState()
   
@@ -57,11 +53,6 @@ const AddServiceModal = () => {
 
   }
   
-  const handleLocationChange = (e) => {
-    serviceLocationID.current.value = e.target.value
-    serviceLocationName.current.value = e.target.name
-  }
-  
   const handleSubmit = async(e) => {
     const data = {
       
@@ -91,22 +82,10 @@ const AddServiceModal = () => {
   const autoClose = () => {
     setTimeout(() => {setModalState(false)}, 1000)
   }
-  const handleChange = () => {
-    console.log()
-  }
 
   return (
-    <div className={modalState === true ? "modal is-active" : "modal"}>
-      <div className="modal-background"></div>
-      <div className="modal-card">
-        <div className="modal-card-head">
-        <div className="modal-card-title">
-          Add Service
-          </div>
-        </div>
-        <div className="modal-card-body">
-
-          <form>
+    <Modal title="Add Service" handleSubmit={handleSubmit} modalState={modalState}>
+      <form>
           
             <SelectInputProps 
               fieldLabel="Service Location"
@@ -198,23 +177,7 @@ const AddServiceModal = () => {
 
           </form>
 
-        <div className="block">
-          <div className="notification is-danger is-hidden">{addServiceError}</div>
-         {success === true ?  <div className="notification is-success">Service Added</div> : ""}
-        </div>
-        <div className="modal-card-foot">
-
-          <button className="button is-rounded level-item" type="submit" onClick={handleSubmit}>
-            Add Service
-          </button>
-        
-        </div>
-
-        <button className="modal-close is-large" aria-label="close" onClick={handleModalClose}></button>
-          
-        </div>
-      </div>
-    </div>
+    </Modal>
   )
 }
 export default AddServiceModal

@@ -86,6 +86,7 @@ const AddServiceModal = () => {
   const autoClose = () => {
     setTimeout(() => {history.push("/dashboard")}, 1000)
   }
+  
   const handleChange = (e) => {
     setDropDown(true)
     const {value} = e.target
@@ -131,8 +132,6 @@ const AddServiceModal = () => {
                   </ul> : ""} 
             </TextInputAC>
 
-            
-
             <SelectInput 
               fieldOptions={serviceTypes}
               fieldLabel="Type"
@@ -142,6 +141,7 @@ const AddServiceModal = () => {
               fieldNameRef={serviceType}
               fieldChange={()=>console.log("Type Selection Changed")}
             />
+
           <div className="columns">
           <div className="column is-half">
             <SelectInputProps
@@ -159,7 +159,8 @@ const AddServiceModal = () => {
                 <option>Masergy</option>
                 <option>Microsoft</option>
             </SelectInputProps>
-            </div>
+          </div>
+
           <div className="column is-half">
             <TextInput 
               inputFieldLabel="Product"

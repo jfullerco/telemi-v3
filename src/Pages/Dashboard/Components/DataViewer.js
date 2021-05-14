@@ -260,7 +260,7 @@ const DataViewer = ({visible}) => {
 
   const fetchAccounts = async() => {
 
-    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).orderBy("ParentAccountNum").get()
+    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
 
     const accounts = accountsRef.docs.map(doc => ({
       id: doc.id,
@@ -590,7 +590,7 @@ return (
     </div> : ""}
 
     {toggleTicketDetailModal != false ? <TicketDetail /> : ""}
-    {toggleTicketAddModal != false ? <AddTicket /> : ""}
+    {toggleTicketAddModal != false ? <AddTicket locations={locations} accounts={accounts} /> : ""}
     <div className="title">
       <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleTicketView}>
       Tickets

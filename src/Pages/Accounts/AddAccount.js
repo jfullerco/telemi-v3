@@ -4,24 +4,28 @@ import {useHistory} from 'react-router-dom'
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
+import Modal from '../../Components/Modal'
+import SelectInputProps from '../../Components/Forms/SelectInputProps'
+import TextInput from '../../Components/Forms/TextInput'
+import TextInputAC from '../../Components/Forms/TextInputAC'
+
 const AddAccount = () => {
 
   const userContext = useContext(stateContext)
   
   const [modalState, setModalState] = useState(true)
-  const [addAccountError, setAddAccountError] = useState("")
+  
   const [success, setSuccess] = useState(false)
   const [triggerClose, setTriggerClose] = useState()
 
   const [accounts, setAccounts] = useState()
-
-  const toggleQuestions = useRef(1)
+  const [dropDown, setDropDown] = useState(false)
   
   const accountAccountNum = useRef("")
+  const accountSubAccountNum = useRef("")
   const accountVendor = useRef("")
   const accountPreTaxMRC = useRef("")
   const accountPostTaxMRC = useRef("")
-  const accountParentAccountID = useRef("")
   const accountServiceType = useRef("")
 
   useEffect(() => {
@@ -30,9 +34,7 @@ const AddAccount = () => {
 
   const fetchAccounts = async() => {
    
-    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    
+    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).where("SubAccountNum", "!=", false).get()
 
     const accounts = accountsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
 
@@ -40,19 +42,16 @@ const AddAccount = () => {
 
   }
   
-  const handleSubmit = async(e) => {
+  const handleSubmit = async() => {
     const data = {
 
-      AccountNum: accountAccountNum.current.value,
+      AccountNum: accountAccountNum.current,
+      SubAccountNum: accountSubAccountNum.current.value,
       CompanyID: userContext.userSession.currentCompanyID,
       CompanyName: userContext.userSession.currentCompany,
       Vendor: accountVendor.current.value,
       PreTaxMRC: accountPreTaxMRC.current.value,
-      PostTaxMRC: accountPostTaxMRC.current.value,
-      ParentAccountID: accountParentAccountID.current.value,
-      ParentAccountNum: accountParentAccountID.current[accountParentAccountID.current.selectedIndex].text,
-      ServiceType: accountServiceType.current.value
-      
+      PostTaxMRC: accountPostTaxMRC.current.value
     }  
 
     console.log(data)
@@ -69,95 +68,78 @@ const AddAccount = () => {
   const autoClose = () => {
     setTimeout(() => {setModalState(false)}, 1000)
   }
+
   const handleToggle = (e) => {
     toggleQuestions.current = toggleQuestions.current + e
   }
 
+  const handleChange = (e) => {
+    setDropDown("")
+    const {value} = e.target
+    const accountsAC = accounts.filter(({AccountNum}) => AccountNum.indexOf(value) > -1)
+    accountAccountNum.current = value
+    setDropDown(accountsAC)
+    console.log(accounts)
+  }
+
+  const handleSuggestedRef = (val) => {
+    accountAccountNum.current = val
+    setDropDown("")
+  }
+
   return (
-    <div className={modalState === true ? "modal is-active" : "modal"}>
-      <div className="modal-background"></div>
-      <div className="modal-card">
-        <div className="modal-card-head">
-        <div className="modal-card-title">
-          Add Account
-          </div>
-        </div>
-        <div className="modal-card-body">
+    <Modal title="Add Account" handleSubmit={handleSubmit} modalState={modalState}>
+      <form>
+        <TextInputAC handleChange={(e)=>handleChange(e)} 
+          label="Account Number" 
+          value={accountAccountNum.current} 
+          dropDownState={dropDown}>
+          {dropDown != "" ? 
+            <ul> 
+              {dropDown.map(d => 
+              <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.AccountNum)}>
+                <li >{d.AccountNum}</li>
+              </a>
+              )}
+            </ul> : ""} 
+            </TextInputAC>
+            
+            <TextInput 
+              inputFieldLabel="Sub-Account Number"
+              inputFieldRef={accountSubAccountNum}
+              inputFieldValue={""}
+            />
 
-          <form>
+            <SelectInputProps
+              fieldLabel="Vendor"
+              fieldInitialValue=""
+              fieldInitialOption=""
+              fieldIDRef={accountVendor}>
+                <option>AT&T</option>
+                <option>Verizon</option>
+                <option>CenturyLink</option>
+                <option>Lumos</option>
+                <option>Windstream</option>
+                <option>Spectrum</option>
+                <option>Comcast</option>
+                <option>Masergy</option>
+                <option>Microsoft</option>
+            </SelectInputProps>
 
-            <div className="field">
-              <label className="label">Parent Account</label>
-              <div className="control">
-                <div className="select is-rounded is-fullwidth">
-                  <select className="select" ref={accountParentAccountID}>
-                  <option value="Parent" name="Parent"></option>
-                  {accounts != undefined ? accounts.map(account => (
-                    <option key={account.id} value={account.id} name={account.AccountNum} >
-                      {account.AccountNum}
-                    </option>
-                  )) : "No other accounts added"}
-                  </select>
-                </div>
-              </div>
-            </div>
+            <TextInput 
+              inputFieldLabel="Pre-Tax Cost"
+              inputFieldRef={accountPreTaxMRC}
+              inputFieldValue={""}
+            />
 
-            <div className="field">
-              <label className="label">Account Number</label>
-              <div className="control">
-                <input className="input is-rounded" type="text" name="Account Number" ref={accountAccountNum} />
-              </div>
-            </div>
-
-            <div className="field">
-              <label className="label">Vendor</label>
-              <div className="control">
-                <input className="input is-rounded" type="text" ref={accountVendor} />
-              </div>
-            </div>
-
-            <div className="field">
-              <label className="label">Service Type</label>
-              <p className="control">
-                <input className="input is-rounded" type="text" ref={accountServiceType} />
-              </p>
-            </div>
-
-            <div className="field">
-              <label className="label">Pre-Tax Cost</label>
-              <p className="control has-icons-left">
-                <input className="input is-rounded" type="text" ref={accountPreTaxMRC} />
-                
-              </p>
-            </div>
-
-            <div className="field">
-              <label className="label">Post-Tax Cost</label>
-              <p className="control has-icons-left">
-                <input className="input is-rounded" type="text" ref={accountPostTaxMRC} />
-                
-              </p>
-            </div>
-           
-          </form>
-
-        <div className="block">
-          <div className="notification is-danger is-hidden">{addAccountError}</div>
-         {success === true ?  <div className="notification is-success">Account Added</div> : ""}
-        </div>
-        <div className="modal-card-foot">
-        
-          <button className="button level-item" type="submit" onClick={handleSubmit}>
-            Finish
-          </button>
-        
-        </div>
-
-        <button className="modal-close is-large" aria-label="close" onClick={handleModalClose}></button>
-          
-        </div>
-      </div>
-    </div>
+            <TextInput 
+              inputFieldLabel="Post-Tax Cost"
+              inputFieldRef={accountPostTaxMRC}
+              inputFieldValue={""}
+            />
+            
+      </form>
+    </Modal>
   )
 }
 export default AddAccount
