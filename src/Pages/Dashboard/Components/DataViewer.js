@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
-import {Link, useHistory} from 'react-router-dom'
+import {Link, useHistory, Redirect} from 'react-router-dom'
 
 import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
@@ -629,7 +629,15 @@ return (
           <span className="icon is-left">
               <FontAwesomeIcon 
                 icon={faPlus} 
-                onClick={handleToggleTicketAddModal} 
+                onClick={()=>
+                  history.push({
+                      pathname: "/addticket",
+                      state: {
+                      locations: locations,
+                      accounts: accounts
+                      }
+                    }) 
+                  } 
               />
           </span>
           </th>

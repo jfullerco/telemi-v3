@@ -8,19 +8,19 @@ import TextInput from '../../Components/Forms/TextInput'
 import TextArea from '../../Components/Forms/TextArea'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import TextInputAC from '../../Components/Forms/TextInputAC'
-import Page from '../../Components/Page'
+import Modal from '../../Components/Modal'
 
-const AddTicket = (state) => {
+const AddTicket = (props) => {
 
   const userContext = useContext(stateContext)
 
   const history = useHistory()
+  
+  const [modalState, setModalState] = useState(true)
 
-  const [locations, setLocations] = useState(state.location.state.locations)
-  const [accounts, setAccounts] = useState(state.location.state.accounts)
+  const [locations, setLocations] = useState(props.locations)
+  const [accounts, setAccounts] = useState(props.accounts)
   const [dropDown, setDropDown] = useState(false)
-  const [pageError, setPageError] = useState()
-  const [pageSuccess, setPageSuccess] = useState()
   
   const ticketNum = useRef("")
   const ticketLocationID = useRef("")
@@ -52,13 +52,8 @@ const AddTicket = (state) => {
 
     }  
     console.log(data)
-    try {
-      await db.collection("Tickets").doc().set(data)
-      setPageSuccess("Ticket Added")
-      autoClose()
-    } catch {
-      setPageError("Error Adding Ticket")
-    }
+    const res = await db.collection("Tickets").doc().set(data)
+    autoClose()
   }
 
   const handleModalClose = () => {
@@ -66,7 +61,7 @@ const AddTicket = (state) => {
   }
 
   const autoClose = () => {
-    setTimeout(() => {history.push("/dashboard")}, 1000)
+    setTimeout(() => {setModalState(!modalState)}, 1000)
   }
 
   const handleChange = (e) => {
@@ -87,7 +82,7 @@ const AddTicket = (state) => {
   
 
   return (
-    <Page title="Add Ticket" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess}>
+    <Modal title="Add Ticket" handleSubmit={handleSubmit} modalState={modalState}>
           <form>
             <TextInput 
               inputFieldLabel="Ticket Number"
@@ -174,7 +169,7 @@ const AddTicket = (state) => {
             />
 
           </form>
-    </Page>    
+    </Modal>    
   )
 }
 export default AddTicket
