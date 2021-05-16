@@ -5,6 +5,8 @@ import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
 import TextInput from '../../Components/Forms/TextInput'
+import StateDropDown from '../../Components/Forms/StateDropDown'
+import Modal from '../../Components/Modal'
 
 const AddLocation = () => {
 
@@ -51,13 +53,7 @@ const AddLocation = () => {
   
 
   return (
-    <div className={modalState === true ? "modal is-active" : "modal"}>
-      <div className="modal-background"></div>
-      <div className="modal-card">
-      <div className="modal-card-head">
-        <p className="modal-card-title">Add Location</p>
-      </div>
-        <section className="modal-card-body">
+      <Modal title="Add Location" handleSubmit={handleSubmit} modalState={modalState} >
           <form>
 
             <TextInput 
@@ -80,10 +76,9 @@ const AddLocation = () => {
               inputFieldRef={locationCity}
               inputFieldValue={""}
             />
-            <TextInput 
-              inputFieldLabel="State"
-              inputFieldRef={locationState}
-              inputFieldValue={""}
+            <StateDropDown 
+              fieldRef={locationState}
+              
             />
             <TextInput 
               inputFieldLabel="Zip"
@@ -101,19 +96,7 @@ const AddLocation = () => {
           <div className="notification is-danger is-hidden">{addLocationError}</div>
          {success === true ?  <div className="notification is-success">Location Added</div> : ""}
         </div>
-        <div className="modal-card-foot">
-          
-          <button className="button is-rounded level-item"
-          type="submit" onClick={handleSubmit}
-          >
-            Add Location
-          </button>
-        
-        </div>
-        <button className="modal-close is-large" aria-label="close" onClick={handleModalClose}></button>  
-        </section>
-      </div>
-    </div>
+        </Modal>
   )
 }
 export default AddLocation

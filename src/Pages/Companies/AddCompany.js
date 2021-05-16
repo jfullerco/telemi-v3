@@ -3,28 +3,33 @@ import {useHistory} from 'react-router-dom'
 
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
-import {currentUser} from '../../Contexts/AuthContext'
+import {useAuth} from '../../Contexts/AuthContext'
+
+import TextInput from '../../Components/Forms/TextInput'
+import Modal from '../../Components/Modal'
 
 
 const AddCompany = () => {
   const history = useHistory()
   const userContext = useContext(stateContext)
-  
+  const currentUser = useAuth()
   const [modalState, setModalState] = useState(true)
   const [addCompanyError, setAddCompanyError] = useState("")
   const [success, setSuccess] = useState(false)
-  const [triggerClose, setTriggerClose] = useState()
   
   const companyName = useRef("")
 
   const handleSubmit = async(e) => {
+
     const data = {
       Name: companyName.current.value,
-      Users: ["jonathan@jfuller.co"]
+      Users: [currentUser]
     }  
+
     const res = await db.collection("Companies").doc().set(data)
     userContext.setDataLoading(true)
     autoClose()
+
   }
 
   const handleModalClose = () => {
@@ -42,32 +47,18 @@ const AddCompany = () => {
   
 
   return (
-    <div className={modalState === true ? "modal is-active" : "modal"}>
-      <div className="modal-background"></div>
-      <div className="modal-card">
-        <div className="modal-card-head">Add Company</div>
-        <div className="modal-card-body">
+    <Modal title="Add Company" handleSubmit={handleSubmit} modalState={modalState}>
           <form>
-            <label>Company Name</label>
-            <input className="input" type="text" ref={companyName} />
+            <TextInput 
+              inputFieldLabel="Company Name"
+              inputFieldRef={companyName}
+            />
           </form>
         <div className="block">
           <div className="notification is-danger is-hidden">{addCompanyError}</div>
          {success === true ?  <div className="notification is-success">Company Added</div> : ""}
         </div>
-        <div className="modal-card-foot">
-          
-          <button className="button level-item"
-          type="submit" onClick={handleSubmit}
-          >
-            Add Company
-          </button>
-        
-        </div>
-        <button className="modal-close is-large" aria-label="close" onClick={handleModalClose}></button>  
-        </div>
-      </div>
-    </div>
+        </Modal>
   )
 }
 export default AddCompany
