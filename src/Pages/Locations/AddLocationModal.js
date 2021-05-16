@@ -6,16 +6,16 @@ import {stateContext} from '../../Contexts/stateContext'
 
 import TextInput from '../../Components/Forms/TextInput'
 import StateDropDown from '../../Components/Forms/StateDropDown'
-import Page from '../../Components/Modal'
+import Modal from '../../Components/Modal'
 
 const AddLocation = () => {
 
   const userContext = useContext(stateContext)
   
   const [modalState, setModalState] = useState(true)
-  const [pageError, setPageError] = useState()
-  const [pageSuccess, setPageSuccess] = useState()
-  
+  const [addLocationError, setAddLocationError] = useState("")
+  const [success, setSuccess] = useState(false)
+  const [triggerClose, setTriggerClose] = useState()
   
   const locationName = useRef("")
   const locationAddress1 = useRef("")
@@ -40,14 +40,20 @@ const AddLocation = () => {
     console.log(data)
     const res = await db.collection("Locations").doc().set(data)
     userContext.setDataLoading(true)
-    history.push("/dashboard")
+    autoClose()
   }
 
-  
+  const handleModalClose = () => {
+    setModalState(false)
+  }
+
+  const autoClose = () => {
+    setTimeout(() => {setModalState(false)}, 1000)
+  }
   
 
   return (
-      <Page title="Add Location" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} >
+      <Modal title="Add Location" handleSubmit={handleSubmit} modalState={modalState} >
           <form>
 
             <TextInput 
@@ -90,7 +96,7 @@ const AddLocation = () => {
           <div className="notification is-danger is-hidden">{addLocationError}</div>
          {success === true ?  <div className="notification is-success">Location Added</div> : ""}
         </div>
-      </Page>
+      </Modal>
   )
 }
 export default AddLocation
