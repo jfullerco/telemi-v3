@@ -87,7 +87,7 @@ const AddTicket = (state) => {
   
 
   return (
-    <Page title="Add Ticket" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess}>
+    <Page title="Add Ticket" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
           <form>
             <TextInput 
               inputFieldLabel="Ticket Number"

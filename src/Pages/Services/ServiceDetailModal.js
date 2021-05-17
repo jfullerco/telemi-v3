@@ -6,19 +6,17 @@ import { db } from '../../Contexts/firebase'
 
 import TextInput from '../../Components/Forms/TextInput'
 import SelectInput from '../../Components/Forms/SelectInput'
-import Page from '../../Components/Page'
 
-const ServiceDetail = (state) => {
+const ServiceDetail = () => {
   
   const userContext = useContext(stateContext)
   const {serviceTypes, accessTypes, serviceStatusType} = userContext
   
   const history = useHistory()
   
-  const [pageSuccess, setPageSuccess] = useState()
-  const [pageError, setPageError] = useState()
+  const [success, setSuccess] = useState(false)
 
-  const [locations, setLocations] = useState(state.location.state.locations)
+  const [locations, setLocations] = useState()
 
   const serviceVendor = useRef("")
   const serviceType = useRef("")
@@ -30,14 +28,6 @@ const ServiceDetail = (state) => {
   const serviceMRC = useRef("")
   const serviceDetailsBandwidth = useRef("")
   const serviceStatus = useRef("")
-  const serviceInternalNetworkName = useRef("")
-  const serviceVendorNetworkName = useRef("")
-  const serviceASN = useRef("")
-  const servicePrivateIPRange = useRef("")
-  const servicePrivateIPGateway = useRef("")
-  const servicePublicIPRange = useRef("")
-  const servicePublicIPGateway = useRef("")
-  const serviceRouterProvidedSN = useRef("")
 
   const [modalState, setModalState] = useState(true)
 
@@ -52,7 +42,7 @@ const ServiceDetail = (state) => {
 
   const fetchService = async() => {
    
-    const serviceRef = await db.collection("Services").doc(state.location.state.id).get()
+    const serviceRef = await db.collection("Services").doc(userContext.userSession.currentServiceID).get()
     
     const data = await serviceRef.data()
     const id = await serviceRef.id
@@ -73,15 +63,7 @@ const ServiceDetail = (state) => {
       AccessType: serviceAccessType.current.value,
       AssetID: serviceAssetID.current.value,
       MRC: serviceMRC.current.value,
-      Status: serviceStatus.current.value,
-      InternalNetworkName: serviceInternalNetworkName.current.value,
-      VendorNetworkName: serviceVendorNetworkName.current.value,
-      ASN: serviceASN.current.value,
-      PrivateIPRange: servicePrivateIPRange.current.value,
-      PrivateIPGateway: servicePrivateIPGateway.current.value,
-      PublicIPRange: servicePrivateIPRange.current.value,
-      PublicIPGateway: servicePrivateIPGateway.current.value,
-      RouterProvidedSN: serviceRouterProvidedSN
+      Status: serviceStatus.current.value
       
     }  
     console.log(data)
@@ -90,13 +72,40 @@ const ServiceDetail = (state) => {
     autoClose()
   }
 
-  const autoClose = () => {
-    setTimeout(() => {history.push("/dashboard")}, 1000)
+  useEffect(() => {
+    fetchLocations()
+  },[])
+
+  const fetchLocations = async() => {
+   
+    const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
+
+    const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    setLocations(locations)
+
+  }
+  
+  const handleLocationChange = (e) => {
+    serviceLocationID.current.value = e.target.value
+    serviceLocationName.current.value = e.target.name
   }
 
+  const handleModalClose = () => {
+    setModalState(!modalState)
+  }
+
+  const autoClose = () => {
+    setTimeout(() => {setModalState(false)}, 1000)
+  }
 
   return (
-      <Page title="Service Details" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
+    <div className={modalState === true ? "modal is-active is-info" : "modal is-hidden"}>
+      <div className="modal-background"></div>
+      <div className="modal-card">
+        <div className="modal-card-head">
+          <p className="modal-card-title">{activeService.Name} Details</p>
+        </div>
+        <section className="modal-card-body"> 
           <form>
 
             <SelectInput 
@@ -169,60 +178,31 @@ const ServiceDetail = (state) => {
               fieldChange={()=>console.log("Status Selection Changed")}
             />
 
-            <p className="title has-text-black">Network Details</p>
-
-            <TextInput 
-              inputFieldLabel="Internal Network Name"
-              inputFieldRef={serviceInternalNetworkName}
-              inputFieldValue={activeService.InternalNetworkName}
-            />
-
-            <TextInput 
-              inputFieldLabel="Vendor Network Name"
-              inputFieldRef={serviceVendorNetworkName}
-              inputFieldValue={activeService.VendorNetworkName}
-            />
-
-            <TextInput 
-              inputFieldLabel="ASN"
-              inputFieldRef={serviceASN}
-              inputFieldValue={activeService.ASN}
-            />
-
-            <TextInput 
-              inputFieldLabel="Private IP Range"
-              inputFieldRef={servicePrivateIPRange}
-              inputFieldValue={activeService.PrivateIPRange}
-            />
-
-            <TextInput 
-              inputFieldLabel="Private IP Gateway"
-              inputFieldRef={servicePrivateIPGateway}
-              inputFieldValue={activeService.PrivateIPGateway}
-            />
-
-            <TextInput 
-              inputFieldLabel="Public IP Range"
-              inputFieldRef={servicePublicIPRange}
-              inputFieldValue={activeService.PublicIPRange}
-            />
-
-            <TextInput 
-              inputFieldLabel="Public IP Gateway"
-              inputFieldRef={servicePublicIPGateway}
-              inputFieldValue={activeService.PublicIPGateway}
-            />
-
-            <TextInput 
-              inputFieldLabel="Router Provided S/N"
-              inputFieldRef={serviceRouterProvidedSN}
-              inputFieldValue={activeService.RouterProvidedSN}
-            />
-
           </form>
 
-        
-    </Page>
+        {/* Error Status Block */}
+        <div className="block">
+          <div className="notification is-danger is-hidden"></div>
+        </div>
+
+        {/* Footer Buttons */}
+        <div className="modal-card-foot">
+          
+          <button className="button is-rounded"
+          type="submit" onClick={handleSubmit}
+          >
+            Update Service
+          </button>
+
+          
+        </div>
+
+        {/* Close Modal */}
+        <button className="modal-close is-large" aria-label="close" onClick={handleModalClose}></button>  
+
+        </section>
+      </div>
+    </div>
   )
 }
 export default ServiceDetail

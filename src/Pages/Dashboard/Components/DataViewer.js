@@ -361,7 +361,16 @@ return (
               <td>
                 
                 <span className="icon is-left">
-                <FontAwesomeIcon icon={faEdit} onClick={(e)=>handleServiceDetail(service.id)} /></span>
+                <FontAwesomeIcon icon={faEdit} onClick={()=>
+                  history.push({
+                      pathname: "/servicedetail",
+                      state: {
+                      id: service.id,
+                      locations: locations,
+                      accounts: accounts
+                      }
+                    }) 
+                  }  /></span>
                 <span className="icon is-right">
                 <DeleteButton colRef="Services" docRef={service.id} />
                 </span>

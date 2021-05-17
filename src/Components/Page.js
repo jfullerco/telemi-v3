@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-const Page = ({title, pageError, pageSuccess, handleSubmit, children}) => {
+const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}) => {
   return(
       <>
         <span className="title">
