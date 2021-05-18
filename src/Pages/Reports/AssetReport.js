@@ -44,7 +44,7 @@ const AssetReport = (state) => {
               {service.Vendor}
             </td>
             <td>
-              {service.Type}
+              {service.VendorServiceName}
             </td>
           </tr>
         </tbody>    
