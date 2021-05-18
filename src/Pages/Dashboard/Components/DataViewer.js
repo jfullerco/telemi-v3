@@ -67,6 +67,8 @@ const DataViewer = ({visible}) => {
 
   const [toggleUsersAddModal, setToggleUsersAddModal] = useState(false)
 
+  const [toggleReportsView, setToggleReportsView] = useState(true)
+
   const [toggleUsersView, setToggleUsersView] = useState(false)
 
   const handleToggleServicesAddModal = () => {
@@ -151,6 +153,10 @@ const DataViewer = ({visible}) => {
 
   const handleToggleUsersView = () => {
     setToggleUsersView(!toggleUsersView)
+  }
+
+  const handleToggleReportsView = () => {
+    setToggleReportsView(!toggleReportsView)
   }
 
   const handleAccountDetail = (id) => {
@@ -693,6 +699,45 @@ return (
       </table>
       </nav>
     </div> : ""}
+
+    
+    <div className="title">
+      <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleReportsView}>
+      Reports
+      
+      </button>      
+    </div>
+    
+    {toggleReportsView != false ? 
+    <div className="table-container">
+    <nav className="level is-centered">
+      <table className="table is-striped is-fullwidth ">
+        <thead className="is-size-6">
+          <tr>
+            <th className="px-6">Report</th>
+          </tr>
+        </thead>
+        <tbody className="is-size-7">
+          <tr>
+            <td className="px-6">
+              <a onClick={()=>
+                  history.push({
+                      pathname: "/assetreport",
+                      state: {
+                      services: services
+                      }
+                    }) 
+                  }>Asset Report</a>
+            </td>
+          </tr>
+        </tbody>    
+      </table>
+      </nav>
+    </div> : ""}
+  
+  
+
+
 
     {toggleUsersAddModal != false ? "" : ""}
     <div className="title">

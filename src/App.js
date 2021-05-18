@@ -23,6 +23,8 @@ import LocationDetail from './Pages/Locations/LocationDetail'
 import OrderDetail from './Pages/Orders/OrderDetail'
 import TicketDetail from './Pages/Tickets/TicketDetail'
 
+import AssetReport from './Pages/Reports/AssetReport'
+
 
 
 import DevTools from './Testing/DevTools'
@@ -60,6 +62,8 @@ export default function App() {
             <Route path="/addlocation" component={AddLocation} />
             <Route path="/addorder" component={AddOrder} />
             <Route path="/addticket" component={AddTicket} />
+
+            <Route path="/assetreport" component={AssetReport} />
             
             
           
