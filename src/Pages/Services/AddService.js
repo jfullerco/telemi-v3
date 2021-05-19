@@ -8,8 +8,9 @@ import TextInput from '../../Components/Forms/TextInput'
 import SelectInput from '../../Components/Forms/SelectInput'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import TextInputAC from '../../Components/Forms/TextInputAC'
+import Page from '../../Components/Page'
 
-const AddServiceModal = () => {
+const AddService = (state) => {
 
   const userContext = useContext(stateContext)
 
@@ -17,10 +18,10 @@ const AddServiceModal = () => {
 
   const history = useHistory()
   
-  const [addServiceError, setAddServiceError] = useState("")
-  const [success, setSuccess] = useState(false)
+  const [pageError, setPageError] = useState()
+  const [pageSuccess, setPageSuccess] = useState()
 
-  const [locations, setLocations] = useState()
+  const [locations, setLocations] = useState(state.location.state.locations)
   const [dropDown, setDropDown] = useState(false)
   const [suggestLocation, setSuggestLocation] = useState()
   
@@ -104,15 +105,8 @@ const AddServiceModal = () => {
   }
 
   return (
-
-      <>
-        <span className="title">
-          Add Service
-        </span> 
-        <div className="level-right">
-          <button className="button is-small is-link is-rounded mr-1" type="submit" onClick={handleSubmit}>Save</button>
-          <button className="button is-small is-rounded mr-1" onClick={()=>autoClose()}>Close</button>
-        </div> 
+    <Page title="Add Location" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} >
+        
         <p className="block" />
           <form>
           <div className="columns">
@@ -220,20 +214,9 @@ const AddServiceModal = () => {
           </div>
           </form>
 
-        <div className="block">
-          <div className="notification is-danger is-hidden">{addServiceError}</div>
-         {success === true ?  <div className="notification is-success">Service Added</div> : ""}
-        </div>
-        <div className="modal-card-foot">
-
-          <button className="button is-rounded is-link level-item" type="submit" onClick={handleSubmit}>
-            Save
-          </button>
-          <button className="button is-rounded mr-1" onClick={()=>autoClose()}>Close</button>
         
-        </div>     
-    </>
+    </Page>
       
   )
 }
-export default AddServiceModal
+export default AddService

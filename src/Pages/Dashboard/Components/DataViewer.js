@@ -345,7 +345,12 @@ return (
             <span className="icon is-left">
               <FontAwesomeIcon 
                 icon={faPlus} 
-                onClick={() => history.push("/addservice")} 
+                onClick={() => history.push({
+                  pathname: "/addservice",
+                  state: {
+                    locations: locations
+                    }
+                  })} 
               />
               </span>
             </th>

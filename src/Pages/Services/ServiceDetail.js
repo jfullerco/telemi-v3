@@ -37,9 +37,8 @@ const ServiceDetail = (state) => {
   const servicePrivateIPGateway = useRef("")
   const servicePublicIPRange = useRef("")
   const servicePublicIPGateway = useRef("")
-  const serviceRouterProvidedSN = useRef("")
-
-  const [modalState, setModalState] = useState(true)
+  const serviceRouterHostname = useRef("")
+  const serviceRouterSN = useRef("")
 
   const [activeService, setActiveService] = useState("")
 
@@ -81,7 +80,8 @@ const ServiceDetail = (state) => {
       PrivateIPGateway: servicePrivateIPGateway.current.value,
       PublicIPRange: servicePrivateIPRange.current.value,
       PublicIPGateway: servicePrivateIPGateway.current.value,
-      RouterProvidedSN: serviceRouterProvidedSN
+      RouterHostname: serviceRouterHostname,
+      RouterSN: serviceRouterSN
       
     }  
     console.log(data)
@@ -214,9 +214,15 @@ const ServiceDetail = (state) => {
             />
 
             <TextInput 
-              inputFieldLabel="Router Provided S/N"
-              inputFieldRef={serviceRouterProvidedSN}
-              inputFieldValue={activeService.RouterProvidedSN}
+              inputFieldLabel="Router Hostname"
+              inputFieldRef={serviceRouterHostname}
+              inputFieldValue={activeService.RouterHostname}
+            />
+
+            <TextInput 
+              inputFieldLabel="Router S/N"
+              inputFieldRef={serviceRouterSN}
+              inputFieldValue={activeService.RouterSN}
             />
 
           </form>
