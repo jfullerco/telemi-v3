@@ -69,6 +69,8 @@ const DataViewer = ({visible}) => {
 
   const [toggleReportsView, setToggleReportsView] = useState(true)
 
+  const [toggleQuotesView, setToggleQuotesView] = useState(false)
+
   const [toggleUsersView, setToggleUsersView] = useState(false)
 
   const handleToggleServicesAddModal = () => {
@@ -159,6 +161,10 @@ const DataViewer = ({visible}) => {
     setToggleReportsView(!toggleReportsView)
   }
 
+  const handleToggleQuotesView = () => {
+    setToggleQuotesView(!toggleQuotesView)
+  }
+
   const handleAccountDetail = (id) => {
     userContext.setCurrentAccountID(id)
     userContext.setDataLoading(true)
@@ -193,8 +199,6 @@ const DataViewer = ({visible}) => {
     fetchAccounts()
     ) : ""
   }
-  
-  
   
   const fetchLocations = async() => {
 
@@ -298,11 +302,6 @@ const DataViewer = ({visible}) => {
 
   }
 
-  const handleCheckExistingLocation = (e) => {
-    
-  }
-
-
 return (
   <>
   {visible != false ?
@@ -310,7 +309,6 @@ return (
     
     {toggleServicesDetailModal != false ? <ServiceDetail /> : ""}
      
-    
     <div className="title">
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
@@ -431,7 +429,7 @@ return (
               <span className="icon is-left">
               <FontAwesomeIcon 
                 icon={faPlus} 
-                onClick={handleToggleAccountAddModal} 
+                  onClick={handleToggleAccountAddModal} 
               />
               </span>
             </th>
@@ -441,15 +439,24 @@ return (
           {userContext.userSession.dataLoading != true ?
             accounts != undefined ? accounts.map(account => (
             
-            <tr key={account.id} onClick={() => handleAccountDetail(account.id)}>
+            <tr key={account.id} >
               <td >{account.Vendor}</td>
-              <td >{account.ParentAccountID === "Parent" ? account.AccountNum : account.ParentAccountNum}</td>
-              <td >{account.ParentAccountID != "Parent" ? account.AccountNum : ""}</td>
+              <td >{account.AccountNum}</td>
+              <td >{account.SubAccountNum}</td>
               <td >{account.AccountServiceLocationName} </td>
               <td >$ {account.PostTaxMRC}</td>
               <td>
                 <span className="icon is-left">
-                <FontAwesomeIcon icon={faEdit} onClick={(e)=>handleToggleAccountDetailModal(account.id)} /></span>
+                <FontAwesomeIcon icon={faEdit} onClick={()=>
+                  history.push({
+                      pathname: "/accountdetail",
+                      state: {
+                      id: account.id,
+                      services: services,
+                      locations: locations
+                      }
+                    }) 
+                  } /></span>
                 <span className="icon is-right">
                 <DeleteButton colRef="Accounts" docRef={account.id} />
                 </span>
@@ -728,6 +735,46 @@ return (
                       }
                     }) 
                   }>Asset Report</a>
+            </td>
+          </tr>
+        </tbody>    
+      </table>
+      </nav>
+    </div> : ""}
+
+    <div className="title">
+      <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleQuotesView}>
+      Quotes
+      
+      </button>      
+    </div>
+    
+    {toggleQuotesView != false ? 
+    <div className="table-container">
+    <nav className="level is-centered">
+      <table className="table is-striped is-fullwidth ">
+        <thead className="is-size-6">
+          <tr>
+            <th className="px-6">Date</th>
+            <th className="px-6">Project</th>
+            <th className="px-6">Vendor</th>
+            <th className="px-6">Cost</th>
+          </tr>
+        </thead>
+        <tbody className="is-size-7">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td className="px-6">
+              <a onClick={()=>
+                  history.push({
+                      pathname: "/assetreport",
+                      state: {
+                      services: services
+                      }
+                    }) 
+                  }>View</a>
             </td>
           </tr>
         </tbody>    

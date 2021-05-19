@@ -11,18 +11,19 @@ import {stateContext} from '../../Contexts/stateContext'
 import TextInput from '../../Components/Forms/TextInput'
 import SelectInput from '../../Components/Forms/SelectInput'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
+import Page from '../../Components/Page'
 
-const AccountDetail = () => {
+const AccountDetail = (state) => {
 
   const userContext = useContext(stateContext)
   const {dataLoading} = userContext
   const history = useHistory()
   
-  const [addAccountError, setAddAccountError] = useState("")
-  const [success, setSuccess] = useState(false)
+  const [pageError, setPageError] = useState()
+  const [pageSuccess, setPageSuccess] = useState()
 
   const [activeAccount, setActiveAccount] = useState()
-  const [locations, setLocations] = useState()
+  const [locations, setLocations] = useState(state.location.state.locations)
   const [servicesByLocation, setServicesByLocation] = useState()
   const [toggleServiceList, setToggleServiceList] = useState()
   
@@ -37,11 +38,9 @@ const AccountDetail = () => {
   const accountPreTaxMRC = useRef("")
   const accountPostTaxMRC = useRef("")
   
-
+console.log(state)
   useEffect(() => {
     fetchAccount()
-    fetchLocations()
-    
   },[])
 
   useEffect(() => {
@@ -51,31 +50,12 @@ const AccountDetail = () => {
 
   const fetchAccount = async() => {
    
-    const accountRef = await db.collection("Accounts").doc(userContext.userSession.currentAccountID).get()
+    const accountRef = await db.collection("Accounts").doc(state.location.state.id).get()
 
     const data = await accountRef.data()
     const id = await accountRef.id
     setActiveAccount(data)
     userContext.setDataLoading(false)
-  }
-
-  const fetchAccounts = async() => {
-   
-    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const accounts = accountsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
-    console.log(accounts)
-    setAccounts(accounts)
-
-  }
-
-  const fetchLocations = async() => {
-   
-    const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const locations = locationsRef.docs.map(doc => ({id: doc.id, Name: doc.Name, ...doc.data()}))
-    setLocations(locations)
-
   }
 
   const fetchServices = async() => {
@@ -113,27 +93,21 @@ const AccountDetail = () => {
     }  
 
     console.log(data)
-    const res = await db.collection("Accounts").doc(userContext.userSession.currentAccountID).update(data)
+    const res = await db.collection("Accounts").doc(state.location.state.id).update(data)
     history.push("/dashboard")
   }
-
   
-console.log()
+  const autoClose = () => {
+    setTimeout(() => {history.push("/dashboard")}, 1000)
+  }
+
   return (
-    <div>
-    {activeAccount != undefined ? ( <>
-      <div className="title">
-        Account {activeAccount.AccountNum} Detail
-      </div>
+    <>
+    {activeAccount != undefined ? ( 
+    <>
+    <Page title="Account Details" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
         
         <form>
-            <>
-
-            <div className="level-right">
-              <span className="icon-text is-clickable" onClick={handleSubmit}>
-                <span>Update</span> <FontAwesomeIcon icon={faSave} />
-              </span>
-            </div>
 
             <TextInput 
               inputFieldLabel="Account Number"
@@ -210,25 +184,12 @@ console.log()
               inputFieldRef={accountInternalBillingCode}
               inputFieldValue={activeAccount.InternalBillingCode}
             />
-            </> 
+            
           </form>
-        {/** <AddNote attachedTo="Accounts" attachedID={activeAccount.id} /> */}
-        <div className="block">
-          <div className="notification is-danger is-hidden">{addAccountError}</div>
-         {success === true ?  <div className="notification is-success">Account Added</div> : ""}
-        </div>
-        <div className="modal-card-foot">
-        
-          <button className="button is-black is-outlined is-rounded level-item" type="submit" onClick={handleSubmit}>
-            Update Account
-          </button>
-        
-        </div>
-
-        
+        </Page>
           
     </> ) : ""}
-    </div>
+    </>
   )
 }
 export default AccountDetail
