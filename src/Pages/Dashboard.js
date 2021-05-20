@@ -20,15 +20,12 @@ const Dashboard = () => {
 
 
   const isUserLoggedIn = currentUser != undefined ? currentUser : ""
-  
+  const [toggleCompanyList, setToggleCompanyList] = useState(false)
 
   useEffect(() => {
     fetchUser(currentUser)
     isCurrentCompany()
   },[isUserLoggedIn])
-
-  
-  
 
   const fetchUser = async(email) => {
     
@@ -62,11 +59,13 @@ const Dashboard = () => {
       <>
        <div className="block"> 
         
-            <p className="title has-text-black">Hello, {userFirstName}</p>
+            <p className="block"><span className="title has-text-black">Hello, {userFirstName} </span></p>
+            <p className="block"><span className="title has-text-black">{userContext.userSession.currentCompany}</span>
+            <a className="is-7" onClick={()=>setToggleCompanyList(!toggleCompanyList)}>[change]</a></p>
           
       </div>
       <div className="block" id="companyList">
-      <CompanyList />
+      {toggleCompanyList != false ? <CompanyList /> : ""}
       </div>
       <div>
         {/**<UserDashboard />**/}

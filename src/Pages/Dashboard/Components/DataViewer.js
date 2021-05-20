@@ -503,7 +503,7 @@ return (
         </p>
       </div>
     </div>
-    <Search locations={locations} />
+    
     
     {toggleLocationView != false ? 
     <div className="table-container">

@@ -3,21 +3,30 @@ import {useHistory} from 'react-router-dom'
 import {stateContext} from '../Contexts/stateContext'
 import TextInputAC from '../Components/Forms/TextInputAC'
 
-const Search = ({locations}) => {
+const Search = ({locations, accounts, services}) => {
 
   const userContext = useContext(stateContext)
   const history = useHistory()
 
   const [dropDown, setDropDown] = useState(false)
-  const [locationAC, setLocationAC] = useState()
-  const locationRef = useRef("")
+  const searchRef = useRef("")
 
   const handleLocationSearch = (e) => {
+
     setDropDown("")
+
     const {value} = e.target
+
     const locationAC = locations.filter(({Name, Address1, State, City}) => Name.indexOf(value) > -1 || Address1.indexOf(value) > 1 || State.indexOf(value) > -1 || City.indexOf(value) > -1 )
-    locationRef.current = value
-    setDropDown(locationAC)
+
+    const accountAC = accounts.filter(({AccountNum, AccountServiceLocationName, ServiceType, Vendor}) => AccountNum.indexOf(value) > -1 || AccountServiceLocationName.indexOf(value) > 1 || ServiceType.indexOf(value) > -1 || Vendor.indexOf(value) > -1 )
+
+    const servicesAC = services.filter(({AssetID, LocationName, ServiceType, Vendor}) => AssetID.indexOf(value) > -1 || LocationName.indexOf(value) > 1 || ServiceType.indexOf(value) > -1 || Vendor.indexOf(value) > -1 )
+
+    searchRef.current = value
+
+    setDropDown(locationAC, accountAC, servicesAC)
+    console.log(dropDown)
   }
 
   const handleLocationRedirect = (name, id) => {
@@ -32,7 +41,7 @@ const Search = ({locations}) => {
     <div className="level-right">
     <TextInputAC handleChange={(e)=>handleLocationSearch(e)} 
       label="Search Locations" 
-      value={locationRef.current} 
+      value={searchRef.current} 
       dropDownState={dropDown}
       inputSmall = "true">
         {dropDown != "" ? 

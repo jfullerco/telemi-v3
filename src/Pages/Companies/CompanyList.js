@@ -30,7 +30,6 @@ const CompanyList = () => {
 
   useEffect(() => {
     
-    console.log(userContext.userSession.companies)
   }, [isUserLoggedIn]) 
 
   useEffect(() => {
@@ -100,7 +99,7 @@ const CompanyList = () => {
       {
         userContext.userSession.userType != "User" ? 
         <>
-        <span className="title is-5 has-text-black">{userContext.userSession.currentCompany}</span>
+        
         <SelectInputProps 
               fieldLabel=""
               fieldInitialValue={userContext.userSession.currentCompanyID}
