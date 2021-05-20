@@ -59,9 +59,19 @@ const Dashboard = () => {
       <>
        <div className="block"> 
         
-            <p className="block"><span className="title has-text-black">Hello, {userFirstName} </span></p>
-            <p className="block"><span className="title has-text-black">{userContext.userSession.currentCompany}</span>
-            <a className="is-7" onClick={()=>setToggleCompanyList(!toggleCompanyList)}>[change]</a></p>
+            <p className="block">
+              <span className="title has-text-black">
+                Hello, {userFirstName} 
+              </span>
+            </p>
+            <p className="block">
+              <span className="title has-text-black">
+                {userContext.userSession.currentCompany}
+              </span>
+              {userContext.userSession.companies && userContext.userSession.companies.length > 1 ? 
+                <a className="is-7" onClick={()=>setToggleCompanyList(!toggleCompanyList)}>[change]</a> 
+              : ""}
+            </p>
           
       </div>
       <div className="block" id="companyList">
