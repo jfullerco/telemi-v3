@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 import DeleteButton from '../../../Components/Buttons/DeleteButton'
-import Search from '../../Components/Search'
+import Search from '../../../Components/Search'
 
 import EditServiceModal from '../../Services/EditServiceModal'
 import ServiceDetail from '../../Services/ServiceDetail'
@@ -318,14 +318,16 @@ return (
         </p>
       </div>
     </div>
-
+    
     {toggleServicesView != true ? 
       
       <div className="table-container">
       <nav className="level">
+      
         <table className="table is-striped is-hoverable is-fullwidth">
+        
           <thead className="is-size-6">
-            <Search locations={locations} />
+            
             <tr>
             <th>
               Vendor
@@ -501,6 +503,7 @@ return (
         </p>
       </div>
     </div>
+    <Search locations={locations} />
     
     {toggleLocationView != false ? 
     <div className="table-container">

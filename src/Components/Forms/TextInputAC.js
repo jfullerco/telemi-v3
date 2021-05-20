@@ -2,6 +2,7 @@ import React, {useState, useRef, useContext, useEffect} from 'react'
 
 const TextInputAC = (props) => {
 
+  const [inputSmall, setInputSmall] = useState(props.inputSmall)
 
   return(
     <div className="field">
@@ -9,7 +10,7 @@ const TextInputAC = (props) => {
     <div className="control">
     <div className={props.dropDownState != false ? "dropdown is-active is-fullwidth" : "dropdown"}>
       <div className="dropdown-trigger">
-        <input className="input is-rounded " type="text" value={props.value} onChange={props.handleChange} aria-haspopup="true" aria-controls="dropdown-menu"/>
+        <input className={inputSmall == "true" ? "input is-rounded is-small" : "input is-rounded"} type="text" value={props.value} onChange={props.handleChange} aria-haspopup="true" aria-controls="dropdown-menu"/>
       </div>
       <div className="dropdown-menu" id="dropdown-menu" role="menu">
         <div className="dropdown-content">
