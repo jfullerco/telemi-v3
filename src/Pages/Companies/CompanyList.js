@@ -16,7 +16,6 @@ const CompanyList = () => {
   const history = useHistory()
   const {dataLoading, currentUser} = userContext.userSession
   
-  const [userCompanies, setUserCompanies] = useState([])
   const [selectedCompany, setSelectedCompany] = useState({
     id: "",
     Name: ""

@@ -9,7 +9,7 @@ import LogoutButton from '../Components/LogoutButton'
 import CompanyList from './Companies/CompanyList'
 import TotalLocations from './Dashboard/Components/TotalLocations'
 import DataViewer from './Dashboard/Components/DataViewer'
-import UserDashboard from './Dashboard/Components/UserDashboard'
+import ServicesDashboard from './Dashboard/Components/ServicesDashboard'
 
 
 const Dashboard = () => {
@@ -52,48 +52,48 @@ const Dashboard = () => {
 
   }
   
-  return (  
-       
+  return (   
       <> 
-      {currentUser != undefined ?
-      <>
-       <div className="block"> 
-        
-            <p className="block">
-              <span className="title has-text-black">
-                Hello, {userFirstName} 
-              </span>
-            </p>
-            <p className="block">
-              <span className="title has-text-black">
-                {userContext.userSession.currentCompany}
-              </span>
-              {userContext.userSession.companies && userContext.userSession.companies.length > 1 ? 
-                <a className="is-7" onClick={()=>setToggleCompanyList(!toggleCompanyList)}>[change]</a> 
-              : ""}
-            </p>
+        {currentUser != undefined ?
+          <>
+            <div className="block"> 
+              <p className="block">
+                <span className="title has-text-black">
+                  Hello, {userFirstName} 
+                </span>
+              </p>
+              <p className="block">
+                <span className="title has-text-black">
+                  {userContext.userSession.currentCompany}
+                </span>
+                {userContext.userSession.companies && userContext.userSession.companies.length > 1 ? 
+                  <a className="is-7" onClick={()=>setToggleCompanyList(!toggleCompanyList)}>[change]</a> 
+                : ""}
+              </p>
+            </div>
+
+        <div className="block" id="companyList">
+          {toggleCompanyList != false ? <CompanyList /> : ""}
+        </div>
+
+        <div>
           
-      </div>
-      <div className="block" id="companyList">
-      {toggleCompanyList != false ? <CompanyList /> : ""}
-      </div>
-      <div>
-        {/**<UserDashboard />**/}
-        <DataViewer />
-      </div>
+          <DataViewer />
+        </div>
+
       </>
       : 
       <>
-      <div className="box has-text-centered">
-      <p className="title has-text-centered">Please Login </p>
-      <button className="button is-rounded is-dark" onClick={() => history.push("/login")}>Login</button>
-      </div>
-      </>
-      }
-     
 
-      
-  </>
+          <div className="box has-text-centered">
+            <p className="title has-text-centered">Please Login </p>
+            <button className="button is-rounded is-dark" onClick={() => history.push("/login")}>
+              Login
+            </button>
+          </div>
+        </>
+        }    
+    </>
   )
 }
 
