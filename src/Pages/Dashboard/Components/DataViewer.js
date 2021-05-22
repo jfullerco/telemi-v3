@@ -312,7 +312,7 @@ return (
     <div className="title">
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
-          <button className="button is-fullwidth is-black is-focused is-rounded has-text-weight-bold" onClick={handleToggleServicesView}>
+          <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleServicesView}>
           Services 
           </button>
         </p>

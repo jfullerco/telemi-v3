@@ -16,3 +16,7 @@ body {
 .dropdown-trigger, .dropdown-menu {
             width: 100%;
       }
+
+.button {
+  border-width: 4px;
+}
