@@ -5,7 +5,7 @@ import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faEdit, faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import DeleteButton from '../../../Components/Buttons/DeleteButton'
 import Search from '../../../Components/Search'
@@ -34,6 +34,8 @@ const DataViewer = ({visible}) => {
   const [accounts, setAccounts] = useState()
   const [tickets, setTickets] = useState()
   const [users, setUsers] = useState()
+  const [searchDropDown, setSearchDropDown] = useState(false)
+  const searchRef = useRef("")
 
   const [toggleServicesDetailModal, setToggleServicesDetailModal] = useState(false)
 
@@ -72,6 +74,8 @@ const DataViewer = ({visible}) => {
   const [toggleQuotesView, setToggleQuotesView] = useState(false)
 
   const [toggleUsersView, setToggleUsersView] = useState(false)
+
+  const [toggleSearchServices, setToggleSearchServices] = useState(false)
 
   const handleToggleServicesAddModal = () => {
     setToggleServicesAddModal(!toggleServicesAddModal)
@@ -242,7 +246,7 @@ const DataViewer = ({visible}) => {
       ...doc.data()}))
     setServices(services)
     userContext.setDataLoading(false)
-
+    console.log(services)
   }
 
   const fetchServicesFilter = async(key, value) => {
@@ -302,29 +306,51 @@ const DataViewer = ({visible}) => {
 
   }
 
+  const handleChangeSearchServices = (e) => {
+    
+    const {value} = e.target
+    value == "" ? fetchServices() : ""
+    const servicesAC = services.filter(({LocationName, AssetID, Vendor, Type}) => LocationName.indexOf(value) > -1 || AssetID.indexOf(value) > 1 || Vendor.indexOf(value) > -1 || Type.indexOf(value) > -1 )
+    searchRef.current = value
+    setServices(servicesAC) 
+    
+  }
+
+  const handleServicesSuggestedRef = (name, id) => {
+    console.log(name)
+    console.log(id)
+    ticketLocationID.current = id
+    ticketLocationName.current = name
+    setDropDown("")
+  }
+
 return (
   <>
   {visible != false ?
   <>
     
-    {toggleServicesDetailModal != false ? <ServiceDetail /> : ""}
+    
      
     <div className="title">
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
           <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleServicesView}>
-          Services 
+          SERVICES 
           </button>
         </p>
       </div>
     </div>
-    
+    {toggleSearchServices != false ? 
+      <div className="tile"><input className="input is-rounded" placeholder="search" onChange={(e)=>handleChangeSearchServices(e)} /></div> 
+    : ""}
     {toggleServicesView != true ? 
       
       <div className="table-container">
       <nav className="level">
       
         <table className="table is-striped is-hoverable is-fullwidth">
+        
+          
         
           <thead className="is-size-6">
             
@@ -339,7 +365,7 @@ return (
               <a onClick={()=>fetchServicesSort("VendorServiceName")}>Product</a>
             </th>
             <th>
-              Location
+              <a onClick={()=>fetchServicesSort("LocationName")}>Location</a>
             </th>
             <th>
               Asset ID
@@ -356,6 +382,12 @@ return (
                   })} 
               />
               </span>
+              <span className="icon is-right"><FontAwesomeIcon 
+                icon={faSearch} 
+                onClick={() => setToggleSearchServices(!toggleSearchServices)
+                    }
+                   
+              /></span>
             </th>
             </tr>
           </thead>
@@ -364,16 +396,7 @@ return (
           {userContext.userSession.dataLoading != true ?
             services != undefined ? services.map(service => (
             
-            <tr key={service.id} >
-              <td>{service.Vendor}</td>
-              <td>{service.Type}</td>
-              <td><a onClick={()=>{fetchServicesFilter("VendorServiceName", service.VendorServiceName)}}>{service.VendorServiceName}</a> </td>
-              <td>{service.LocationName}</td>
-              <td>{service.AssetID}</td>
-              <td>
-                
-                <span className="icon is-left">
-                <FontAwesomeIcon icon={faEdit} onClick={()=>
+            <tr key={service.id} onClick={()=>
                   history.push({
                       pathname: "/servicedetail",
                       state: {
@@ -382,7 +405,14 @@ return (
                       accounts: accounts
                       }
                     }) 
-                  }  /></span>
+                  } >
+              <td>{service.Vendor}</td>
+              <td>{service.Type}</td>
+              <td>{service.VendorServiceName} </td>
+              <td>{service.LocationName}</td>
+              <td>{service.AssetID}</td>
+              <td>
+                
                 <span className="icon is-right">
                 <DeleteButton colRef="Services" docRef={service.id} />
                 </span>
@@ -413,9 +443,9 @@ return (
     <div className="title">
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
-          <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleAccountView}>
+          <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleAccountView}>
           
-          Accounts 
+          ACCOUNTS 
             
           </button>
         </p>

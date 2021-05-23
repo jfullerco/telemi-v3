@@ -53,7 +53,7 @@ const Dashboard = () => {
   }
   
   return (   
-      <> 
+      <div id="dashboard" className="dashboard"> 
         {currentUser != undefined ?
           <>
             <div className="block"> 
@@ -93,7 +93,7 @@ const Dashboard = () => {
           </div>
         </>
         }    
-    </>
+    </div>
   )
 }
 
