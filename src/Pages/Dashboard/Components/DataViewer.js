@@ -340,9 +340,11 @@ return (
         </p>
       </div>
     </div>
-    {toggleSearchServices != false ? 
-      <div className="tile"><input className="input is-rounded" placeholder="search" onChange={(e)=>handleChangeSearchServices(e)} /></div> 
-    : ""}
+    
+      <div className="tile">
+      <input className="input is-rounded is-small " placeholder="search" onChange={(e)=>handleChangeSearchServices(e)} />
+      </div> 
+    
     {toggleServicesView != true ? 
       
       <div className="table-container">
@@ -355,7 +357,7 @@ return (
           <thead className="is-size-6">
             
             <tr>
-            <th>
+            <th className="is-hidden-mobile">
               Vendor
             </th>
             <th>
@@ -371,23 +373,9 @@ return (
               Asset ID
             </th>
             <th>
-            <span className="icon is-left">
-              <FontAwesomeIcon 
-                icon={faPlus} 
-                onClick={() => history.push({
-                  pathname: "/addservice",
-                  state: {
-                    locations: locations
-                    }
-                  })} 
-              />
-              </span>
-              <span className="icon is-right"><FontAwesomeIcon 
-                icon={faSearch} 
-                onClick={() => setToggleSearchServices(!toggleSearchServices)
-                    }
-                   
-              /></span>
+            <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>
+              Add New
+            </a>
             </th>
             </tr>
           </thead>
@@ -406,7 +394,7 @@ return (
                       }
                     }) 
                   } >
-              <td>{service.Vendor}</td>
+              <td className="is-hidden-mobile">{service.Vendor}</td>
               <td>{service.Type}</td>
               <td>{service.VendorServiceName} </td>
               <td>{service.LocationName}</td>
