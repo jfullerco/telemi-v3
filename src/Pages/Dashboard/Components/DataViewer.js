@@ -11,7 +11,7 @@ import DeleteButton from '../../../Components/Buttons/DeleteButton'
 import Search from '../../../Components/Search'
 
 import EditServiceModal from '../../Services/EditServiceModal'
-import ServiceDetail from '../../Services/ServiceDetail'
+
 import AddService from '../../Services/AddService'
 import LocationDetail from '../../Locations/LocationDetail'
 import AddLocation from '../../Locations/AddLocation'
@@ -82,7 +82,7 @@ const DataViewer = ({visible}) => {
   }
 
   const handleServiceDetail = (id) => {
-    console.log(id)
+    console.log(history)
     userContext.setCurrentServiceID(id)
     userContext.setLocations(locations)
     history.push("/servicedetail")
