@@ -81,10 +81,11 @@ const DataViewer = ({visible}) => {
     setToggleServicesAddModal(!toggleServicesAddModal)
   }
 
-  const handleToggleServicesDetailModal = (id) => {
-    
-    setToggleServicesDetailModal(!toggleServicesDetailModal)
-    
+  const handleServiceDetail = (id) => {
+    console.log(id)
+    userContext.setCurrentServiceID(id)
+    userContext.setLocations(locations)
+    history.push("/servicedetail")
   }
 
   const handleToggleServicesView = () => {
@@ -175,12 +176,7 @@ const DataViewer = ({visible}) => {
     history.push("/accountdetail")
   }
 
-  const handleServiceDetail = (id) => {
-    
-    userContext.setCurrentServiceID(id)
-    setToggleServicesDetailModal(!toggleServicesDetailModal)
-
-  }
+  
 
   useEffect(() => {
     fetchLocations(),
@@ -384,16 +380,7 @@ return (
           {userContext.userSession.dataLoading != true ?
             services != undefined ? services.map(service => (
             
-            <tr key={service.id} onClick={()=>
-                  history.push({
-                      pathname: "/servicedetail",
-                      state: {
-                      id: service.id,
-                      locations: locations,
-                      accounts: accounts
-                      }
-                    }) 
-                  } >
+            <tr onClick={() => handleServiceDetail(service.id)} key={service.id}>
               <td style={{width: "15%"}} className="is-hidden-mobile">{service.Vendor}</td>
               <td style={{width: "20%"}}>{service.VendorServiceName} </td>
               <td style={{width: "20%"}}>{service.LocationName}</td>

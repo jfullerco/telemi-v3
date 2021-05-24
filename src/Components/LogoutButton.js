@@ -62,7 +62,7 @@ const LogoutButton = () => {
           
           </div>
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link" onclick={history.push("/dashboard")}>Dashboards</a>
+            <a className="navbar-link" onClick={history.push("/dashboard")}>Dashboards</a>
             
           <div className="navbar-dropdown">
             <a className="navbar-item">ACCOUNTS</a>

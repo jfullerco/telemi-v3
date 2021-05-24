@@ -8,17 +8,14 @@ import TextInput from '../../Components/Forms/TextInput'
 import SelectInput from '../../Components/Forms/SelectInput'
 import Page from '../../Components/Page'
 
-const ServiceDetail = (state) => {
-  
+const ServiceDetail = () => {
+  const history = useHistory()
   const userContext = useContext(stateContext)
   const {serviceTypes, accessTypes, serviceStatusType} = userContext
-  
-  const history = useHistory()
-  
+
   const [pageSuccess, setPageSuccess] = useState()
   const [pageError, setPageError] = useState()
-
-  const [locations, setLocations] = useState(state.location.state.locations)
+  
 
   const serviceVendor = useRef("")
   const serviceType = useRef("")
@@ -51,7 +48,7 @@ const ServiceDetail = (state) => {
 
   const fetchService = async() => {
    
-    const serviceRef = await db.collection("Services").doc(state.location.state.id).get()
+    const serviceRef = await db.collection("Services").doc(userContext.userSession.currentServiceID).get()
     
     const data = await serviceRef.data()
     const id = await serviceRef.id
@@ -59,7 +56,7 @@ const ServiceDetail = (state) => {
     
   }
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async() => {
     const data = {
       Vendor: serviceVendor.current.value,
       Type: serviceType.current.value,
@@ -100,7 +97,7 @@ const ServiceDetail = (state) => {
           <form>
 
             <SelectInput 
-              fieldOptions={locations}
+              fieldOptions={userContext.userSession.locations}
               fieldLabel="Service Location"
               fieldInitialValue={activeService.LocationID}
               fieldInitialOption={activeService.LocationName}

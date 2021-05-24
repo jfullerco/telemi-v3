@@ -40,12 +40,12 @@ export const StateProvider = (props) => {
     }
 
     const serviceTypes = [
-    { id: "Dedicated Internet",
-      Name: "Dedicated Internet" },
-    { id: "Dedicated Internet with Voice",
-      Name: "Dedicated Internet with Voice" },
-    { id: "Switched Ethernet",
-      Name: "Switched Ethernet" },
+    { id: "Internet",
+      Name: "Internet" },
+    { id: "Internet with Voice",
+      Name: "Internet with Voice" },
+    { id: "Ethernet",
+      Name: "Ethernet" },
     { id: "MPLS",
       Name: "MPLS" },
     { id: "MPLS with Voice",
@@ -127,6 +127,34 @@ export const StateProvider = (props) => {
         dispatch({
           type: "SET_COMPANIES",
           payload: companies
+        })
+      };
+
+      const setServices = (services) => {
+        dispatch({
+          type: "SET_SERVICES",
+          payload: services
+        })
+      };
+
+      const setAccounts = (accounts) => {
+        dispatch({
+          type: "SET_ACCOUNTS",
+          payload: accounts
+        })
+      };
+
+      const setLocations = (locations) => {
+        dispatch({
+          type: "SET_LOCATIONS",
+          payload: locations
+        })
+      };
+
+      const setTickets = (tickets) => {
+        dispatch({
+          type: "SET_TICKETS",
+          payload: tickets
         })
       };
 
@@ -228,6 +256,10 @@ export const StateProvider = (props) => {
           setDataLoading,
           setLoggedIn,
           setCompanies,
+          setServices,
+          setAccounts,
+          setLocations,
+          setTickets,
           setCurrentCompanyID,
           setCurrentCompany,
           setCurrentLocationID,

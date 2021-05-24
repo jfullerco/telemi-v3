@@ -90,5 +90,25 @@ export default (state, action) => {
         ...state,
         userFirstName: action.payload
       };  
+    case "SET_ACCOUNTS":
+      return {
+        ...state,
+        accounts: action.payload
+      }; 
+    case "SET_SERVICES":
+      return {
+        ...state,
+        services: action.payload
+      };  
+    case "SET_LOCATIONS":
+      return {
+        ...state,
+        locations: action.payload
+      }; 
+    case "SET_TICKETS":
+      return {
+        ...state,
+        tickets: action.payload
+      };    
   };
 }
