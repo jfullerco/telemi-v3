@@ -350,7 +350,7 @@ return (
       <div className="table-container">
       <nav className="level">
       
-        <table className="table is-striped is-hoverable is-fullwidth">
+        <table className="table is-striped is-hoverable is-fullwidth ">
         
           
         
@@ -361,9 +361,6 @@ return (
               Vendor
             </th>
             <th>
-              Type
-            </th>
-            <th>
               <a onClick={()=>fetchServicesSort("VendorServiceName")}>Product</a>
             </th>
             <th>
@@ -371,6 +368,9 @@ return (
             </th>
             <th>
               Asset ID
+            </th>
+            <th>
+              Type
             </th>
             <th>
             <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>
@@ -394,12 +394,12 @@ return (
                       }
                     }) 
                   } >
-              <td className="is-hidden-mobile">{service.Vendor}</td>
-              <td>{service.Type}</td>
-              <td>{service.VendorServiceName} </td>
-              <td>{service.LocationName}</td>
-              <td>{service.AssetID}</td>
-              <td>
+              <td style={{width: "15%"}} className="is-hidden-mobile">{service.Vendor}</td>
+              <td style={{width: "20%"}}>{service.VendorServiceName} </td>
+              <td style={{width: "20%"}}>{service.LocationName}</td>
+              <td style={{width: "20%"}}>{service.AssetID}</td>
+              <td style={{width: "20%"}}>{service.Type}</td>
+              <td style={{width: "15%"}}>
                 
                 <span className="icon is-right">
                 <DeleteButton colRef="Services" docRef={service.id} />
