@@ -78,7 +78,9 @@ const ServiceDetail = () => {
       PublicIPRange: servicePrivateIPRange.current.value,
       PublicIPGateway: servicePrivateIPGateway.current.value,
       RouterHostname: serviceRouterHostname.current.value,
-      RouterSN: serviceRouterSN.current.value
+      RouterSN: serviceRouterSN.current.value,
+      LastUpdatedBy: userContext.userSession.currentUser,
+      LastUpdated: Date()
       
     }  
     console.log(data)
@@ -106,7 +108,7 @@ const ServiceDetail = () => {
               fieldNameRef={serviceLocationName}
               fieldChange={()=> console.log("Changed Selection")}
             />
-            
+            {Date()}
             <TextInput 
               inputFieldLabel="Vendor"
               inputFieldRef={serviceVendor}

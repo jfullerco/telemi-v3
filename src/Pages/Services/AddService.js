@@ -10,7 +10,7 @@ import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import TextInputAC from '../../Components/Forms/TextInputAC'
 import Page from '../../Components/Page'
 
-const AddService = (state) => {
+const AddService = () => {
 
   const userContext = useContext(stateContext)
 
@@ -21,7 +21,7 @@ const AddService = (state) => {
   const [pageError, setPageError] = useState()
   const [pageSuccess, setPageSuccess] = useState()
 
-  const [locations, setLocations] = useState(state.location.state.locations)
+  const [locations, setLocations] = useState(userContext.userSession.locations)
   const [dropDown, setDropDown] = useState(false)
   const [suggestLocation, setSuggestLocation] = useState()
   
@@ -125,7 +125,7 @@ const AddService = (state) => {
                   )}
                   </ul> : ""} 
             </TextInputAC>
-
+            
             <SelectInput 
               fieldOptions={serviceTypes}
               fieldLabel="Type"
