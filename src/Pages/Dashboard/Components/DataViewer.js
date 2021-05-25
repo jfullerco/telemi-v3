@@ -8,9 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faEdit, faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import DeleteButton from '../../../Components/Buttons/DeleteButton'
-import Search from '../../../Components/Search'
-
-import EditServiceModal from '../../Services/EditServiceModal'
 
 import AddService from '../../Services/AddService'
 import LocationDetail from '../../Locations/LocationDetail'
@@ -21,6 +18,8 @@ import TicketDetail from '../../Tickets/TicketDetail'
 import AddTicket from '../../Tickets/AddTicket'
 import AccountDetail from '../../Accounts/AccountDetail'
 import AddAccount from '../../Accounts/AddAccount'
+
+
 
 const DataViewer = ({visible}) => {
   const userContext = useContext(stateContext)
@@ -176,8 +175,6 @@ const DataViewer = ({visible}) => {
     history.push("/accountdetail")
   }
 
-  
-
   useEffect(() => {
     fetchLocations(),
     fetchServices(),
@@ -323,60 +320,51 @@ const DataViewer = ({visible}) => {
 return (
   <>
   {visible != false ?
-  <>
-    
-    
-     
-    <div className="title">
-      <div className="field has-addons">
-        <p className="control is-expanded has-icons-left">
-          <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleServicesView}>
-          SERVICES 
-          </button>
-        </p>
+    <>
+      <div className="title">
+        <div className="field has-addons">
+          <p className="control is-expanded has-icons-left">
+            <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleServicesView}>
+              SERVICES 
+            </button>
+          </p>
+        </div>
       </div>
-    </div>
     
       <div className="tile">
-      <input className="input is-rounded is-small " placeholder="search" onChange={(e)=>handleChangeSearchServices(e)} />
+        <input className="input is-rounded is-small " placeholder="search" onChange={(e)=>handleChangeSearchServices(e)} />
       </div> 
     
     {toggleServicesView != true ? 
       
       <div className="table-container">
-      <nav className="level">
-      
-        <table className="table is-striped is-hoverable is-fullwidth ">
-        
-          
-        
-          <thead className="is-size-6">
-            
+        <nav className="level">
+          <table className="table is-striped is-hoverable is-fullwidth ">
+            <thead className="is-size-6">
             <tr>
-            <th className="is-hidden-mobile">
-              Vendor
-            </th>
-            <th>
-              <a onClick={()=>fetchServicesSort("VendorServiceName")}>Product</a>
-            </th>
-            <th>
-              <a onClick={()=>fetchServicesSort("LocationName")}>Location</a>
-            </th>
-            <th>
-              Asset ID
-            </th>
-            <th>
-              Type
-            </th>
-            <th>
-            <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>
-              Add New
-            </a>
-            </th>
+              <th className="is-hidden-mobile">
+                Vendor
+              </th>
+              <th>
+                <a onClick={()=>fetchServicesSort("VendorServiceName")}>Product</a>
+              </th>
+              <th>
+                <a onClick={()=>fetchServicesSort("LocationName")}>Location</a>
+              </th>
+              <th>
+                Asset ID
+              </th>
+              <th>
+                Type
+              </th>
+              <th>
+                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>
+                  Add New
+                </a>
+              </th>
             </tr>
-          </thead>
+            </thead>
           <tbody className="is-size-7">
-
           {userContext.userSession.dataLoading != true ?
             services != undefined ? services.map(service => (
             
@@ -387,18 +375,17 @@ return (
               <td style={{width: "20%"}}>{service.AssetID}</td>
               <td style={{width: "20%"}}>{service.Type}</td>
               <td style={{width: "15%"}}>
-                
                 <span className="icon is-right">
-                <DeleteButton colRef="Services" docRef={service.id} />
+                  <DeleteButton colRef="Services" docRef={service.id} />
                 </span>
-                </td>
+              </td>
             </tr>
           )) : 
             <tr> 
               <td> 
-                <button className="button is-rounded is-small" onClick={handleToggleServicesAddModal}>
-                  Add a service
-                </button> 
+                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>
+                  Add New
+                </a>
               </td> 
             </tr>
           
@@ -413,7 +400,6 @@ return (
 
     {toggleAccountDetailModal != false ? <AccountDetail /> : ""}
     {toggleAccountAddModal != false ? <AddAccount /> : ""}
-    
     
     <div className="title">
       <div className="field has-addons">
@@ -430,7 +416,7 @@ return (
     {toggleAccountView != false ? 
       <div className="table-container">
       <nav className="level">
-        <table className="table is-striped is-hoverable is-fullwidth has-text-centered">
+        <table className="table is-striped is-hoverable is-fullwidth">
           <thead className="is-size-6">
             <tr>
             <th className="px-5">Vendor</th>
@@ -439,13 +425,10 @@ return (
             <th className="px-5">Location Linked</th>
             <th className="px-5">Monthly Cost</th>
             <th>
-              <span className="icon is-left">
-              <FontAwesomeIcon 
-                icon={faPlus} 
-                  onClick={handleToggleAccountAddModal} 
-              />
-              </span>
-            </th>
+                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addaccount")}>
+                  Add New
+                </a>
+              </th>
             </tr>
           </thead>
           <tbody className="is-size-7">
@@ -480,9 +463,9 @@ return (
           )) : 
             <tr> 
               <td> 
-                <button className="button is-rounded is-small" onClick={handleToggleAccountAddModal}>
-                  Add an Account
-                </button> 
+                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addaccount")}>
+                  Add New
+                </a>
               </td> 
             </tr> 
           
@@ -500,9 +483,9 @@ return (
     <div className="title">
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
-          <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleLocationView}>
+          <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleLocationView}>
           
-          Locations
+          LOCATIONS
             
           </button>
         </p>
@@ -543,9 +526,9 @@ return (
         )) : 
           <tr> 
               <td> 
-                <button className="button is-rounded is-small" onClick={handleToggleLocationAddModal}>
-                  Add a Location
-                </button> 
+                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addlocation")}>
+                  Add New
+                </a>
               </td> 
             </tr>
           : <tr><td>Fetching Data...</td></tr>}
@@ -562,9 +545,9 @@ return (
     <div className="title">
     <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
-      <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleOrderView}>
+      <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleOrderView}>
       
-        Orders 
+        ORDERS 
       
       </button>
       </p>
@@ -613,9 +596,9 @@ return (
         )) : 
           <tr> 
               <td> 
-                <button className="button is-rounded is-small" onClick={handleToggleOrderAddModal}>
-                  Add an Order
-                </button> 
+                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addorder")}>
+                  Add New
+                </a>
               </td> 
             </tr>
         : <tr><td>Fetching Data...</td></tr>}
@@ -629,8 +612,8 @@ return (
     {toggleTicketDetailModal != false ? <TicketDetail /> : ""}
     {toggleTicketAddModal != false ? <AddTicket locations={locations} accounts={accounts} /> : ""}
     <div className="title">
-      <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleTicketView}>
-      Tickets
+      <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleTicketView}>
+      TICKETS
       
       </button>
       
@@ -708,9 +691,9 @@ return (
         )) : 
           <tr> 
               <td> 
-                <button className="button is-rounded is-small" onClick={handleToggleTicketAddModal}>
-                  Add a Ticket
-                </button> 
+                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addticket")}>
+                  Add New
+                </a> 
               </td> 
             </tr>
         : <tr><td>Fetching Data...</td></tr>}
@@ -723,8 +706,8 @@ return (
 
     
     <div className="title">
-      <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleReportsView}>
-      Reports
+      <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleReportsView}>
+      REPORTS
       
       </button>      
     </div>
@@ -757,8 +740,8 @@ return (
     </div> : ""}
 
     <div className="title">
-      <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleQuotesView}>
-      Quotes
+      <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleQuotesView}>
+      QUOTES
       
       </button>      
     </div>
@@ -802,8 +785,8 @@ return (
 
     {toggleUsersAddModal != false ? "" : ""}
     <div className="title">
-      <button className="button is-fullwidth is-black is-rounded has-text-weight-semibold" onClick={handleToggleUsersView}>
-      Users
+      <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleUsersView}>
+      USERS
       
       </button>      
     </div>
@@ -839,9 +822,9 @@ return (
         )) : 
           <tr> 
               <td> 
-                <button className="button is-rounded is-small" onClick={handleToggleUsersAddModal}>
-                  Add a User
-                </button> 
+                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/adduser")}>
+                  Add New
+                </a>
               </td> 
             </tr>
         : <tr><td>Fetching Data...</td></tr>}
@@ -851,6 +834,8 @@ return (
     </div> : ""}
   
   </> : ""} </>
-)
+  )
 }
+
+
 export default DataViewer

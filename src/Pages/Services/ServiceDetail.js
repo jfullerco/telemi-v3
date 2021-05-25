@@ -77,8 +77,8 @@ const ServiceDetail = () => {
       PrivateIPGateway: servicePrivateIPGateway.current.value,
       PublicIPRange: servicePrivateIPRange.current.value,
       PublicIPGateway: servicePrivateIPGateway.current.value,
-      RouterHostname: serviceRouterHostname,
-      RouterSN: serviceRouterSN
+      RouterHostname: serviceRouterHostname.current.value,
+      RouterSN: serviceRouterSN.current.value
       
     }  
     console.log(data)
@@ -94,8 +94,9 @@ const ServiceDetail = () => {
 
   return (
       <Page title="Service Details" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
+      {userContext && userContext.userSession != undefined ?
           <form>
-
+            
             <SelectInput 
               fieldOptions={userContext.userSession.locations}
               fieldLabel="Service Location"
@@ -221,10 +222,10 @@ const ServiceDetail = () => {
               inputFieldRef={serviceRouterSN}
               inputFieldValue={activeService.RouterSN}
             />
-
+  
           </form>
 
-        
+    : <div className="tile warning"> No record to display</div>}    
     </Page>
   )
 }

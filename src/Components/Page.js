@@ -19,9 +19,9 @@ const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}
         <p className="block">
           {pageSuccess != undefined ? <div className="notification is-success">{pageSuccess}</div> : ""}
         </p>
-        <form>
+        
           {children}
-        </form>
+        
         <div className="block">
         <div className="notification is-danger is-hidden">{pageError != undefined ? pageError : ""}</div>
          

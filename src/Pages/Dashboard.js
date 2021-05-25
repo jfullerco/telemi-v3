@@ -5,11 +5,10 @@ import { stateContext } from '../Contexts/stateContext'
 
 import { db } from '../Contexts/firebase'
 
-import LogoutButton from '../Components/LogoutButton'
 import CompanyList from './Companies/CompanyList'
-import TotalLocations from './Dashboard/Components/TotalLocations'
+
 import DataViewer from './Dashboard/Components/DataViewer'
-import ServicesDashboard from './Dashboard/Components/ServicesDashboard'
+
 
 
 const Dashboard = () => {

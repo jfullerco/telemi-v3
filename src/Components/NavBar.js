@@ -5,10 +5,11 @@ import {stateContext} from '../Contexts/stateContext'
 import {useAuth} from '../Contexts/AuthContext'
 import {auth} from '../Contexts/firebase'
 
-const LogoutButton = () => {
+const NavBar = () => {
 
   const history = useHistory()
   const userContext = useContext(stateContext)
+  
   const {currentUser, logOutUser} = useAuth()
   
   const [isActive, setIsActive] = useState(false)
@@ -25,7 +26,7 @@ const LogoutButton = () => {
   }
 
   return (
-    <div className="navbar is-black" role="navigation" aria-label="main navigation">
+    <nav className="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation">
     <div className="navbar-brand">
 
       <div className="navbar-item">
@@ -62,7 +63,7 @@ const LogoutButton = () => {
           
           </div>
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link" onClick={history.push("/dashboard")}>Dashboards</a>
+            <a className="navbar-link" onClick={()=>history.push("/dashboard")}>Dashboards</a>
             
           <div className="navbar-dropdown">
             <a className="navbar-item">ACCOUNTS</a>
@@ -72,13 +73,13 @@ const LogoutButton = () => {
           </div>
           </div>
           
-          <a onClick={logOut} className="navbar-item">
+          <a onClick={()=>logOut()} className="navbar-item">
             Logout
           </a>
           </>
         ) : (
           <>
-          <div className="navbar-item" onClick={handleNewUserButton}>
+          <div className="navbar-item" onClick={()=>handleNewUserButton()}>
           <button className="button is-small is-rounded">Create Account</button>
           </div>
           <Link to="/login" className="navbar-item" >
@@ -89,8 +90,8 @@ const LogoutButton = () => {
 
       </div>
     </div>
-  </div>
+  </nav>
     
   )
 }
-export default LogoutButton
+export default NavBar

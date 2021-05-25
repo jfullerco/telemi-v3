@@ -7,7 +7,7 @@ import {AuthProvider} from './Contexts/AuthContext'
 import Hello from './Pages/Hello'
 import Dashboard from './Pages/Dashboard'
 import Login from './Pages/Login'
-import LogoutButton from './Components/LogoutButton'
+import NavBar from './Components/NavBar'
 
 import AddCompany from './Pages/Companies/AddCompany'
 import AddService from './Pages/Services/AddService'
@@ -38,7 +38,7 @@ export default function App() {
     <StateProvider>
     <AuthProvider>
       <Router>
-      <LogoutButton />
+      <NavBar />
       <div className="container is-max-desktop is-one-third-tablet is-max-fullhd"> 
       <div id="wrapper" className="column">
       
