@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
 import {Link, useHistory, Redirect} from 'react-router-dom'
-
+import { DataGrid } from '@material-ui/data-grid'
 
 import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
@@ -20,9 +20,15 @@ import AddTicket from '../../Tickets/AddTicket'
 import AccountDetail from '../../Accounts/AccountDetail'
 import AddAccount from '../../Accounts/AddAccount'
 
+const serviceColumns = [
+  {field: 'Vendor', headerName: 'Vendor'},
+  {field: 'Product', headerName: 'Product'},
+  {field: 'Location', headerName: 'Location'},
+  {field: 'AssetID', headerName: 'Asset ID'},
+  {field: 'Type', headerName: 'Type'}
+]
 
-
-const DataViewer = ({visible}) => {
+const DashboardGrids = ({visible}) => {
   const userContext = useContext(stateContext)
   const {dataLoading, currentCompany} = userContext.userSession
 
@@ -332,7 +338,10 @@ return (
       <div className="tile">
         <input className="input is-rounded is-small " placeholder="search" onChange={(e)=>handleChangeSearchServices(e)} />
       </div> 
-    
+    <DataGrid 
+      rows={services}
+      columns={serviceColumns}
+    />
     {toggleServicesView != true ? 
       
       <div className="table-container">
@@ -836,4 +845,4 @@ return (
 }
 
 
-export default DataViewer
+export default DashboardGrids
