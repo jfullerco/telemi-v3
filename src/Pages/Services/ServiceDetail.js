@@ -108,7 +108,7 @@ const ServiceDetail = () => {
               fieldNameRef={serviceLocationName}
               fieldChange={()=> console.log("Changed Selection")}
             />
-            {Date()}
+            
             <TextInput 
               inputFieldLabel="Vendor"
               inputFieldRef={serviceVendor}
@@ -224,6 +224,8 @@ const ServiceDetail = () => {
               inputFieldRef={serviceRouterSN}
               inputFieldValue={activeService.RouterSN}
             />
+
+            <p className="title has-text-black" id="Accounts">Accounts</p>
   
           </form>
 

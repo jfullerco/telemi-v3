@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
 import {Link, useHistory, Redirect} from 'react-router-dom'
 
+
 import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
 
@@ -303,7 +304,7 @@ const DataViewer = ({visible}) => {
     
     const {value} = e.target
     value == "" ? fetchServices() : ""
-    const servicesAC = services.filter(({LocationName, AssetID, Vendor, Type}) => LocationName.indexOf(value) > -1 || AssetID.indexOf(value) > 1 || Vendor.indexOf(value) > -1 || Type.indexOf(value) > -1 )
+    const servicesAC = services.filter(({LocationName, AssetID, Vendor, Type}) => LocationName.indexOf(value) > -1 || AssetID.indexOf(value) > -1 || Vendor.indexOf(value) > -1 || Type.indexOf(value) > -1 )
     searchRef.current = value
     setServices(servicesAC) 
     
@@ -316,6 +317,7 @@ const DataViewer = ({visible}) => {
     ticketLocationName.current = name
     setDropDown("")
   }
+  
 
 return (
   <>

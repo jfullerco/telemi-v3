@@ -105,7 +105,7 @@ const AddService = () => {
   }
 
   return (
-    <Page title="Add Location" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} >
+    <Page title="Add Location" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
         
         <p className="block" />
           <form>
@@ -208,6 +208,9 @@ const AddService = () => {
               inputFieldRef={serviceMRC}
               inputFieldValue={""}
             />
+          </div>
+          <div className="title">
+            Accounts
           </div>
           </div>  
           </div>
