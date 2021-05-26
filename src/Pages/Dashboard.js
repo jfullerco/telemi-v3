@@ -9,7 +9,7 @@ import CompanyList from './Companies/CompanyList'
 
 import DataViewer from './Dashboard/Components/DataViewer'
 
-
+import DashboardGrids from './Dashboard/Components/DashboardGrids'
 
 const Dashboard = () => {
   
@@ -77,7 +77,7 @@ const Dashboard = () => {
 
         <div>
           
-          <DataViewer />
+          <DashboardGrids />
         </div>
 
       </>
