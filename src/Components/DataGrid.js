@@ -6,9 +6,7 @@ const DataGrid = ({rows, columns, onSelect}) => {
   const [dgColumns, setDGColumns] = useState(columns)
   
   
-rows.map((r) => Object.entries(r).forEach(([key, value]) => (
-  console.log(value)
-)))
+
 
 
 return (

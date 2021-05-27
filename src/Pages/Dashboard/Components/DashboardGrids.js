@@ -744,6 +744,18 @@ return (
                   }>Asset Report</a>
             </td>
           </tr>
+          <tr>
+            <td className="px-6">
+              <a onClick={()=>
+                  history.push({
+                      pathname: "/accountreport",
+                      state: {
+                      accounts: accounts
+                      }
+                    }) 
+                  }>Account Report</a>
+            </td>
+          </tr>
         </tbody>    
       </table>
       </nav>

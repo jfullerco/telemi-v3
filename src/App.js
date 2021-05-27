@@ -24,6 +24,7 @@ import OrderDetail from './Pages/Orders/OrderDetail'
 import TicketDetail from './Pages/Tickets/TicketDetail'
 
 import AssetReport from './Pages/Reports/AssetReport'
+import AccountReport from './Pages/Reports/AccountReport'
 
 
 
@@ -64,7 +65,7 @@ export default function App() {
             <Route path="/addticket" component={AddTicket} />
 
             <Route path="/assetreport" component={AssetReport} />
-            
+            <Route path="/accountreport" component={AccountReport} />
             
           
           </Switch>
