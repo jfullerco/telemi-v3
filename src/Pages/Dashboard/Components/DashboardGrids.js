@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
 import {Link, useHistory, Redirect} from 'react-router-dom'
-import { DataGrid } from '@material-ui/data-grid'
+
 
 import {stateContext} from '../../../Contexts/stateContext'
 import {db} from '../../../Contexts/firebase'
@@ -20,10 +20,12 @@ import AddTicket from '../../Tickets/AddTicket'
 import AccountDetail from '../../Accounts/AccountDetail'
 import AddAccount from '../../Accounts/AddAccount'
 
+import DataGrid from '../../../Components/DataGrid'
+
 const serviceColumns = [
   {field: 'Vendor', headerName: 'Vendor'},
-  {field: 'Product', headerName: 'Product'},
-  {field: 'Location', headerName: 'Location'},
+  {field: 'VendorServiceName', headerName: 'Product'},
+  {field: 'LocationName', headerName: 'Location'},
   {field: 'AssetID', headerName: 'Asset ID'},
   {field: 'Type', headerName: 'Type'}
 ]
@@ -36,7 +38,7 @@ const DashboardGrids = ({visible}) => {
 
   const [locations, setLocations] = useState()
   const [orders, setOrders] = useState()
-  const [services, setServices] = useState()
+  const [services, setServices] = useState([])
   const [accounts, setAccounts] = useState()
   const [tickets, setTickets] = useState()
   const [users, setUsers] = useState()
@@ -325,6 +327,10 @@ return (
   <>
   {visible != false ?
     <>
+    <DataGrid 
+      rows={services}
+      columns = {[{headerName: "col1"}, {headerName: "col2"}]}
+      />
       <div className="title">
         <div className="field has-addons">
           <p className="control is-expanded has-icons-left">
@@ -338,10 +344,7 @@ return (
       <div className="tile">
         <input className="input is-rounded is-small " placeholder="search" onChange={(e)=>handleChangeSearchServices(e)} />
       </div> 
-    <DataGrid 
-      rows={services}
-      columns={serviceColumns}
-    />
+    
     {toggleServicesView != true ? 
       
       <div className="table-container">
