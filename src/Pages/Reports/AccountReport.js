@@ -58,7 +58,7 @@ const AccountReport = (state) => {
       <table className="table is-fullwidth" key={account.id}>
       <thead>
           <tr>
-            <th style={{width: "20%"}}>Location</th>
+            <th style={{width: "20%"}}></th>
             <th style={{width: "20%"}}>Account #</th>
             <th style={{width: "20%"}}>Sub Account #</th>
             <th style={{width: "20%"}}>Monthly Cost</th>
@@ -67,7 +67,7 @@ const AccountReport = (state) => {
         <tbody>
           <tr>
             <td>
-              <span className="has-text-weight-bold">{account.RelatedLocationName}</span>
+              <span className="has-text-weight-bold">{account.AccountServiceLocationName}</span>
             </td>
             <td>
               {account.AccountNum}

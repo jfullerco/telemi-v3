@@ -762,6 +762,30 @@ return (
     </div> : ""}
 
     <div className="title">
+      <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" >
+      CONTRACTS
+      
+      </button>      
+    </div>
+    
+    <div className="table-container">
+    <nav className="level is-centered">
+      <table className="table is-striped is-fullwidth ">
+        <thead className="is-size-6">
+          <tr>
+            <th className="px-6">CONTRACTS</th>
+          </tr>
+        </thead>
+        <tbody className="is-size-7">
+          <tr>
+            
+          </tr>
+        </tbody>    
+      </table>
+      </nav>
+    </div> 
+
+    <div className="title">
       <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleQuotesView}>
       QUOTES
       
