@@ -112,7 +112,7 @@ const CompanyList = () => {
                 )) : (
                   <option></option>
                 )}
-            </SelectInputProps>
+          </SelectInputProps>
         
         </>
         : <span className="title is-5 has-text-black">{userContext.userSession.currentCompany}</span>

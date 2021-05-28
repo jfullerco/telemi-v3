@@ -67,7 +67,7 @@ const Dashboard = () => {
                   {userContext.userSession.currentCompany}
                 </span>
                 {userContext.userSession.companies && userContext.userSession.companies.length > 1 ? 
-                  <a className="tag is-small is-link is-rounded is-7" onClick={()=>setToggleCompanyList(!toggleCompanyList)}>change</a> 
+                  <span className="px-3"><a className="link is-small is-link is-rounded is-7" onClick={()=>setToggleCompanyList(!toggleCompanyList)}>change</a> </span>
                 : ""}
               </p>
             </div>
