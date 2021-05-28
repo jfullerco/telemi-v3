@@ -28,6 +28,7 @@ const ServiceDetail = () => {
   const serviceMRC = useRef("")
   const serviceDetailsBandwidth = useRef("")
   const serviceStatus = useRef("")
+  const serviceNotes = useRef("")
   const serviceInternalNetworkName = useRef("")
   const serviceVendorNetworkName = useRef("")
   const serviceASN = useRef("")
@@ -71,6 +72,7 @@ const ServiceDetail = () => {
       AssetID: serviceAssetID.current.value,
       MRC: serviceMRC.current.value,
       Status: serviceStatus.current.value,
+      Notes: serviceNotes.current.value,
       InternalNetworkName: serviceInternalNetworkName.current.value,
       VendorNetworkName: serviceVendorNetworkName.current.value,
       ASN: serviceASN.current.value,
@@ -165,6 +167,12 @@ const ServiceDetail = () => {
               fieldIDRef={serviceStatus}
               fieldNameRef={serviceStatus}
               fieldChange={()=>console.log("Status Selection Changed")}
+            />
+
+            <TextArea 
+              inputFieldLabel="Notes"
+              inputFieldRef={serviceNotes}
+              inputFieldValue={activeService.Notes}
             />
 
             <p className="title has-text-black">Network Details</p>
