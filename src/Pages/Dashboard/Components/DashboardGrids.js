@@ -85,9 +85,6 @@ const DashboardGrids = ({visible}) => {
 
   const [toggleSearchServices, setToggleSearchServices] = useState(false)
 
-  
-  
-
   const handleToggleServicesAddModal = () => {
     setToggleServicesAddModal(!toggleServicesAddModal)
   }
