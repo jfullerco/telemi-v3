@@ -6,13 +6,13 @@ import {stateContext} from '../../Contexts/stateContext'
 
 import TextInput from '../../Components/Forms/TextInput'
 import StateDropDown from '../../Components/Forms/StateDropDown'
-import Page from '../../Components/Modal'
+import Page from '../../Components/Page'
 
 const AddLocation = () => {
 
   const userContext = useContext(stateContext)
+  const history = useHistory()
   
-  const [modalState, setModalState] = useState(true)
   const [pageError, setPageError] = useState()
   const [pageSuccess, setPageSuccess] = useState()
   
@@ -43,11 +43,13 @@ const AddLocation = () => {
     history.push("/dashboard")
   }
 
-  
+  const autoClose = () => {
+    setTimeout(() => {history.push("/dashboard")}, 1000)
+  }
   
 
   return (
-      <Page title="Add Location" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} >
+      <Page title="Add Location" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose} >
           <form>
 
             <TextInput 
@@ -86,10 +88,7 @@ const AddLocation = () => {
             />
             
           </form>
-        <div className="block">
-          <div className="notification is-danger is-hidden">{addLocationError}</div>
-         {success === true ?  <div className="notification is-success">Location Added</div> : ""}
-        </div>
+        
       </Page>
   )
 }

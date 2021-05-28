@@ -62,10 +62,16 @@ const NavBar = () => {
           <div className="navbar-item">
           
           </div>
-          
-            <a className="navbar-item" onClick={()=>history.push("/dashboard")}>Dashboard</a>
+          <div className="navbar-item has-dropdown is-hoverable">
+            <a className="navbar-link" onClick={()=>history.push("/dashboard")}>Dashboards</a>
             
-          
+          <div className="navbar-dropdown">
+            <a className="navbar-item">ACCOUNTS</a>
+            <a className="navbar-item">ORDERS</a>
+            <a className="navbar-item">TICKETS</a>
+            <a className="navbar-item">LOCATIONS</a>
+          </div>
+          </div>
           
           <a onClick={()=>logOut()} className="navbar-item">
             Logout

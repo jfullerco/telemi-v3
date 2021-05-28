@@ -7,11 +7,8 @@ const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}
           {title}
         </span> 
         <div className="level">
-        <div className="level-left">
-          <button className="button is-small is-link is-rounded mr-1" type="submit" onClick={handleSubmit}>ACCOUNTS</button>
-          <button className="button is-small is-link is-rounded mr-1" onClick={()=>autoClose()}>TICKETS</button>
-        </div> 
-        <div className="level-right">
+         
+        <div className="level-item level-right">
           <button className="button is-small is-link is-rounded mr-1" type="submit" onClick={handleSubmit}>Save</button>
           <button className="button is-small is-rounded mr-1" onClick={()=>autoClose()}>Close</button>
         </div>

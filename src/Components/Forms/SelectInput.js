@@ -27,7 +27,7 @@ const SelectInput = ({
                 {fieldInitialOption}
               </option> 
             : <option></option>}
-          {fieldOptions != undefined ? fieldOptions.map(option => (
+          {fieldOptions && fieldOptions != undefined ? fieldOptions.map(option => (
             <option value={option.id} key={option.id}>{option.Name}</option>
           ))
           : ""}

@@ -20,3 +20,7 @@ body {
 .button {
   border-width: 3px;
 }
+
+.textarea {
+  border-radius: 25px;
+}

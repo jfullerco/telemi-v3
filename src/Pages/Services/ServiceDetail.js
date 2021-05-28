@@ -5,6 +5,7 @@ import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
 
 import TextInput from '../../Components/Forms/TextInput'
+import TextArea from '../../Components/Forms/TextArea'
 import SelectInput from '../../Components/Forms/SelectInput'
 import Page from '../../Components/Page'
 
@@ -30,15 +31,15 @@ const ServiceDetail = () => {
   const serviceInternalNetworkName = useRef("")
   const serviceVendorNetworkName = useRef("")
   const serviceASN = useRef("")
-  const servicePrivateIPRange = useRef("")
-  const servicePrivateIPGateway = useRef("")
-  const servicePublicIPRange = useRef("")
-  const servicePublicIPGateway = useRef("")
-  const serviceRouterHostname = useRef("")
-  const serviceRouterSN = useRef("")
+  const servicePrivateIPDetails = useRef("")
+  const servicePublicIPDetails = useRef("")
+  const serviceRouterDetails = useRef("")
+  
 
   const [activeService, setActiveService] = useState("")
-
+  const handleToggleAccountView = () => {}
+  const handleToggleTicketView = () => {}
+  const handleToggleOrderView = () => {}
   
   useEffect(() => {
     
@@ -73,12 +74,9 @@ const ServiceDetail = () => {
       InternalNetworkName: serviceInternalNetworkName.current.value,
       VendorNetworkName: serviceVendorNetworkName.current.value,
       ASN: serviceASN.current.value,
-      PrivateIPRange: servicePrivateIPRange.current.value,
-      PrivateIPGateway: servicePrivateIPGateway.current.value,
-      PublicIPRange: servicePrivateIPRange.current.value,
-      PublicIPGateway: servicePrivateIPGateway.current.value,
-      RouterHostname: serviceRouterHostname.current.value,
-      RouterSN: serviceRouterSN.current.value,
+      PrivateIPDetails: servicePrivateIPDetails.current.value,
+      PublicIPDetails: servicePublicIPDetails.current.value,
+      RouterDetails: serviceRouterDetails.current.value,
       LastUpdatedBy: userContext.userSession.currentUser,
       LastUpdated: Date()
       
@@ -189,43 +187,53 @@ const ServiceDetail = () => {
               inputFieldValue={activeService.ASN}
             />
 
-            <TextInput 
-              inputFieldLabel="Private IP Range"
-              inputFieldRef={servicePrivateIPRange}
-              inputFieldValue={activeService.PrivateIPRange}
+            <TextArea 
+              inputFieldLabel="Private IP Details"
+              inputFieldRef={servicePrivateIPDetails}
+              inputFieldValue={activeService.PrivateIPDetails}
             />
 
-            <TextInput 
-              inputFieldLabel="Private IP Gateway"
-              inputFieldRef={servicePrivateIPGateway}
-              inputFieldValue={activeService.PrivateIPGateway}
+            <TextArea 
+              inputFieldLabel="Public IP Details"
+              inputFieldRef={servicePublicIPDetails}
+              inputFieldValue={activeService.PublicIPDetails}
             />
 
-            <TextInput 
-              inputFieldLabel="Public IP Range"
-              inputFieldRef={servicePublicIPRange}
-              inputFieldValue={activeService.PublicIPRange}
+            <TextArea 
+              inputFieldLabel="Router Details"
+              inputFieldRef={serviceRouterDetails}
+              inputFieldValue={activeService.RouterDetails}
             />
 
-            <TextInput 
-              inputFieldLabel="Public IP Gateway"
-              inputFieldRef={servicePublicIPGateway}
-              inputFieldValue={activeService.PublicIPGateway}
-            />
+            <div className="title">
+              <div className="field has-addons">
+                <p className="control is-expanded has-icons-left">
+                  <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleAccountView}>
+                    ACCOUNTS 
+                  </button>
+                </p>
+              </div>
+            </div>
 
-            <TextInput 
-              inputFieldLabel="Router Hostname"
-              inputFieldRef={serviceRouterHostname}
-              inputFieldValue={activeService.RouterHostname}
-            />
+            <div className="title">
+              <div className="field has-addons">
+                <p className="control is-expanded has-icons-left">
+                  <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleTicketView}>
+                    TICKETS 
+                  </button>
+                </p>
+              </div>
+            </div>
 
-            <TextInput 
-              inputFieldLabel="Router S/N"
-              inputFieldRef={serviceRouterSN}
-              inputFieldValue={activeService.RouterSN}
-            />
-
-            <p className="title has-text-black" id="Accounts">Accounts</p>
+            <div className="title">
+              <div className="field has-addons">
+                <p className="control is-expanded has-icons-left">
+                  <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleOrderView}>
+                    ORDERS 
+                  </button>
+                </p>
+              </div>
+            </div>
   
           </form>
 

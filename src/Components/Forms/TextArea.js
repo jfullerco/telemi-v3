@@ -10,7 +10,7 @@ const TextArea = ({inputFieldName, inputFieldRef, inputFieldValue, inputFieldLab
       <div className="field">
       <label className="label">{inputFieldLabel}</label>
         <div className="control">
-          <textarea className="textarea is-rounded" type="text" ref={inputFieldRef} defaultValue={inputFieldValue} onChange={handleChange} />
+          <textarea className="textarea is-rounded" type="textarea" ref={inputFieldRef} defaultValue={inputFieldValue} onChange={handleChange} />
         </div>
       </div>
   )

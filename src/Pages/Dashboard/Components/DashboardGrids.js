@@ -429,11 +429,11 @@ return (
         <table className="table is-striped is-hoverable is-fullwidth">
           <thead className="is-size-6">
             <tr>
-            <th className="px-5">Vendor</th>
-            <th className="px-5">Account</th>
-            <th className="px-5">Sub Account</th>
-            <th className="px-5">Location Linked</th>
-            <th className="px-5">Monthly Cost</th>
+            <th>Vendor</th>
+            <th>Account</th>
+            <th>Sub Account</th>
+            <th>Location Linked</th>
+            <th>Monthly Cost</th>
             <th>
                 <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addaccount")}>
                   Add New
@@ -445,15 +445,7 @@ return (
           {userContext.userSession.dataLoading != true ?
             accounts != undefined ? accounts.map(account => (
             
-            <tr key={account.id} >
-              <td >{account.Vendor}</td>
-              <td >{account.AccountNum}</td>
-              <td >{account.SubAccountNum}</td>
-              <td >{account.AccountServiceLocationName} </td>
-              <td >$ {account.PostTaxMRC}</td>
-              <td>
-                <span className="icon is-left">
-                <FontAwesomeIcon icon={faEdit} onClick={()=>
+            <tr onClick={()=>
                   history.push({
                       pathname: "/accountdetail",
                       state: {
@@ -462,7 +454,15 @@ return (
                       locations: locations
                       }
                     }) 
-                  } /></span>
+                  } 
+                key={account.id} >
+              <td style={{width: "20%"}}>{account.Vendor}</td>
+              <td style={{width: "20%"}}>{account.AccountNum}</td>
+              <td style={{width: "20%"}}>{account.SubAccountNum}</td>
+              <td style={{width: "20%"}}>{account.AccountServiceLocationName} </td>
+              <td style={{width: "20%"}}>$ {account.PostTaxMRC}</td>
+              <td>
+                
                 <span className="icon is-right">
                 <DeleteButton colRef="Accounts" docRef={account.id} />
                 </span>
@@ -509,29 +509,36 @@ return (
       <table className="table is-hoverable is-fullwidth">
         <thead >
           <tr>  
-            <th>Location Name</th>
-            <th>Address</th>
-            <th><a onClick={()=>fetchLocationsSort("City")}>City</a></th>
-            <th>State</th>
+            <th style={{width: "20%"}}>Location Name</th>
+            <th style={{width: "20%"}}>Address</th>
+            <th style={{width: "20%"}}><a onClick={()=>fetchLocationsSort("City")}>City</a></th>
+            <th style={{width: "20%"}}>State</th>
             <th>
-              <span className="icon is-left">
-              <FontAwesomeIcon 
-                icon={faPlus} 
-                onClick={handleToggleLocationAddModal} 
-              />
-              </span>
+              <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addlocation")}>
+                  Add New
+                </a>
             </th>
           </tr>
         </thead>
         <tbody className="is-size-7">
         {userContext.userSession.dataLoading != true ?
           locations != undefined ? locations.map(location => (
-          <tr key={location.id}>
-            <td className="px-6">{location.Name}</td>
-            <td className="px-6">{location.Address1} {location.Address2}</td>
-            <td className="px-6">{location.City}</td>
-            <td className="px-6">{location.State}</td>
-            <td><button className="button is-rounded is-small" onClick={()=>handleToggleLocationDetailModal(location.id)}>edit</button></td>
+          <tr onClick={()=>
+                  history.push({
+                      pathname: "/locationdetail",
+                      state: {
+                      id: location.id,
+                      services: services,
+                      locations: locations
+                      }
+                    }) 
+                  }
+              key={location.id}>
+            <td style={{width: "25%"}}>{location.Name}</td>
+            <td style={{width: "25%"}}>{location.Address1} {location.Address2}</td>
+            <td style={{width: "25%"}}>{location.City}</td>
+            <td style={{width: "25%"}}>{location.State}</td>
+            <td ></td>
           </tr>
         )) : 
           <tr> 
@@ -774,6 +781,11 @@ return (
         <thead className="is-size-6">
           <tr>
             <th className="px-6">CONTRACTS</th>
+            <th>
+              <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addcontract")}>
+                  Add New
+                </a>
+            </th>
           </tr>
         </thead>
         <tbody className="is-size-7">

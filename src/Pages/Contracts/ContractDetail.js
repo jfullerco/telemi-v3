@@ -73,16 +73,6 @@ const ContractDetail = () => {
       {userContext && userContext.userSession != undefined ?
           <form>
             
-            <SelectInput 
-              fieldOptions={userContext.userSession.locations}
-              fieldLabel="Service Location"
-              fieldInitialValue={activeService.LocationID}
-              fieldInitialOption={activeService.LocationName}
-              fieldIDRef={serviceLocationID}
-              fieldNameRef={serviceLocationName}
-              fieldChange={()=> console.log("Changed Selection")}
-            />
-            
             <TextInput 
               inputFieldLabel="Vendor"
               inputFieldRef={contractVendor}
@@ -106,7 +96,7 @@ const ContractDetail = () => {
               <input className="file-input" type="file" name="resume" />
               <span className="file-cta">
                 <span className="file-icon">
-                  <i className="fa-upload"></i>
+                  <i className="faUpload"></i>
                 </span>
                 <span className="file-label">Choose a file...</span>
               </span>

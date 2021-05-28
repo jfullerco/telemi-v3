@@ -15,6 +15,7 @@ import AddAccount from './Pages/Accounts/AddAccount'
 import AddLocation from './Pages/Locations/AddLocation'
 import AddOrder from './Pages/Orders/AddOrder'
 import AddTicket from './Pages/Tickets/AddTicket'
+import AddContract from './Pages/Contracts/AddContract'
 
 import CompanyDetail from './Pages/Companies/CompanyDetail'
 import ServiceDetail from './Pages/Services/ServiceDetail'
@@ -22,6 +23,8 @@ import AccountDetail from './Pages/Accounts/AccountDetail'
 import LocationDetail from './Pages/Locations/LocationDetail'
 import OrderDetail from './Pages/Orders/OrderDetail'
 import TicketDetail from './Pages/Tickets/TicketDetail'
+
+import ContractDetail from './Pages/Contracts/ContractDetail'
 
 import AssetReport from './Pages/Reports/AssetReport'
 import AccountReport from './Pages/Reports/AccountReport'
@@ -63,6 +66,8 @@ export default function App() {
             <Route path="/addlocation" component={AddLocation} />
             <Route path="/addorder" component={AddOrder} />
             <Route path="/addticket" component={AddTicket} />
+            <Route path="/addcontract" component={AddContract} />
+            <Route path="/contractdetail" component={ContractDetail} />
 
             <Route path="/assetreport" component={AssetReport} />
             <Route path="/accountreport" component={AccountReport} />
