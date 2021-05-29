@@ -5,6 +5,7 @@ import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
 import TextInput from '../../Components/Forms/TextInput'
+import TextArea from '../../Components/Forms/TextArea'
 import SelectInput from '../../Components/Forms/SelectInput'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import TextInputAC from '../../Components/Forms/TextInputAC'
@@ -14,7 +15,8 @@ const AddService = () => {
 
   const userContext = useContext(stateContext)
 
-  const {serviceTypes, accessTypes} = userContext
+  const {serviceTypes, accessTypes, serviceStatusType} = userContext
+  const {currentUser} = userContext.userSession
 
   const history = useHistory()
   
@@ -25,7 +27,6 @@ const AddService = () => {
   const [dropDown, setDropDown] = useState(false)
   const [suggestLocation, setSuggestLocation] = useState()
   
-  const serviceName = useRef("")
   const serviceVendor = useRef("")
   const serviceType = useRef("")
   const serviceVendorServiceName = useRef("")
@@ -35,17 +36,9 @@ const AddService = () => {
   const serviceAccessType = useRef("")
   const serviceMRC = useRef("")
   const serviceDetailsBandwidth = useRef("")
-  const serviceHostName = useRef("")
-  const serviceDetailsIPRange = useRef("")
-  const serviceDetailsLANEdgeIP = useRef("")
-  const serviceDetailsASN = useRef("")
-  const serviceDetailsNotes = useRef("")
-  const serviceOrderID = useRef("")
-  const serviceOrderNum = useRef("")
-  const serviceAccountID = useRef("")
-  const serviceAccountNum = useRef("")
-  const serviceSubAccountNum = useRef("")
-  const testRef = useRef("")
+  const serviceStatus = useRef("")
+  const serviceNotes = useRef("")
+  
   
 
   useEffect(() => {
@@ -74,8 +67,10 @@ const AddService = () => {
       Bandwidth: serviceDetailsBandwidth.current.value,
       AccessType: serviceAccessType.current.value,
       AssetID: serviceAssetID.current.value,
-      HostName: serviceHostName.current.value
-
+      MRC: serviceMRC.current.value,
+      Notes: serviceNotes.current.value,
+      LastUpdatedBy: userContext.userSession.currentUser,
+      LastUpdated: Date()
       
     }  
     console.log(data)
@@ -105,12 +100,9 @@ const AddService = () => {
   }
 
   return (
-    <Page title="Add Location" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
+    <Page title="Add Service" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
         
-        <p className="block" />
-          <form>
-          <div className="columns">
-          <div className="column">
+      <form>
 
             <TextInputAC handleChange={(e)=>handleChange(e)} 
               label="Service Location" 
@@ -126,6 +118,12 @@ const AddService = () => {
                   </ul> : ""} 
             </TextInputAC>
             
+            <TextInput 
+              inputFieldLabel="Vendor"
+              inputFieldRef={serviceVendor}
+              inputFieldValue={""}
+            />
+
             <SelectInput 
               fieldOptions={serviceTypes}
               fieldLabel="Type"
@@ -136,36 +134,12 @@ const AddService = () => {
               fieldChange={()=>console.log("Type Selection Changed")}
             />
 
-          <div className="columns">
-          <div className="column is-half">
-            <SelectInputProps
-              fieldLabel="Vendor"
-              fieldInitialValue=""
-              fieldInitialOption=""
-              fieldIDRef={serviceVendor}>
-                <option>AT&T</option>
-                <option>Verizon</option>
-                <option>CenturyLink</option>
-                <option>Lumos</option>
-                <option>Windstream</option>
-                <option>Spectrum</option>
-                <option>Comcast</option>
-                <option>Masergy</option>
-                <option>Microsoft</option>
-            </SelectInputProps>
-          </div>
-
-          <div className="column is-half">
             <TextInput 
-              inputFieldLabel="Product"
+              inputFieldLabel="Service Name"
               inputFieldRef={serviceVendorServiceName}
               inputFieldValue={""}
             />
-          </div>
-          </div>
-                       
-          <div className="columns">
-          <div className="column is-half">
+
             <SelectInput 
               fieldOptions={accessTypes}
               fieldLabel="Access Type"
@@ -175,47 +149,42 @@ const AddService = () => {
               fieldNameRef={serviceAccessType}
               fieldChange={()=>console.log("Access Type Selection Changed")}
             />
-          </div>
-          <div className="column is-half">
-            <TextInput 
-              inputFieldLabel="Bandwidth"
-              inputFieldRef={serviceDetailsBandwidth}
-              inputFieldValue={""}
-            />
-          </div>
-          </div>
-
-          <div className="columns">
-          <div className="column is-half">
+            
             <TextInput 
               inputFieldLabel="Asset ID"
               inputFieldRef={serviceAssetID}
               inputFieldValue={""}
             />
-          </div>
-          <div className="column is-half">
+
             <TextInput 
-              inputFieldLabel="Hostname"
-              inputFieldRef={serviceHostName}
+              inputFieldLabel="Bandwidth"
+              inputFieldRef={serviceDetailsBandwidth}
               inputFieldValue={""}
             />
-          </div>
-          </div>
-          <div className="columns">
-          <div className="column is-half">
+
             <TextInput 
               inputFieldLabel="Monthly Cost"
               inputFieldRef={serviceMRC}
               inputFieldValue={""}
             />
-          </div>
-          <div className="title">
-            Accounts
-          </div>
-          </div>  
-          </div>
-          </div>
-          </form>
+
+            <SelectInput 
+              fieldOptions={serviceStatusType}
+              fieldLabel="Status"
+              fieldInitialValue={""}
+              fieldInitialOption={""}
+              fieldIDRef={serviceStatus}
+              fieldNameRef={serviceStatus}
+              fieldChange={()=>console.log("Status Selection Changed")}
+            />
+
+            <TextArea 
+              inputFieldLabel="Notes"
+              inputFieldRef={serviceNotes}
+              inputFieldValue={""}
+            />
+          
+      </form>
 
         
     </Page>

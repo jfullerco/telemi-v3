@@ -4,6 +4,7 @@ import {Link, useHistory} from 'react-router-dom'
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
 
+import AccountDataGrid from '../Accounts/AccountDataGrid'
 import TextInput from '../../Components/Forms/TextInput'
 import TextArea from '../../Components/Forms/TextArea'
 import SelectInput from '../../Components/Forms/SelectInput'
@@ -222,6 +223,11 @@ const ServiceDetail = () => {
                 </p>
               </div>
             </div>
+
+            <AccountDataGrid
+             queryCol="AccountServiceID"
+             queryID={activeService.id} 
+            />
 
             <div className="title">
               <div className="field has-addons">
