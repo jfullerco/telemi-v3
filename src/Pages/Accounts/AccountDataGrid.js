@@ -15,6 +15,7 @@ const AccountDataGrid = ({queryCol, queryID, visible}) => {
     fetchAccounts()
   },[]) 
   const fetchAccounts = async() => {
+    console.log(queryCol, queryID)
     const accountRef = await db.collection("Accounts").where(queryCol, "==", queryID).get()
     const accountSnapShot = await accountRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
     setAccounts(accountSnapShot)

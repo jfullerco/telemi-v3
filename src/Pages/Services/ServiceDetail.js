@@ -39,6 +39,7 @@ const ServiceDetail = () => {
   
 
   const [activeService, setActiveService] = useState("")
+  const [activeServiceID, setActiveServiceID] = useState()
   const handleToggleAccountView = () => {}
   const handleToggleTicketView = () => {}
   const handleToggleOrderView = () => {}
@@ -56,6 +57,7 @@ const ServiceDetail = () => {
     const data = await serviceRef.data()
     const id = await serviceRef.id
     setActiveService(data)
+    setActiveServiceID(id)
     
   }
 
@@ -226,7 +228,7 @@ const ServiceDetail = () => {
 
             <AccountDataGrid
              queryCol="AccountServiceID"
-             queryID={activeService.id} 
+             queryID={userContext.userSession.currentServiceID} 
             />
 
             <div className="title">
