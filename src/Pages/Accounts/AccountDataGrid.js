@@ -1,19 +1,24 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {useHistory} from 'react-router-dom'
+
 import {stateContext} from '../../Contexts/stateContext'
 import {db} from '../../Contexts/firebase'
+
+import AddAccount from '../Accounts/AddAccount'
 
 const AccountDataGrid = ({queryCol, queryID, visible}) => {
 
   const userContext = useContext(stateContext)
   const {currentUser, currentCompanyID} = userContext.userSession
-  const [isVisible, setIsVisible] = useState(false) 
+  const [isVisible, setIsVisible] = useState(false)
+  const [toggleModal, setToggleModal] = useState(false) 
   const [accounts, setAccounts] = useState()
   const history = useHistory()
 
   useEffect(() => {
     fetchAccounts()
   },[]) 
+
   const fetchAccounts = async() => {
     console.log(queryCol, queryID)
     const accountRef = await db.collection("Accounts").where(queryCol, "==", queryID).get()
@@ -21,8 +26,14 @@ const AccountDataGrid = ({queryCol, queryID, visible}) => {
     setAccounts(accountSnapShot)
   }
 
+  const setUnlinkService = async(id) => {
+    const accountRef = await db.collection("Accounts").doc(id)
+    const res = await accountRef.update({AccountServiceID: ""})
+  }
+
   return(
     <>
+    {toggleModal != false ? <AddAccount /> : ""}
       <div className="table-container">
       <nav className="level">
         <table className="table is-striped is-hoverable is-fullwidth">
@@ -34,47 +45,37 @@ const AccountDataGrid = ({queryCol, queryID, visible}) => {
             <th>Location Linked</th>
             <th>Monthly Cost</th>
             <th>
-                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addaccount")}>
+                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => setToggleModal(!toggleModal)}>
                   Add New
                 </a>
               </th>
             </tr>
           </thead>
           <tbody className="is-size-7">
-          {userContext.userSession.dataLoading != true ?
-            accounts != undefined ? accounts.map(account => (
+          {accounts != undefined ? accounts.map(account => (
             
-            <tr onClick={()=>
-                  history.push({
-                      pathname: "/accountdetail",
-                      state: {
-                      id: account.id,
-                      services: services,
-                      locations: locations
-                      }
-                    }) 
-                  } 
-                key={account.id} >
+            <tr key={account.id} >
               <td style={{width: "20%"}}>{account.Vendor}</td>
               <td style={{width: "20%"}}>{account.AccountNum}</td>
               <td style={{width: "20%"}}>{account.SubAccountNum}</td>
               <td style={{width: "20%"}}>{account.AccountServiceLocationName} </td>
               <td style={{width: "20%"}}>$ {account.PostTaxMRC}</td>
               <td>
-              
+              <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => setUnlinkService(account.id)}>
+                 Unlink
+              </a>
               </td>
             </tr>
             
           )) : 
             <tr> 
               <td> 
-                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addaccount")}>
-                  Add New
+                <a className="button is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addaccount")}>
+                  Link Account
                 </a>
               </td> 
             </tr> 
-          
-        : <tr><td>Fetching Data...</td></tr>}
+          }
 
           </tbody>    
         </table>

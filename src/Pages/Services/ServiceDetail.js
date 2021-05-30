@@ -40,9 +40,23 @@ const ServiceDetail = () => {
 
   const [activeService, setActiveService] = useState("")
   const [activeServiceID, setActiveServiceID] = useState()
-  const handleToggleAccountView = () => {}
-  const handleToggleTicketView = () => {}
-  const handleToggleOrderView = () => {}
+  const [toggleNetworkDetailsView, setToggleNetworkDetailsView] = useState(false)
+  const [toggleAccountView, setToggleAccountView] = useState(false)
+  const [toggleTicketView, setToggleTicketView] = useState(false)
+  const [toggleOrderView, setToggleOrderView] = useState(false)
+
+  const handleToggleNetworkDetailsView = () => {
+    setToggleNetworkDetailsView(!toggleNetworkDetailsView)
+  }
+  const handleToggleAccountView = () => {
+    setToggleAccountView(!toggleAccountView)
+  }
+  const handleToggleTicketView = () => {
+    setToggleTicketView(!toggleTicketView)
+  }
+  const handleToggleOrderView = () => {
+    setToggleOrderView(!toggleOrderView)
+  }
   
   useEffect(() => {
     
@@ -98,8 +112,8 @@ const ServiceDetail = () => {
 
 
   return (
-      <Page title="Service Details" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
-      {userContext && userContext.userSession != undefined ?
+      <Page title="SERVICE DETAILS" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
+      {userContext && userContext.userSession != undefined ? <>
           <form>
             
             <SelectInput 
@@ -178,8 +192,18 @@ const ServiceDetail = () => {
               inputFieldValue={activeService.Notes}
             />
 
-            <p className="title has-text-black">Network Details</p>
+            <div className="title">
+              <div className="field has-addons">
+                <p className="control is-expanded has-icons-left">
+                  <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleNetworkDetailsView}>
+                    NETWORK DETAILS 
+                  </button>
+                </p>
+              </div>
+            </div>
 
+            {toggleNetworkDetailsView != false ? 
+            <>
             <TextInput 
               inputFieldLabel="Internal Network Name"
               inputFieldRef={serviceInternalNetworkName}
@@ -215,6 +239,12 @@ const ServiceDetail = () => {
               inputFieldRef={serviceRouterDetails}
               inputFieldValue={activeService.RouterDetails}
             />
+            </>
+            : ""}
+
+            </form>
+
+            <p className="block" />
 
             <div className="title">
               <div className="field has-addons">
@@ -225,11 +255,14 @@ const ServiceDetail = () => {
                 </p>
               </div>
             </div>
-
+            
+            {toggleAccountView != false ?  
+            <>
             <AccountDataGrid
              queryCol="AccountServiceID"
              queryID={userContext.userSession.currentServiceID} 
             />
+            </> : ""}
 
             <div className="title">
               <div className="field has-addons">
@@ -251,9 +284,9 @@ const ServiceDetail = () => {
               </div>
             </div>
   
-          </form>
+          
 
-    : <div className="tile warning"> No record to display</div>}    
+    </> : <div className="tile warning"> No record to display</div>}    
     </Page>
   )
 }
