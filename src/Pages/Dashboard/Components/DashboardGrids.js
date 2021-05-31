@@ -328,7 +328,7 @@ return (
       <div className="title">
         <div className="field has-addons">
           <p className="control is-expanded has-icons-left">
-            <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleServicesView}>
+            <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold is-size-5" onClick={handleToggleServicesView}>
               SERVICES 
             </button>
           </p>
@@ -336,14 +336,14 @@ return (
       </div>
     
       <div className="tile">
-        <input className="input is-rounded is-small " placeholder="search" onChange={(e)=>handleChangeSearchServices(e)} />
+        <input className="input is-small is-static" placeholder="SEARCH" onChange={(e)=>handleChangeSearchServices(e)} />
       </div> 
     
     {toggleServicesView != true ? 
       
       <div className="table-container">
         <nav className="level">
-          <table className="table is-striped is-hoverable is-fullwidth ">
+          <table className="table is-hoverable is-fullwidth ">
             <thead className="is-size-6">
             <tr>
               <th className="is-hidden-mobile">Vendor</th>
@@ -369,12 +369,12 @@ return (
                       }
                     }) 
                   }  key={service.id}>
-              <td style={{width: "15%"}} className="is-hidden-mobile">{service.Vendor}</td>
-              <td style={{width: "20%"}}>{service.VendorServiceName} </td>
-              <td style={{width: "20%"}}>{service.LocationName}</td>
-              <td style={{width: "20%"}}>{service.AssetID}</td>
-              <td style={{width: "20%"}}>{service.Type}</td>
-              <td style={{width: "15%"}}>
+              <td className="py-5" style={{width: "15%"}} >{service.Vendor}</td>
+              <td className="py-5" style={{width: "20%"}}>{service.VendorServiceName} </td>
+              <td className="py-5" style={{width: "20%"}}>{service.LocationName}</td>
+              <td className="py-5" style={{width: "20%"}}>{service.AssetID}</td>
+              <td className="py-5" style={{width: "20%"}}>{service.Type}</td>
+              <td className="py-5" style={{width: "15%"}}>
                 <span className="icon is-right">
                   <DeleteButton colRef="Services" docRef={service.id} />
                 </span>
@@ -401,7 +401,7 @@ return (
     {toggleAccountDetailModal != false ? <AccountDetail /> : ""}
     {toggleAccountAddModal != false ? <AddAccount /> : ""}
     
-    <div className="title">
+    <div className="title" id="accounts">
       <div className="field has-addons">
         <p className="control is-expanded has-icons-left">
           <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleAccountView}>
@@ -435,7 +435,7 @@ return (
           {userContext.userSession.dataLoading != true ?
             accounts != undefined ? accounts.map(account => (
             
-            <tr onClick={()=>
+            <tr className="my-5" onClick={()=>
                   history.push({
                       pathname: "/accountdetail",
                       state: {
@@ -446,12 +446,12 @@ return (
                     }) 
                   } 
                 key={account.id} >
-              <td style={{width: "20%"}}>{account.Vendor}</td>
-              <td style={{width: "20%"}}>{account.AccountNum}</td>
-              <td style={{width: "20%"}}>{account.SubAccountNum}</td>
-              <td style={{width: "20%"}}>{account.AccountServiceLocationName} </td>
-              <td style={{width: "20%"}}>$ {account.PostTaxMRC}</td>
-              <td>
+              <td className="py-5" style={{width: "20%"}}>{account.Vendor}</td>
+              <td className="py-5" style={{width: "20%"}}>{account.AccountNum}</td>
+              <td className="py-5" style={{width: "20%"}}>{account.SubAccountNum}</td>
+              <td className="py-5" style={{width: "20%"}}>{account.AccountServiceLocationName} </td>
+              <td className="py-5" style={{width: "20%"}}>$ {account.PostTaxMRC}</td>
+              <td className="py-5">
                 
                 <span className="icon is-right">
                 <DeleteButton colRef="Accounts" docRef={account.id} />

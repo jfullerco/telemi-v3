@@ -64,7 +64,7 @@ const NavBar = () => {
           </div>
           
             <a className="navbar-item" onClick={()=>history.push("/dashboard")}>Dashboard</a>
-            
+            <a className="navbar-item" onClick={()=>history.push("/dashboard#accounts")}>Accounts</a>
           
           
           <a onClick={()=>logOut()} className="navbar-item">
