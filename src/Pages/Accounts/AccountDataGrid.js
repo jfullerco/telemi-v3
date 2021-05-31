@@ -71,7 +71,7 @@ const AccountDataGrid = ({queryCol, queryID, visible}) => {
             <tr> 
               <td> 
                 <a className="button is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addaccount")}>
-                  Link Account
+                  Add New
                 </a>
               </td> 
             </tr> 

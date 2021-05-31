@@ -101,6 +101,10 @@ console.log(state)
     setTimeout(() => {history.push("/dashboard")}, 1000)
   }
 
+  const handleRelatedServiceID = (e) => {
+    console.log(accountServiceID.current.value)
+  }
+
   return (
     <>
     {activeAccount != undefined ? ( 
@@ -151,7 +155,7 @@ console.log(state)
               fieldInitialValue={activeAccount.AccountServiceID}
               fieldInitialOption={activeAccount.AccountServiceName}
               fieldIDRef={accountServiceID}
-              
+              onChange={()=>handleRelatedServiceID()}
             >
               {servicesByLocation != undefined ? 
                 servicesByLocation.map(service => (
