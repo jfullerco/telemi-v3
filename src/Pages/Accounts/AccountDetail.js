@@ -88,7 +88,7 @@ console.log(state)
       InternalBillingCode: accountInternalBillingCode.current.value,
       AccountServiceLocationID: accountServiceLocationID.current.value,
       AccountServiceLocationName: accountServiceLocationID.current[accountServiceLocationID.current.selectedIndex].text,
-      AccountServiceID: accountServiceID.current,
+      AccountServiceID: accountServiceID.current.value,
       AccountServiceName: accountServiceID.current[accountServiceID.current.selectedIndex].text
     }  
 
