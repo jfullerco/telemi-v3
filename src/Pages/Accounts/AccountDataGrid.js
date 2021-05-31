@@ -52,7 +52,7 @@ const AccountDataGrid = ({queryCol, queryID, visible}) => {
             </tr>
           </thead>
           <tbody className="is-size-7">
-          {accounts != undefined ? accounts.map(account => (
+          {accounts && accounts.length != 0 ? accounts.map(account => (
             
             <tr key={account.id} >
               <td style={{width: "20%"}}>{account.Vendor}</td>
@@ -67,7 +67,7 @@ const AccountDataGrid = ({queryCol, queryID, visible}) => {
               </td>
             </tr>
             
-          )) : 
+          )) : (
             <tr> 
               <td> 
                 <a className="button is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addaccount")}>
@@ -75,7 +75,7 @@ const AccountDataGrid = ({queryCol, queryID, visible}) => {
                 </a>
               </td> 
             </tr> 
-          }
+          )}
 
           </tbody>    
         </table>
