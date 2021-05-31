@@ -88,7 +88,7 @@ console.log(state)
       InternalBillingCode: accountInternalBillingCode.current.value,
       AccountServiceLocationID: accountServiceLocationID.current.value,
       AccountServiceLocationName: accountServiceLocationID.current[accountServiceLocationID.current.selectedIndex].text,
-      AccountServiceID: accountServiceID.current.value,
+      AccountServiceID: accountServiceID.current,
       AccountServiceName: accountServiceID.current[accountServiceID.current.selectedIndex].text
     }  
 
@@ -151,6 +151,7 @@ console.log(state)
               fieldInitialValue={activeAccount.AccountServiceID}
               fieldInitialOption={activeAccount.AccountServiceName}
               fieldIDRef={accountServiceID}
+              
             >
               {servicesByLocation != undefined ? 
                 servicesByLocation.map(service => (
