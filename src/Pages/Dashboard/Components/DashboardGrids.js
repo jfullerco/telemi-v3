@@ -324,13 +324,7 @@ const DashboardGrids = ({visible}) => {
   
 
 return (
-  <>
-  {visible != false ?
     <>
-    <DataGrid 
-      rows={services}
-      columns = {[{headerName: "col1"}, {headerName: "col2"}]}
-      />
       <div className="title">
         <div className="field has-addons">
           <p className="control is-expanded has-icons-left">
@@ -352,33 +346,29 @@ return (
           <table className="table is-striped is-hoverable is-fullwidth ">
             <thead className="is-size-6">
             <tr>
-              <th className="is-hidden-mobile">
-                Vendor
-              </th>
-              <th>
-                <a onClick={()=>fetchServicesSort("VendorServiceName")}>Product</a>
-              </th>
-              <th>
-                <a onClick={()=>fetchServicesSort("LocationName")}>Location</a>
-              </th>
-              <th>
-                Asset ID
-              </th>
-              <th>
-                Type
-              </th>
-              <th>
-                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>
-                  Add New
-                </a>
-              </th>
+              <th className="is-hidden-mobile">Vendor</th>
+              <th><a onClick={()=>fetchServicesSort("VendorServiceName")}>Product</a></th>
+              <th><a onClick={()=>fetchServicesSort("LocationName")}>Location</a></th>
+              <th>Asset ID</th>
+              <th>Type</th>
+              <th><a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>Add New</a></th>
             </tr>
             </thead>
           <tbody className="is-size-7">
           {userContext.userSession.dataLoading != true ?
             services != undefined ? services.map(service => (
             
-            <tr onClick={() => handleServiceDetail(service.id)} key={service.id}>
+            <tr onClick={()=>
+                  history.push({
+                      pathname: "/servicedetail",
+                      state: {
+                      id: service.id,
+                      services: services,
+                      locations: locations,
+                      accounts: accounts
+                      }
+                    }) 
+                  }  key={service.id}>
               <td style={{width: "15%"}} className="is-hidden-mobile">{service.Vendor}</td>
               <td style={{width: "20%"}}>{service.VendorServiceName} </td>
               <td style={{width: "20%"}}>{service.LocationName}</td>
@@ -891,7 +881,7 @@ return (
       </nav>
     </div> : ""}
   
-  </> : ""} </>
+  </>
   )
 }
 

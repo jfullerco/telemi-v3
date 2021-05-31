@@ -10,7 +10,7 @@ import TextArea from '../../Components/Forms/TextArea'
 import SelectInput from '../../Components/Forms/SelectInput'
 import Page from '../../Components/Page'
 
-const ServiceDetail = () => {
+const ServiceDetail = (state) => {
   const history = useHistory()
   const userContext = useContext(stateContext)
   const {serviceTypes, accessTypes, serviceStatusType} = userContext
@@ -39,15 +39,12 @@ const ServiceDetail = () => {
   
 
   const [activeService, setActiveService] = useState("")
-  const [activeServiceID, setActiveServiceID] = useState()
-  const [toggleNetworkDetailsView, setToggleNetworkDetailsView] = useState(false)
+  
   const [toggleAccountView, setToggleAccountView] = useState(false)
   const [toggleTicketView, setToggleTicketView] = useState(false)
   const [toggleOrderView, setToggleOrderView] = useState(false)
 
-  const handleToggleNetworkDetailsView = () => {
-    setToggleNetworkDetailsView(!toggleNetworkDetailsView)
-  }
+  
   const handleToggleAccountView = () => {
     setToggleAccountView(!toggleAccountView)
   }
@@ -66,12 +63,11 @@ const ServiceDetail = () => {
 
   const fetchService = async() => {
    
-    const serviceRef = await db.collection("Services").doc(userContext.userSession.currentServiceID).get()
+    const serviceRef = await db.collection("Services").doc(state.location.state.service.id).get()
     
     const data = await serviceRef.data()
     const id = await serviceRef.id
     setActiveService(data)
-    setActiveServiceID(id)
     
   }
 
@@ -195,15 +191,13 @@ const ServiceDetail = () => {
             <div className="title">
               <div className="field has-addons">
                 <p className="control is-expanded has-icons-left">
-                  <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleNetworkDetailsView}>
+                  <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold">
                     NETWORK DETAILS 
                   </button>
                 </p>
               </div>
             </div>
 
-            {toggleNetworkDetailsView != false ? 
-            <>
             <TextInput 
               inputFieldLabel="Internal Network Name"
               inputFieldRef={serviceInternalNetworkName}
@@ -239,8 +233,6 @@ const ServiceDetail = () => {
               inputFieldRef={serviceRouterDetails}
               inputFieldValue={activeService.RouterDetails}
             />
-            </>
-            : ""}
 
             </form>
 
@@ -260,7 +252,7 @@ const ServiceDetail = () => {
             <>
             <AccountDataGrid
              queryCol="AccountServiceID"
-             queryID={userContext.userSession.currentServiceID} 
+             queryID={state.location.state.service.id} 
             />
             </> : ""}
 
