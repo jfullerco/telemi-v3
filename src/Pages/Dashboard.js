@@ -9,7 +9,7 @@ import CompanyList from './Companies/CompanyList'
 
 import DataViewer from './Dashboard/Components/DataViewer'
 
-import DashboardGrids from './Dashboard/Components/DashboardGrids'
+import DashboardGrids from './Dashboard/DashboardGrids'
 
 
 const Dashboard = () => {

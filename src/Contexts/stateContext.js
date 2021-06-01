@@ -86,6 +86,13 @@ export const StateProvider = (props) => {
       Name: "Pending Disconnect" },
     ]
 
+    const applyStyle = {
+      headerStyle: {
+        borderBottomStyle: "solid",
+        bottomBorderColor: "black"
+      }
+    }
+
     const [toggleAdmin, setToggleAdmin] = useState(false)
     const [toggleDevTools, setToggleDevTools] = useState(false)
 
@@ -253,6 +260,7 @@ export const StateProvider = (props) => {
     
     return (
       <Provider value={{ 
+          applyStyle,
           setDataLoading,
           setLoggedIn,
           setCompanies,

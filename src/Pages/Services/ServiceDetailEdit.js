@@ -13,7 +13,7 @@ import Page from '../../Components/Page'
 const ServiceDetailEdit = ({state}) => {
   const history = useHistory()
   const userContext = useContext(stateContext)
-  const {serviceTypes, accessTypes, serviceStatusType} = userContext
+  const {serviceTypes, accessTypes, serviceStatusType, applyStyle} = userContext
 
   const [pageSuccess, setPageSuccess] = useState()
   const [pageError, setPageError] = useState()
@@ -37,7 +37,10 @@ const ServiceDetailEdit = ({state}) => {
   const servicePublicIPDetails = useRef("")
   const serviceRouterDetails = useRef("")
   
-
+  const scrollAccountRef = useRef()
+  const scrollTicketRef = useRef()
+  const scrollOrderRef = useRef()
+  
   const [activeService, setActiveService] = useState("")
   
   const [toggleAccountView, setToggleAccountView] = useState(false)
@@ -106,10 +109,17 @@ const ServiceDetailEdit = ({state}) => {
     setTimeout(() => {history.push("/dashboard")}, 1000)
   }
 
+  const handleScrollToAccount = () => {
+    scrollAccountRef.current.scrollIntoView({behavior: 'smooth'})
+  }
+
 console.log(state.location.state)
   return (
       <Page title="SERVICE DETAILS" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
-      {userContext && userContext.userSession != undefined ? <>
+      {userContext && userContext.userSession != undefined ? 
+        <>
+        View: <button className="button is-small is-rounded is-link" onClick={() => {handleScrollToAccount()}}>Accounts</button>
+        <p className="block"/>
           <form>
             
             <SelectInput 
@@ -188,15 +198,11 @@ console.log(state.location.state)
               inputFieldValue={activeService.Notes}
             />
 
-            <div className="title">
-              <div className="field has-addons">
-                <p className="control is-expanded has-icons-left">
-                  <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold">
-                    NETWORK DETAILS 
-                  </button>
-                </p>
-              </div>
-            </div>
+            <p style={applyStyle.headerStyle} className="title">
+              
+              NETWORK DETAILS 
+            
+            </p>
 
             <TextInput 
               inputFieldLabel="Internal Network Name"
@@ -238,43 +244,27 @@ console.log(state.location.state)
 
             <p className="block" />
 
-            <div className="title">
-              <div className="field has-addons">
-                <p className="control is-expanded has-icons-left">
-                  <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleAccountView}>
-                    ACCOUNTS 
-                  </button>
-                </p>
-              </div>
-            </div>
+            <p style={applyStyle.headerStyle} className="title" ref={scrollAccountRef}>
+              
+              Accounts 
             
-            {toggleAccountView != false ?  
-            <>
-            <AccountDataGrid
-             queryCol="AccountServiceID"
-             queryID={state.location.state.id} 
-            />
-            </> : ""}
+            </p>
 
-            <div className="title">
-              <div className="field has-addons">
-                <p className="control is-expanded has-icons-left">
-                  <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleTicketView}>
-                    TICKETS 
-                  </button>
-                </p>
-              </div>
-            </div>
+              <AccountDataGrid
+                queryCol="AccountServiceID"
+                queryID={state.location.state.id} 
+              />
 
-            <div className="title">
-              <div className="field has-addons">
-                <p className="control is-expanded has-icons-left">
-                  <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleOrderView}>
-                    ORDERS 
-                  </button>
-                </p>
-              </div>
-            </div>
+            <p style={applyStyle.headerStyle} className="title">
+              
+              Tickets 
+            
+            </p>
+            <p style={applyStyle.headerStyle} className="title">  
+              
+              Orders 
+            
+            </p>
   
           
 
