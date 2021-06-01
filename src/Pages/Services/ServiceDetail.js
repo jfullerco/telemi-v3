@@ -97,7 +97,7 @@ const ServiceDetail = (state) => {
       
     }  
     console.log(data)
-    const res = await db.collection("Services").doc(userContext.userSession.currentServiceID).set(data)
+    const res = await db.collection("Services").doc(state.location.state.service.id).set(data)
     userContext.setDataLoading(true)
     autoClose()
   }
