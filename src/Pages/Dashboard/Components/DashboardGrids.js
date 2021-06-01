@@ -20,8 +20,6 @@ import AddTicket from '../../Tickets/AddTicket'
 import AccountDetail from '../../Accounts/AccountDetail'
 import AddAccount from '../../Accounts/AddAccount'
 
-import DataGrid from '../../../Components/DataGrid'
-
 const serviceColumns = [
   {field: 'Vendor', headerName: 'Vendor'},
   {field: 'VendorServiceName', headerName: 'Product'},
@@ -42,7 +40,7 @@ const DashboardGrids = ({visible}) => {
   const [accounts, setAccounts] = useState()
   const [tickets, setTickets] = useState()
   const [users, setUsers] = useState()
-  const [searchDropDown, setSearchDropDown] = useState(false)
+  
   const searchRef = useRef("")
 
   const [toggleServicesDetailModal, setToggleServicesDetailModal] = useState(false)
