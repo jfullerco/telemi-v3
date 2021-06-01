@@ -61,9 +61,9 @@ const NavBar = () => {
           <>
           
             
-            <a className="navbar-item" onClick={()=>history.push("/dashboard")}><span className="is-capitalized">{userFirstName} </span></a>
+            <a className="navbar-item" onClick={()=>history.push("/dashboard")}>{userFirstName}</a>
             
-            <a className="navbar-item is-capitalized" onClick={()=>history.push("/dashboard")}>Dashboard</a>
+            <a className="navbar-item" onClick={()=>history.push("/dashboard")}>Dashboard</a>
             
           
           
@@ -76,7 +76,7 @@ const NavBar = () => {
           <div className="navbar-item" onClick={()=>handleNewUserButton()}>
           <button className="button is-small is-rounded is-capitalized">Create Account</button>
           </div>
-          <Link to="/login" className="navbar-item is-capitalized" >
+          <Link to="/login" className="navbar-item" >
             Login
           </Link>
           </>

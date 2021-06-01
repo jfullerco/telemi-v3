@@ -67,7 +67,7 @@ const Dashboard = () => {
               </p>
 
               <p className="block">
-                <span className="title has-text-black is-size-3 is-size-5-mobile">
+                <span className="title has-text-black is-size-3 is-size-5-mobile" style={{textTransform: "uppercase"}}>
                   {userContext.userSession.currentCompany}
                 </span>
 

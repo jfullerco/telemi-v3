@@ -3,78 +3,56 @@ import React from 'react'
 const AccountDashboard = () => {
   return(
     <>
-    <div className="title">
-      <div className="field has-addons">
-        <p className="control is-expanded has-icons-left">
-          <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold" onClick={handleToggleAccountView}>
-          
-          ACCOUNTS 
-            
-          </button>
-        </p>
-      </div>
-    </div>
-
-    {toggleAccountView != false ? 
-      <div className="table-container">
-      <nav className="level">
-        <table className="table is-striped is-hoverable is-fullwidth has-text-centered">
-          <thead className="is-size-6">
+    
+    <div className="table-container">
+        <nav className="level">
+          <table className="table is-hoverable is-fullwidth ">
+            <thead className="is-size-6">
             <tr>
-            <th className="px-5">Vendor</th>
-            <th className="px-5">Account</th>
-            <th className="px-5">Sub Account</th>
-            <th className="px-5">Location Linked</th>
-            <th className="px-5">Monthly Cost</th>
-            <th>
-              <span className="icon is-left">
-              <FontAwesomeIcon 
-                icon={faPlus} 
-                  onClick={handleToggleAccountAddModal} 
-              />
-              </span>
-            </th>
+              <th className="is-hidden-mobile">Vendor</th>
+              <th><a onClick={()=>fetchServicesSort("VendorServiceName")}>Product</a></th>
+              <th><a onClick={()=>fetchServicesSort("LocationName")}>Location</a></th>
+              <th>Asset ID</th>
+              <th>Type</th>
+              <th><a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>Add New</a></th>
             </tr>
-          </thead>
+            </thead>
           <tbody className="is-size-7">
           {userContext.userSession.dataLoading != true ?
-            accounts != undefined ? accounts.map(account => (
+            services != undefined ? services.map(service => (
             
-            <tr key={account.id} >
-              <td >{account.Vendor}</td>
-              <td >{account.AccountNum}</td>
-              <td >{account.SubAccountNum}</td>
-              <td >{account.AccountServiceLocationName} </td>
-              <td >$ {account.PostTaxMRC}</td>
-              <td>
-                <span className="icon is-left">
-                <FontAwesomeIcon icon={faEdit} onClick={()=>
+            <tr onClick={()=>
                   history.push({
-                      pathname: "/accountdetail",
+                      pathname: "/servicedetail",
                       state: {
-                      id: account.id,
+                      id: service.id,
                       services: services,
-                      locations: locations
+                      locations: locations,
+                      accounts: accounts
                       }
                     }) 
-                  } /></span>
+                  }  key={service.id}>
+              <td className="py-5" style={{width: "15%"}} >{service.Vendor}</td>
+              <td className="py-5" style={{width: "20%"}}>{service.VendorServiceName} </td>
+              <td className="py-5" style={{width: "20%"}}>{service.LocationName}</td>
+              <td className="py-5" style={{width: "20%"}}>{service.AssetID}</td>
+              <td className="py-5" style={{width: "20%"}}>{service.Type}</td>
+              <td className="py-5" style={{width: "15%"}}>
                 <span className="icon is-right">
-                <DeleteButton colRef="Accounts" docRef={account.id} />
+                  <DeleteButton colRef="Services" docRef={service.id} />
                 </span>
-              
               </td>
             </tr>
-            
           )) : 
             <tr> 
               <td> 
-                <button className="button is-rounded is-small" onClick={handleToggleAccountAddModal}>
-                  Add an Account
-                </button> 
+                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>
+                  Add New
+                </a>
               </td> 
-            </tr> 
+            </tr>
           
-        : <tr><td>Fetching Data...</td></tr>}
+          : <tr><td>Fetching Data...</td></tr>}
 
           </tbody>    
         </table>
