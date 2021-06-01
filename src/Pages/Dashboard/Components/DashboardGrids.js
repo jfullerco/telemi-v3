@@ -320,39 +320,21 @@ const DashboardGrids = ({visible}) => {
     ticketLocationName.current = name
     setDropDown("")
   }
-  
+  const headerStyle = {
+    borderBottomStyle: "solid",
+    bottomBorderColor: "black"
+  }
 
 return (
     <>{visible != false ? <>
-      <div className="title">
-        <div className="field has-addons">
-          <p className="control is-expanded has-icons-left">
-            <button id="dashboard-button" className="button is-fullwidth is-outlined is-black is-rounded has-text-weight-bold is-size-5" onClick={handleToggleServicesView}>
-              SERVICES 
-            </button>
-          </p>
-        </div>
+      <div className="title" style={headerStyle}> 
+      SERVICES
+        <div className="tile is-pulled-right">
+        <input className="input is-small is-rounded has-text-black" placeholder="SEARCH" onChange={(e)=>handleChangeSearchServices(e)} />
+      </div> 
       </div>
     
-      <div className="tile">
-        <input className="input is-small is-static" placeholder="SEARCH" onChange={(e)=>handleChangeSearchServices(e)} />
-      </div> 
-    
-    {userContext.userSession.dataLoading != true ?
-            services != undefined ? services.map(service => (
-            
-            <CardByService {...service} />
-           
-          )) : 
-            
-                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>
-                  Add New
-                </a>
-          
-          : "Fetching Data..."}
-
-
-
+      
 
     {toggleServicesView != true ? 
       

@@ -55,37 +55,52 @@ const Dashboard = () => {
   
   return (   
       <div id="dashboard" className="dashboard"> 
+
+{/**      Dashboard Header          */        }
+
         {currentUser != undefined ?
           <>
             <div className="block"> 
+
               <p className="block">
                 <span className="title has-text-black is-size-3 is-size-5-mobile">
                   Hello, {userFirstName} 
                 </span>
               </p>
+
               <p className="block">
                 <span className="title has-text-black is-size-3 is-size-5-mobile">
                   {userContext.userSession.currentCompany}
                 </span>
+
                 {userContext.userSession.companies && userContext.userSession.companies.length > 1 ? 
-                  <span className="px-3"><a className="link is-small is-link is-rounded is-7" onClick={()=>setToggleCompanyList(!toggleCompanyList)}>change</a> </span>
+                  <span className="px-3">
+                    <a className="link is-small is-link is-rounded is-7" onClick={()=>setToggleCompanyList(!toggleCompanyList)}>
+                      change
+                    </a> 
+                  </span>
                 : ""}
               </p>
+
             </div>
+
+{/**      Toggle Company List          */        }
 
         <div className="block" id="companyList">
           {toggleCompanyList != false ? <CompanyList /> : ""}
-          Toggle View <input type="checkbox" onChange={()=>setToggleDashboard(!toggleDashboard)} />
         </div>
 
+{/**      Display Dashboard Items          */        }        
+
         <div>
-          <DashboardGrids visible={toggleDashboard} />
-          <DataViewer visible={!toggleDashboard} />
+          <DashboardGrids visible={!toggleDashboard} />
         </div>
 
       </>
       : 
       <>
+
+{/**      If not logged in          */        }  
 
           <div className="box has-text-centered">
             <p className="title has-text-centered">Please Login </p>
