@@ -9,10 +9,8 @@ import TextInput from '../../Components/Forms/TextInput'
 import TextArea from '../../Components/Forms/TextArea'
 import SelectInput from '../../Components/Forms/SelectInput'
 import Page from '../../Components/Page'
-import ServiceDetailCard from './ServiceDetailCard'
-import ServiceDetailEdit from './ServiceDetailEdit'
 
-const ServiceDetail = (state) => {
+const ServiceDetail = ({state}) => {
   const history = useHistory()
   const userContext = useContext(stateContext)
   const {serviceTypes, accessTypes, serviceStatusType} = userContext
@@ -108,12 +106,22 @@ const ServiceDetail = (state) => {
     setTimeout(() => {history.push("/dashboard")}, 1000)
   }
 
-
+console.log(state.location.state)
   return (
       <>
-      
-      <ServiceDetailEdit state={state} />
-      </>
+      {userContext && userContext.userSession != undefined ? <>
+          <div className="columns">
+            <div className="column has-text-weight-semibold">Location</div>
+            <div className="column">{activeService.LocationName}</div>
+            </div>
+            
+
+            
+  
+          
+
+    </> : <div className="tile warning"> No record to display</div>}    
+    </>
   )
 }
 export default ServiceDetail

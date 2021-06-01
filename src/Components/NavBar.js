@@ -9,7 +9,7 @@ const NavBar = () => {
 
   const history = useHistory()
   const userContext = useContext(stateContext)
-  
+  const {userFirstName} = userContext.userSession
   const {currentUser, logOutUser} = useAuth()
   
   const [isActive, setIsActive] = useState(false)
@@ -59,12 +59,12 @@ const NavBar = () => {
         
         {currentUser != undefined ? (
           <>
-          <div className="navbar-item">
           
-          </div>
-          
-            <a className="navbar-item" onClick={()=>history.push("/dashboard")}>Dashboard</a>
-            <a className="navbar-item" onClick={()=>history.push("/dashboardalt")}>Alternate</a>
+            
+            <a className="navbar-item" onClick={()=>history.push("/dashboard")}><span className="is-capitalized">{userFirstName} </span></a>
+            
+            <a className="navbar-item is-capitalized" onClick={()=>history.push("/dashboard")}>Dashboard</a>
+            
           
           
           <a onClick={()=>logOut()} className="navbar-item">
@@ -74,9 +74,9 @@ const NavBar = () => {
         ) : (
           <>
           <div className="navbar-item" onClick={()=>handleNewUserButton()}>
-          <button className="button is-small is-rounded">Create Account</button>
+          <button className="button is-small is-rounded is-capitalized">Create Account</button>
           </div>
-          <Link to="/login" className="navbar-item" >
+          <Link to="/login" className="navbar-item is-capitalized" >
             Login
           </Link>
           </>

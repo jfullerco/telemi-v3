@@ -63,9 +63,7 @@ const Dashboard = () => {
             <div className="block"> 
 
               <p className="block">
-                <span className="title has-text-black is-size-3 is-size-5-mobile">
-                  Hello, {userFirstName} 
-                </span>
+               
               </p>
 
               <p className="block">
