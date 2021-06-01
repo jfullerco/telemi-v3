@@ -21,6 +21,7 @@ const Dashboard = () => {
 
   const isUserLoggedIn = currentUser != undefined ? currentUser : ""
   const [toggleCompanyList, setToggleCompanyList] = useState(false)
+  const [toggleDashboard, setToggleDashboard] = useState(false)
 
   useEffect(() => {
     fetchUser(currentUser)
@@ -74,11 +75,12 @@ const Dashboard = () => {
 
         <div className="block" id="companyList">
           {toggleCompanyList != false ? <CompanyList /> : ""}
+          Toggle View <input type="checkbox" onChange={()=>setToggleDashboard(!toggleDashboard)} />
         </div>
 
         <div>
-          
-          <DashboardGrids />
+          <DashboardGrids visible={toggleDashboard} />
+          <DataViewer visible={!toggleDashboard} />
         </div>
 
       </>

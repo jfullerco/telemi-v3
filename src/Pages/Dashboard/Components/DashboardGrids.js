@@ -19,6 +19,7 @@ import TicketDetail from '../../Tickets/TicketDetail'
 import AddTicket from '../../Tickets/AddTicket'
 import AccountDetail from '../../Accounts/AccountDetail'
 import AddAccount from '../../Accounts/AddAccount'
+import CardByService from '../../Services/CardByService'
 
 const serviceColumns = [
   {field: 'Vendor', headerName: 'Vendor'},
@@ -322,7 +323,7 @@ const DashboardGrids = ({visible}) => {
   
 
 return (
-    <>
+    <>{visible != false ? <>
       <div className="title">
         <div className="field has-addons">
           <p className="control is-expanded has-icons-left">
@@ -337,6 +338,22 @@ return (
         <input className="input is-small is-static" placeholder="SEARCH" onChange={(e)=>handleChangeSearchServices(e)} />
       </div> 
     
+    {userContext.userSession.dataLoading != true ?
+            services != undefined ? services.map(service => (
+            
+            <CardByService {...service} />
+           
+          )) : 
+            
+                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>
+                  Add New
+                </a>
+          
+          : "Fetching Data..."}
+
+
+
+
     {toggleServicesView != true ? 
       
       <div className="table-container">
@@ -879,7 +896,7 @@ return (
       </nav>
     </div> : ""}
   
-  </>
+  </> : ""}</>
   )
 }
 
