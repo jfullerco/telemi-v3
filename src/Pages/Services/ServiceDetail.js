@@ -63,7 +63,7 @@ const ServiceDetail = (state) => {
 
   const fetchService = async() => {
    
-    const serviceRef = await db.collection("Services").doc(state.location.state.service.id).get()
+    const serviceRef = await db.collection("Services").doc(state.location.state.id).get()
     
     const data = await serviceRef.data()
     const id = await serviceRef.id
@@ -97,7 +97,7 @@ const ServiceDetail = (state) => {
       
     }  
     console.log(data)
-    const res = await db.collection("Services").doc(state.location.state.service.id).set(data)
+    const res = await db.collection("Services").doc(state.location.state.id).set(data)
     userContext.setDataLoading(true)
     autoClose()
   }
@@ -106,7 +106,7 @@ const ServiceDetail = (state) => {
     setTimeout(() => {history.push("/dashboard")}, 1000)
   }
 
-
+console.log(state.location.state)
   return (
       <Page title="SERVICE DETAILS" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
       {userContext && userContext.userSession != undefined ? <>
@@ -252,7 +252,7 @@ const ServiceDetail = (state) => {
             <>
             <AccountDataGrid
              queryCol="AccountServiceID"
-             queryID={state.location.state.service.id} 
+             queryID={state.location.state.id} 
             />
             </> : ""}
 
