@@ -63,7 +63,16 @@ const NavBar = () => {
             
             <a className="navbar-item" onClick={()=>history.push("/dashboard")}>{userFirstName}</a>
             
-            <a className="navbar-item" onClick={()=>history.push("/dashboard")}>Dashboard</a>
+          <div className="navbar-item has-dropdown is-hoverable">
+            <a className="navbar-link" onClick={()=>history.push("/dashboard")}>Dashboards</a>
+            
+            <div className="navbar-dropdown">
+            <a className="navbar-item">ACCOUNTS</a>
+            <a className="navbar-item">ORDERS</a>
+            <a className="navbar-item">TICKETS</a>
+            <a className="navbar-item">LOCATIONS</a>
+          </div>
+          </div>
             
           
           
@@ -74,7 +83,7 @@ const NavBar = () => {
         ) : (
           <>
           <div className="navbar-item" onClick={()=>handleNewUserButton()}>
-          <button className="button is-small is-rounded is-capitalized">Create Account</button>
+          <button className="button is-small is-rounded has-background-grey-lighter">Create Account</button>
           </div>
           <Link to="/login" className="navbar-item" >
             Login

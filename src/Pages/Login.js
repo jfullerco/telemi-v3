@@ -5,8 +5,8 @@ import {useAuth} from '../Contexts/AuthContext'
 
 export default function Login() {
 
-  const emailRef = useRef()
-  const passwordRef = useRef()
+  const emailRef = useRef("")
+  const passwordRef = useRef("")
   const {login} = useAuth()
   const history = useHistory()
   const [loading, setLoading] = useState(false)

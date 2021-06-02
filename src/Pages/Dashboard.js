@@ -31,7 +31,7 @@ const Dashboard = () => {
   const fetchUser = async(email) => {
     
     const userRef = await db.collection("Users").where("Email", "==", email).get()
-    const user = userRef.docs.map(doc => ({id: doc.id, FirstName: doc.FirstName, Type: doc.Type, ...doc.data()}))
+    const user = await userRef.docs.map(doc => ({id: doc.id, FirstName: doc.FirstName, Type: doc.Type, ...doc.data()}))
     userContext.setUserFirstName(user[0].FirstName)
     userContext.setUserType(user[0].Type)
     
@@ -91,7 +91,7 @@ const Dashboard = () => {
 {/**      Display Dashboard Items          */        }        
 
         <div>
-          <DashboardGrids visible={!toggleDashboard} />
+          <DashboardGrids />
         </div>
 
       </>

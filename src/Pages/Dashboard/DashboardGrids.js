@@ -326,7 +326,7 @@ const DashboardGrids = ({visible}) => {
 
 return (
     <>
-      {visible != false ? <>
+      
         <div className="title" style={applyStyle.headerStyle}> 
           SERVICES
           <div className="tile is-pulled-right">
@@ -392,7 +392,7 @@ return (
     
 
   
-  </> : ""}</>
+  </> 
   )
 }
 
