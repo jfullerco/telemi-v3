@@ -45,142 +45,6 @@ const DashboardGrids = ({visible}) => {
   
   const searchRef = useRef("")
 
-  const [toggleServicesDetailModal, setToggleServicesDetailModal] = useState(false)
-
-  const [toggleServicesAddModal, setToggleServicesAddModal] = useState(false)
-
-  const [toggleServicesView, setToggleServicesView] = useState(false)
-
-  const [toggleAccountDetailModal, setToggleAccountDetailModal] = useState(false)
-
-  const [toggleAccountAddModal, setToggleAccountAddModal] = useState(false)
-
-  const [toggleAccountView, setToggleAccountView] = useState(false)
-
-  const [toggleLocationDetailModal, setToggleLocationDetailModal] = useState(false)
-
-  const [toggleLocationAddModal, setToggleLocationAddModal] = useState(false)
-
-  const [toggleLocationView, setToggleLocationView] = useState(false)
-
-  const [toggleOrderDetailModal, setToggleOrderDetailModal] = useState(false)
-
-  const [toggleOrderAddModal, setToggleOrderAddModal] = useState(false)
-  
-  const [toggleOrderView, setToggleOrderView] = useState(false)
-
-  const [toggleTicketAddModal, setToggleTicketAddModal] = useState(false)
-
-  const [toggleTicketDetailModal, setToggleTicketDetailModal] = useState(false)
-  
-  const [toggleTicketView, setToggleTicketView] = useState(false)
-
-  const [toggleUsersAddModal, setToggleUsersAddModal] = useState(false)
-
-  const [toggleReportsView, setToggleReportsView] = useState(true)
-
-  const [toggleQuotesView, setToggleQuotesView] = useState(false)
-
-  const [toggleUsersView, setToggleUsersView] = useState(false)
-
-  const [toggleSearchServices, setToggleSearchServices] = useState(false)
-
-  const handleToggleServicesAddModal = () => {
-    setToggleServicesAddModal(!toggleServicesAddModal)
-  }
-
-  const handleServiceDetail = (id) => {
-    userContext.setCurrentServiceID(id)
-    userContext.setLocations(locations)
-    history.push("/servicedetail")
-  }
-
-  const handleToggleServicesView = () => {
-    userContext.setDataLoading(true)
-    fetchServices()
-    setToggleServicesView(!toggleServicesView)
-  }
-
-  const handleToggleAccountAddModal = () => {
-    setToggleAccountAddModal(!toggleAccountAddModal)
-  }
-
-  const handleToggleAccountDetailModal = () => {
-    setToggleAccountDetailModal(!toggleAccountDetailModal)
-  }
-
-  const handleToggleAccountView = () => {
-    userContext.setDataLoading(true)
-    fetchAccounts()
-    setToggleAccountView(!toggleAccountView)
-  }
-  
-  const handleToggleLocationDetailModal = (id) => {
-    userContext.setCurrentLocationID(id)
-    setToggleLocationDetailModal(!toggleLocationDetailModal)
-  }
-
-  const handleToggleLocationAddModal = () => {
-    setToggleLocationAddModal(!toggleLocationAddModal)
-  }
-
-  const handleToggleLocationView = () => {
-    userContext.setDataLoading(true)
-    fetchLocations()
-    setToggleLocationView(!toggleLocationView)
-  }
-
-  const handleToggleOrderDetailModal = (id) => {
-    userContext.setCurrentOrderID(id)
-    setToggleOrderDetailModal(!toggleOrderDetailModal)
-  }
-
-  const handleToggleOrderAddModal = () => {
-    setToggleOrderAddModal(!toggleOrderAddModal)
-  }
-
-  const handleToggleOrderView = () => {
-    userContext.setDataLoading(true)
-    fetchOrders()
-    setToggleOrderView(!toggleOrderView)
-  }
-
-  const handleToggleTicketDetailModal = (id) => {
-    userContext.setCurrentTicketID(id)
-    setToggleTicketDetailModal(!toggleTicketDetailModal)
-  }
-
-  const handleToggleTicketAddModal = () => {
-    setToggleTicketAddModal(!toggleTicketAddModal)
-  }
-
-  const handleToggleTicketView = () => {
-    fetchTickets()
-    setToggleTicketView(!toggleTicketView)
-  }
-
-  const handleToggleUsersAddModal = () => {
-    setToggleUsersAddModal(!toggleUsersAddModal)
-  }
-
-  const handleToggleUsersView = () => {
-    setToggleUsersView(!toggleUsersView)
-  }
-
-  const handleToggleReportsView = () => {
-    setToggleReportsView(!toggleReportsView)
-  }
-
-  const handleToggleQuotesView = () => {
-    setToggleQuotesView(!toggleQuotesView)
-  }
-
-  const handleAccountDetail = (id) => {
-    userContext.setCurrentAccountID(id)
-    userContext.setDataLoading(true)
-    history.push("/accountdetail")
-  }
-
   useEffect(() => {
     fetchLocations(),
     fetchServices(),
@@ -322,10 +186,10 @@ const DashboardGrids = ({visible}) => {
     setDropDown("")
   }
   
-  
+const res = (services.map(service => Object.keys(service).map(key => console.log(key))))  
 
 return (
-    <>
+    <div className="box">
       
         <div className="title" style={applyStyle.headerStyle}> 
           SERVICES
@@ -392,7 +256,7 @@ return (
     
 
   
-  </> 
+  </div> 
   )
 }
 
