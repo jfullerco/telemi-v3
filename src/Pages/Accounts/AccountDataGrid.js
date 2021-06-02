@@ -33,7 +33,7 @@ const AccountDataGrid = ({queryCol, queryID, visible}) => {
 
   return(
     <>
-    {toggleModal != false ? <AddAccount /> : ""}
+    {toggleModal != false ? <AddAccount id={queryID} /> : ""}
       <div className="table-container">
       <nav className="level">
         <table className="table is-striped is-hoverable is-fullwidth">

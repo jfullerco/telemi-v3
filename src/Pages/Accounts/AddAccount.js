@@ -9,7 +9,7 @@ import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import TextInput from '../../Components/Forms/TextInput'
 import TextInputAC from '../../Components/Forms/TextInputAC'
 
-const AddAccount = () => {
+const AddAccount = ({id}) => {
 
   const userContext = useContext(stateContext)
   
@@ -51,7 +51,8 @@ const AddAccount = () => {
       CompanyName: userContext.userSession.currentCompany,
       Vendor: accountVendor.current.value,
       PreTaxMRC: accountPreTaxMRC.current.value,
-      PostTaxMRC: accountPostTaxMRC.current.value
+      PostTaxMRC: accountPostTaxMRC.current.value,
+      AccountServiceID: id
     }  
 
     console.log(data)
