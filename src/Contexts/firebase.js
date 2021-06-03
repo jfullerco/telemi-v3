@@ -3,6 +3,7 @@ import 'firebase/auth'
 import 'firebase/firestore'
 
 
+
 const app = firebase.initializeApp({
   apiKey: "AIzaSyCLcH3HfDZU-0Qa8k90hHYhQZZRyOAy8j4",
   authDomain: "tiems-24d17.firebaseapp.com",
@@ -18,5 +19,6 @@ const app = firebase.initializeApp({
 
 export const auth = app.auth()
 export const db = app.firestore()
+
 
 export default app

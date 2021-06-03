@@ -7,6 +7,7 @@ import {AuthProvider} from './Contexts/AuthContext'
 import Hello from './Pages/Hello'
 import Dashboard from './Pages/Dashboard'
 import Login from './Pages/Login'
+import Register from './Pages/Register'
 import NavBar from './Components/NavBar'
 
 import AddCompany from './Pages/Companies/AddCompany'
@@ -53,6 +54,7 @@ export default function App() {
             <Route path="/dashboard" component={Dashboard} />
             
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
             
             <Route path="/companydetails" component={CompanyDetail} />
             <Route path="/servicedetail" component={ServiceDetail} />

@@ -191,6 +191,13 @@ const DashboardGrids = ({visible}) => {
   {docField: 'Type', headerName: 'Type'}
   ]
 
+  const contractColumns = [
+  {docField: 'Vendor', headerName: 'Vendor'},
+  {docField: 'Date', headerName: 'Date'},
+  {docField: 'Term', headerName: 'Term'},
+  {docField: 'File', headerName: 'File'}
+  ]
+
   const handleServiceClick = (id) => {
     
     console.log(id)
@@ -238,6 +245,14 @@ return (
       handleClick={(e)=>handleAccountClick(e)}
       handleAddBtn={() => history.push("/addaccount")}
     /> 
+
+    <GridComponent 
+      label="CONTRACTS"
+      headerFields={contractColumns}
+      data=""
+      handleClick={(e)=>handleAccountClick(e)}
+      handleAddBtn={() => history.push("/addcontract")}
+    />
   </>
     
   

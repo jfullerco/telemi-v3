@@ -46,13 +46,13 @@ export default function Login() {
             <div className="field">
               <label>Email</label>
                 <div className="control">
-                  <input className="input" type="email" ref={emailRef} />
+                  <input className="input is-rounded" type="email" ref={emailRef} />
                 </div>
             </div>
             <div className="field">
               <label>Password</label>
                 <div className="control">
-                  <input className="input" type="password" ref={passwordRef}/>
+                  <input className="input is-rounded" type="password" ref={passwordRef}/>
                 </div>
             </div>
           
@@ -65,15 +65,15 @@ export default function Login() {
           
           <button 
             type="submit" 
-            className={loading !== true ? "button level-item" : "button is-loading"} 
+            className={loading !== true ? "button is-rounded is-link level-item" : "button is-loading"} 
             disabled={loading}
           >
             Login
           </button>
           
-          <div className="content is-small">
+          <button className="button is-rounded" onClick={()=>history.push("/register")}>
             Create account 
-          <Link to="/register">Register</Link></div>
+          </button>
         
         </div>
         </form>

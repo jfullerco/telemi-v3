@@ -14,11 +14,12 @@ const AddContract = () => {
   const history = useHistory()
   const userContext = useContext(stateContext)
   const {serviceTypes, accessTypes, serviceStatusType} = userContext
+  const {currentCompanyID, currentCompany, currentUser} = userContext.userSession
 
   const [pageSuccess, setPageSuccess] = useState()
   const [pageError, setPageError] = useState()
   
-
+  const contractName = useRef("")
   const contractVendor = useRef("")
   const contractDate = useRef("")
   const contractTerm = useRef("")
@@ -35,9 +36,9 @@ const AddContract = () => {
       Date: contractDate.current.value,
       Term: contractTerm.current.value,
       File: contractFile.current.value,
-      CompanyID: userContext.userSession.currentCompanyID,
-      CompanyName: userContext.userSession.currentCompany,
-      LastUpdatedBy: userContext.userSession.currentUser,
+      CompanyID: currentCompanyID,
+      CompanyName: currentCompany,
+      LastUpdatedBy: currentUser,
       LastUpdated: Date()
       
     }  
@@ -51,11 +52,24 @@ const AddContract = () => {
     setTimeout(() => {history.push("/dashboard")}, 1000)
   }
 
+  const handleFileChange = async(e) => {
+    const file = e.target.files[0]
+    const imageRef = store.storage().ref(currentCompanyID).child(`${contractName.current.value} + '-' + ${currentCompanyName} + '-' + ${contractDate.current.value}`)
+    await imageRef.put(file)
+    contractFile.current = await imagesRef.getDownloadURL() 
+  }
+console.log(contractFile.current)
 
   return (
       <Page title="Add Contract" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
       {userContext && userContext.userSession != undefined ?
           <form>
+
+            <TextInput 
+              inputFieldLabel="Name"
+              inputFieldRef={contractName}
+              inputFieldValue={activeContract.Name}
+            />
             
             <TextInput 
               inputFieldLabel="Vendor"
@@ -77,7 +91,7 @@ const AddContract = () => {
 
             <div className="file is-boxed">
             <label className="file-label">
-              <input className="file-input" type="file" name="resume" ref={contractFile} />
+              <input className="file-input" type="file" name="resume" ref={contractFile} onChange={(e)=>handleFileChange(e)}/>
               <span className="file-cta">
                 <span className="file-icon">
                   <i className="faUpload"></i>

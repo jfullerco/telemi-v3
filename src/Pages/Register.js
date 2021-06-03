@@ -10,7 +10,7 @@ const Register = (props) => {
   const confirmPasswordRef = useRef()
 
   const {signup} = useAuth()
-
+  const history = useHistory()
   const [signupError, setSignupError] = useState('')
   const [loading, setLoading] = useState(false)
   const [modalState, setModalState] = useState(true)
@@ -55,14 +55,13 @@ const Register = (props) => {
         </div>
         <div className="modal-card-foot">
           
-          <button className={loading !== true ? "button level-item" : "button is-loading"} 
+          <button className={loading !== true ? "button is-rounded is-link is-link level-item" : "button is-loading"} 
           type="submit" disabled={loading} onClick={handleSubmit}
           >
             Register
           </button>
           
-          <div className="content is-small">Already registered? <Link to="/dashboard">Login</Link></div>
-        
+          <button className="button is-rounded" onClick={()=>history.push("/login")}>Login</button>
         </div>
         <button className="modal-close is-large" aria-label="close" onClick={handleModalClose}></button>  
         </div>
