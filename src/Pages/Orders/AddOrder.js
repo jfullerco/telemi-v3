@@ -5,61 +5,44 @@ import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
 import TextInput from '../../Components/Forms/TextInput'
+import TextArea from '../../Components/Forms/TextArea'
+import SelectInput from '../../Components/Forms/SelectInput'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
+import TextInputAC from '../../Components/Forms/TextInputAC'
+import Page from '../../Components/Page'
 
-const AddOrder = () => {
+const AddOrder = ({state}) => {
 
   const userContext = useContext(stateContext)
 
+  const {serviceTypes, accessTypes, serviceStatusType} = userContext
+  const {currentUser, currentCompany, currentCompanyID} = userContext.userSession
+
   const history = useHistory()
   
-  const [modalState, setModalState] = useState(true)
-  const [addOrderError, setAddOrderError] = useState("")
-  const [success, setSuccess] = useState(false)
-  const [triggerClose, setTriggerClose] = useState()
+  const [pageError, setPageError] = useState()
+  const [pageSuccess, setPageSuccess] = useState()
 
-  const [locations, setLocations] = useState()
+  const [locations, setLocations] = useState(userContext.userSession.locations)
+  const [dropDown, setDropDown] = useState(false)
+  const [suggestLocation, setSuggestLocation] = useState()
   
-  const orderNum = useRef("")
-  const companyID = useRef("")
-  const companyName = useRef("")
-  const orderDate = useRef("")
-  const orderType = useRef("")
-  const orderStatus = useRef("")
-  const orderServiceType = useRef("")
-  const orderMRC = useRef("")
-  const orderDetails = useRef("")
-  const orderMilestones = useRef("")
-  const orderVendor = useRef("")
-  const orderLocationID = useRef("")
-  const orderLocationName = useRef("")
-  const orderNotes = useRef("")
-
-  const handleSubmit = async(e) => {
-    const data = {
-      OrderNum: orderNum.current.value,
-      CompanyID: userContext.userSession.currentCompanyID,
-      CompanyName: userContext.userSession.currentCompany,
-      OrderDate: orderDate.current.value,
-      OrderType: orderType.current.value,
-      OrderStatus: orderStatus.current.value,
-      OrderServiceType: orderServiceType.current.value,
-      OrderVendor: orderVendor.current.value,
-      OrderMRC: orderMRC.current.value,
-      LocationID: orderLocationID.current.value,
-      LocationName: orderLocationID.current[orderLocationID.current.selectedIndex].text,
-      
-    }  
-    console.log(data)
-    const res = await db.collection("Orders").doc().set(data)
-    userContext.setDataLoading(true)
-    autoClose()
-  }
+  const orderCompanyID = useRef(currentCompanyID)
+  const orderCompanyName = useRef(currentCompanyName)
+  const serviceVendorServiceName = useRef("")
+  const serviceLocationID = useRef("")
+  const serviceLocationName = useRef("")
+  const serviceAssetID = useRef("")
+  const serviceAccessType = useRef("")
+  const serviceMRC = useRef("")
+  const serviceDetailsBandwidth = useRef("")
+  const serviceStatus = useRef("")
+  const serviceNotes = useRef("")
+  
+  
 
   useEffect(() => {
-
     fetchLocations()
-
   },[])
 
   const fetchLocations = async() => {
@@ -71,121 +54,141 @@ const AddOrder = () => {
 
   }
   
-  const handleLocationChange = (e) => {
-    orderLocationID.current.value = e.target.value
-    orderLocationName.current.value = e.target.name
-  }
-  const handleModalClose = () => {
-    setModalState(false)
+  const handleSubmit = async(e) => {
+    const data = {
+      
+      Vendor: serviceVendor.current.value,
+      Type: serviceType.current.value,
+      VendorServiceName: serviceVendorServiceName.current.value,
+      LocationID: serviceLocationID.current,
+      LocationName: serviceLocationName.current,
+      CompanyID: userContext.userSession.currentCompanyID,
+      CompanyName: userContext.userSession.currentCompany,
+      Bandwidth: serviceDetailsBandwidth.current.value,
+      AccessType: serviceAccessType.current.value,
+      AssetID: serviceAssetID.current.value,
+      MRC: serviceMRC.current.value,
+      Notes: serviceNotes.current.value,
+      LastUpdatedBy: userContext.userSession.currentUser,
+      LastUpdated: Date()
+      
+    }  
+    console.log(data)
+    const res = await db.collection("Services").doc().set(data)
+    userContext.setDataLoading(true)
+    autoClose()
   }
 
   const autoClose = () => {
-    setTimeout(() => {setModalState(false)}, 1000)
+    setTimeout(() => {history.push("/dashboard")}, 1000)
   }
   
+  const handleChange = (e) => {
+    setDropDown(true)
+    const {value} = e.target
+    const locationAC = locations.filter(({Name, Address1, State, City}) => Name.indexOf(value) > -1 || Address1.indexOf(value) > 1 || State.indexOf(value) > -1 || City.indexOf(value) > -1 )
+    serviceLocationName.current = value
+    setDropDown(locationAC)
+  }
+
+  const handleSuggestedRef = (name, id) => {
+    console.log(name)
+    console.log(id)
+    serviceLocationID.current = id
+    serviceLocationName.current = name
+    setDropDown("")
+  }
 
   return (
-    <div className={modalState === true ? "modal is-active" : "modal"}>
-      <div className="modal-background"></div>
-      <div className="modal-card">
-      <div className="modal-card-head">
-        <p className="modal-card-title">Add Order</p>
-      </div>
-        <section className="modal-card-body">
-          <form>
+    <Page title="Add Service" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
+        
+      <form>
 
-            <SelectInputProps 
-              fieldLabel="Service Location"
+            <TextInputAC handleChange={(e)=>handleChange(e)} 
+              label="Service Location" 
+              value={serviceLocationName.current} 
+              dropDownState={dropDown}>
+                {dropDown != "" ? 
+                  <ul> 
+                  {dropDown.map(d => 
+                    <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.Name, d.id)}>
+                      <li >{d.Name}</li>
+                    </a>
+                  )}
+                  </ul> : ""} 
+            </TextInputAC>
+            
+            <TextInput 
+              inputFieldLabel="Vendor"
+              inputFieldRef={serviceVendor}
+              inputFieldValue={""}
+            />
+
+            <SelectInput 
+              fieldOptions={serviceTypes}
+              fieldLabel="Type"
               fieldInitialValue={""}
               fieldInitialOption={""}
-              fieldIDRef={orderLocationID}>
-                {locations != undefined ? 
-                  locations.map(location => (
-                    <option value={location.id} key={location.id}> 
-                    {location.Name}</option>
-                )) : (
-                  <option></option>
-                )}
-            </SelectInputProps>
-            
-            <SelectInputProps
-              fieldLabel="Vendor"
-              fieldInitialValue=""
-              fieldInitialOption=""
-              fieldIDRef={orderVendor}>
-                <option>AT&T</option>
-                <option>Verizon</option>
-                <option>CenturyLink</option>
-                <option>Lumos</option>
-                <option>Windstream</option>
-                <option>Spectrum</option>
-                <option>Comcast</option>
-                <option>Masergy</option>
-                <option>Microsoft</option>
-            </SelectInputProps>
+              fieldIDRef={serviceType}
+              fieldNameRef={serviceType}
+              fieldChange={()=>console.log("Type Selection Changed")}
+            />
 
             <TextInput 
-              inputFieldLabel="Service Ordered"
-              inputFieldRef={orderServiceType}
+              inputFieldLabel="Service Name"
+              inputFieldRef={serviceVendorServiceName}
+              inputFieldValue={""}
+            />
+
+            <SelectInput 
+              fieldOptions={accessTypes}
+              fieldLabel="Access Type"
+              fieldInitialValue={""}
+              fieldInitialOption={""}
+              fieldIDRef={serviceAccessType}
+              fieldNameRef={serviceAccessType}
+              fieldChange={()=>console.log("Access Type Selection Changed")}
+            />
+            
+            <TextInput 
+              inputFieldLabel="Asset ID"
+              inputFieldRef={serviceAssetID}
               inputFieldValue={""}
             />
 
             <TextInput 
-              inputFieldLabel="Order Number"
-              inputFieldRef={orderNum}
+              inputFieldLabel="Bandwidth"
+              inputFieldRef={serviceDetailsBandwidth}
               inputFieldValue={""}
             />
 
             <TextInput 
               inputFieldLabel="Monthly Cost"
-              inputFieldRef={orderMRC}
+              inputFieldRef={serviceMRC}
               inputFieldValue={""}
             />
 
-            <TextInput 
-              inputFieldLabel="Date Ordered"
-              inputFieldRef={orderDate}
-              inputFieldValue={""}
-            />
-
-            <SelectInputProps
-              fieldLabel="Type"
-              fieldInitialValue="New"
-              fieldInitialOption="New"
-              fieldIDRef={orderType}>
-                <option>New</option>
-                <option>Upgrade</option>
-                <option>Replacement</option>
-                <option>MACD</option>
-              </SelectInputProps>
-
-            <SelectInputProps
+            <SelectInput 
+              fieldOptions={serviceStatusType}
               fieldLabel="Status"
-              fieldInitialValue=""
-              fieldInitialOption=""
-              fieldIDRef={orderStatus}>
-                <option>Pending Completion</option>
-                <option>Completed</option>
-                <option>Cancelled</option>
-            </SelectInputProps>
-          </form>    
-        <div className="block">
-          <div className="notification is-danger is-hidden">{addOrderError}</div>
-         {success === true ?  <div className="notification is-success">Order Added</div> : ""}
-        </div>
-        <div className="modal-card-foot">
+              fieldInitialValue={""}
+              fieldInitialOption={""}
+              fieldIDRef={serviceStatus}
+              fieldNameRef={serviceStatus}
+              fieldChange={()=>console.log("Status Selection Changed")}
+            />
+
+            <TextArea 
+              inputFieldLabel="Notes"
+              inputFieldRef={serviceNotes}
+              inputFieldValue={""}
+            />
           
-          <button className="button is-rounded level-item"
-          type="submit" onClick={handleSubmit}
-          >
-            Add Order
-          </button>
+      </form>
+
         
-        </div>
-        <button className="modal-close is-large" aria-label="close" onClick={handleModalClose}></button>  
-        </section>
-      </div>
-    </div>
+    </Page>
+      
   )
 }
 export default AddOrder

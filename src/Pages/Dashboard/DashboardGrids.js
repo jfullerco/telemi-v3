@@ -32,7 +32,7 @@ const DashboardGrids = ({visible}) => {
       fetchOrders(),
       fetchAccounts()
       setLoadingGrid(false)
-    }, 4000)
+    }, 3000)
     
     return () => clearTimeout(timer)
     
@@ -226,6 +226,20 @@ const DashboardGrids = ({visible}) => {
                     })
   }
 
+  const handleOrderClick = (id) => {
+    
+    console.log(id)
+                    history.push({
+                      pathname: "/orderdetail",
+                      state: {
+                      id: id,
+                      services: services,
+                      locations: locations,
+                      orders: orders
+                      }
+                    })
+  }
+
 return (
   <>
     {loadingGrid != false ? <div className="modal is-active"><div className="loading"></div></div> : ""}
@@ -244,6 +258,14 @@ return (
       data={accounts}
       handleClick={(e)=>handleAccountClick(e)}
       handleAddBtn={() => history.push("/addaccount")}
+    /> 
+
+    <GridComponent 
+      label="ORDERS"
+      headerFields={orderColumns}
+      data={orders}
+      handleClick={(e)=>handleOrderClick(e)}
+      handleAddBtn={() => history.push("/addorder")}
     /> 
 
     <GridComponent 
