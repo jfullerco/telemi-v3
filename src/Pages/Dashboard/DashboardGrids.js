@@ -1,37 +1,13 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
 import {Link, useHistory, Redirect} from 'react-router-dom'
-
-
 import {stateContext} from '../../Contexts/stateContext'
 import {db} from '../../Contexts/firebase'
+import GridComponent from './Components/GridComponent'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEdit, faSearch } from '@fortawesome/free-solid-svg-icons'
-
-import DeleteButton from '../../Components/Buttons/DeleteButton'
-
-import AddService from '../../Services/AddService'
-import LocationDetail from '../../Locations/LocationDetail'
-import AddLocation from '../../Locations/AddLocation'
-import OrderDetail from '../../Orders/OrderDetail'
-import AddOrder from '../../Orders/AddOrder'
-import TicketDetail from '../../Tickets/TicketDetail'
-import AddTicket from '../../Tickets/AddTicket'
-import AccountDetail from '../../Accounts/AccountDetail'
-import AddAccount from '../../Accounts/AddAccount'
-import CardByService from '../../Services/CardByService'
-
-const serviceColumns = [
-  {field: 'Vendor', headerName: 'Vendor'},
-  {field: 'VendorServiceName', headerName: 'Product'},
-  {field: 'LocationName', headerName: 'Location'},
-  {field: 'AssetID', headerName: 'Asset ID'},
-  {field: 'Type', headerName: 'Type'}
-]
 
 const DashboardGrids = ({visible}) => {
   const userContext = useContext(stateContext)
-  const {applyStyle} = userContext
+  const {applyStyle, setDataLoading} = userContext
   const {dataLoading, currentCompany} = userContext.userSession
 
   const history = useHistory()
@@ -42,30 +18,27 @@ const DashboardGrids = ({visible}) => {
   const [accounts, setAccounts] = useState()
   const [tickets, setTickets] = useState()
   const [users, setUsers] = useState()
+  const [loadingGrid, setLoadingGrid] = useState()
   
   const searchRef = useRef("")
+  
+  
 
   useEffect(() => {
-    fetchLocations(),
-    fetchServices(),
-    fetchOrders(),
-    fetchAccounts()
+    setLoadingGrid(true)
+    const timer = setTimeout(() => {
+      fetchLocations(),
+      fetchServices(),
+      fetchOrders(),
+      fetchAccounts()
+      setLoadingGrid(false)
+    }, 4000)
+    
+    return () => clearTimeout(timer)
     
   }, [currentCompany])
 
-  useEffect(() => {
-    reRender()
-    userContext.setDataLoading(false)
-  }, [dataLoading])
-
-  const reRender = () => {
-    dataLoading != false ? (
-    fetchLocations(),
-    fetchServices(),
-    fetchOrders(),
-    fetchAccounts()
-    ) : ""
-  }
+  
   
   const fetchLocations = async() => {
 
@@ -186,77 +159,88 @@ const DashboardGrids = ({visible}) => {
     setDropDown("")
   }
   
-const res = (services.map(service => Object.keys(service).map(key => console.log(key))))  
+  const serviceColumns = [
+  {docField: 'Vendor', headerName: 'Vendor'},
+  {docField: 'VendorServiceName', headerName: 'Product'},
+  {docField: 'LocationName', headerName: 'Location'},
+  {docField: 'AssetID', headerName: 'Asset ID'},
+  {docField: 'Type', headerName: 'Type'}
+  ]
 
-return (
-    <div className="box">
-      
-        <div className="title" style={applyStyle.headerStyle}> 
-          SERVICES
-          <div className="tile is-pulled-right">
-          <input className="input is-small is-rounded has-text-black" placeholder="SEARCH" onChange={(e)=>handleChangeSearchServices(e)} />
-          </div> 
-        </div>
-      
-        <div className="table-container">
-          <nav className="level">
-            <table className="table is-hoverable is-fullwidth ">
-              <thead className="is-size-6">
-              <tr>
-                <th className="is-hidden-mobile">Vendor</th>
-                <th><a onClick={()=>fetchServicesSort("VendorServiceName")}>Product</a></th>
-                <th><a onClick={()=>fetchServicesSort("LocationName")}>Location</a></th>
-                <th>Asset ID</th>
-                <th>Type</th>
-                <th><a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>Add New</a></th>
-              </tr>
-            </thead>
-            <tbody className="is-size-7">
-              {userContext.userSession.dataLoading != true ?
-              services != undefined ? services.map(service => (
-            
-              <tr onClick={()=>
-                  history.push({
+  const accountColumns = [
+  {docField: 'Vendor', headerName: 'Vendor'},
+  {docField: 'AccountNum', headerName: 'Account'},
+  {docField: 'SubAccountNum', headerName: 'Sub-Account'},
+  {docField: 'AccountServiceLocationName', headerName: 'Location'},
+  {docField: 'PostTaxMRC', headerName: 'Cost'}
+  ]
+
+  const ticketColumns = [
+  {docField: 'Vendor', headerName: 'Vendor'},
+  {docField: 'VendorServiceName', headerName: 'Product'},
+  {docField: 'LocationName', headerName: 'Location'},
+  {docField: 'AssetID', headerName: 'Asset ID'},
+  {docField: 'Type', headerName: 'Type'}
+  ]
+
+  const orderColumns = [
+  {docField: 'Vendor', headerName: 'Vendor'},
+  {docField: 'VendorServiceName', headerName: 'Product'},
+  {docField: 'LocationName', headerName: 'Location'},
+  {docField: 'AssetID', headerName: 'Asset ID'},
+  {docField: 'Type', headerName: 'Type'}
+  ]
+
+  const handleServiceClick = (id) => {
+    
+    console.log(id)
+                    history.push({
                       pathname: "/servicedetail",
                       state: {
-                      id: service.id,
+                      id: id,
                       services: services,
                       locations: locations,
                       accounts: accounts
                       }
-                    }) 
-                  }  key={service.id}>
-                <td className="py-5" style={{width: "15%"}} >{service.Vendor}</td>
-                <td className="py-5" style={{width: "20%"}}>{service.VendorServiceName} </td>
-                <td className="py-5" style={{width: "20%"}}>{service.LocationName}</td>
-                <td className="py-5" style={{width: "20%"}}>{service.AssetID}</td>
-                <td className="py-5" style={{width: "20%"}}>{service.Type}</td>
-                <td className="py-5" style={{width: "15%"}}>
-                  <span className="icon is-right">
-                    <DeleteButton colRef="Services" docRef={service.id} />
-                  </span>
-                </td>
-              </tr>
-          )) : 
-            <tr> 
-              <td> 
-                <a className="tag is-small is-rounded is-link is-7 has-text-weight-normal" onClick={() => history.push("/addservice")}>
-                  Add New
-                </a>
-              </td> 
-            </tr>
-          
-          : <tr><td>Fetching Data...</td></tr>}
+                    })
+  }
 
-          </tbody>    
-        </table>
-        </nav>
-      </div>
-      
+  const handleAccountClick = (id) => {
     
+    console.log(id)
+                    history.push({
+                      pathname: "/accountdetail",
+                      state: {
+                      id: id,
+                      services: services,
+                      locations: locations,
+                      accounts: accounts
+                      }
+                    })
+  }
 
+return (
+  <>
+    {loadingGrid != false ? <div className="modal is-active"><div className="loading"></div></div> : ""}
+    <GridComponent 
+      label="SERVICES"
+      headerFields={serviceColumns}
+      data={services}
+      handleSearch={(e)=>handleChangeSearchServices(e)}
+      handleClick={(e)=>handleServiceClick(e)}
+      handleAddBtn={() => history.push("/addservice")}
+    />
+
+    <GridComponent 
+      label="ACCOUNTS"
+      headerFields={accountColumns}
+      data={accounts}
+      handleClick={(e)=>handleAccountClick(e)}
+      handleAddBtn={() => history.push("/addaccount")}
+    /> 
+  </>
+    
   
-  </div> 
   )
 }
 
