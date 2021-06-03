@@ -21,6 +21,8 @@ const DashboardGrids = ({visible}) => {
   const [loadingGrid, setLoadingGrid] = useState()
   
   const searchRef = useRef("")
+
+  const [serviceIsVisible, setServiceIsVisible] = useState(true)
   
   
 
@@ -212,6 +214,21 @@ const DashboardGrids = ({visible}) => {
                     })
   }
 
+  const handleTicketClick = (id) => {
+    
+    console.log(id)
+                    history.push({
+                      pathname: "/ticketdetail",
+                      state: {
+                      id: id,
+                      services: services,
+                      locations: locations,
+                      accounts: accounts,
+                      tickets: tickets
+                      }
+                    })
+  }
+
   const handleAccountClick = (id) => {
     
     console.log(id)
@@ -250,14 +267,16 @@ return (
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
       handleAddBtn={() => history.push("/addservice")}
+      isVisible={serviceIsVisible}
+      toggleIsVisible={()=>{setServiceIsVisible(!serviceIsVisible)}}
     />
 
     <GridComponent 
-      label="ACCOUNTS"
-      headerFields={accountColumns}
-      data={accounts}
-      handleClick={(e)=>handleAccountClick(e)}
-      handleAddBtn={() => history.push("/addaccount")}
+      label="TICKETS"
+      headerFields={ticketColumns}
+      data={tickets}
+      handleClick={(e)=>handleTicketClick(e)}
+      handleAddBtn={() => history.push("/addticket")}
     /> 
 
     <GridComponent 
@@ -269,12 +288,22 @@ return (
     /> 
 
     <GridComponent 
+      label="ACCOUNTS"
+      headerFields={accountColumns}
+      data={accounts}
+      handleClick={(e)=>handleAccountClick(e)}
+      handleAddBtn={() => history.push("/addaccount")}
+    /> 
+
+    <GridComponent 
       label="CONTRACTS"
       headerFields={contractColumns}
       data=""
       handleClick={(e)=>handleAccountClick(e)}
       handleAddBtn={() => history.push("/addcontract")}
     />
+
+    
   </>
     
   
