@@ -100,7 +100,7 @@ const ServiceDetailEdit = ({state}) => {
       
     }  
     console.log(data)
-    const res = await db.collection("Services").doc(state.location.state.id).set(data)
+    const res = await db.collection("Services").doc(state.location.state.id).update(data)
     userContext.setDataLoading(true)
     autoClose()
   }

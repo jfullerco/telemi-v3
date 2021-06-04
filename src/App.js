@@ -27,9 +27,6 @@ import TicketDetail from './Pages/Tickets/TicketDetail'
 
 import ContractDetail from './Pages/Contracts/ContractDetail'
 
-import AssetReport from './Pages/Reports/AssetReport'
-import AccountReport from './Pages/Reports/AccountReport'
-
 
 
 import DevTools from './Testing/DevTools'
@@ -71,9 +68,6 @@ export default function App() {
             <Route path="/addticket" component={AddTicket} />
             <Route path="/addcontract" component={AddContract} />
             <Route path="/contractdetail" component={ContractDetail} />
-
-            <Route path="/assetreport" component={AssetReport} />
-            <Route path="/accountreport" component={AccountReport} />
             
           
           </Switch>

@@ -7,22 +7,23 @@ import {stateContext} from '../../Contexts/stateContext'
 import TextInput from '../../Components/Forms/TextInput'
 import TextArea from '../../Components/Forms/TextArea'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
+import Page from '../../Components/Page'
 
-const TicketDetail = () => {
+const TicketDetail = (state) => {
 
   const userContext = useContext(stateContext)
   const {currentTicketID} = userContext.userSession
 
   const history = useHistory()
   
-  const [modalState, setModalState] = useState(true)
-  const [addTicketError, setAddTicketError] = useState("")
-  const [success, setSuccess] = useState(false)
-  const [triggerClose, setTriggerClose] = useState()
+  
+  const [pageSuccess, setPageSuccess] = useState()
+  const [pageError, setPageError] = useState()
+  
 
   const [activeTicket, setActiveTicket] = useState()
-  const [locations, setLocations] = useState()
-  const [accounts, setAccounts] = useState()
+  const [locations, setLocations] = useState(state.location.state.locations)
+  const [accounts, setAccounts] = useState(state.location.state.accounts)
   
   const ticketNum = useRef("")
   const ticketLocationID = useRef("")
@@ -41,7 +42,7 @@ const TicketDetail = () => {
   },[])
 
   const fetchTicket = async() => {
-    const ticketRef = await db.collection("Tickets").doc(currentTicketID).get()
+    const ticketRef = await db.collection("Tickets").doc(state.location.state.id).get()
     const id = ticketRef.id
     const data = ticketRef.data()
     setActiveTicket(data)
@@ -61,56 +62,24 @@ const TicketDetail = () => {
       AccountID: ticketAccountID.current.value,
       AccountNum: ticketAccountID.current[ticketAccountID.current.selectedIndex].text,
       Vendor: ticketVendor.current.value
-
     }  
     console.log(data)
-    const res = await db.collection("Tickets").doc(currentTicketID).update(data)
-    autoClose()
-  }
-
-  useEffect(() => {
-    
-    fetchLocations()
-    fetchAccounts()
-
-  },[])
-
-  
-  const fetchLocations = async() => {
-   
-    const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
-    setLocations(locations)
-
-  }
-
-  const fetchAccounts = async() => {
-   
-    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const accounts = accountsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
-    setAccounts(accounts)
-
-  }
-
-  const handleModalClose = () => {
-    setModalState(false)
+    try {
+      await db.collection("Tickets").doc(state.location.state.id).update(data)
+      setPageSuccess("Ticket Added")
+      autoClose()
+    } catch {
+      setPageError("Error Adding Ticket")
+    }
   }
 
   const autoClose = () => {
-    setTimeout(() => {setModalState(false)}, 1000)
+    setTimeout(() => {history.push("/dashboard")}, 1000)
   }
   
 
   return (
-    <div className={modalState === true ? "modal is-active" : "modal"}>
-      <div className="modal-background"></div>
-      <div className="modal-card">
-      <div className="modal-card-head">
-        <p className="modal-card-title">Add Ticket</p>
-      </div>
-        <section className="modal-card-body">
+    <Page title="TICKET DETAILS" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
           <form>
           {activeTicket && <>
             <TextInput 
@@ -197,23 +166,7 @@ const TicketDetail = () => {
             />
           </>}
           </form>
-        <div className="block">
-          <div className="notification is-danger is-hidden">{addTicketError}</div>
-         {success === true ?  <div className="notification is-success">Ticket Added</div> : ""}
-        </div>
-        <div className="modal-card-foot">
-          
-          <button className="button is-rounded level-item"
-          type="submit" onClick={handleSubmit}
-          >
-            Add Ticket
-          </button>
-        
-        </div>
-        <button className="modal-close is-large" aria-label="close" onClick={handleModalClose}></button>  
-        </section>
-      </div>
-    </div>
+       </Page>
   )
 }
 export default TicketDetail

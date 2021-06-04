@@ -100,7 +100,7 @@ const AddOrder = ({state}) => {
   }
 
   return (
-    <Page title="Add Service" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
+    <Page title="Add Order" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
         
       <form>
 

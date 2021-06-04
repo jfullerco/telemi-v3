@@ -61,9 +61,6 @@ const AddTicket = (state) => {
     }
   }
 
-  const handleModalClose = () => {
-    setModalState(false)
-  }
 
   const autoClose = () => {
     setTimeout(() => {history.push("/dashboard")}, 1000)

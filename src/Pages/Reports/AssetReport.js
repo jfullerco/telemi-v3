@@ -10,9 +10,6 @@ const AssetReport = (state) => {
 
   const [services, setServices] = useState(state.location.state.services)
 
-  const printReport = () => {
-
-  }
   
   return (
     <>

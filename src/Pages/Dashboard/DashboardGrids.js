@@ -3,7 +3,8 @@ import {Link, useHistory, Redirect} from 'react-router-dom'
 import {stateContext} from '../../Contexts/stateContext'
 import {db} from '../../Contexts/firebase'
 import GridComponent from './Components/GridComponent'
-
+import Report from '../Reports/Report'
+import PrintComponents from 'react-print-components'
 
 const DashboardGrids = ({visible}) => {
   const userContext = useContext(stateContext)
@@ -22,7 +23,11 @@ const DashboardGrids = ({visible}) => {
   
   const searchRef = useRef("")
 
-  const [serviceIsVisible, setServiceIsVisible] = useState(true)
+  const [serviceIsVisible, setServiceIsVisible] = useState(false)
+  const [ticketIsVisible, setTicketIsVisible] = useState(false)
+  const [orderIsVisible, setOrderIsVisible] = useState(false)
+  const [accountIsVisible, setAccountIsVisible] = useState(false)
+  const [contractIsVisible, setContractIsVisible] = useState(false)
   
   
 
@@ -33,6 +38,7 @@ const DashboardGrids = ({visible}) => {
       fetchServices(),
       fetchOrders(),
       fetchAccounts()
+      fetchTickets()
       setLoadingGrid(false)
     }, 3000)
     
@@ -123,7 +129,7 @@ const DashboardGrids = ({visible}) => {
 
   const fetchTickets = async() => {
 
-    const ticketsRef = await db.collection("Tickets").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
+    const ticketsRef = await db.collection("Tickets").where("CompanyID", "==", userContext.userSession.currentCompanyID).where("Status", "==", "Active").get()
 
     const tickets = ticketsRef.docs.map(doc => ({
       id: doc.id,
@@ -178,11 +184,11 @@ const DashboardGrids = ({visible}) => {
   ]
 
   const ticketColumns = [
-  {docField: 'Vendor', headerName: 'Vendor'},
-  {docField: 'VendorServiceName', headerName: 'Product'},
+  {docField: 'Status', headerName: 'Status'},
+  {docField: 'TicketNum', headerName: 'Ticket'},
   {docField: 'LocationName', headerName: 'Location'},
-  {docField: 'AssetID', headerName: 'Asset ID'},
-  {docField: 'Type', headerName: 'Type'}
+  {docField: 'Type', headerName: 'Type'},
+  {docField: 'Details', headerName: 'Details'}
   ]
 
   const orderColumns = [
@@ -215,8 +221,6 @@ const DashboardGrids = ({visible}) => {
   }
 
   const handleTicketClick = (id) => {
-    
-    console.log(id)
                     history.push({
                       pathname: "/ticketdetail",
                       state: {
@@ -229,9 +233,19 @@ const DashboardGrids = ({visible}) => {
                     })
   }
 
+  const handleAddTicketBtn = () => {
+                    history.push({
+                      pathname: "/addticket",
+                      state: {
+                      services: services,
+                      locations: locations,
+                      accounts: accounts,
+                      tickets: tickets
+                      }
+                    })
+  }
+
   const handleAccountClick = (id) => {
-    
-    console.log(id)
                     history.push({
                       pathname: "/accountdetail",
                       state: {
@@ -276,7 +290,9 @@ return (
       headerFields={ticketColumns}
       data={tickets}
       handleClick={(e)=>handleTicketClick(e)}
-      handleAddBtn={() => history.push("/addticket")}
+      handleAddBtn={() => handleAddTicketBtn()}
+      isVisible={ticketIsVisible}
+      toggleIsVisible={()=>{setTicketIsVisible(!ticketIsVisible)}}
     /> 
 
     <GridComponent 
@@ -285,6 +301,8 @@ return (
       data={orders}
       handleClick={(e)=>handleOrderClick(e)}
       handleAddBtn={() => history.push("/addorder")}
+      isVisible={orderIsVisible}
+      toggleIsVisible={()=>{setOrderIsVisible(!orderIsVisible)}}
     /> 
 
     <GridComponent 
@@ -293,6 +311,8 @@ return (
       data={accounts}
       handleClick={(e)=>handleAccountClick(e)}
       handleAddBtn={() => history.push("/addaccount")}
+      isVisible={accountIsVisible}
+      toggleIsVisible={()=>{setAccountIsVisible(!accountIsVisible)}}
     /> 
 
     <GridComponent 
@@ -301,8 +321,11 @@ return (
       data=""
       handleClick={(e)=>handleAccountClick(e)}
       handleAddBtn={() => history.push("/addcontract")}
+      isVisible={contractIsVisible}
+      toggleIsVisible={()=>{setContractIsVisible(!contractIsVisible)}}
     />
 
+    
     
   </>
     
