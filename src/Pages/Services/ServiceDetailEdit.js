@@ -132,7 +132,7 @@ console.log(state.location.state)
           <button className="button is-small is-rounded is-link" onClick={() => {handleScrollToAccount()}}>
             Accounts
           </button>
-          <DeleteButton colRef="Services" docRef={activeService.id} />
+          <DeleteButton colRef="Services" docRef={state.location.state.id} />
         </div>
 
         

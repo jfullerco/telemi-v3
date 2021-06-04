@@ -14,15 +14,16 @@ const DeleteButton = ({colRef, docRef}) => {
   const [deleteError, setDeleteError] = useState()
 
   const handleClick = async() => {
+    console.log(colRef, docRef)
     try {
     const res = await db.collection(colRef).doc(docRef).delete()
+    console.log(res)
     setDeleteSuccess("Successfully Deleted Record")
-    setToggleConfirmation(!toggleConfirmation)
     autoClose()
      } catch {
       setDeleteError("Error Deleting Record")
     }
-    userContext.setDataLoading(true)
+    
   }
 
   const autoClose = () => {
