@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+
 import {db} from '../../Contexts/firebase'
 import ConfirmationModal from '../ConfirmationModal'
 
@@ -23,7 +22,7 @@ const DeleteButton = ({colRef, docRef}) => {
 
   return(
     <>
-      <FontAwesomeIcon icon={faTimesCircle} onClick={()=> {handleConfirmation()}} />
+      <button className="tag is-small is-danger is-rounded" onClick={()=> {handleConfirmation()}}>Delete</button>
       {toggleConfirmation != false ? 
       <ConfirmationModal header="Confirm Delete">
         <button className="button is-rounded is-danger" onClick={() => {handleClick()}}>Delete</button> <button className="button is-rounded" onClick={()=> {handleConfirmation()}}>Cancel</button>
