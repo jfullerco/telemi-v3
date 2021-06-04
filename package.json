@@ -4,23 +4,15 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "7.14.0",
-    "@fortawesome/fontawesome-svg-core": "1.2.35",
-    "@fortawesome/free-brands-svg-icons": "5.15.3",
-    "@material-ui/core": "4.11.4",
-    "@material-ui/data-grid": "0.1.67",
     "@types/react": "17.0.8",
-    "bulma-extensions": "6.2.7",
-    "bulma-pageloader": "^2.2.0",
     "bulma-start": "0.0.4",
-    "events": "^3.3.0",
     "firebase": "8.6.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "4.2.0",
     "react-is": "17.0.2",
     "react-print-components": "1.0.4",
-    "react-router-dom": "5.2.0",
-    "styled-components": "5.3.0"
+    "react-router-dom": "5.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
