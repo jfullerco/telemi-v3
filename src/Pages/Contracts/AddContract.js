@@ -35,7 +35,7 @@ const AddContract = () => {
       Vendor: contractVendor.current.value,
       Date: contractDate.current.value,
       Term: contractTerm.current.value,
-      File: contractFile.current.value,
+      File: contractFile.current,
       CompanyID: currentCompanyID,
       CompanyName: currentCompany,
       LastUpdatedBy: currentUser,
@@ -54,9 +54,9 @@ const AddContract = () => {
 
   const handleFileChange = async(e) => {
     const file = e.target.files[0]
-    const imageRef = store.storage().ref(currentCompanyID).child(`${contractName.current.value} + '-' + ${currentCompanyName} + '-' + ${contractDate.current.value}`)
+    const imageRef = store.storage().ref(currentCompanyID).child(`${contractName.current.value}'-'${currentCompanyName}`)
     await imageRef.put(file)
-    contractFile.current = await imagesRef.getDownloadURL() 
+    contractFile.current = await imageRef.getDownloadURL() 
   }
 console.log(contractFile.current)
 
