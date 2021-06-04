@@ -1,12 +1,14 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
-import {Link, useHistory, Redirect} from 'react-router-dom'
-import {stateContext} from '../../Contexts/stateContext'
-import {db} from '../../Contexts/firebase'
+import { useHistory } from 'react-router-dom'
+
+import { stateContext } from '../../Contexts/stateContext'
+import { db } from '../../Contexts/firebase'
+
 import GridComponent from './Components/GridComponent'
-import Report from '../Reports/Report'
-import PrintComponents from 'react-print-components'
+
 
 const DashboardGrids = ({visible}) => {
+
   const userContext = useContext(stateContext)
   const {applyStyle, setDataLoading} = userContext
   const {dataLoading, currentCompany} = userContext.userSession
@@ -19,6 +21,7 @@ const DashboardGrids = ({visible}) => {
   const [accounts, setAccounts] = useState()
   const [tickets, setTickets] = useState()
   const [users, setUsers] = useState()
+  const [contracts, setContracts] = useState()
   const [loadingGrid, setLoadingGrid] = useState()
   
   const searchRef = useRef("")
@@ -39,6 +42,7 @@ const DashboardGrids = ({visible}) => {
       fetchOrders(),
       fetchAccounts()
       fetchTickets()
+      fetchContracts()
       setLoadingGrid(false)
     }, 3000)
     
@@ -89,6 +93,17 @@ const DashboardGrids = ({visible}) => {
       id: doc.id,
       ...doc.data()}))
     setServices(services)
+    userContext.setDataLoading(false)
+  }
+
+  const fetchContracts = async() => {
+
+    const contractsRef = await db.collection("Contracts").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
+
+    const contracts = contractsRef.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()}))
+    setContracts(contracts)
     userContext.setDataLoading(false)
   }
 
@@ -203,7 +218,7 @@ const DashboardGrids = ({visible}) => {
   {docField: 'Vendor', headerName: 'Vendor'},
   {docField: 'Date', headerName: 'Date'},
   {docField: 'Term', headerName: 'Term'},
-  {docField: 'File', headerName: 'File'}
+  {docField: 'Details', headerName: 'Details'}
   ]
 
   const handleServiceClick = (id) => {
@@ -274,6 +289,7 @@ const DashboardGrids = ({visible}) => {
 return (
   <>
     {loadingGrid != false ? <div className="modal is-active"><div className="loading"></div></div> : ""}
+    
     <GridComponent 
       label="SERVICES"
       headerFields={serviceColumns}
@@ -318,7 +334,7 @@ return (
     <GridComponent 
       label="CONTRACTS"
       headerFields={contractColumns}
-      data=""
+      data={contracts}
       handleClick={(e)=>handleAccountClick(e)}
       handleAddBtn={() => history.push("/addcontract")}
       isVisible={contractIsVisible}
