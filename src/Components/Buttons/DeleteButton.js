@@ -22,7 +22,7 @@ const DeleteButton = ({colRef, docRef}) => {
 
   return(
     <>
-      <button className="tag is-small is-danger is-rounded" onClick={()=> {handleConfirmation()}}>Delete</button>
+      <button className="button is-small is-danger is-rounded ml-2" onClick={()=> {handleConfirmation()}}>Delete</button>
       {toggleConfirmation != false ? 
       <ConfirmationModal header="Confirm Delete">
         <button className="button is-rounded is-danger" onClick={() => {handleClick()}}>Delete</button> <button className="button is-rounded" onClick={()=> {handleConfirmation()}}>Cancel</button>

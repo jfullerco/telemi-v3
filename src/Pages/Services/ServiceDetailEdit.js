@@ -9,6 +9,7 @@ import TextInput from '../../Components/Forms/TextInput'
 import TextArea from '../../Components/Forms/TextArea'
 import SelectInput from '../../Components/Forms/SelectInput'
 import Page from '../../Components/Page'
+import DeleteButton from '../../Components/Buttons/DeleteButton'
 
 const ServiceDetailEdit = ({state}) => {
 
@@ -131,6 +132,7 @@ console.log(state.location.state)
           <button className="button is-small is-rounded is-link" onClick={() => {handleScrollToAccount()}}>
             Accounts
           </button>
+          <DeleteButton colRef="Services" docRef={activeService.id} />
         </div>
 
         
