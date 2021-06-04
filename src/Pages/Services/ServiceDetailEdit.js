@@ -11,6 +11,7 @@ import SelectInput from '../../Components/Forms/SelectInput'
 import Page from '../../Components/Page'
 
 const ServiceDetailEdit = ({state}) => {
+
   const history = useHistory()
   const userContext = useContext(stateContext)
   const {serviceTypes, accessTypes, serviceStatusType, applyStyle} = userContext
@@ -100,13 +101,19 @@ const ServiceDetailEdit = ({state}) => {
       
     }  
     console.log(data)
+    try {
     const res = await db.collection("Services").doc(state.location.state.id).update(data)
-    userContext.setDataLoading(true)
+    setPageSuccess("Service Updated")
     autoClose()
+     } catch {
+      setPageError("Error Adding Service")
+    }
+    userContext.setDataLoading(true)
+    
   }
 
   const autoClose = () => {
-    setTimeout(() => {history.push("/dashboard")}, 1000)
+    setTimeout(() => {history.push("/dashboard")}, 1500)
   }
 
   const handleScrollToAccount = () => {
@@ -118,10 +125,18 @@ console.log(state.location.state)
       <Page title="SERVICE DETAILS" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
       {userContext && userContext.userSession != undefined ? 
         <>
-        View: <button className="button is-small is-rounded is-link" onClick={() => {handleScrollToAccount()}}>Accounts</button>
-        <p className="block"/>
+
+        <div className="mb-2">
+          <span className="mr-2">Options: </span>
+          <button className="button is-small is-rounded is-link" onClick={() => {handleScrollToAccount()}}>
+            Accounts
+          </button>
+        </div>
+
+        
+        
           <form>
-            
+           
             <SelectInput 
               fieldOptions={userContext.userSession.locations}
               fieldLabel="Service Location"
@@ -241,6 +256,7 @@ console.log(state.location.state)
             />
 
             </form>
+            
 
             <p className="block" />
 
