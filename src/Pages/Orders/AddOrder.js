@@ -113,20 +113,15 @@ const AddOrder = (state) => {
             />
 
             <TextInput 
-              inputFieldLabel="Type"
-              inputFieldRef={orderType}
-              inputFieldValue={""}
-            />
-
-            <TextInput 
-              inputFieldLabel="Status"
-              inputFieldRef={orderStatus}
-              inputFieldValue={""}
-            />
-
-            <TextInput 
               inputFieldLabel="Vendor Service Name"
               inputFieldRef={orderVendorServiceName}
+              inputFieldValue={""}
+              hint="IE. IP Flex or AVPN"
+            />
+
+            <TextInput 
+              inputFieldLabel="Type"
+              inputFieldRef={orderType}
               inputFieldValue={""}
             />
 
@@ -134,12 +129,14 @@ const AddOrder = (state) => {
               inputFieldLabel="Monthly Cost"
               inputFieldRef={orderMRC}
               inputFieldValue={""}
+              hint="Price quoted by vendor"
             />
 
             <TextArea 
               inputFieldLabel="Details"
               inputFieldRef={orderDetails}
               inputFieldValue={""}
+              isVisible={false}
             />
 
             <TextInputAC handleChange={(e)=>handleChange(e)} 
@@ -158,6 +155,12 @@ const AddOrder = (state) => {
                   )}
                   </ul> : ""} 
             </TextInputAC>
+
+            <TextInput 
+              inputFieldLabel="Status"
+              inputFieldRef={orderStatus}
+              inputFieldValue={""}
+            />
           
       </form>
 
