@@ -32,8 +32,6 @@ const DashboardGrids = ({visible}) => {
   const [accountIsVisible, setAccountIsVisible] = useState(false)
   const [contractIsVisible, setContractIsVisible] = useState(false)
   
-  
-
   useEffect(() => {
     setLoadingGrid(true)
     const timer = setTimeout(() => {
@@ -302,7 +300,7 @@ const DashboardGrids = ({visible}) => {
 
 return (
   <>
-    {loadingGrid != false ? <div className="modal is-active"><div className="loading"></div></div> : ""}
+    <div className={loadingGrid != false ? "modal is-active" : "modal"}><div className="loading"></div></div>
     
     <GridComponent 
       label="SERVICES"
