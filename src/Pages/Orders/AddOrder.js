@@ -132,13 +132,6 @@ const AddOrder = (state) => {
               hint="Price quoted by vendor"
             />
 
-            <TextArea 
-              inputFieldLabel="Details"
-              inputFieldRef={orderDetails}
-              inputFieldValue={""}
-              isVisible={false}
-            />
-
             <TextInputAC handleChange={(e)=>handleChange(e)} 
               label="Related Location" 
               value={orderLocationName.current} 
@@ -160,6 +153,13 @@ const AddOrder = (state) => {
               inputFieldLabel="Status"
               inputFieldRef={orderStatus}
               inputFieldValue={""}
+            />
+
+            <TextArea 
+              inputFieldLabel="Details"
+              inputFieldRef={orderDetails}
+              inputFieldValue={""}
+              isVisible={false}
             />
           
       </form>
