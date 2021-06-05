@@ -23,8 +23,8 @@ const AddOrder = (state) => {
   const [pageError, setPageError] = useState()
   const [pageSuccess, setPageSuccess] = useState()
 
-  const [locations, setLocations] = useState(userContext.userSession.locations)
-  const [dropDown, setDropDown] = useState(false)
+  const [locations, setLocations] = useState(state.location.state.locations)
+  const [dropDown, setDropDown] = useState("")
   const [suggestLocation, setSuggestLocation] = useState()
   
   const orderCompanyID = useRef(currentCompanyID)
@@ -77,7 +77,7 @@ const AddOrder = (state) => {
     setDropDown(true)
     const {value} = e.target
     const locationAC = locations.filter(({Name, Address1, State, City}) => Name.indexOf(value) > -1 || Address1.indexOf(value) > 1 || State.indexOf(value) > -1 || City.indexOf(value) > -1 )
-    serviceLocationName.current = value
+    orderLocationName.current = value
     setDropDown(locationAC)
   }
 
@@ -147,7 +147,7 @@ const AddOrder = (state) => {
               value={orderLocationName.current} 
               dropDownState={dropDown}
             >
-                {dropDown != "" ? 
+                {dropDown && dropDown != "" ? 
                   <ul> 
                   {dropDown.map(d => 
                     <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.Name, d.id)}>

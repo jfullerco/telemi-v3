@@ -286,6 +286,20 @@ const DashboardGrids = ({visible}) => {
                     })
   }
 
+  const handleAddOrderBtn = (id) => {
+    
+    console.log(id)
+                    history.push({
+                      pathname: "/addorder",
+                      state: {
+                      id: id,
+                      services: services,
+                      locations: locations,
+                      orders: orders
+                      }
+                    })
+  }
+
 return (
   <>
     {loadingGrid != false ? <div className="modal is-active"><div className="loading"></div></div> : ""}
@@ -316,7 +330,7 @@ return (
       headerFields={orderColumns}
       data={orders}
       handleClick={(e)=>handleOrderClick(e)}
-      handleAddBtn={() => history.push("/addorder")}
+      handleAddBtn={() => handleAddOrderBtn()}
       isVisible={orderIsVisible}
       toggleIsVisible={()=>{setOrderIsVisible(!orderIsVisible)}}
     /> 
