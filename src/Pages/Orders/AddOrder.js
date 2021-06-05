@@ -147,7 +147,7 @@ const AddOrder = (state) => {
               value={orderLocationName.current} 
               dropDownState={dropDown}
             >
-                {dropDown != undefined ? 
+                {dropDown != "" ? 
                   <ul> 
                   {dropDown.map(d => 
                     <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.Name, d.id)}>
