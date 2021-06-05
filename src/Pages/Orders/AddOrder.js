@@ -11,7 +11,7 @@ import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import TextInputAC from '../../Components/Forms/TextInputAC'
 import Page from '../../Components/Page'
 
-const AddOrder = ({state}) => {
+const AddOrder = (state) => {
 
   const userContext = useContext(stateContext)
 
@@ -28,31 +28,21 @@ const AddOrder = ({state}) => {
   const [suggestLocation, setSuggestLocation] = useState()
   
   const orderCompanyID = useRef(currentCompanyID)
-  const orderCompanyName = useRef(currentCompanyName)
-  const serviceVendorServiceName = useRef("")
-  const serviceLocationID = useRef("")
-  const serviceLocationName = useRef("")
-  const serviceAssetID = useRef("")
-  const serviceAccessType = useRef("")
-  const serviceMRC = useRef("")
-  const serviceDetailsBandwidth = useRef("")
-  const serviceStatus = useRef("")
-  const serviceNotes = useRef("")
+  const orderCompanyName = useRef(currentCompany)
+  const orderNum = useRef("")
+  const orderDate = useRef("")
+  const orderType = useRef("")
+  const orderStatus = useRef("")
+  const orderVendorServiceName = useRef("")
+  const orderMRC = useRef("")
+  const orderDetails = useRef("")
+  const orderVendor = useRef("")
+  const orderLocationID = useRef("")
+  const orderLocationName = useRef("")
   
+  const orderServiceID = useRef("")
+  const orderServiceAssetID = useRef("")
   
-
-  useEffect(() => {
-    fetchLocations()
-  },[])
-
-  const fetchLocations = async() => {
-   
-    const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
-    setLocations(locations)
-
-  }
   
   const handleSubmit = async(e) => {
     const data = {
@@ -94,8 +84,8 @@ const AddOrder = ({state}) => {
   const handleSuggestedRef = (name, id) => {
     console.log(name)
     console.log(id)
-    serviceLocationID.current = id
-    serviceLocationName.current = name
+    orderLocationID.current = id
+    orderLocationName.current = name
     setDropDown("")
   }
 
@@ -104,85 +94,70 @@ const AddOrder = ({state}) => {
         
       <form>
 
-            <TextInputAC handleChange={(e)=>handleChange(e)} 
-              label="Service Location" 
-              value={serviceLocationName.current} 
-              dropDownState={dropDown}>
-                {dropDown != "" ? 
-                  <ul> 
-                  {dropDown.map(d => 
-                    <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.Name, d.id)}>
-                      <li >{d.Name}</li>
-                    </a>
-                  )}
-                  </ul> : ""} 
-            </TextInputAC>
-            
             <TextInput 
               inputFieldLabel="Vendor"
-              inputFieldRef={serviceVendor}
-              inputFieldValue={""}
-            />
-
-            <SelectInput 
-              fieldOptions={serviceTypes}
-              fieldLabel="Type"
-              fieldInitialValue={""}
-              fieldInitialOption={""}
-              fieldIDRef={serviceType}
-              fieldNameRef={serviceType}
-              fieldChange={()=>console.log("Type Selection Changed")}
-            />
-
-            <TextInput 
-              inputFieldLabel="Service Name"
-              inputFieldRef={serviceVendorServiceName}
-              inputFieldValue={""}
-            />
-
-            <SelectInput 
-              fieldOptions={accessTypes}
-              fieldLabel="Access Type"
-              fieldInitialValue={""}
-              fieldInitialOption={""}
-              fieldIDRef={serviceAccessType}
-              fieldNameRef={serviceAccessType}
-              fieldChange={()=>console.log("Access Type Selection Changed")}
-            />
-            
-            <TextInput 
-              inputFieldLabel="Asset ID"
-              inputFieldRef={serviceAssetID}
+              inputFieldRef={orderVendor}
               inputFieldValue={""}
             />
 
             <TextInput 
-              inputFieldLabel="Bandwidth"
-              inputFieldRef={serviceDetailsBandwidth}
+              inputFieldLabel="Order Number"
+              inputFieldRef={orderNum}
+              inputFieldValue={""}
+            />
+
+            <TextInput 
+              inputFieldLabel="Date Ordered"
+              inputFieldRef={orderDate}
+              inputFieldValue={""}
+            />
+
+            <TextInput 
+              inputFieldLabel="Type"
+              inputFieldRef={orderType}
+              inputFieldValue={""}
+            />
+
+            <TextInput 
+              inputFieldLabel="Status"
+              inputFieldRef={orderStatus}
+              inputFieldValue={""}
+            />
+
+            <TextInput 
+              inputFieldLabel="Vendor Service Name"
+              inputFieldRef={orderVendorServiceName}
               inputFieldValue={""}
             />
 
             <TextInput 
               inputFieldLabel="Monthly Cost"
-              inputFieldRef={serviceMRC}
+              inputFieldRef={orderMRC}
               inputFieldValue={""}
-            />
-
-            <SelectInput 
-              fieldOptions={serviceStatusType}
-              fieldLabel="Status"
-              fieldInitialValue={""}
-              fieldInitialOption={""}
-              fieldIDRef={serviceStatus}
-              fieldNameRef={serviceStatus}
-              fieldChange={()=>console.log("Status Selection Changed")}
             />
 
             <TextArea 
-              inputFieldLabel="Notes"
-              inputFieldRef={serviceNotes}
+              inputFieldLabel="Details"
+              inputFieldRef={orderDetails}
               inputFieldValue={""}
             />
+
+            <TextInputAC handleChange={(e)=>handleChange(e)} 
+              label="Related Location" 
+              value={orderLocationName.current} 
+              dropDownState={dropDown}
+            >
+                {dropDown && 
+                  <ul> 
+                  {dropDown.map(d => 
+                    <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.Name, d.id)}>
+                      <li >
+                        {d.Name}
+                      </li>
+                    </a>
+                  )}
+                  </ul>} 
+            </TextInputAC>
           
       </form>
 
