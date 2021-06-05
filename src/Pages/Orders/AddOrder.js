@@ -147,7 +147,7 @@ const AddOrder = (state) => {
               value={orderLocationName.current} 
               dropDownState={dropDown}
             >
-                {dropDown && 
+                {dropDown != undefined ? 
                   <ul> 
                   {dropDown.map(d => 
                     <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.Name, d.id)}>
@@ -156,7 +156,7 @@ const AddOrder = (state) => {
                       </li>
                     </a>
                   )}
-                  </ul>} 
+                  </ul> : ""} 
             </TextInputAC>
           
       </form>
