@@ -1,4 +1,5 @@
 import React, {useState, useRef, useContext, useEffect} from 'react'
+import Hint from './Hint'
 
 const TextInputAC = (props) => {
 
@@ -18,6 +19,7 @@ const TextInputAC = (props) => {
         </div>
       </div>
     </div>
+    <Hint>{props.hint && props.hint}</Hint>
     </div>
     </div>
   )

@@ -136,6 +136,7 @@ const AddOrder = (state) => {
               label="Related Location" 
               value={orderLocationName.current} 
               dropDownState={dropDown}
+              hint="Location where service will be installed"
             >
                 {dropDown && dropDown != "" ? 
                   <ul> 
