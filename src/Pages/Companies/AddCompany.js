@@ -58,7 +58,7 @@ const AddCompany = () => {
           <div className="notification is-danger is-hidden">{addCompanyError}</div>
          {success === true ?  <div className="notification is-success">Company Added</div> : ""}
         </div>
-        </Modal>
+      </Modal>
   )
 }
 export default AddCompany
