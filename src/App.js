@@ -41,7 +41,7 @@ export default function App() {
     <AuthProvider>
       <Router>
       <NavBar />
-      <div className="container is-max-desktop is-one-third-tablet is-max-fullhd"> 
+      <div className="container is-max-fullhd is-max-desktop is-one-third-tablet is-max-fullhd"> 
       <div id="wrapper" className="column">
       
        
@@ -73,13 +73,13 @@ export default function App() {
           </Switch>
         <DevTools view="false" />
         </div>  
-        
+        </div>
       <div className="footer">
       <div className="content has-text-right is-size-7">
         Telemi by J Fuller Co| Terms | Settings
       </div>
       </div>
-      </div>
+      
     </Router>
     </AuthProvider>
     </StateProvider>

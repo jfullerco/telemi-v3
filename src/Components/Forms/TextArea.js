@@ -17,7 +17,7 @@ const TextArea = ({inputFieldName, inputFieldRef, inputFieldValue, inputFieldLab
         {inputFieldLabel}
           {visible == false ? 
           <span className="is-size-6 ml-1"><a onClick={()=> setVisible(!visible)}>+</a></span> : 
-          <span className="is-size-6 ml-1"><a onClick={()=> setVisible(!visible)}>-</a></span>}
+          <span className="is-size-6 ml-1"><a onClick={()=> setVisible(!visible)}>-</a></span> }
       </label>
 
         <div className={visible != false ? "control" : "control is-hidden"}>

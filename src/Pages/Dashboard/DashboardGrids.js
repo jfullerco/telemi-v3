@@ -41,14 +41,16 @@ const DashboardGrids = ({visible}) => {
       fetchAccounts()
       fetchTickets()
       fetchContracts()
-      setLoadingGrid(false)
-    }, 3000)
+      cancelLoading()
+    }, 2000)
     
     return () => clearTimeout(timer)
     
   }, [currentCompany])
 
-  
+  const cancelLoading = () => {
+    setTimeout(() => {setLoadingGrid(false)}, 1000) 
+  }
   
   const fetchLocations = async() => {
 
@@ -309,7 +311,7 @@ return (
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
       handleAddBtn={() => history.push("/addservice")}
-      isVisible={serviceIsVisible}
+      isVisible={!serviceIsVisible}
       toggleIsVisible={()=>{setServiceIsVisible(!serviceIsVisible)}}
     />
 

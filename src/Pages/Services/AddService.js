@@ -107,7 +107,8 @@ const AddService = () => {
             <TextInputAC handleChange={(e)=>handleChange(e)} 
               label="Service Location" 
               value={serviceLocationName.current} 
-              dropDownState={dropDown}>
+              dropDownState={dropDown}
+              handleClose={()=> setDropDown(false)}>
                 {dropDown != "" ? 
                   <ul> 
                   {dropDown.map(d => 
