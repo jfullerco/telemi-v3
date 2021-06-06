@@ -121,15 +121,11 @@ const AddOrder = (state) => {
               inputFieldValue={""}
             />
 
-            
-
-            <DatePicker
-              selected={orderDate.current}
-              onChange={(date) => handleDateChange(date)}
-              customInput={
-                <DatePickerComponent />
-              }
-            />
+            <TextInput 
+              inputFieldLabel="Date Ordered"
+              inputFieldRef={orderDate}
+              inputFieldValue={value}
+            />            
 
             <TextInput 
               inputFieldLabel="Vendor Service Name"
