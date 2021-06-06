@@ -7,21 +7,30 @@ const TextInputAC = (props) => {
 
   return(
     <div className="field">
+
     <label className="label">{props.label}</label>
+
     <div className="control">
-    <input className={inputSmall == "true" ? "input is-rounded is-small" : "input is-rounded"} type="text" value={props.value} onChange={props.handleChange} aria-haspopup="true" aria-controls="dropdown-menu" onBlur={props.handleClose}/>
+
+      <input className={inputSmall == "true" ? "input is-rounded is-small" : "input is-rounded"} type="text" value={props.value} onChange={props.handleChange} aria-haspopup="true" aria-controls="dropdown-menu" />
+
+    <Hint>{props.hint && props.hint}</Hint>
+
     <div className={props.dropDownState != false & props.dropDownState != undefined ? "dropdown is-active is-fullwidth" : "dropdown"}>
-      <div className="dropdown-trigger">
-        
-      </div>
+
+      <div className="dropdown-trigger"></div>
       <div className="dropdown-menu" id="dropdown-menu" role="menu">
-        <div className="dropdown-content">
+
+        <div className="dropdown-content" onBlur={props.handleClose}>
           {props.children}
         </div>
+
       </div>
+
     </div>
-    <Hint>{props.hint && props.hint}</Hint>
+    
     </div>
+    
     </div>
   )
 }

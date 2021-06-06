@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useRef, useContext} from 'react'
 import {useHistory} from 'react-router-dom'
+import DatePicker from 'react-datepicker'
 
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
@@ -89,6 +90,11 @@ const AddOrder = (state) => {
     setDropDown("")
   }
 
+  const handleDateChange = (date) => {
+    orderDate.current = date
+  }
+  
+
   return (
     <Page title="Add Order" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
         
@@ -106,10 +112,18 @@ const AddOrder = (state) => {
               inputFieldValue={""}
             />
 
-            <TextInput 
-              inputFieldLabel="Date Ordered"
-              inputFieldRef={orderDate}
-              inputFieldValue={""}
+            
+
+            <DatePicker
+              selected={orderDate.current}
+              onChange={(date) => handleDateChange(date)}
+              customInput={
+                <TextInput 
+                  inputFieldLabel="Date Ordered"
+                  inputFieldRef={orderDate}
+                  inputFieldValue={""}
+                />
+              }
             />
 
             <TextInput 

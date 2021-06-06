@@ -84,11 +84,17 @@ const AddService = () => {
   }
   
   const handleChange = (e) => {
+
     setDropDown(true)
+
     const {value} = e.target
-    const locationAC = locations.filter(({Name, Address1, State, City}) => Name.indexOf(value) > -1 || Address1.indexOf(value) > 1 || State.indexOf(value) > -1 || City.indexOf(value) > -1 )
+
+    const locationAC = locations.filter(({Name, Address1, State, City}) => Name.indexOf(value) > -1 || Address1.indexOf(value) > -1 || State.indexOf(value) > -1 || City.indexOf(value) > -1 )
+    
     serviceLocationName.current = value
+    
     setDropDown(locationAC)
+
   }
 
   const handleSuggestedRef = (name, id) => {
@@ -108,12 +114,13 @@ const AddService = () => {
               label="Service Location" 
               value={serviceLocationName.current} 
               dropDownState={dropDown}
-              handleClose={()=> setDropDown(false)}>
-                {dropDown != "" ? 
+              handleClose={()=> setDropDown(false)}
+              >
+                {dropDown && dropDown != "" ? 
                   <ul> 
                   {dropDown.map(d => 
                     <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.Name, d.id)}>
-                      <li >{d.Name}</li>
+                      <li >{`${d.Name} - ${d.Address1} ${d.City} ${d.State}`}</li>
                     </a>
                   )}
                   </ul> : ""} 
@@ -123,6 +130,7 @@ const AddService = () => {
               inputFieldLabel="Vendor"
               inputFieldRef={serviceVendor}
               inputFieldValue={""}
+              hint=""
             />
 
             <SelectInput 
