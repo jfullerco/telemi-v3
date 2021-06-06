@@ -11,6 +11,8 @@ import SelectInput from '../../Components/Forms/SelectInput'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import TextInputAC from '../../Components/Forms/TextInputAC'
 import Page from '../../Components/Page'
+import Columns from '../../Components/Layout/Columns'
+import Column from '../../Components/Layout/Column'
 
 const AddOrder = (state) => {
 
@@ -108,7 +110,22 @@ const AddOrder = (state) => {
     <Page title="Add Order" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
         
       <form>
-
+          <Columns>
+            <Column size="is-half">
+              <TextInput 
+                inputFieldLabel="Vendor"
+                inputFieldRef={orderVendor}
+                inputFieldValue={""}
+              />
+            </Column>
+            <Column size="is-half">
+              <TextInput 
+                inputFieldLabel="Order Number"
+                inputFieldRef={orderNum}
+                inputFieldValue={""}
+              />
+            </Column>
+          </Columns>
             <TextInput 
               inputFieldLabel="Vendor"
               inputFieldRef={orderVendor}
@@ -124,7 +141,7 @@ const AddOrder = (state) => {
             <TextInput 
               inputFieldLabel="Date Ordered"
               inputFieldRef={orderDate}
-              inputFieldValue={value}
+              inputFieldValue={""}
             />            
 
             <TextInput 

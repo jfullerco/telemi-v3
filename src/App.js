@@ -42,8 +42,8 @@ export default function App() {
       <Router>
       <NavBar />
       <div className="container is-max-fullhd is-max-desktop is-one-third-tablet is-max-fullhd"> 
-      <div id="wrapper" className="column">
-      
+      <div id="wrapper" className="columns">
+      <div className="column">
        
           <Switch>
             
@@ -72,6 +72,7 @@ export default function App() {
           
           </Switch>
         <DevTools view="false" />
+        </div>
         </div>  
         </div>
       <div className="footer">

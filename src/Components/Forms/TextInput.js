@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import Hint from './Hint'
 
-const TextInput = ({inputFieldName, inputFieldRef, inputFieldValue, inputFieldLabel, inputFieldChange, hint, onClick}) => {
+const TextInput = ({inputFieldName, inputFieldRef, inputFieldValue, inputFieldLabel, inputFieldChange, hint}) => {
 
   const handleChange = () => {
    inputFieldChange != undefined ? inputFieldChange() : ""
