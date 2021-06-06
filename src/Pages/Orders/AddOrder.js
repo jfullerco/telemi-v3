@@ -111,7 +111,7 @@ const AddOrder = (state) => {
         
       <form>
           <Columns>
-            <Column size="is-half">
+            <Column size="is-half" isVisible={false}>
               <TextInput 
                 inputFieldLabel="Vendor"
                 inputFieldRef={orderVendor}
