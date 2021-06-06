@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import Register from './Register'
 import {useAuth} from '../Contexts/AuthContext'
 
+
 const Hello = () => {
   const [modalState, setModalState] = useState(false)
   const handleModalState = () => {
