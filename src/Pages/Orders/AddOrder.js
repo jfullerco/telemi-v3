@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useContext} from 'react'
+import React, {useEffect, useState, useRef, useContext, forwardRef} from 'react'
 import {useHistory} from 'react-router-dom'
 import DatePicker from 'react-datepicker'
 
@@ -90,6 +90,15 @@ const AddOrder = (state) => {
     setDropDown("")
   }
 
+  const DatePickerComponent = forwardRef(({ value, onClick }, orderDate) => (
+    <TextInput 
+      inputFieldLabel="Date Ordered"
+      inputFieldRef={orderDate}
+      inputFieldValue={value}
+      onClick={onClick}
+    />
+  ));
+
   const handleDateChange = (date) => {
     orderDate.current = date
   }
@@ -118,11 +127,7 @@ const AddOrder = (state) => {
               selected={orderDate.current}
               onChange={(date) => handleDateChange(date)}
               customInput={
-                <TextInput 
-                  inputFieldLabel="Date Ordered"
-                  inputFieldRef={orderDate}
-                  inputFieldValue={""}
-                />
+                <DatePickerComponent />
               }
             />
 
