@@ -1,13 +1,11 @@
 import React, {useEffect, useState, useRef, useContext, forwardRef} from 'react'
 import {useHistory} from 'react-router-dom'
-import DatePicker from 'react-datepicker'
 
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
 import TextInput from '../../Components/Forms/TextInput'
 import TextArea from '../../Components/Forms/TextArea'
-import SelectInput from '../../Components/Forms/SelectInput'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import TextInputAC from '../../Components/Forms/TextInputAC'
 import Page from '../../Components/Page'
@@ -37,6 +35,7 @@ const AddOrder = (state) => {
   const orderType = useRef("")
   const orderStatus = useRef("")
   const orderVendorServiceName = useRef("")
+  const orderBandwidth = useRef("")
   const orderMRC = useRef("")
   const orderDetails = useRef("")
   const orderVendor = useRef("")
@@ -49,25 +48,24 @@ const AddOrder = (state) => {
   
   const handleSubmit = async(e) => {
     const data = {
-      
-      Vendor: serviceVendor.current.value,
-      Type: serviceType.current.value,
-      VendorServiceName: serviceVendorServiceName.current.value,
-      LocationID: serviceLocationID.current,
-      LocationName: serviceLocationName.current,
+      OrderNum: orderNum.current.value,
+      OrderDate: orderDate.current.value,
+      Vendor: orderVendor.current.value,
+      VendorServiceName: orderVendorServiceName.current.value,
+      Bandwidth: orderBandwidth.current.value,
+      MRC: orderMRC.current.value,
+      LocationID: orderLocationID.current,
+      LocationName: orderLocationName.current,
+      Status: orderStatus.current.value,     
+      Details: orderDetails.current.value,
       CompanyID: userContext.userSession.currentCompanyID,
       CompanyName: userContext.userSession.currentCompany,
-      Bandwidth: serviceDetailsBandwidth.current.value,
-      AccessType: serviceAccessType.current.value,
-      AssetID: serviceAssetID.current.value,
-      MRC: serviceMRC.current.value,
-      Notes: serviceNotes.current.value,
       LastUpdatedBy: userContext.userSession.currentUser,
       LastUpdated: Date()
       
     }  
     console.log(data)
-    const res = await db.collection("Services").doc().set(data)
+    const res = await db.collection("Orders").doc().set(data)
     userContext.setDataLoading(true)
     autoClose()
   }
@@ -92,15 +90,6 @@ const AddOrder = (state) => {
     setDropDown("")
   }
 
-  const DatePickerComponent = forwardRef(({ value, onClick }, orderDate) => (
-    <TextInput 
-      inputFieldLabel="Date Ordered"
-      inputFieldRef={orderDate}
-      inputFieldValue={value}
-      onClick={onClick}
-    />
-  ));
-
   const handleDateChange = (date) => {
     orderDate.current = date
   }
@@ -111,20 +100,21 @@ const AddOrder = (state) => {
         
       <form>
 
-          <Column isVisible={true}>
+          <Column size="is-three-quarters" isVisible={true}>
             <TextInput 
               inputFieldLabel="Order Number"
               inputFieldRef={orderNum}
               inputFieldValue={""}
+              hint=""
             />
           </Column>
 
-          <Column size="is-half">
+          <Column size="is-three-quarters" isVisible={true}>
             <TextInput 
               inputFieldLabel="Date Ordered"
               inputFieldRef={orderDate}
               inputFieldValue={""}
-              hint="Format. MM/DD/YYYY"
+              hint="format. MM/DD/YYYY"
             />       
           </Column>
 
@@ -133,7 +123,8 @@ const AddOrder = (state) => {
               fieldLabel="Vendor"
               fieldInitialValue=""
               fieldInitialOption=""
-              fieldIDRef={orderVendor}>
+              fieldIDRef={orderVendor}
+              hint="">
                 {vendorList && vendorList.map(vendor => 
                 <option key={vendor.id}>{vendor.Name}</option>
                 )}
@@ -145,7 +136,7 @@ const AddOrder = (state) => {
               inputFieldLabel="Vendor Service Name"
               inputFieldRef={orderVendorServiceName}
               inputFieldValue={""}
-              hint="IE. IP Flex or AVPN"
+              hint="ie. IP Flex or AVPN"
             />
           </Column>
 
@@ -155,7 +146,16 @@ const AddOrder = (state) => {
               inputFieldRef={orderType}
               inputFieldValue={""}
             />
-          </Column>  
+          </Column> 
+
+          <Column size="is-three-quarters" isVisible={true}>
+            <TextInput 
+              inputFieldLabel="Bandwidth"
+              inputFieldRef={orderBandwidth}
+              inputFieldValue={""}
+              hint="ie. 100M"
+            />
+          </Column> 
 
           <Column size="is-three-quarters" isVisible={true}>
             <TextInput 
@@ -187,11 +187,16 @@ const AddOrder = (state) => {
           </Column>
 
           <Column size="is-three-quarters" isVisible={true}>
-            <TextInput 
-              inputFieldLabel="Status"
-              inputFieldRef={orderStatus}
-              inputFieldValue={""}
-            />
+            <SelectInputProps
+              fieldLabel="Status"
+              fieldInitialValue=""
+              fieldInitialOption=""
+              fieldIDRef={orderStatus}>
+                <option>  </option>
+                <option> Placed </option>
+                <option> Completed </option>
+                <option> Cancelled </option>
+            </SelectInputProps>
           </Column>
 
           <Column size="is-three-quarters" isVisible={true}>

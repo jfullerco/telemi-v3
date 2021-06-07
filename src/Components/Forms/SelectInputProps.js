@@ -1,6 +1,7 @@
 import React, { useRef, forwardRef } from 'react'
+import Hint from './Hint'
 
-const SelectInputProps = ({fieldLabel, fieldIDRef, fieldInitialOption, onChange, fieldInitialValue, children}) => {
+const SelectInputProps = ({fieldLabel, fieldIDRef, fieldInitialOption, onChange, fieldInitialValue, hint, children}) => {
   
   const selectRef = useRef("")
 
@@ -19,6 +20,7 @@ const SelectInputProps = ({fieldLabel, fieldIDRef, fieldInitialOption, onChange,
           {children}
           </select>
         </div>
+        <Hint>{hint && hint}</Hint>
       </div>
     </div>
   )

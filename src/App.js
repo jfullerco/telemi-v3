@@ -41,7 +41,7 @@ export default function App() {
     <AuthProvider>
       <Router>
       <NavBar />
-      <div className="container is-max-fullhd is-max-desktop is-one-third-tablet is-max-fullhd"> 
+      <div className="container is-max-fullhd is-max-desktop is-one-third-tablet"> 
       <div id="wrapper" className="columns">
       <div className="column">
        
