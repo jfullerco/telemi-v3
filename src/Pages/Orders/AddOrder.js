@@ -18,7 +18,7 @@ const AddOrder = (state) => {
 
   const userContext = useContext(stateContext)
 
-  const {serviceTypes, accessTypes, serviceStatusType} = userContext
+  const {serviceTypes, accessTypes, vendorList} = userContext
   const {currentUser, currentCompany, currentCompanyID} = userContext.userSession
 
   const history = useHistory()
@@ -110,60 +110,63 @@ const AddOrder = (state) => {
     <Page title="Add Order" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
         
       <form>
-          <Columns>
-            <Column size="is-half" isVisible={false}>
-              <TextInput 
-                inputFieldLabel="Vendor"
-                inputFieldRef={orderVendor}
-                inputFieldValue={""}
-              />
-            </Column>
-            <Column size="is-half">
-              <TextInput 
-                inputFieldLabel="Order Number"
-                inputFieldRef={orderNum}
-                inputFieldValue={""}
-              />
-            </Column>
-          </Columns>
-            <TextInput 
-              inputFieldLabel="Vendor"
-              inputFieldRef={orderVendor}
-              inputFieldValue={""}
-            />
 
+          <Column isVisible={true}>
             <TextInput 
               inputFieldLabel="Order Number"
               inputFieldRef={orderNum}
               inputFieldValue={""}
             />
+          </Column>
 
+          <Column size="is-half">
             <TextInput 
               inputFieldLabel="Date Ordered"
               inputFieldRef={orderDate}
               inputFieldValue={""}
-            />            
+              hint="Format. MM/DD/YYYY"
+            />       
+          </Column>
 
+          <Column size="is-three-quarters" isVisible={true}>
+            <SelectInputProps
+              fieldLabel="Vendor"
+              fieldInitialValue=""
+              fieldInitialOption=""
+              fieldIDRef={orderVendor}>
+                {vendorList && vendorList.map(vendor => 
+                <option key={vendor.id}>{vendor.Name}</option>
+                )}
+            </SelectInputProps>
+          </Column>
+          
+          <Column size="is-three-quarters" isVisible={true}>
             <TextInput 
               inputFieldLabel="Vendor Service Name"
               inputFieldRef={orderVendorServiceName}
               inputFieldValue={""}
               hint="IE. IP Flex or AVPN"
             />
+          </Column>
 
+          <Column size="is-three-quarters" isVisible={false}>
             <TextInput 
               inputFieldLabel="Type"
               inputFieldRef={orderType}
               inputFieldValue={""}
             />
+          </Column>  
 
+          <Column size="is-three-quarters" isVisible={true}>
             <TextInput 
               inputFieldLabel="Monthly Cost"
               inputFieldRef={orderMRC}
               inputFieldValue={""}
               hint="Price quoted by vendor"
             />
+          </Column>
 
+          <Column size="is-three-quarters" isVisible={true}>
             <TextInputAC handleChange={(e)=>handleChange(e)} 
               label="Related Location" 
               value={orderLocationName.current} 
@@ -181,19 +184,24 @@ const AddOrder = (state) => {
                   )}
                   </ul> : ""} 
             </TextInputAC>
+          </Column>
 
+          <Column size="is-three-quarters" isVisible={true}>
             <TextInput 
               inputFieldLabel="Status"
               inputFieldRef={orderStatus}
               inputFieldValue={""}
             />
+          </Column>
 
+          <Column size="is-three-quarters" isVisible={true}>
             <TextArea 
               inputFieldLabel="Details"
               inputFieldRef={orderDetails}
               inputFieldValue={""}
               isVisible={false}
             />
+          </Column>
           
       </form>
 

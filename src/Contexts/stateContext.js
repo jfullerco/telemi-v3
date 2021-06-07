@@ -86,6 +86,27 @@ export const StateProvider = (props) => {
       Name: "Pending Disconnect" },
     ]
 
+    const vendorList = [
+      {id: "AT&T",
+      Name: "AT&T"},
+      {id: "Verizon",
+      Name: "Verizon"},
+      {id: "Lumen",
+      Name: "Lumen"},
+      {id: "Lumos",
+      Name: "Lumos"},
+      {id: "Windstream",
+      Name: "Windstream"},
+      {id: "Comcast",
+      Name: "Comcast"},
+      {id: "Masergy",
+      Name: "Masergy"},
+      {id: "Spectrum",
+      Name: "Spectrum"},
+      {id: "Microsoft",
+      Name: "Microsoft"}
+    ]
+
     const applyStyle = {
       headerStyle: {
         borderBottomStyle: "solid",
@@ -282,6 +303,7 @@ export const StateProvider = (props) => {
           setCurrentAccountNum,
           serviceTypes,
           accessTypes,
+          vendorList,
           serviceStatusType,
           fetchCompanies,
           toggleAdmin,
