@@ -183,42 +183,42 @@ const DashboardGrids = ({visible}) => {
   }
   
   const serviceColumns = [
-  {docField: 'Vendor', headerName: 'Vendor'},
-  {docField: 'VendorServiceName', headerName: 'Product'},
-  {docField: 'LocationName', headerName: 'Location'},
-  {docField: 'AssetID', headerName: 'Asset ID'},
-  {docField: 'Type', headerName: 'Type'}
+  {docField: 'Vendor', headerName: 'Vendor', key: "1"},
+  {docField: 'VendorServiceName', headerName: 'Product', key: "2"},
+  {docField: 'LocationName', headerName: 'Location', key: "3"},
+  {docField: 'AssetID', headerName: 'Asset ID', key: "4"},
+  {docField: 'Type', headerName: 'Type', key: "5"}
   ]
 
   const accountColumns = [
-  {docField: 'Vendor', headerName: 'Vendor'},
-  {docField: 'AccountNum', headerName: 'Account'},
-  {docField: 'SubAccountNum', headerName: 'Sub-Account'},
-  {docField: 'AccountServiceLocationName', headerName: 'Location'},
-  {docField: 'PostTaxMRC', headerName: 'Cost'}
+  {docField: 'Vendor', headerName: 'Vendor', key: "1"},
+  {docField: 'AccountNum', headerName: 'Account', key: "2"},
+  {docField: 'SubAccountNum', headerName: 'Sub-Account', key: "3"},
+  {docField: 'AccountServiceLocationName', headerName: 'Location', key: "4"},
+  {docField: 'PostTaxMRC', headerName: 'Cost', key: "5"}
   ]
 
   const ticketColumns = [
-  {docField: 'Status', headerName: 'Status'},
-  {docField: 'TicketNum', headerName: 'Ticket'},
-  {docField: 'LocationName', headerName: 'Location'},
-  {docField: 'Type', headerName: 'Type'},
-  {docField: 'Details', headerName: 'Details'}
+  {docField: 'Status', headerName: 'Status', key: "1"},
+  {docField: 'TicketNum', headerName: 'Ticket', key: "2"},
+  {docField: 'LocationName', headerName: 'Location', key: "3"},
+  {docField: 'Type', headerName: 'Type', key: "4"},
+  {docField: 'Details', headerName: 'Details', key: "5"}
   ]
 
   const orderColumns = [
-  {docField: 'Vendor', headerName: 'Vendor'},
-  {docField: 'VendorServiceName', headerName: 'Product'},
-  {docField: 'LocationName', headerName: 'Location'},
-  {docField: 'AssetID', headerName: 'Asset ID'},
-  {docField: 'Type', headerName: 'Type'}
+  {docField: 'OrderDate', headerName: 'Date', key: "1"},
+  {docField: 'Vendor', headerName: 'Vendor', key: "2"},
+  {docField: 'VendorServiceName', headerName: 'Product', key: "3"},
+  {docField: 'LocationName', headerName: 'Location', key: "4"},
+  {docField: 'OrderNum', headerName: 'Order Number', key: "5"}
   ]
 
   const contractColumns = [
-  {docField: 'Vendor', headerName: 'Vendor'},
-  {docField: 'Date', headerName: 'Date'},
-  {docField: 'Term', headerName: 'Term'},
-  {docField: 'Details', headerName: 'Details'}
+  {docField: 'Vendor', headerName: 'Vendor', key: "1"},
+  {docField: 'Date', headerName: 'Date', key: "2"},
+  {docField: 'Term', headerName: 'Term', key: "3"},
+  {docField: 'Details', headerName: 'Details', key: "4"}
   ]
 
   const handleServiceClick = (id) => {
@@ -276,7 +276,7 @@ const DashboardGrids = ({visible}) => {
     
     console.log(id)
                     history.push({
-                      pathname: "/orderdetail",
+                      pathname: "/addorder",
                       state: {
                       id: id,
                       services: services,

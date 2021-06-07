@@ -24,9 +24,9 @@ const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}
             
           
 
-          <p className="block">
+          <div className="block">
             {pageSuccess != undefined ? <div className="notification is-success">{pageSuccess}</div> : ""}
-          </p>
+          </div>
           <div className="card px-2 py-2">
             {children}
         

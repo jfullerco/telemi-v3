@@ -27,15 +27,15 @@ const GridComponent = ({headerFields, keyProp, label, data, handleSearch, handle
                   <table className="table is-hoverable is-fullwidth ">
                     <thead className="is-size-6">
                       <tr>
-                        {headerFields && headerFields.map(col => <th style={{width: "20%"}} key={col.headerName}>{col.headerName}</th>)}
+                        {headerFields && headerFields.map(rCol => <th style={{width: "20%"}} key={rCol.headerName}>{rCol.headerName}</th>)}
                       </tr>
                     </thead>
                     <tbody className="is-size-7">
-                    {data && data.map(item => 
-                      <tr onClick={()=>handleClick(item.id)} key={item.id}> 
-                      {headerFields && headerFields.map(col => 
-                        <td className="py-5" style={{width: "20%"}} key={item[col.headerName]} >
-                          {item[col.docField]} 
+                    {data && data.map(rItem => 
+                      <tr onClick={()=>handleClick(rItem.id)} key={rItem.id}> 
+                      {headerFields && headerFields.map(rCol => 
+                        <td className="py-5" style={{width: "20%"}} key={rItem[rCol.headerName]} >
+                          {rItem[rCol.docField]} 
                         </td>)}
                       </tr>
                       )}
