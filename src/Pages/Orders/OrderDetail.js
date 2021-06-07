@@ -12,7 +12,7 @@ import Page from '../../Components/Page'
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
 
-const OrderDetails = (state) => {
+const OrderDetail = (state) => {
 
   const userContext = useContext(stateContext)
 
@@ -215,4 +215,4 @@ const OrderDetails = (state) => {
       
   )
 }
-export default OrderDetails
+export default OrderDetail
