@@ -20,7 +20,7 @@ const SelectInputProps = ({fieldLabel, fieldIDRef, fieldInitialOption, onChange,
           {children}
           </select>
         </div>
-        <Hint>{hint && hint}</Hint>
+        {hint && <Hint> {hint}</Hint>}
       </div>
     </div>
   )

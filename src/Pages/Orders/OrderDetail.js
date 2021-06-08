@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useContext, forwardRef} from 'react'
+import React, {useEffect, useState, useRef, useContext} from 'react'
 import {useHistory} from 'react-router-dom'
 
 import {db} from '../../Contexts/firebase'
@@ -12,24 +12,22 @@ import Page from '../../Components/Page'
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
 
-const OrderDetail = ({state}) => {
+const OrderDetail = (state) => {
 
+  const history = useHistory()
   const userContext = useContext(stateContext)
 
   const {serviceTypes, accessTypes, vendorList} = userContext
   const {currentUser, currentCompany, currentCompanyID} = userContext.userSession
 
-  const history = useHistory()
-  
   const [pageError, setPageError] = useState()
   const [pageSuccess, setPageSuccess] = useState()
 
-  const [locations, setLocations] = useState("")
   const [dropDown, setDropDown] = useState("")
   const [activeOrder, setActiveOrder] = useState()
+  const [locations, setLocations] = useState(state.location.state.locations)
+  const [accounts, setAccounts] = useState(state.location.state.accounts)
   
-  const orderCompanyID = useRef(currentCompanyID)
-  const orderCompanyName = useRef(currentCompany)
   const orderNum = useRef("")
   const orderDate = useRef("")
   const orderType = useRef("")
@@ -45,12 +43,14 @@ const OrderDetail = ({state}) => {
   const orderServiceID = useRef("")
   const orderServiceAssetID = useRef("")
   
-  useEffect(()=> {
-    fetchOrder(state.location.state.id)
+  useEffect(() => {
+    fetchOrder()
   },[])
 
-  const fetchOrder = async(id) => {
-    const orderRef = await db.collection("Orders").doc(id).get()
+  console.log(state.location.state)
+
+  const fetchOrder = async() => {
+    const orderRef = await db.collection("Orders").doc(state.location.state.id).get()
     console.log(orderRef)
     
     const data = await orderRef.data()
@@ -69,14 +69,14 @@ const OrderDetail = ({state}) => {
       LocationName: orderLocationName.current,
       Status: orderStatus.current.value,     
       Details: orderDetails.current.value,
-      CompanyID: userContext.userSession.currentCompanyID,
-      CompanyName: userContext.userSession.currentCompany,
+      CompanyID: currentCompanyID,
+      CompanyName: currentCompany,
       LastUpdatedBy: userContext.userSession.currentUser,
       LastUpdated: Date()
       
     }  
     console.log(data)
-    const res = await db.collection("Orders").doc().update(data)
+    const res = await db.collection("Orders").doc(state.location.state.id).update(data)
     userContext.setDataLoading(true)
     autoClose()
   }
@@ -104,14 +104,13 @@ const OrderDetail = ({state}) => {
   const handleDateChange = (date) => {
     orderDate.current = date
   }
-  console.log("id:", state.location.state.id)
-  console.log(activeOrder)
+  
 
   return (
-    <Page title="Add Order" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
+    <Page title={`${activeOrder && activeOrder.OrderNum != undefined ? activeOrder.OrderNum : "Order"} DETAILS`} handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
         
       <form>
-
+        {activeOrder && <>
           <Column size="is-three-quarters" isVisible={true}>
             <TextInput 
               inputFieldLabel="Order Number"
@@ -182,6 +181,7 @@ const OrderDetail = ({state}) => {
             <TextInputAC handleChange={(e)=>handleChange(e)} 
               label="Related Location" 
               value={orderLocationName.current}
+              defaultValue={activeOrder.LocationName}
               dropDownState={dropDown}
               hint="Location where service will be installed"
             >
@@ -219,7 +219,7 @@ const OrderDetail = ({state}) => {
               isVisible={false}
             />
           </Column>
-          
+        </>}  
       </form>
 
         

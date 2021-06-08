@@ -2,7 +2,7 @@ import React from 'react'
 
 const Columns = ({children}) => {
   return(
-    <div className="columns">{children}</div>
+    <div className="columns is-gapless">{children}</div>
   )
 }
 
