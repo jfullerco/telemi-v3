@@ -14,7 +14,7 @@ const CompanyList = () => {
 
   const userContext = useContext(stateContext)
   const history = useHistory()
-  const {dataLoading, currentUser} = userContext.userSession
+  const {dataLoading, currentUser, currentCompany} = userContext.userSession
   
   const [selectedCompany, setSelectedCompany] = useState({
     id: "",
@@ -102,8 +102,9 @@ const CompanyList = () => {
         <SelectInputProps 
               fieldLabel=""
               fieldInitialValue={userContext.userSession.currentCompanyID}
-              fieldInitialOption={""}
+              fieldInitialOption="Choose a Company"
               fieldIDRef={activeCompanyID}
+              placeholder="Choose a Company"
               onChange={handleChange}>
                 {userContext.userSession.companies != "" ? 
                   userContext.userSession.companies.map(company => (

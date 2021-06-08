@@ -1,7 +1,7 @@
 import React, { useRef, forwardRef } from 'react'
 import Hint from './Hint'
 
-const SelectInputProps = ({fieldLabel, fieldIDRef, fieldInitialOption, onChange, fieldInitialValue, hint, children}) => {
+const SelectInputProps = ({fieldLabel, fieldIDRef, fieldInitialOption, onChange, fieldInitialValue, placeholder, hint, children}) => {
   
   const selectRef = useRef("")
 
@@ -10,7 +10,7 @@ const SelectInputProps = ({fieldLabel, fieldIDRef, fieldInitialOption, onChange,
       <label className="label">{fieldLabel}</label>
         <div className="control">
         <div className="select is-rounded is-fullwidth">
-          <select type="select" ref={fieldIDRef} defaultValue={fieldInitialOption} onChange={onChange}>
+          <select type="select" ref={fieldIDRef} defaultValue={fieldInitialOption} placeholder={placeholder} onChange={onChange}>
 
             {fieldInitialValue != undefined ? 
               <option value={fieldInitialValue}>
