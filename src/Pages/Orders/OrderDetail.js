@@ -12,7 +12,7 @@ import Page from '../../Components/Page'
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
 
-const OrderDetail = (state) => {
+const OrderDetail = ({state}) => {
 
   const userContext = useContext(stateContext)
 
@@ -24,7 +24,7 @@ const OrderDetail = (state) => {
   const [pageError, setPageError] = useState()
   const [pageSuccess, setPageSuccess] = useState()
 
-  const [locations, setLocations] = useState(state.location.state.locations)
+  const [locations, setLocations] = useState("")
   const [dropDown, setDropDown] = useState("")
   const [activeOrder, setActiveOrder] = useState()
   
