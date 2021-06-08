@@ -2,9 +2,16 @@ import React, {useState, useEffect} from 'react'
 import {useHistory} from 'react-router-dom'
 import Columns from './Layout/Columns'
 import Column from './Layout/Column'
+import DropDown from './Buttons/DropDown'
 
 const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}) => {
   const history = useHistory()
+  const [dropDownState, setDropDownState] = useState(false)
+  const toggleDrop = () => {
+    setDropDownState(!dropDownState)
+    console.log(dropDownState)
+  }
+  
   return(
       <>
         <Columns>
@@ -26,7 +33,7 @@ const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}
             <div className={pageSuccess != undefined ? "notification is-success" : "is-hidden"}>{pageSuccess}</div>
             <div className={pageError != undefined ? "notification is-danger" : "is-hidden"}>{pageError}</div>
           </div>
-          
+          <DropDown label="Test" dropDownState={dropDownState} handleChange={()=>toggleDrop()}><a className="is-link dropdown-item">Delete</a></DropDown>
             {children}
 
           <div className="modal-card-foot">

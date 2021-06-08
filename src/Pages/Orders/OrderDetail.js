@@ -26,7 +26,7 @@ const OrderDetail = (state) => {
 
   const [locations, setLocations] = useState(state.location.state.locations)
   const [dropDown, setDropDown] = useState("")
-  const [suggestLocation, setSuggestLocation] = useState()
+  const [activeOrder, setActiveOrder] = useState()
   
   const orderCompanyID = useRef(currentCompanyID)
   const orderCompanyName = useRef(currentCompany)
@@ -45,7 +45,18 @@ const OrderDetail = (state) => {
   const orderServiceID = useRef("")
   const orderServiceAssetID = useRef("")
   
-  
+  useEffect(()=> {
+    fetchOrder(state.location.state.id)
+  },[])
+
+  const fetchOrder = async(id) => {
+    const orderRef = await db.collection("Orders").doc(id).get()
+    console.log(orderRef)
+    
+    const data = await orderRef.data()
+    setActiveOrder(data)
+  }
+
   const handleSubmit = async(e) => {
     const data = {
       OrderNum: orderNum.current.value,
@@ -65,13 +76,13 @@ const OrderDetail = (state) => {
       
     }  
     console.log(data)
-    const res = await db.collection("Orders").doc().set(data)
+    const res = await db.collection("Orders").doc().update(data)
     userContext.setDataLoading(true)
     autoClose()
   }
 
   const autoClose = () => {
-    setTimeout(() => {history.push("/dashboard")}, 1000)
+    setTimeout(() => {history.goBack()}, 1000)
   }
   
   const handleChange = (e) => {
@@ -93,7 +104,8 @@ const OrderDetail = (state) => {
   const handleDateChange = (date) => {
     orderDate.current = date
   }
-  
+  console.log("id:", state.location.state.id)
+  console.log(activeOrder)
 
   return (
     <Page title="Add Order" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
@@ -104,7 +116,7 @@ const OrderDetail = (state) => {
             <TextInput 
               inputFieldLabel="Order Number"
               inputFieldRef={orderNum}
-              inputFieldValue={""}
+              inputFieldValue={activeOrder.OrderNum}
               hint=""
             />
           </Column>
@@ -113,7 +125,7 @@ const OrderDetail = (state) => {
             <TextInput 
               inputFieldLabel="Date Ordered"
               inputFieldRef={orderDate}
-              inputFieldValue={""}
+              inputFieldValue={activeOrder.OrderDate}
               hint="format. MM/DD/YYYY"
             />       
           </Column>
@@ -121,8 +133,8 @@ const OrderDetail = (state) => {
           <Column size="is-three-quarters" isVisible={true}>
             <SelectInputProps
               fieldLabel="Vendor"
-              fieldInitialValue=""
-              fieldInitialOption=""
+              fieldInitialValue={activeOrder.Vendor}
+              fieldInitialOption={activeOrder.Vendor}
               fieldIDRef={orderVendor}
               hint="">
                 {vendorList && vendorList.map(vendor => 
@@ -135,7 +147,7 @@ const OrderDetail = (state) => {
             <TextInput 
               inputFieldLabel="Vendor Service Name"
               inputFieldRef={orderVendorServiceName}
-              inputFieldValue={""}
+              inputFieldValue={activeOrder.VendorServiceName}
               hint="ie. IP Flex or AVPN"
             />
           </Column>
@@ -144,7 +156,7 @@ const OrderDetail = (state) => {
             <TextInput 
               inputFieldLabel="Type"
               inputFieldRef={orderType}
-              inputFieldValue={""}
+              inputFieldValue={activeOrder.Type}
             />
           </Column> 
 
@@ -152,7 +164,7 @@ const OrderDetail = (state) => {
             <TextInput 
               inputFieldLabel="Bandwidth"
               inputFieldRef={orderBandwidth}
-              inputFieldValue={""}
+              inputFieldValue={activeOrder.Bandwidth}
               hint="ie. 100M"
             />
           </Column> 
@@ -161,7 +173,7 @@ const OrderDetail = (state) => {
             <TextInput 
               inputFieldLabel="Monthly Cost"
               inputFieldRef={orderMRC}
-              inputFieldValue={""}
+              inputFieldValue={activeOrder.MRC}
               hint="Price quoted by vendor"
             />
           </Column>
@@ -169,7 +181,7 @@ const OrderDetail = (state) => {
           <Column size="is-three-quarters" isVisible={true}>
             <TextInputAC handleChange={(e)=>handleChange(e)} 
               label="Related Location" 
-              value={orderLocationName.current} 
+              value={orderLocationName.current}
               dropDownState={dropDown}
               hint="Location where service will be installed"
             >
@@ -189,8 +201,8 @@ const OrderDetail = (state) => {
           <Column size="is-three-quarters" isVisible={true}>
             <SelectInputProps
               fieldLabel="Status"
-              fieldInitialValue=""
-              fieldInitialOption=""
+              fieldInitialValue={activeOrder.Status}
+              fieldInitialOption={activeOrder.Status}
               fieldIDRef={orderStatus}>
                 <option>  </option>
                 <option> Placed </option>
@@ -203,7 +215,7 @@ const OrderDetail = (state) => {
             <TextArea 
               inputFieldLabel="Details"
               inputFieldRef={orderDetails}
-              inputFieldValue={""}
+              inputFieldValue={activeOrder.Details}
               isVisible={false}
             />
           </Column>

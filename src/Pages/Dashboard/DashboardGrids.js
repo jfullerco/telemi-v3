@@ -220,7 +220,7 @@ const DashboardGrids = ({visible}) => {
   {docField: 'Term', headerName: 'Term', key: "3"},
   {docField: 'Details', headerName: 'Details', key: "4"}
   ]
-
+{/**Row Clicks */}
   const handleServiceClick = (id) => {
     
     console.log(id)
@@ -248,17 +248,7 @@ const DashboardGrids = ({visible}) => {
                     })
   }
 
-  const handleAddTicketBtn = () => {
-                    history.push({
-                      pathname: "/addticket",
-                      state: {
-                      services: services,
-                      locations: locations,
-                      accounts: accounts,
-                      tickets: tickets
-                      }
-                    })
-  }
+  
 
   const handleAccountClick = (id) => {
                     history.push({
@@ -276,7 +266,7 @@ const DashboardGrids = ({visible}) => {
     
     console.log(id)
                     history.push({
-                      pathname: "/addorder",
+                      pathname: "/orderdetail",
                       state: {
                       id: id,
                       services: services,
@@ -285,6 +275,8 @@ const DashboardGrids = ({visible}) => {
                       }
                     })
   }
+
+{/**Add Buttons */}
 
   const handleAddOrderBtn = (id) => {
     
@@ -296,6 +288,18 @@ const DashboardGrids = ({visible}) => {
                       services: services,
                       locations: locations,
                       orders: orders
+                      }
+                    })
+  }
+
+  const handleAddTicketBtn = () => {
+                    history.push({
+                      pathname: "/addticket",
+                      state: {
+                      services: services,
+                      locations: locations,
+                      accounts: accounts,
+                      tickets: tickets
                       }
                     })
   }

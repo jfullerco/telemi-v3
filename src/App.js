@@ -59,6 +59,7 @@ export default function App() {
             <Route path="/locationdetail" component={LocationDetail} />
             <Route path="/orderdetail" component={OrderDetail} />
             <Route path="/ticketdetail" component={TicketDetail} />
+            <Route path="/contractdetail" component={ContractDetail} />
             
             <Route path="/addcompany" component={AddCompany} />
             <Route path="/addservice" component={AddService} />
@@ -67,7 +68,7 @@ export default function App() {
             <Route path="/addorder" component={AddOrder} />
             <Route path="/addticket" component={AddTicket} />
             <Route path="/addcontract" component={AddContract} />
-            <Route path="/contractdetail" component={ContractDetail} />
+            
             
           
           </Switch>
