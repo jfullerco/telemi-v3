@@ -263,8 +263,6 @@ const DashboardGrids = ({visible}) => {
   }
 
   const handleOrderClick = (id) => {
-    
-    console.log(id)
                     history.push({
                       pathname: "/orderdetail",
                       state: {

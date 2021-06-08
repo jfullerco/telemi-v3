@@ -38,7 +38,7 @@ const OrderDetail = (state) => {
   const orderDetails = useRef("")
   const orderVendor = useRef("")
   const orderLocationID = useRef("")
-  const orderLocationName = useRef("")
+  const orderLocationName = useRef()
   
   const orderServiceID = useRef("")
   const orderServiceAssetID = useRef("")
@@ -54,7 +54,10 @@ const OrderDetail = (state) => {
     console.log(orderRef)
     
     const data = await orderRef.data()
+    
     setActiveOrder(data)
+    orderLocationID.current = await activeOrder.LocationID
+    orderLocationName.current = await activeOrder.LocationName
   }
 
   const handleSubmit = async(e) => {
@@ -181,7 +184,6 @@ const OrderDetail = (state) => {
             <TextInputAC handleChange={(e)=>handleChange(e)} 
               label="Related Location" 
               value={orderLocationName.current}
-              defaultValue={activeOrder.LocationName}
               dropDownState={dropDown}
               hint="Location where service will be installed"
             >

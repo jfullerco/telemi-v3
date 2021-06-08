@@ -12,7 +12,7 @@ const TextInputAC = (props) => {
 
     <div className="control">
 
-      <input className={inputSmall == "true" ? "input is-rounded is-small" : "input is-rounded"} type="text" value={props.value} onChange={props.handleChange} placeholder={props.defaultValue} aria-haspopup="true" aria-controls="dropdown-menu" />
+      <input className={inputSmall == "true" ? "input is-rounded is-small" : "input is-rounded"} type="text" value={props.value} onChange={props.handleChange} aria-haspopup="true" aria-controls="dropdown-menu" />
 
     
 
