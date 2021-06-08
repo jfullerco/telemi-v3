@@ -7,15 +7,15 @@ import { db } from '../Contexts/firebase'
 
 import CompanyList from './Companies/CompanyList'
 
-import DataViewer from './Dashboard/Components/DataViewer'
-
 import DashboardGrids from './Dashboard/DashboardGrids'
+
+import Login from './Login'
 
 
 const Dashboard = () => {
   
   const userContext = useContext(stateContext)
-  const {currentUser, userFirstName, currentCompany} = userContext.userSession
+  const {currentUser, userFirstName, currentCompany, companies} = userContext.userSession
   const history = useHistory()
 
 
@@ -38,7 +38,7 @@ const Dashboard = () => {
   }
 
   const isCurrentCompany = () => {
-    userContext.userSession.currentCompany == "" ? fetchCompanies() : ""
+    currentCompany == "" ? fetchCompanies() : ""
   }
 
   const fetchCompanies = async() => {
@@ -54,38 +54,34 @@ const Dashboard = () => {
   }
   
   return (   
-      <div id="dashboard" className="dashboard"> 
+      <div> 
 
 {/**      Dashboard Header          */        }
 
         {currentUser != undefined ?
           <>
-            <div className="block"> 
+             
 
-              <p className="block">
-               
-              </p>
-
-              <p className="block">
+              <div className="block">
                 <span className="title has-text-black is-size-3 is-size-5-mobile" style={{textTransform: "uppercase"}}>
                   {userContext.userSession.currentCompany}
                 </span>
 
-                {userContext.userSession.companies && userContext.userSession.companies.length > 1 ? 
+                 
                   <span className="px-3">
-                    <a className="link is-small is-link is-rounded is-7" onClick={()=>setToggleCompanyList(!toggleCompanyList)}>
+                    <a className={companies && companies.length > 1 ? "link is-small is-link is-rounded is-7" : "is-hidden"} onClick={()=>setToggleCompanyList(!toggleCompanyList)}>
                       change
                     </a> 
                   </span>
-                : ""}
-              </p>
+                
+              </div>
 
-            </div>
+            
 
 {/**      Toggle Company List          */        }
 
-        <div className="block" id="companyList">
-          {toggleCompanyList != false ? <CompanyList /> : ""}
+        <div className={toggleCompanyList != false ? "block" : "block is-hidden"} id="companyList">
+          <CompanyList /> 
         </div>
 
 {/**      Display Dashboard Items          */        }        
@@ -100,12 +96,8 @@ const Dashboard = () => {
 
 {/**      If not logged in          */        }  
 
-          <div className="box has-text-centered">
-            <p className="title has-text-centered">Please Login </p>
-            <button className="button is-rounded is-dark" onClick={() => history.push("/login")}>
-              Login
-            </button>
-          </div>
+          <Login />
+
         </>
         }    
     </div>

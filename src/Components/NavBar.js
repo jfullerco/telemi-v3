@@ -23,6 +23,7 @@ const NavBar = () => {
     await auth.signOut()
     logOutUser()
     history.push("/")
+    
   }
 
   return (
@@ -71,6 +72,8 @@ const NavBar = () => {
             <a className="navbar-item">ORDERS</a>
             <a className="navbar-item">TICKETS</a>
             <a className="navbar-item">LOCATIONS</a>
+            <a className="navbar-item">USERS</a>
+            <a className="navbar-item">SETTINGS</a>
           </div>
             
           
