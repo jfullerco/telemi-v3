@@ -3,7 +3,6 @@ import {useHistory} from 'react-router-dom'
 
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
-import {useAuth} from '../../Contexts/AuthContext'
 
 import TextInput from '../../Components/Forms/TextInput'
 import Modal from '../../Components/Modal'
@@ -12,10 +11,13 @@ import Modal from '../../Components/Modal'
 const AddCompany = () => {
   const history = useHistory()
   const userContext = useContext(stateContext)
-  const currentUser = useAuth()
+  const {setDataLoading} = userContext
+  const {currentUser} = userContext.userSession
+
   const [modalState, setModalState] = useState(true)
-  const [addCompanyError, setAddCompanyError] = useState("")
-  const [success, setSuccess] = useState(false)
+  
+  const [pageError, setPageError] = useState()
+  const [pageSuccess, setPageSuccess] = useState()
   
   const companyName = useRef("")
 
@@ -26,11 +28,15 @@ const AddCompany = () => {
       Users: [currentUser]
     }  
 
-    const res = await db.collection("Companies").doc().set(data)
-    userContext.setDataLoading(true)
-    autoClose()
-
+    try {
+      await db.collection("Companies").doc().set(data)
+      setPageSuccess("Company Added")
+      autoClose()
+    } catch {
+      setPageError("Error Adding Company")
+    }
   }
+  
 
   const handleModalClose = () => {
     autoClose()
@@ -39,25 +45,27 @@ const AddCompany = () => {
   const autoClose = () => {
     
     setTimeout(() => {
+
+      setDataLoading(true)
+
       setModalState(false)
-      history.push("/dashboard")
-    }, 2000)
+
+      history.goBack()
+    }, 1000)
     
   }
   
 
   return (
     <Modal title="Add Company" handleSubmit={handleSubmit} modalState={modalState}>
+
           <form>
             <TextInput 
               inputFieldLabel="Company Name"
               inputFieldRef={companyName}
             />
           </form>
-        <div className="block">
-          <div className="notification is-danger is-hidden">{addCompanyError}</div>
-         {success === true ?  <div className="notification is-success">Company Added</div> : ""}
-        </div>
+        
       </Modal>
   )
 }

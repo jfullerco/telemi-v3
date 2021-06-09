@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Columns = ({children}) => {
+const Columns = ({options, children}) => {
   return(
-    <div className="columns is-gapless">{children}</div>
+    <div className={`columns ${options} is-gapless`}>{children}</div>
   )
 }
 

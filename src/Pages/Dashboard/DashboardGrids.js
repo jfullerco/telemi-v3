@@ -217,9 +217,9 @@ const DashboardGrids = ({visible}) => {
   ]
 
   const userColumns = [
-  {docField: 'FirstName', headerName: 'First Name', key: "1"},
+  {docField: 'FirstName', headerName: 'First Name', key: "3"},
   {docField: 'LastName', headerName: 'Last Name', key: "2"},
-  {docField: 'Email', headerName: 'Email', key: "3"}
+  {docField: 'Email', headerName: 'Email', key: "1"}
   ]
 
   const contractColumns = [

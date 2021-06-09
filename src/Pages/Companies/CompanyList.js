@@ -7,13 +7,17 @@ import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
 
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
+import Columns from '../../Components/Layout/Columns'
+import Column from '../../Components/Layout/Column'
+import Button from '../../Components/Buttons/Button'
 
 
 
 const CompanyList = () => {
 
-  const userContext = useContext(stateContext)
   const history = useHistory()
+
+  const userContext = useContext(stateContext)
   const {dataLoading, currentUser, currentCompany} = userContext.userSession
   
   const [selectedCompany, setSelectedCompany] = useState({
@@ -21,7 +25,6 @@ const CompanyList = () => {
     Name: ""
   })
   
-
   const activeCompanyID = useRef("")
   const activeCompanyName = useRef("")
 
@@ -79,17 +82,8 @@ const CompanyList = () => {
 
   }
 
-  const toggleAddCompany = () => {
-    
-    setAddCompanyModalState(!addCompanyModalState)
-  }
-
   const handleAddCompany = () => {
     history.push("/addcompany")
-  }
-
-  const handleChangeActiveCompany = () => {
-
   }
   
   return (
@@ -98,8 +92,10 @@ const CompanyList = () => {
       {
         userContext.userSession.userType != "User" ? 
         <>
+        <Columns options="is-vcentered">
         
-        <SelectInputProps 
+          <Column size="is-four-fifths">
+            <SelectInputProps 
               fieldLabel=""
               fieldInitialValue={userContext.userSession.currentCompanyID}
               fieldInitialOption="Choose a Company"
@@ -113,7 +109,14 @@ const CompanyList = () => {
                 )) : (
                   <option></option>
                 )}
-          </SelectInputProps>
+              </SelectInputProps>
+            </Column>
+          <Column size="is-one-fifth">
+            <Button label="Add" handleSubmit={handleAddCompany} />
+          </Column>
+       
+        </Columns>
+
         
         </>
         : <span className="title is-5 has-text-black">{userContext.userSession.currentCompany}</span>

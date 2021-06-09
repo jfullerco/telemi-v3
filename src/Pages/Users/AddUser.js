@@ -27,11 +27,11 @@ const AddUsers = () => {
       FirstName: userFirstName.current.value,
       LastName: userLastName.current.value,
       Companies: [
-        currentCompanyID
+       currentCompanyID
       ]
     }
     try {
-      const res = await db.collection("Users").doc.set(data)
+      const res = await db.collection("Users").doc().set(data)
       setPageSuccess("User Added")
       autoClose()
     } catch {
