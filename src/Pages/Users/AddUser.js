@@ -1,4 +1,5 @@
 import React, {useState, useContext, useRef, useEffect} from 'react'
+import {useHistory} from 'react-router-dom'
 
 import {stateContext} from '../../Contexts/stateContext'
 import {db} from '../../Contexts/firebase'
@@ -7,6 +8,8 @@ import Page from '../../Components/Page'
 import TextInput from '../../Components/Forms/TextInput'
 
 const AddUsers = () => {
+
+  const history = useHistory()
 
   const userContext = useContext(stateContext)
   const {currentCompanyID} = userContext.userSession
@@ -24,7 +27,7 @@ const AddUsers = () => {
       FirstName: userFirstName.current.value,
       LastName: userLastName.current.value,
       Companies: [
-        {currentCompanyID}
+        currentCompanyID
       ]
     }
     try {
