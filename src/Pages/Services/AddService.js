@@ -15,7 +15,7 @@ const AddService = () => {
 
   const userContext = useContext(stateContext)
 
-  const {serviceTypes, accessTypes, serviceStatusType} = userContext
+  const {serviceTypes, accessTypes, serviceStatusType, vendorList} = userContext
   const {currentUser} = userContext.userSession
 
   const history = useHistory()
@@ -125,13 +125,17 @@ const AddService = () => {
                   )}
                   </ul> : ""} 
             </TextInputAC>
-            
-            <TextInput 
-              inputFieldLabel="Vendor"
-              inputFieldRef={serviceVendor}
-              inputFieldValue={""}
-              hint=""
-            />
+
+            <SelectInputProps
+              fieldLabel="Vendor"
+              fieldInitialValue=""
+              fieldInitialOption=""
+              fieldIDRef={serviceVendor}
+              hint="">
+                {vendorList && vendorList.map(vendor => 
+                <option key={vendor.id}>{vendor.Name}</option>
+                )}
+            </SelectInputProps>
 
             <SelectInput 
               fieldOptions={serviceTypes}

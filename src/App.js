@@ -42,7 +42,7 @@ export default function App() {
       <Router>
       <NavBar />
       <div className="container is-max-fullhd is-max-desktop is-one-third-tablet"> 
-      <div id="wrapper" className="columns">
+      <div className="columns">
       <div className="column">
        
           <Switch>

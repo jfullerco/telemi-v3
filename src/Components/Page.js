@@ -36,11 +36,11 @@ const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}
           
             {children}
 
-          <div className="modal-card-foot">
-            <button className="button is-rounded is-link" type="submit" onClick={handleSubmit}>
+          <div className="py-6">
+            <button className="button is-rounded is-link mr-2" type="submit" onClick={handleSubmit}>
               Save
             </button>
-            <button className="button is-rounded " onClick={()=>autoClose()}>Close</button>
+            <button className="button is-rounded mr-2" onClick={()=>autoClose()}>Close</button>
         </div>
 
            
