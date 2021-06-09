@@ -30,6 +30,7 @@ const DashboardGrids = ({visible}) => {
   const [ticketIsVisible, setTicketIsVisible] = useState(false)
   const [orderIsVisible, setOrderIsVisible] = useState(false)
   const [accountIsVisible, setAccountIsVisible] = useState(false)
+  const [userIsVisible, setUserIsVisible] = useState(false)
   const [contractIsVisible, setContractIsVisible] = useState(false)
   
   useEffect(() => {
@@ -39,6 +40,7 @@ const DashboardGrids = ({visible}) => {
       fetchServices(),
       fetchOrders(),
       fetchAccounts()
+      fetchUsers()
       fetchTickets()
       fetchContracts()
       cancelLoading()
@@ -155,7 +157,7 @@ const DashboardGrids = ({visible}) => {
 
   const fetchUsers = async() => {
 
-    const usersRef = await db.collection("Users").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
+    const usersRef = await db.collection("Users").where("Companies", "array-contains", userContext.userSession.currentCompanyID).get()
 
     const users = usersRef.docs.map(doc => ({
       id: doc.id,
@@ -212,6 +214,12 @@ const DashboardGrids = ({visible}) => {
   {docField: 'VendorServiceName', headerName: 'Product', key: "3"},
   {docField: 'LocationName', headerName: 'Location', key: "4"},
   {docField: 'OrderNum', headerName: 'Order Number', key: "5"}
+  ]
+
+  const userColumns = [
+  {docField: 'FirstName', headerName: 'First Name', key: "1"},
+  {docField: 'LastName', headerName: 'Last Name', key: "2"},
+  {docField: 'Email', headerName: 'Email', key: "3"}
   ]
 
   const contractColumns = [
@@ -302,6 +310,18 @@ const DashboardGrids = ({visible}) => {
                     })
   }
 
+  const handleAddAccountBtn = () => {
+                    history.push({
+                      pathname: "/addaccount",
+                      state: {
+                      services: services,
+                      locations: locations,
+                      accounts: accounts,
+                      tickets: tickets
+                      }
+                    })
+  }
+
 return (
   <>
     <div className={loadingGrid != false ? "modal is-active" : "modal"}><div className="loading"></div></div>
@@ -345,6 +365,16 @@ return (
       handleAddBtn={() => history.push("/addaccount")}
       isVisible={accountIsVisible}
       toggleIsVisible={()=>{setAccountIsVisible(!accountIsVisible)}}
+    /> 
+
+    <GridComponent 
+      label="USERS"
+      headerFields={userColumns}
+      data={users}
+      handleClick={(e)=>handleAccountClick(e)}
+      handleAddBtn={() => history.push("/adduser")}
+      isVisible={userIsVisible}
+      toggleIsVisible={()=>{setUserIsVisible(!userIsVisible)}}
     /> 
 
     <GridComponent 

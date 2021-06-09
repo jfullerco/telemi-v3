@@ -16,6 +16,7 @@ import AddAccount from './Pages/Accounts/AddAccount'
 import AddLocation from './Pages/Locations/AddLocation'
 import AddOrder from './Pages/Orders/AddOrder'
 import AddTicket from './Pages/Tickets/AddTicket'
+import AddUser from './Pages/Users/AddUser'
 import AddContract from './Pages/Contracts/AddContract'
 
 import CompanyDetail from './Pages/Companies/CompanyDetail'
@@ -67,6 +68,7 @@ export default function App() {
             <Route path="/addlocation" component={AddLocation} />
             <Route path="/addorder" component={AddOrder} />
             <Route path="/addticket" component={AddTicket} />
+            <Route path="/adduser" component={AddUser} />
             <Route path="/addcontract" component={AddContract} />
             
             

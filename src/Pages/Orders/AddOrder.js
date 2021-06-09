@@ -65,13 +65,17 @@ const AddOrder = (state) => {
       
     }  
     console.log(data)
-    const res = await db.collection("Orders").doc().set(data)
-    userContext.setDataLoading(true)
-    autoClose()
+    try {
+      await db.collection("Orders").doc().set(data)
+      setPageSuccess("Order Added")
+      autoClose()
+    } catch {
+      setPageError("Error Adding Order")
+    }
   }
 
   const autoClose = () => {
-    setTimeout(() => {history.push("/dashboard")}, 1000)
+    setTimeout(() => {history.goBack()}, 1000)
   }
   
   const handleChange = (e) => {

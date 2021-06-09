@@ -11,7 +11,11 @@ import TextInputAC from '../../Components/Forms/TextInputAC'
 
 const AddAccount = ({id}) => {
 
+  const history = useHistory()
+
   const userContext = useContext(stateContext)
+  const {vendorList} = userContext
+  const {currentCompany, currentCompanyID} = userContext.userSession
   
   const [modalState, setModalState] = useState(true)
   
@@ -47,12 +51,12 @@ const AddAccount = ({id}) => {
 
       AccountNum: accountAccountNum.current,
       SubAccountNum: accountSubAccountNum.current.value,
-      CompanyID: userContext.userSession.currentCompanyID,
-      CompanyName: userContext.userSession.currentCompany,
+      CompanyID: currentCompanyID,
+      CompanyName: currentCompany,
       Vendor: accountVendor.current.value,
       PreTaxMRC: accountPreTaxMRC.current.value,
       PostTaxMRC: accountPostTaxMRC.current.value,
-      AccountServiceID: id
+      
     }  
 
     console.log(data)
@@ -67,11 +71,7 @@ const AddAccount = ({id}) => {
   }
 
   const autoClose = () => {
-    setTimeout(() => {setModalState(false)}, 1000)
-  }
-
-  const handleToggle = (e) => {
-    toggleQuestions.current = toggleQuestions.current + e
+    setTimeout(() => {history.goBack()}, 1000)
   }
 
   const handleChange = (e) => {
@@ -115,16 +115,11 @@ const AddAccount = ({id}) => {
               fieldLabel="Vendor"
               fieldInitialValue=""
               fieldInitialOption=""
-              fieldIDRef={accountVendor}>
-                <option>AT&T</option>
-                <option>Verizon</option>
-                <option>CenturyLink</option>
-                <option>Lumos</option>
-                <option>Windstream</option>
-                <option>Spectrum</option>
-                <option>Comcast</option>
-                <option>Masergy</option>
-                <option>Microsoft</option>
+              fieldIDRef={accountVendor}
+              hint="">
+                {vendorList && vendorList.map(vendor => 
+                <option key={vendor.id}>{vendor.Name}</option>
+                )}
             </SelectInputProps>
 
             <TextInput 

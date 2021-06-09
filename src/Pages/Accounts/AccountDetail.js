@@ -1,10 +1,6 @@
 import React, {useEffect, useState, useRef, useContext} from 'react'
 import {useHistory} from 'react-router-dom'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDollarSign } from '@fortawesome/free-solid-svg-icons'
-import { faSave } from '@fortawesome/free-solid-svg-icons'
-
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
@@ -98,7 +94,7 @@ console.log(state)
   }
   
   const autoClose = () => {
-    setTimeout(() => {history.push("/dashboard")}, 1000)
+    setTimeout(() => {history.goBack()}, 1000)
   }
 
   const handleRelatedServiceID = (e) => {
