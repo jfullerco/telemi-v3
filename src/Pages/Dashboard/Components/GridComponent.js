@@ -1,7 +1,8 @@
 import React from 'react'
 import Report from '../../Reports/Report'
+import SortHeader from '../../../Components/Tables/SortHeader'
 
-const GridComponent = ({headerFields, keyProp, label, data, handleSearch, handleClick, handleAddBtn, handlePrintBtn, isVisible, toggleIsVisible}) => {
+const GridComponent = ({headerFields, keyProp, label, data, setData, handleSearch, handleClick, handleAddBtn, handlePrintBtn, isVisible, toggleIsVisible}) => {
 
   const headerStyle = {
         borderBottomStyle: "solid",
@@ -27,7 +28,8 @@ const GridComponent = ({headerFields, keyProp, label, data, handleSearch, handle
                   <table className="table is-hoverable is-fullwidth ">
                     <thead className="is-size-6">
                       <tr>
-                        {headerFields && headerFields.map(rCol => <th style={{width: "20%"}} key={rCol.headerName}>{rCol.headerName}</th>)}
+                        {headerFields && headerFields.map(rCol => <th style={{width: "20%"}} key={rCol.headerName}>
+                        <SortHeader label={rCol.headerName} data={data} colRef={rCol.headerName} setData={setData} /></th>)}
                       </tr>
                     </thead>
                     <tbody className="is-size-7">

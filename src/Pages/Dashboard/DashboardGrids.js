@@ -340,6 +340,7 @@ return (
       label="SERVICES"
       headerFields={serviceColumns}
       data={services}
+      setData={()=>setServices()}
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
       handleAddBtn={() => history.push("/addservice")}
