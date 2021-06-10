@@ -1,7 +1,8 @@
 import React from 'react'
 import Report from '../../Reports/Report'
 
-const GridComponent = ({headerFields, keyProp, label, data, sortData, handleSearch, handleClick, handleAddBtn, handlePrintBtn, isVisible, toggleIsVisible}) => {
+
+const GridComponent = ({headerFields, keyProp, label, data, handleSort, handleSearch, handleClick, handleAddBtn, handlePrintBtn, isVisible, toggleIsVisible}) => {
 
   const headerStyle = {
         borderBottomStyle: "solid",
@@ -27,7 +28,7 @@ const GridComponent = ({headerFields, keyProp, label, data, sortData, handleSear
                   <table className="table is-hoverable is-fullwidth ">
                     <thead className="is-size-6">
                       <tr>
-                        {headerFields && headerFields.map(rCol => <th style={{width: "20%"}} key={rCol.headerName}>{rCol.headerName}</th>)}
+                        {headerFields && headerFields.map(rCol => <th style={{width: "20%"}} key={rCol.keyProp}>{rCol.headerName}</th>)}
                       </tr>
                     </thead>
                     <tbody className="is-size-7">
@@ -60,7 +61,7 @@ const GridComponent = ({headerFields, keyProp, label, data, sortData, handleSear
             <table className="table is-hoverable is-fullwidth ">
               <thead className="is-size-6">
                 <tr>
-              {headerFields && headerFields.map(col => <th style={{width: "20%"}} key={col.headerName}>
+              {headerFields && headerFields.map(col => <th style={{width: "20%"}} key={col.keyProp}>
               
               {col.headerName}</th>)}
               </tr>

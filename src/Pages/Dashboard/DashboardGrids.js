@@ -133,9 +133,18 @@ const DashboardGrids = ({visible}) => {
 
   }
 
+  const handleServicesSort = (value) => {
+    
+    sortOrder = !sortOrder
+    const sorted = [...services].sort((a,b) => (sortOrder ? (a[value] > b[value]) : (b[value] > a[value])))
+    
+    console.log(sorted)
+    setServices(sorted)
+  }
+
   const fetchAccounts = async() => {
 
-    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
+    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).orderBy("AccountNum").get()
 
     const accounts = accountsRef.docs.map(doc => ({
       id: doc.id,
@@ -340,7 +349,7 @@ return (
       label="SERVICES"
       headerFields={serviceColumns}
       data={services}
-      sortData={(value)=>fetchServicesSort(value)}
+      handleSort={(e)=>handleServicesSort(e)}
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
       handleAddBtn={() => history.push("/addservice")}
