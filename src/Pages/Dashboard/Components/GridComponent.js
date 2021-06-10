@@ -16,7 +16,7 @@ const GridComponent = ({headerFields, keyProp, label, data, handleSearch, handle
           {label} {isVisible != false ? 
             <a className="link ml-2 is-size-7" onClick={toggleIsVisible}>hide</a> : 
             <a className="link ml-2 is-size-7" onClick={toggleIsVisible}>show</a>}
-          <div className="tile is-pulled-right">
+          <div className="is-pulled-right is-clearfix">
             <button className="button is-small is-link is-rounded mr-1" onClick={handleAddBtn}>Add</button>
 
             {/**Print Report Button */}            
@@ -45,16 +45,17 @@ const GridComponent = ({headerFields, keyProp, label, data, handleSearch, handle
               </div>
             </Report>
             
-              <input 
-                className={handleSearch != undefined ? "input is-small is-rounded has-text-black" : "is-hidden"}
-                placeholder="SEARCH" 
-                onChange={handleSearch && handleSearch} 
-              />
+              
             </div> 
           </div>
 
       {isVisible != false ?
         <div className="table-container">
+          <input 
+            className={handleSearch != undefined ? "input is-small is-rounded has-text-black" : "is-hidden"}
+            placeholder="SEARCH" 
+            onChange={handleSearch && handleSearch} 
+          />
           <nav className="level">
             <table className="table is-hoverable is-fullwidth ">
               <thead className="is-size-6">

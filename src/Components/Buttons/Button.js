@@ -1,10 +1,10 @@
 import React from 'react'
 
-const Button = ({label, size, handleSubmit}) => {
+const Button = ({label, options, handleSubmit}) => {
   return(
     <div className="field">
     <div className="control">
-      <button className="button is-small is-link is-rounded" onClick={handleSubmit}>{label}</button>
+      <button className={`button is-link is-rounded ${options}`} onClick={handleSubmit}>{label}</button>
     </div>
     </div>
     

@@ -2,7 +2,7 @@ import React from 'react'
 
 const Columns = ({options, children}) => {
   return(
-    <div className={`columns ${options} is-gapless`}>{children}</div>
+    <div className={`columns ${options}`}>{children}</div>
   )
 }
 

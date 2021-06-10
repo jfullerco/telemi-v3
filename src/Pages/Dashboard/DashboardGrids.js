@@ -166,6 +166,16 @@ const DashboardGrids = ({visible}) => {
 
   }
 
+  const paginate = (services) => {
+    const page = 1
+    const perPage = 10
+    const offset = (page - 1) * perPage
+    const paginatedArr = services.slice(0,10)
+    return {
+      paginatedArr
+    }
+  }
+
   const handleChangeSearchServices = (e) => {
     
     const {value} = e.target

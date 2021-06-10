@@ -92,9 +92,9 @@ const CompanyList = () => {
       {
         userContext.userSession.userType != "User" ? 
         <>
-        <Columns options="is-vcentered">
+        <Columns options="is-vcentered is-1">
         
-          <Column size="is-four-fifths">
+          <Column options="is-10">
             <SelectInputProps 
               fieldLabel=""
               fieldInitialValue={userContext.userSession.currentCompanyID}
@@ -111,8 +111,10 @@ const CompanyList = () => {
                 )}
               </SelectInputProps>
             </Column>
-          <Column size="is-one-fifth">
-            <Button label="Add" handleSubmit={handleAddCompany} />
+          <Column >
+
+            <Button label="Add" options="px-6" handleSubmit={handleAddCompany} />
+
           </Column>
        
         </Columns>
