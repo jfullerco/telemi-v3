@@ -195,27 +195,27 @@ const DashboardGrids = ({visible}) => {
   }
   
   const serviceColumns = [
-  {docField: 'Vendor', headerName: 'Vendor', key: "1"},
-  {docField: 'VendorServiceName', headerName: 'Product', key: "2"},
-  {docField: 'LocationName', headerName: 'Location', key: "3"},
-  {docField: 'AssetID', headerName: 'Asset ID', key: "4"},
-  {docField: 'Type', headerName: 'Type', key: "5"}
+  {docField: 'Vendor', headerName: 'Vendor', key: "1", sortable: true},
+  {docField: 'VendorServiceName', headerName: 'Product', key: "2", sortable: true},
+  {docField: 'LocationName', headerName: 'Location', key: "3", sortable: true},
+  {docField: 'AssetID', headerName: 'Asset ID', key: "4", sortable: true},
+  {docField: 'Type', headerName: 'Type', key: "5", sortable: true}
   ]
 
   const accountColumns = [
-  {docField: 'Vendor', headerName: 'Vendor', key: "1"},
-  {docField: 'AccountNum', headerName: 'Account', key: "2"},
-  {docField: 'SubAccountNum', headerName: 'Sub-Account', key: "3"},
-  {docField: 'AccountServiceLocationName', headerName: 'Location', key: "4"},
-  {docField: 'PostTaxMRC', headerName: 'Cost', key: "5"}
+  {docField: 'Vendor', headerName: 'Vendor', key: "1", sortable: true},
+  {docField: 'AccountNum', headerName: 'Account', key: "2", sortable: true},
+  {docField: 'SubAccountNum', headerName: 'Sub-Account', key: "3", sortable: true},
+  {docField: 'AccountServiceLocationName', headerName: 'Location', key: "4", sortable: true},
+  {docField: 'PostTaxMRC', headerName: 'Cost', key: "5", sortable: true}
   ]
 
   const ticketColumns = [
-  {docField: 'Status', headerName: 'Status', key: "1"},
-  {docField: 'TicketNum', headerName: 'Ticket', key: "2"},
-  {docField: 'LocationName', headerName: 'Location', key: "3"},
-  {docField: 'Type', headerName: 'Type', key: "4"},
-  {docField: 'Details', headerName: 'Details', key: "5"}
+  {docField: 'Status', headerName: 'Status', key: "1", sortable: true},
+  {docField: 'TicketNum', headerName: 'Ticket', key: "2", sortable: true},
+  {docField: 'LocationName', headerName: 'Location', key: "3", sortable: true},
+  {docField: 'Type', headerName: 'Type', key: "4", sortable: true},
+  {docField: 'Details', headerName: 'Details', key: "5", sortable: true}
   ]
 
   const orderColumns = [
@@ -340,7 +340,7 @@ return (
       label="SERVICES"
       headerFields={serviceColumns}
       data={services}
-      setData={()=>setServices()}
+      sortData={(value)=>fetchServicesSort(value)}
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
       handleAddBtn={() => history.push("/addservice")}

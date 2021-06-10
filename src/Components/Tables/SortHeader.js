@@ -1,14 +1,19 @@
 import React from 'react'
 
-const SortHeader = ({label, colRef, data, setData}) => {
+const useSort = ({label, colRef, data, setData}) => {
 
-  const sortedDataRef = data != "" ? data.sort(colRef) : ""
+  const useSort = () => { 
+    
+    const sortedDataRef = data != "" ? data.sort((a, b) => (a.colRef > b.colRef) ? 1 : -1) : ""
+    setData(sortedDataRef)
+  }
+  
 
   return(
     <>
-    {data && data != undefined ? 
-      <a onClick={() => setData(sortedDataRef)} className="link">{label}</a> :
-      {label}
+    {data && data != "" ? 
+      <a onClick={handleSort} className="link">{label}</a> :
+      "test"
     }
     </>
   )
