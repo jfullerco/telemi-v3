@@ -25,7 +25,7 @@ const AddBill = (state) => {
   
   const billDate = useRef("")
   const billAccountID = useRef("")
-  const billAccountNum = userRef("")
+  const billAccountNum = useRef("")
   const billCost = useRef("")
   const billDisputedCost = useRef("")
   const billTicketID = useRef("")
@@ -39,11 +39,10 @@ const AddBill = (state) => {
       AccountNum: state.location.state.AccountNum,
       Cost: billCost.current.value,
       DisputeCost: billDisputedCost.current.value,
-      TicketID: billTicketID.current.value,
-      TicketNum: billTicketNum.current.value,
-      CompanyID: userContext.userSession.currentCompanyID,
-      CompanyName: userContext.userSession.currentCompany,
-      LastUpdatedBy: userContext.userSession.currentUser,
+      
+      CompanyID: currentCompanyID,
+      CompanyName: currentCompany,
+      LastUpdatedBy: currentUser,
       LastUpdated: Date()
       
     }  
@@ -114,16 +113,14 @@ const AddBill = (state) => {
             />
           </Column>
 
-          <Column size="is-three-quarters" isVisible={true}>
+          <Column size="is-three-quarters" isVisible={false}>
             <SelectInputProps
               fieldLabel="Tickets"
               fieldInitialValue=""
               fieldInitialOption=""
               fieldIDRef={billTicketID}
               hint="">
-                {tickets && tickets.map(ticket => 
-                <option key={ticket.id}>{ticket.TicketNum}</option>
-                )}
+                
             </SelectInputProps>
           </Column>
           

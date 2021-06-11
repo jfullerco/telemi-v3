@@ -22,6 +22,7 @@ const AccountDetail = (state) => {
   const [activeAccount, setActiveAccount] = useState()
   const [locations, setLocations] = useState(state.location.state.locations)
   const [servicesByLocation, setServicesByLocation] = useState()
+  const [bills, setBills] = useState()
   const [toggleServiceList, setToggleServiceList] = useState()
   
   const accountNum = useRef("")
@@ -38,6 +39,7 @@ const AccountDetail = (state) => {
 console.log(state)
   useEffect(() => {
     fetchAccount()
+    fetchBills()
   },[])
 
   useEffect(() => {
@@ -65,7 +67,15 @@ console.log(state)
     setServicesByLocation(services)
     
   }
-  
+
+  const fetchBills = async() => {
+    const billsRef = await db.collection("Bills").where("AccountID", "==", state.location.state.id).get()
+    const bills = billsRef.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()}))
+    setBills(bills)
+  }
+
   const handleToggleServiceList = () => {
     setToggleServiceList(!toggleServiceList)
   }
@@ -100,6 +110,24 @@ console.log(state)
 
   const handleRelatedServiceID = (e) => {
     console.log(accountServiceID.current.value)
+  }
+
+  const billColumns = [
+  {docField: 'Date', headerName: 'Date', key: "1"},
+  {docField: 'Cost', headerName: 'Cost', key: "2"},
+  {docField: 'DisputedCost', headerName: 'Cost Disputed', key: "3"}
+  ] 
+
+  const handleAddBillBtn = (id) => {
+    
+    console.log(id)
+                    history.push({
+                      pathname: "/addbill",
+                      state: {
+                      AccountNum: activeAccount.AccountNum,
+                      AccountID: state.location.state.id
+                      }
+                    })
   }
 
   return (
@@ -192,11 +220,8 @@ console.log(state)
             label="BILLS"
             headerFields={billColumns}
             data={bills}
-            handleSearch={(e)=>handleChangeSearchServices(e)}
-            handleClick={(e)=>handleServiceClick(e)}
-            handleAddBtn={() => history.push("/addservice")}
-            isVisible={!serviceIsVisible}
-            toggleIsVisible={()=>{setServiceIsVisible(!serviceIsVisible)}}
+            handleAddBtn={()=>handleAddBillBtn()}
+            
     />
         </Page>
           
