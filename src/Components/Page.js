@@ -14,17 +14,17 @@ const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}
   
   return(
       <>
-        <Columns>
-          <Column >
+        <Columns options="is-vcentered">
+          <Column size="is-9 is-8-tablet is-8-mobile">
             <a className="link is-size-6" onClick={()=>history.goBack()}>{`< Back`}</a>
             <div className="title">
               {title}
             </div> 
           </Column>
-          <Column>
+          <Column size="is-3 is-4-tablet is-4-mobile">
             <div className="mx-2 my-2">
-            <button className="button is-small is-link is-rounded mr-1" type="submit" onClick={handleSubmit}>Save</button>
-            <button className="button is-small is-rounded mr-1" onClick={()=>autoClose()}>Close</button>
+            <button className="button is-link is-rounded mr-1" type="submit" onClick={handleSubmit}>Save</button>
+            <button className="button is-rounded mr-1" onClick={()=>autoClose()}>Close</button>
             </div>
           </Column>
         </Columns>
