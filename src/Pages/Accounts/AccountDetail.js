@@ -8,6 +8,8 @@ import TextInput from '../../Components/Forms/TextInput'
 import SelectInput from '../../Components/Forms/SelectInput'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import Page from '../../Components/Page'
+import Columns from '../../Components/Layout/Columns'
+import Column from '../../Components/Layout/Column'
 import GridComponent from '../Dashboard/Components/GridComponent'
 
 const AccountDetail = (state) => {
@@ -134,22 +136,25 @@ console.log(state)
     <>
     {activeAccount != undefined ? ( 
     <>
-    <Page title="Account Details" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
-        
+    <Page title="Account Details" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>  
         <form>
+          
 
+            <Column>
             <TextInput 
               inputFieldLabel="Account Number"
               inputFieldRef={accountNum}
               inputFieldValue={activeAccount.AccountNum}
             />
-
+            </Column>
+            <Column>
             <TextInput 
               inputFieldLabel="Sub Account Number"
               inputFieldRef={subAccountNum}
               inputFieldValue={activeAccount.SubAccountNum}
             />
-            
+            </Column>
+            <Column>
             <SelectInputProps
               fieldLabel="Vendor"
               fieldInitialValue={activeAccount.Vendor}
@@ -165,7 +170,8 @@ console.log(state)
                 <option>Masergy</option>
                 <option>Microsoft</option>
             </SelectInputProps>
-
+            </Column>
+            <Column>
             <SelectInput 
               fieldOptions={locations}
               fieldLabel="Related Location"
@@ -174,7 +180,8 @@ console.log(state)
               fieldIDRef={accountServiceLocationID}
               fieldChange={()=>handleToggleServiceList()}
             />
-
+            </Column>
+            <Column>
             <SelectInputProps 
               fieldLabel="Related Service"
               fieldInitialValue={activeAccount.AccountServiceID}
@@ -190,40 +197,49 @@ console.log(state)
                   <option></option>
               )}
             </SelectInputProps>
-
+            </Column>
+            <Column>
             <TextInput 
               inputFieldLabel="Pre-Tax Cost"
               inputFieldRef={accountPreTaxMRC}
               inputFieldValue={activeAccount.PreTaxMRC}
             />
-
+            </Column>
+            <Column>
             <TextInput 
               inputFieldLabel="Post-Tax Cost"
               inputFieldRef={accountPostTaxMRC}
               inputFieldValue={activeAccount.PostTaxMRC}
             />
-
+            </Column>
+            <Column>
             <TextInput 
               inputFieldLabel="Bill Group Number"
               inputFieldRef={accountGroupNum}
               inputFieldValue={activeAccount.GroupNum}
             />
-
+            </Column>
+            <Column>
             <TextInput 
               inputFieldLabel="Internal Billing Code"
               inputFieldRef={accountInternalBillingCode}
               inputFieldValue={activeAccount.InternalBillingCode}
             />
+            </Column>
             
-          </form>
+          
+          <Column>
           <GridComponent 
             label="BILLS"
             headerFields={billColumns}
             data={bills}
-            handleAddBtn={()=>handleAddBillBtn()}
-            
-    />
-        </Page>
+            handleAddBtn={()=>handleAddBillBtn()}      
+          />
+          </Column>
+
+      
+      </form>
+    </Page>
           
     </> ) : ""}
     </>
