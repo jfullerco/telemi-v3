@@ -1,8 +1,21 @@
 import React from 'react'
 import Report from '../../Reports/Report'
 
+import PaginationToolbar from '../../../Components/Tables/PaginationToolbar'
 
-const GridComponent = ({headerFields, keyProp, label, data, handleSort, handleSearch, handleClick, handleAddBtn, handlePrintBtn, isVisible, toggleIsVisible}) => {
+
+const GridComponent = ({
+  headerFields, 
+  keyProp, 
+  label, 
+  data,
+  setData, 
+  handleSearch, 
+  handleClick, 
+  handleAddBtn, 
+  handlePrintBtn, 
+  isVisible, 
+  toggleIsVisible}) => {
 
   const headerStyle = {
         borderBottomStyle: "solid",
@@ -28,7 +41,11 @@ const GridComponent = ({headerFields, keyProp, label, data, handleSort, handleSe
                   <table className="table is-hoverable is-fullwidth ">
                     <thead className="is-size-6">
                       <tr>
-                        {headerFields && headerFields.map(rCol => <th style={{width: "20%"}} key={rCol.keyProp}>{rCol.headerName}</th>)}
+                        {headerFields && headerFields.map(rCol => 
+                        <th style={{width: "20%"}} key={rCol.keyProp}>
+                           
+                            {rCol.headerName}
+                        </th>)}
                       </tr>
                     </thead>
                     <tbody className="is-size-7">
@@ -62,8 +79,9 @@ const GridComponent = ({headerFields, keyProp, label, data, handleSort, handleSe
               <thead className="is-size-6">
                 <tr>
               {headerFields && headerFields.map(col => <th style={{width: "20%"}} key={col.keyProp}>
-              
-              {col.headerName}</th>)}
+                           
+                            {col.headerName}
+                        </th>)}
               </tr>
             </thead>
             <tbody className="is-size-7">
@@ -72,7 +90,10 @@ const GridComponent = ({headerFields, keyProp, label, data, handleSort, handleSe
                   {headerFields && headerFields.map(col => <td className="py-5" style={{width: "20%"}} key={item[col.headerName]} >{item[col.docField]} </td>)}
                 </tr>
               )}
-          </tbody>    
+          </tbody> 
+          <tfoot>
+            {/**<PaginationToolbar pages={} pageSize="10" handleClick={""} />**/}
+          </tfoot>   
         </table>
         </nav>
       </div>  : "" }
