@@ -2,6 +2,7 @@ import React from 'react'
 import Report from '../../Reports/Report'
 
 import PaginationToolbar from '../../../Components/Tables/PaginationToolbar'
+import useSortData from '../../../Components/Tables/useSortData'
 
 
 const GridComponent = ({

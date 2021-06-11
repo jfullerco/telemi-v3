@@ -15,8 +15,8 @@ const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}
   return(
       <>
         <Columns>
-          <Column size="is-three-fifths">
-          <a className="link is-size-7" onClick={()=>history.goBack()}>{`< Back`}</a>
+          <Column >
+            <a className="link is-size-6" onClick={()=>history.goBack()}>{`< Back`}</a>
             <div className="title">
               {title}
             </div> 

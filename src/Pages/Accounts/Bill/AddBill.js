@@ -1,16 +1,16 @@
 import React, {useEffect, useState, useRef, useContext, forwardRef} from 'react'
 import {useHistory} from 'react-router-dom'
 
-import {db} from '../../Contexts/firebase'
-import {stateContext} from '../../Contexts/stateContext'
+import {db} from '../../../Contexts/firebase'
+import {stateContext} from '../../../Contexts/stateContext'
 
-import TextInput from '../../Components/Forms/TextInput'
-import TextArea from '../../Components/Forms/TextArea'
-import SelectInputProps from '../../Components/Forms/SelectInputProps'
-import TextInputAC from '../../Components/Forms/TextInputAC'
-import Page from '../../Components/Page'
-import Columns from '../../Components/Layout/Columns'
-import Column from '../../Components/Layout/Column'
+import TextInput from '../../../Components/Forms/TextInput'
+import TextArea from '../../../Components/Forms/TextArea'
+import SelectInputProps from '../../../Components/Forms/SelectInputProps'
+import TextInputAC from '../../../Components/Forms/TextInputAC'
+import Page from '../../../Components/Page'
+import Columns from '../../../Components/Layout/Columns'
+import Column from '../../../Components/Layout/Column'
 
 const AddBill = (state) => {
 

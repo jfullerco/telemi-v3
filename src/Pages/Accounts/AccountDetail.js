@@ -8,6 +8,7 @@ import TextInput from '../../Components/Forms/TextInput'
 import SelectInput from '../../Components/Forms/SelectInput'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import Page from '../../Components/Page'
+import GridComponent from '../Dashboard/Components/GridComponent'
 
 const AccountDetail = (state) => {
 
@@ -187,6 +188,16 @@ console.log(state)
             />
             
           </form>
+          <GridComponent 
+            label="BILLS"
+            headerFields={billColumns}
+            data={bills}
+            handleSearch={(e)=>handleChangeSearchServices(e)}
+            handleClick={(e)=>handleServiceClick(e)}
+            handleAddBtn={() => history.push("/addservice")}
+            isVisible={!serviceIsVisible}
+            toggleIsVisible={()=>{setServiceIsVisible(!serviceIsVisible)}}
+    />
         </Page>
           
     </> ) : ""}
