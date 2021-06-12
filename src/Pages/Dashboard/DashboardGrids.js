@@ -33,7 +33,7 @@ const DashboardGrids = ({visible}) => {
   const [accountIsVisible, setAccountIsVisible] = useState(false)
   const [userIsVisible, setUserIsVisible] = useState(false)
   const [contractIsVisible, setContractIsVisible] = useState(false)
-  const filterArray = useFilterArray()
+  
   
   useEffect(() => {
     setLoadingGrid(true)
@@ -177,7 +177,6 @@ const DashboardGrids = ({visible}) => {
 
   }
 
-  handleFilterArray(services, "Type", "Ethernet")
 
   const handleChangeSearchServices = (e) => {
     
@@ -335,14 +334,21 @@ const DashboardGrids = ({visible}) => {
                     })
   }
 
+  const handleFilterClick = (data, colRef, filterRef) => {
+     
+    const filteredArray = useFilterArray(data, colRef, filterRef)
+    setServices(filteredArray)
+  }
+
 return (
   <>
     <div className={loadingGrid != false ? "modal is-active" : "modal"}><div className="loading"></div></div>
-    <button onClick={()=> console.log(filterArray(services,{params: {colRef: "Type", filterRef: "Ethernet"}}))}>Test</button>
+    <button type="submit" onClick={()=>handleFilterClick(services, "Type", "Ethernet")}>Test</button>
     <GridComponent 
       label="SERVICES"
       headerFields={serviceColumns}
       data={services}
+      handleFilter={(e)=>handleFilterClick(e)}
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
       handleAddBtn={() => history.push("/addservice")}
