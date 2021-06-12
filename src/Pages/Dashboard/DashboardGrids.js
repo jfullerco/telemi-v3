@@ -5,6 +5,7 @@ import { stateContext } from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
 
 import GridComponent from './Components/GridComponent'
+import {useFilterArray} from '../../Components/Tables/useFilterArray'
 
 
 const DashboardGrids = ({visible}) => {
@@ -32,6 +33,7 @@ const DashboardGrids = ({visible}) => {
   const [accountIsVisible, setAccountIsVisible] = useState(false)
   const [userIsVisible, setUserIsVisible] = useState(false)
   const [contractIsVisible, setContractIsVisible] = useState(false)
+  const filterArray = useFilterArray()
   
   useEffect(() => {
     setLoadingGrid(true)
@@ -175,15 +177,7 @@ const DashboardGrids = ({visible}) => {
 
   }
 
-  const handleFilterArray = async(dataRef, filterCol, filterRef, handleSetFilteredArray) => {
-    
-    const filteredArr = await dataRef.filter(data => data[filterCol] == filterRef)
-    
-    return handleSetFilteredArray(filteredArr) 
-    
-  }
-
-  handleFilterArray(services, "Type", "Ethernet", ()=>setServices() )
+  handleFilterArray(services, "Type", "Ethernet")
 
   const handleChangeSearchServices = (e) => {
     
@@ -344,7 +338,7 @@ const DashboardGrids = ({visible}) => {
 return (
   <>
     <div className={loadingGrid != false ? "modal is-active" : "modal"}><div className="loading"></div></div>
-    
+    <button onClick={()=> console.log(filterArray(services,{params: {colRef: "Type", filterRef: "Ethernet"}}))}>Test</button>
     <GridComponent 
       label="SERVICES"
       headerFields={serviceColumns}
