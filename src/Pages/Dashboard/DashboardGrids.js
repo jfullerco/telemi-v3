@@ -343,7 +343,7 @@ const DashboardGrids = ({visible}) => {
 return (
   <>
     <div className={loadingGrid != false ? "modal is-active" : "modal"}><div className="loading"></div></div>
-    <button type="submit" onClick={()=>handleFilterClick(services, "Type", "Ethernet")}>Test</button>
+    <button type="submit" className="is-hidden" onClick={()=>handleFilterClick(services, "Type", "Ethernet")}>Test</button>
     <GridComponent 
       label="SERVICES"
       headerFields={serviceColumns}
