@@ -1,27 +1,22 @@
-import React, {useState, useEffect} from 'react'
-import {useHistory} from 'react-router-dom'
+import React from 'react'
+
 import Columns from './Layout/Columns'
 import Column from './Layout/Column'
-import DropDown from './Buttons/DropDown'
+
 
 const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}) => {
-  const history = useHistory()
-  const [dropDownState, setDropDownState] = useState(false)
-  const toggleDrop = () => {
-    setDropDownState(!dropDownState)
-    console.log(dropDownState)
-  }
+  
   
   return(
       <>
         <Columns options="is-vcentered">
-          <Column size="is-9 is-8-tablet is-8-mobile">
+          <Column size="is-9 is-8-tablet is-12-mobile">
             <a className="link is-size-6" onClick={()=>history.goBack()}>{`< Back`}</a>
             <div className="title">
               {title}
             </div> 
           </Column>
-          <Column size="is-3 is-4-tablet is-4-mobile">
+          <Column size="is-3 is-4-tablet is-12-mobile is-aligned-right">
             <div className="mx-2 my-2">
             <button className="button is-link is-rounded mr-1" type="submit" onClick={handleSubmit}>Save</button>
             <button className="button is-rounded mr-1" onClick={()=>autoClose()}>Close</button>

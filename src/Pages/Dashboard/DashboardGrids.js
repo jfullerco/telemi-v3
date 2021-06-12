@@ -175,15 +175,15 @@ const DashboardGrids = ({visible}) => {
 
   }
 
-  const paginate = (services) => {
-    const page = 1
-    const perPage = 10
-    const offset = (page - 1) * perPage
-    const paginatedArr = services.slice(0,10)
-    return {
-      paginatedArr
-    }
+  const handleFilterArray = async(dataRef, filterCol, filterRef, handleSetFilteredArray) => {
+    
+    const filteredArr = await dataRef.filter(data => data[filterCol] == filterRef)
+    
+    return handleSetFilteredArray(filteredArr) 
+    
   }
+
+  handleFilterArray(services, "Type", "Ethernet", ()=>setServices() )
 
   const handleChangeSearchServices = (e) => {
     

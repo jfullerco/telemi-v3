@@ -1,0 +1,14 @@
+const paginateServices = async(services, currentPage) => {
+    const page = currentPage || 1
+    const perPage = 10
+    const offset = perPage * (page - 1)
+    const totalPages = Math.ceil(services.length / perPage)
+    const paginatedArr = await services.slice(offset).slice(0, perPage)
+    
+      return  console.log({
+        totalPages: totalPages,
+        data: paginatedArr}) 
+    
+  }
+
+  console.log(paginateServices(services, 3))
