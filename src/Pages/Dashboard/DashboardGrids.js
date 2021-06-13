@@ -197,11 +197,11 @@ const DashboardGrids = ({visible}) => {
   }
   
   const serviceColumns = [
-  {docField: 'Vendor', headerName: 'Vendor', key: "1", sortable: true},
-  {docField: 'VendorServiceName', headerName: 'Product', key: "2", sortable: true},
-  {docField: 'LocationName', headerName: 'Location', key: "3", sortable: true},
-  {docField: 'AssetID', headerName: 'Asset ID', key: "4", sortable: true},
-  {docField: 'Type', headerName: 'Type', key: "5", sortable: true}
+  {docField: 'Vendor', headerName: 'Vendor', key: "1", filterable: true},
+  {docField: 'VendorServiceName', headerName: 'Product', key: "2", filterable: true},
+  {docField: 'LocationName', headerName: 'Location', key: "3", filterable: true},
+  {docField: 'AssetID', headerName: 'Asset ID', key: "4", filterable: false},
+  {docField: 'Type', headerName: 'Type', key: "5", filterable: true}
   ]
 
   const accountColumns = [

@@ -1,19 +1,16 @@
 import React from 'react'
 import Report from '../../Reports/Report'
 
-import SelectInputProps from '../../../Components/Forms/SelectInputProps'
+import FilterSelectInput from '../../../Components/Tables/useFilterArray'
 
 
 const GridComponent = ({
-  headerFields, 
-  keyProp, 
+  headerFields,  
   label, 
-  data,
-  setData, 
+  data, 
   handleSearch, 
   handleClick, 
-  handleAddBtn, 
-  handlePrintBtn, 
+  handleAddBtn,  
   isVisible, 
   toggleIsVisible}) => {
 
@@ -83,6 +80,7 @@ const GridComponent = ({
               {headerFields && headerFields.map(col => 
                 <th style={{width: "20%"}} key={col.keyProp}>         
                   {col.headerName}
+                  <FilterSelectInput dataRef={data} colRef={col.docField} />
                 </th>
               )}
               </tr>

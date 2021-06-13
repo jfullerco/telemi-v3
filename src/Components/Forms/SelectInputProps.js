@@ -7,14 +7,14 @@ const SelectInputProps = ({fieldLabel, fieldIDRef, fieldInitialOption, onChange,
 
   return(
       <div className="field">
-      <label className="label">{fieldLabel}</label>
+      <label className="label">{fieldLabel && fieldLabel}</label>
         <div className="control">
         <div className="select is-rounded is-fullwidth">
           <select type="select" ref={fieldIDRef} defaultValue={fieldInitialOption} placeholder={placeholder} onChange={onChange}>
 
             {fieldInitialValue != undefined ? 
               <option value={fieldInitialValue}>
-                {fieldInitialOption}
+                {fieldInitialOption && fieldInitialOption}
               </option> 
             : <option></option>}
           {children}
