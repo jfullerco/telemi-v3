@@ -11,7 +11,7 @@ import {useFilterArray} from '../../Components/Tables/useFilterArray'
 const DashboardGrids = ({visible}) => {
 
   const userContext = useContext(stateContext)
-  const {applyStyle, setDataLoading} = userContext
+  const {isStyle, setDataLoading} = userContext
   const {dataLoading, currentCompany} = userContext.userSession
 
   const history = useHistory()

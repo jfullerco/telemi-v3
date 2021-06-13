@@ -8,15 +8,15 @@ export const useFilterArray = (data, colRef, filterRef) => {
 const FilterSelectInput = ({dataRef, colRef}) => {
 
   const [values, setValues] = useState("")
+  const [visible, setVisible] = useState(false)
   
-
   useEffect(()=> {
     uniqueValues(dataRef, colRef)
     
   },[dataRef])
 
   const uniqueValues = (dataRef, colRef) => { 
-    console.log(colRef)
+    
     const valueArr = dataRef.length > 0 ? [...new Set(dataRef.map(d => d[colRef]))] : ""
     setValues(valueArr)
     
@@ -24,7 +24,9 @@ const FilterSelectInput = ({dataRef, colRef}) => {
 
   return(
     <>
-      <SelectInputProps>
+      <SelectInputProps
+        isVisible={visible}
+      >
         {values != "" ? values.map(value => 
           <option key={value}>{value}</option>
         ) : ""}

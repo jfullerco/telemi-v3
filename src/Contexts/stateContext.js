@@ -22,6 +22,7 @@ export const StateProvider = (props) => {
       accounts: "",
       orders: "",
       quotes: "",
+      contracts: "",
       users: "",
       currentCompanyID: "",
       currentCompany: "",
@@ -107,7 +108,7 @@ export const StateProvider = (props) => {
       Name: "Microsoft"}
     ]
 
-    const applyStyle = {
+    const isStyle = {
       headerStyle: {
         borderBottomStyle: "solid",
         bottomBorderColor: "black"
@@ -281,7 +282,7 @@ export const StateProvider = (props) => {
     
     return (
       <Provider value={{ 
-          applyStyle,
+          isStyle,
           setDataLoading,
           setLoggedIn,
           setCompanies,
