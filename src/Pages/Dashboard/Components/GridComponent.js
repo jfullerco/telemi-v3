@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import Report from '../../Reports/Report'
 
 import FilterSelectInput from '../../../Components/Tables/useFilterArray'
@@ -8,22 +8,32 @@ const GridComponent = ({
   headerFields,  
   label, 
   data, 
-  handleSearch, 
+  handleSearch,
+  handleFilter, 
   handleClick, 
   handleAddBtn,  
   isVisible, 
   toggleIsVisible}) => {
+
+  const [initialData, setInitialData] = useState("")
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    setInitialData(data)
+  },[data])
+
+  const isDataLoaded = data != undefined ? setLoaded(true) : ""
 
   const headerStyle = {
         borderBottomStyle: "solid",
         bottomBorderColor: "black"
       }
 
-  
+  console.log(data)
 
   return(
     
-      <div className="box">
+      <div className={data != undefined ? "box" : "is-hidden"}>
       
         <div className="title" style={headerStyle}> 
           {label} {isVisible != false ? 
@@ -48,14 +58,14 @@ const GridComponent = ({
                       </tr>
                     </thead>
                     <tbody className="is-size-7">
-                    {data && data.map(rItem => 
+                    {initialData != "" ? initialData.map(rItem => 
                       <tr onClick={()=>handleClick(rItem.id)} key={rItem.id}> 
                       {headerFields && headerFields.map(rCol => 
                         <td className="py-5" style={{width: "20%"}} key={rItem[rCol.headerName]} >
                           {rItem[rCol.docField]} 
                         </td>)}
                       </tr>
-                      )}
+                      ) : ""}
                     </tbody>    
                   </table>
                 </nav>
@@ -78,22 +88,30 @@ const GridComponent = ({
               <thead className="is-size-6">
                 <tr>
               {headerFields && headerFields.map(col => 
-                <th style={{width: "20%"}} key={col.keyProp}>         
+                <th style={{width: "20%"}} key={col.keyProp}>
+
                   {col.headerName}
-                  <FilterSelectInput dataRef={data} colRef={col.docField} />
+
+                  <FilterSelectInput
+                    dataRef={initialData}
+                    colRef={col.docField}
+                    onSelect={(e)=>handleFilter(e)}
+                    resetter={(e)=>setInitialData(e)}
+                  />
+
                 </th>
               )}
               </tr>
             </thead>
             <tbody className="is-size-7">
-              {data && data.map(item => 
+              {initalData != "" ? initialData.map(item => 
                 <tr onClick={()=>handleClick(item.id)} key={item.id}> 
                   {headerFields && headerFields.map(col => 
                     <td className="py-5" style={{width: "20%"}} key={item[col.headerName]} >
                       {item[col.docField]} 
                     </td>)}
                 </tr>
-              )}
+              ) : ""}
           </tbody> 
           <tfoot>
             

@@ -15,7 +15,7 @@ const ServiceDetailEdit = ({state}) => {
 
   const history = useHistory()
   const userContext = useContext(stateContext)
-  const {serviceTypes, accessTypes, serviceStatusType, applyStyle} = userContext
+  const {serviceTypes, accessTypes, serviceStatusType, isStyle} = userContext
 
   const [pageSuccess, setPageSuccess] = useState()
   const [pageError, setPageError] = useState()
@@ -215,7 +215,7 @@ console.log(state.location.state)
               inputFieldValue={activeService.Notes}
             />
 
-            <p style={applyStyle.headerStyle} className="title">
+            <p style={isStyle.headerStyle} className="title">
               
               NETWORK DETAILS 
             
@@ -262,7 +262,7 @@ console.log(state.location.state)
 
             <p className="block" />
 
-            <p style={applyStyle.headerStyle} className="title" ref={scrollAccountRef}>
+            <p style={isStyle.headerStyle} className="title" ref={scrollAccountRef}>
               
               Accounts 
             
@@ -273,12 +273,12 @@ console.log(state.location.state)
                 queryID={state.location.state.id} 
               />
 
-            <p style={applyStyle.headerStyle} className="title">
+            <p style={isStyle.headerStyle} className="title">
               
               Tickets 
             
             </p>
-            <p style={applyStyle.headerStyle} className="title">  
+            <p style={isStyle.headerStyle} className="title">  
               
               Orders 
             

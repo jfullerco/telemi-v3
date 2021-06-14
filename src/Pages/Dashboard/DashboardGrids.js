@@ -11,18 +11,30 @@ import {useFilterArray} from '../../Components/Tables/useFilterArray'
 const DashboardGrids = ({visible}) => {
 
   const userContext = useContext(stateContext)
-  const {isStyle, setDataLoading} = userContext
-  const {dataLoading, currentCompany} = userContext.userSession
+
+  const { isStyle, 
+          setDataLoading,
+          setLocations,
+          setServices,
+          setTickets,
+          setOrders,
+          setAccounts,
+          setUsers,
+          setContracts } = userContext
+
+  const { dataLoading,
+          currentCompany,
+          currentUser,
+          locations,
+          services,
+          tickets,
+          orders,
+          accounts,
+          users,
+          contracts } = userContext.userSession
 
   const history = useHistory()
 
-  const [locations, setLocations] = useState()
-  const [orders, setOrders] = useState()
-  const [services, setServices] = useState([])
-  const [accounts, setAccounts] = useState()
-  const [tickets, setTickets] = useState()
-  const [users, setUsers] = useState()
-  const [contracts, setContracts] = useState()
   const [loadingGrid, setLoadingGrid] = useState()
   
   const searchRef = useRef("")

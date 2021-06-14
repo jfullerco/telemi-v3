@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import SelectInputProps from '../Forms/SelectInputProps'
 
-export const useFilterArray = (data, colRef, filterRef) => {
+export const useFilterArray = ({data, colRef, filterRef}) => {
   return data.filter(e => e[colRef] == filterRef)
 }
 
-const FilterSelectInput = ({dataRef, colRef}) => {
+const FilterSelectInput = ({dataRef, colRef, onSelect, resetter}) => {
 
   const [values, setValues] = useState("")
-  const [visible, setVisible] = useState(false)
+  const [resetValues, setResetValues] = useState(dataRef)
+  const [visible, setVisible] = useState(true)
   
   useEffect(()=> {
-    uniqueValues(dataRef, colRef)
-    
+    uniqueValues(dataRef, colRef)  
   },[dataRef])
 
   const uniqueValues = (dataRef, colRef) => { 
@@ -22,11 +22,17 @@ const FilterSelectInput = ({dataRef, colRef}) => {
     
   }
 
+  const handleReset = () => {
+    e.target.value != "Reset Filter" ? (e)=>onSelect({data: dataRef, colRef: colRef, filterRef: e.target.value}) : resetter(resetValues)
+  }
+
   return(
     <>
       <SelectInputProps
         isVisible={visible}
+        onChange={(e)=>onSelect({data: dataRef, colRef: colRef, filterRef: e.target.value})}
       >
+        <option>Reset Filter</option>
         {values != "" ? values.map(value => 
           <option key={value}>{value}</option>
         ) : ""}
