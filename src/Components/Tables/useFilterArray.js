@@ -1,38 +1,63 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import SelectInputProps from '../Forms/SelectInputProps'
 
 export const useFilterArray = ({data, colRef, filterRef}) => {
   return data.filter(e => e[colRef] == filterRef)
 }
 
-const FilterSelectInput = ({dataRef, colRef, onSelect, resetter}) => {
+const FilterSelectInput = ({dataRef, colRef, onSelect, onReset}) => {
 
   const [values, setValues] = useState("")
-  const [resetValues, setResetValues] = useState(dataRef)
+  const [initialArr, setInitialArr] = useState()
+  const [isFiltered, setIsFiltered] = useState(false)
   const [visible, setVisible] = useState(true)
   
   useEffect(()=> {
-    uniqueValues(dataRef, colRef)  
+
+    handleBackupArr(dataRef)
+    uniqueValues(dataRef, colRef)
+     
   },[dataRef])
+  
+
+  const handleBackupArr = (dataRef) => {
+    const backupArr = isFiltered != true & dataRef.length > 0 ? setInitialArr(dataRef) : ""
+  }
 
   const uniqueValues = (dataRef, colRef) => { 
     
     const valueArr = dataRef.length > 0 ? [...new Set(dataRef.map(d => d[colRef]))] : ""
+    
     setValues(valueArr)
     
   }
 
-  const handleReset = () => {
-    e.target.value != "Reset Filter" ? (e)=>onSelect({data: dataRef, colRef: colRef, filterRef: e.target.value}) : resetter(resetValues)
+  const handleSelectFilter = (e) => {
+    
+    const {value} = e.target
+    console.log(value)
+    value != "Reset Filter" ? onSelect({data: dataRef, colRef: colRef, filterRef: value}) : handleResetArr(initialArr)
+    setIsFiltered(true)
+  }
+
+  const handleResetArr = () => {
+    
+    onReset(initialArr)
+    
   }
 
   return(
     <>
+    
       <SelectInputProps
         isVisible={visible}
-        onChange={(e)=>onSelect({data: dataRef, colRef: colRef, filterRef: e.target.value})}
+        size="is-small"
+        onChange={(e)=>handleSelectFilter(e)}
       >
-        <option>Reset Filter</option>
+        {isFiltered != true ? 
+          <option>Reset Filter</option> : 
+          <option></option>
+        }
         {values != "" ? values.map(value => 
           <option key={value}>{value}</option>
         ) : ""}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import Report from '../../Reports/Report'
 
 import FilterSelectInput from '../../../Components/Tables/useFilterArray'
@@ -7,7 +7,8 @@ import FilterSelectInput from '../../../Components/Tables/useFilterArray'
 const GridComponent = ({
   headerFields,  
   label, 
-  data, 
+  data,
+  resetter, 
   handleSearch,
   handleFilter, 
   handleClick, 
@@ -15,21 +16,12 @@ const GridComponent = ({
   isVisible, 
   toggleIsVisible}) => {
 
-  const [initialData, setInitialData] = useState("")
-  const [loaded, setLoaded] = useState(false)
-
-  useEffect(() => {
-    setInitialData(data)
-  },[data])
-
-  const isDataLoaded = data != undefined ? setLoaded(true) : ""
+  
 
   const headerStyle = {
         borderBottomStyle: "solid",
         bottomBorderColor: "black"
       }
-
-  console.log(data)
 
   return(
     
@@ -58,7 +50,7 @@ const GridComponent = ({
                       </tr>
                     </thead>
                     <tbody className="is-size-7">
-                    {initialData != "" ? initialData.map(rItem => 
+                    {data && data != undefined ? data.map(rItem => 
                       <tr onClick={()=>handleClick(rItem.id)} key={rItem.id}> 
                       {headerFields && headerFields.map(rCol => 
                         <td className="py-5" style={{width: "20%"}} key={rItem[rCol.headerName]} >
@@ -93,10 +85,10 @@ const GridComponent = ({
                   {col.headerName}
 
                   <FilterSelectInput
-                    dataRef={initialData}
+                    dataRef={data}
                     colRef={col.docField}
                     onSelect={(e)=>handleFilter(e)}
-                    resetter={(e)=>setInitialData(e)}
+                    onReset={(e)=>resetter(e)}
                   />
 
                 </th>
@@ -104,7 +96,7 @@ const GridComponent = ({
               </tr>
             </thead>
             <tbody className="is-size-7">
-              {initalData != "" ? initialData.map(item => 
+              {data && data != undefined ? data.map(item => 
                 <tr onClick={()=>handleClick(item.id)} key={item.id}> 
                   {headerFields && headerFields.map(col => 
                     <td className="py-5" style={{width: "20%"}} key={item[col.headerName]} >

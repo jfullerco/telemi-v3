@@ -360,6 +360,7 @@ return (
       label="SERVICES"
       headerFields={serviceColumns}
       data={services}
+      resetter={(e)=>setServices(e)}
       handleFilter={(e)=>handleFilterClick(e)}
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
