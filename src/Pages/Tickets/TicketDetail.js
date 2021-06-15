@@ -8,11 +8,14 @@ import TextInput from '../../Components/Forms/TextInput'
 import TextArea from '../../Components/Forms/TextArea'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import Page from '../../Components/Page'
+import GridComponent from '../../Components/Layout/GridComponent'
+import Fade from '../../Components/Transitions/FadeTransition'
 
 const TicketDetail = (state) => {
 
   const userContext = useContext(stateContext)
-  const {currentTicketID} = userContext.userSession
+  const { currentTicketID,
+          services} = userContext.userSession
 
   const history = useHistory()
   
@@ -35,6 +38,14 @@ const TicketDetail = (state) => {
   const ticketAccountID = useRef("")
   const ticketAccountNum = useRef("")
   const ticketCompletedDate = useRef("")
+
+  const serviceColumns = [
+  {docField: 'Vendor', headerName: 'Vendor', key: "1", filterable: true},
+  {docField: 'VendorServiceName', headerName: 'Product', key: "2", filterable: true},
+  {docField: 'LocationName', headerName: 'Location', key: "3", filterable: true},
+  {docField: 'AssetID', headerName: 'Asset ID', key: "4", filterable: false},
+  {docField: 'Type', headerName: 'Type', key: "5", filterable: true}
+  ]
   
 
   useEffect(() => {
@@ -82,11 +93,15 @@ const TicketDetail = (state) => {
     <Page title="TICKET DETAILS" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
           <form>
           {activeTicket && <>
+            
+            <Fade in={true}>
             <TextInput 
               inputFieldLabel="Ticket Number"
               inputFieldRef={ticketNum}
               inputFieldValue={activeTicket.TicketNum}
             />
+            </Fade>
+
             <SelectInputProps 
               fieldLabel="Service Location"
               fieldInitialValue={activeTicket.LocationID}
@@ -163,6 +178,13 @@ const TicketDetail = (state) => {
               inputFieldLabel="Details"
               inputFieldRef={ticketDetails}
               inputFieldValue={activeTicket.Details}
+            />
+
+            <GridComponent 
+              label="Related Service"
+              headerFields={serviceColumns}
+              data={services}
+              isVisible={true}
             />
           </>}
           </form>

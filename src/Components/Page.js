@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 import Columns from './Layout/Columns'
 import Column from './Layout/Column'
@@ -6,6 +7,7 @@ import Column from './Layout/Column'
 
 const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}) => {
   
+  const history = useHistory()
   
   return(
       <>

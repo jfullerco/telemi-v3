@@ -1,8 +1,8 @@
 import React from 'react'
-import Report from '../../Reports/Report'
+import Report from '../../Pages/Reports/Report'
 
-import Column from '../../../Components/Layout/Column'
-import FilterSelectInput from '../../../Components/Tables/useFilterArray'
+import Column from './Column'
+import FilterSelectInput from '../Tables/useFilterArray'
 
 
 const GridComponent = ({
@@ -15,7 +15,8 @@ const GridComponent = ({
   handleClick, 
   handleAddBtn,  
   isVisible, 
-  toggleIsVisible}) => {
+  toggleIsVisible,
+  styleOptions}) => {
 
   
 
@@ -77,7 +78,7 @@ const GridComponent = ({
             />
           </Column>
           
-          <table className="table is-hoverable is-fullwidth ">
+          <table style={styleOptions} className="table is-hoverable is-fullwidth ">
             <thead className="is-size-6">
               <tr>
                 {headerFields && headerFields.map(col => 

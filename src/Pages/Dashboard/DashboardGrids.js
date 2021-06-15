@@ -217,27 +217,27 @@ const DashboardGrids = ({visible}) => {
   ]
 
   const accountColumns = [
-  {docField: 'Vendor', headerName: 'Vendor', key: "1", sortable: true},
-  {docField: 'AccountNum', headerName: 'Account', key: "2", sortable: true},
-  {docField: 'SubAccountNum', headerName: 'Sub-Account', key: "3", sortable: true},
-  {docField: 'AccountServiceLocationName', headerName: 'Location', key: "4", sortable: true},
-  {docField: 'PostTaxMRC', headerName: 'Cost', key: "5", sortable: true}
+  {docField: 'Vendor', headerName: 'Vendor', key: "1", filterable: true},
+  {docField: 'AccountNum', headerName: 'Account', key: "2", filterable: true},
+  {docField: 'SubAccountNum', headerName: 'Sub-Account', key: "3", filterable: true},
+  {docField: 'AccountServiceLocationName', headerName: 'Location', key: "4", filterable: true},
+  {docField: 'PostTaxMRC', headerName: 'Cost', key: "5", filterable: false}
   ]
 
   const ticketColumns = [
-  {docField: 'Status', headerName: 'Status', key: "1", sortable: true},
-  {docField: 'TicketNum', headerName: 'Ticket', key: "2", sortable: true},
-  {docField: 'LocationName', headerName: 'Location', key: "3", sortable: true},
-  {docField: 'Type', headerName: 'Type', key: "4", sortable: true},
-  {docField: 'Details', headerName: 'Details', key: "5", sortable: true}
+  {docField: 'Status', headerName: 'Status', key: "1", filterable: true},
+  {docField: 'TicketNum', headerName: 'Ticket', key: "2", filterable: false},
+  {docField: 'LocationName', headerName: 'Location', key: "3", filterable: true},
+  {docField: 'Type', headerName: 'Type', key: "4", filterable: true},
+  {docField: 'Details', headerName: 'Details', key: "5", filterable: false}
   ]
 
   const orderColumns = [
-  {docField: 'OrderDate', headerName: 'Date', key: "1"},
-  {docField: 'Vendor', headerName: 'Vendor', key: "2"},
-  {docField: 'VendorServiceName', headerName: 'Product', key: "3"},
-  {docField: 'LocationName', headerName: 'Location', key: "4"},
-  {docField: 'OrderNum', headerName: 'Order Number', key: "5"}
+  {docField: 'OrderDate', headerName: 'Date', key: "1", filterable: true},
+  {docField: 'Vendor', headerName: 'Vendor', key: "2", filterable: true},
+  {docField: 'VendorServiceName', headerName: 'Product', key: "3", filterable: true},
+  {docField: 'LocationName', headerName: 'Location', key: "4", filterable: true},
+  {docField: 'OrderNum', headerName: 'Order Number', key: "5", filterable: false}
   ]
 
   const userColumns = [
@@ -346,10 +346,18 @@ const DashboardGrids = ({visible}) => {
                     })
   }
 
-  const handleFilterClick = (data, colRef, filterRef) => {
+  const handleFilterServiceClick = (data, colRef, filterRef) => {
      
     const filteredArray = useFilterArray(data, colRef, filterRef)
     setServices(filteredArray)
+
+  }
+
+  const handleFilterTicketClick = (data, colRef, filterRef) => {
+     
+    const filteredArray = useFilterArray(data, colRef, filterRef)
+    setTickets(filteredArray)
+
   }
 
 return (
@@ -361,7 +369,7 @@ return (
       headerFields={serviceColumns}
       data={services}
       resetter={(e)=>setServices(e)}
-      handleFilter={(e)=>handleFilterClick(e)}
+      handleFilter={(e)=>handleFilterServiceClick(e)}
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
       handleAddBtn={() => history.push("/addservice")}
@@ -373,6 +381,8 @@ return (
       label="TICKETS"
       headerFields={ticketColumns}
       data={tickets}
+      handleFilter={(e)=>handleFilterTicketClick(e)}
+      handleSearch={(e)=>handleChangeSearchTickets(e)}
       handleClick={(e)=>handleTicketClick(e)}
       handleAddBtn={() => handleAddTicketBtn()}
       isVisible={ticketIsVisible}

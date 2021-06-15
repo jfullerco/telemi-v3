@@ -5,6 +5,7 @@ import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
 
 import AccountDataGrid from '../Accounts/AccountDataGrid'
+import GridComponent from '../Dashboard/Components/GridComponent'
 import TextInput from '../../Components/Forms/TextInput'
 import TextArea from '../../Components/Forms/TextArea'
 import SelectInput from '../../Components/Forms/SelectInput'
@@ -44,6 +45,9 @@ const ServiceDetailEdit = ({state}) => {
   const scrollOrderRef = useRef()
   
   const [activeService, setActiveService] = useState("")
+  const [activeAccounts, setActiveAccounts] = useState("")
+  const [activeTickets, setActiveTickets] = useState("")
+  const [activeOrders, setActiveOrders] = useState("")
   
   const [toggleAccountView, setToggleAccountView] = useState(false)
   const [toggleTicketView, setToggleTicketView] = useState(false)
@@ -69,6 +73,36 @@ const ServiceDetailEdit = ({state}) => {
   const fetchService = async() => {
    
     const serviceRef = await db.collection("Services").doc(state.location.state.id).get()
+    
+    const data = await serviceRef.data()
+    const id = await serviceRef.id
+    setActiveService(data)
+    
+  }
+
+  const fetchAccounts = async() => {
+   
+    const accountRef = await db.collection("Accounts").where("AccountServiceID", "==", state.location.state.id).get()
+    
+    const accounts = await accountRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+
+    setActiveAccounts(accounts)
+    
+  }
+
+  const fetchTickets = async() => {
+   
+    const serviceRef = await db.collection("Tickets").where("TicketServiceID", "==", state.location.state.id).get()
+    
+    const data = await serviceRef.data()
+    const id = await serviceRef.id
+    setActiveService(data)
+    
+  }
+
+  const fetchOrders = async() => {
+   
+    const serviceRef = await db.collection("Orders").where("OrderServiceID", "==", state.location.state.id).get()
     
     const data = await serviceRef.data()
     const id = await serviceRef.id
@@ -263,9 +297,7 @@ console.log(state.location.state)
             <p className="block" />
 
             <p style={isStyle.headerStyle} className="title" ref={scrollAccountRef}>
-              
               Accounts 
-            
             </p>
 
               <AccountDataGrid
@@ -274,16 +306,22 @@ console.log(state.location.state)
               />
 
             <p style={isStyle.headerStyle} className="title">
-              
-              Tickets 
-            
+              Tickets
             </p>
+              
+              <GridComponent 
+                label="Tickets"
+
+              />
+        
             <p style={isStyle.headerStyle} className="title">  
-              
               Orders 
-            
             </p>
-  
+
+            <GridComponent 
+                label="Tickets"
+
+              />
           
 
     </> : <div className="tile warning"> No record to display</div>}    
