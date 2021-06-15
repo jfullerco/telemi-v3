@@ -1,3 +1,23 @@
+:root {
+  --speed: 500ms
+}
+
+.page {
+  animation: fadeIn 1s ease-in-out;
+  transition: all 1s ease-in-out 5s;
+}
+
+.grid-content::before {
+  animation: dropDown 100s ease-in-out;
+  
+  
+}
+
+.modal {
+  animation: fadeIn 2s ease-in-out;
+  transition: all 5s ease-in-out 5s;
+}
+
 body {
         display: flex;
         flex-direction: column;
@@ -40,4 +60,14 @@ body {
   100% {
     -webkit-transform: rotate(360deg);
   }
+}
+
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@keyframes dropDown {
+  0% {max-height:0%;}
+  100% {max-height:100%;}
 }

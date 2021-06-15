@@ -67,7 +67,7 @@ const GridComponent = ({
           </div>
 
       {isVisible != false ?
-
+        
         <div className="table-container">
           
           <Column>

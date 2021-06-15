@@ -25,7 +25,7 @@ const GridComponent = ({
       }
 
   return(
-    
+      
       <div className={data != undefined ? "box" : "is-hidden"}>
       
         <div className="title" style={headerStyle}> 
@@ -98,6 +98,7 @@ const GridComponent = ({
               </tr>
             </thead>
             <tbody className="is-size-7">
+            
               {data && data != undefined ? data.map(item => 
                 <tr onClick={()=>handleClick(item.id)} key={item.id}> 
                   {headerFields && headerFields.map(col => 

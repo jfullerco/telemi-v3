@@ -1,7 +1,10 @@
 import React from 'react'
 import {Transition} from 'react-transition-group'
 
-const duration = 50000
+
+
+const Fade = ({ children }) => {
+  const duration = 50000
 
 const defaultStyle = {
   transition: `opacity ${duration}ms ease-in-out`,
@@ -14,18 +17,19 @@ const transitionStyles = {
   exiting: { opacity: 0.5 },
   exited: { opacity: 0 }
 }
-
-const Fade = ({ in: inProp, children }) => (
+const inProp = true
+  return(
   <Transition in={inProp} timeout={duration}>
     {state=> (
       <div style={{
         ...defaultStyle,
         ...transitionStyles[state]
       }}>
-        {children}
+        testing
       </div>
     )}
   </Transition>
-)
+  )
+}
 
 export default Fade

@@ -6,11 +6,11 @@ import Column from './Layout/Column'
 
 
 const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}) => {
-  
+
   const history = useHistory()
   
   return(
-      <>
+      <div className="page">
         <Columns options="is-vcentered">
           <Column size="is-9 is-8-tablet is-12-mobile">
             <a className="link is-size-6" onClick={()=>history.goBack()}>{`< Back`}</a>
@@ -41,7 +41,7 @@ const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}
         </div>
 
            
-      </>
+      </div>
   )
 }
 export default Page
