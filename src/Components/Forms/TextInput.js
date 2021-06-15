@@ -4,6 +4,7 @@ import Hint from './Hint'
 const TextInput = ({inputFieldName, inputFieldRef, inputFieldValue, inputFieldLabel, inputFieldChange, hint}) => {
 
   const [toggleVisible, setToggleVisible] = useState(false)
+  const [toggleInputEditable, setToggleInputEditable] = useState(editable)
 
   const handleChange = () => {
    inputFieldChange != undefined ? inputFieldChange() : ""
@@ -18,7 +19,7 @@ const TextInput = ({inputFieldName, inputFieldRef, inputFieldValue, inputFieldLa
       <div className="field">
       <label className="label">{inputFieldLabel}</label>
         <div className="control">
-          <input className="input is-rounded" type="text" ref={inputFieldRef} defaultValue={inputFieldValue} onChange={handleChange} />  
+          <input className={toggleInputEditable != false ? "input is-rounded" : "input is-rounded is-static"} type="text" ref={inputFieldRef} defaultValue={inputFieldValue} onChange={handleChange} />  
         </div>
         {hint && <Hint>{hint}</Hint>}
       </div>
