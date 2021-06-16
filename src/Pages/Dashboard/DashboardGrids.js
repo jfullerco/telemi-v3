@@ -1,16 +1,19 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
 import { useHistory } from 'react-router-dom'
+import Slide from '@material-ui/core/Slide';
 
 import { stateContext } from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
 
 import GridComponent from './Components/GridComponent'
 import {useFilterArray} from '../../Components/Tables/useFilterArray'
+import AddAccount from '../Accounts/AddAccount'
 
 
 const DashboardGrids = ({visible}) => {
 
   const userContext = useContext(stateContext)
+  const [checked, setChecked] = useState(false)
 
   const { isStyle, 
           setDataLoading,
@@ -335,6 +338,7 @@ const DashboardGrids = ({visible}) => {
   }
 
   const handleAddAccountBtn = () => {
+                    {
                     history.push({
                       pathname: "/addaccount",
                       state: {
@@ -344,6 +348,7 @@ const DashboardGrids = ({visible}) => {
                       tickets: tickets
                       }
                     })
+  }
   }
 
   const handleFilterServiceClick = (data, colRef, filterRef) => {
@@ -360,10 +365,25 @@ const DashboardGrids = ({visible}) => {
 
   }
 
+  const handleFilterOrderClick = (data, colRef, filterRef) => {
+     
+    const filteredArray = useFilterArray(data, colRef, filterRef)
+    setOrders(filteredArray)
+
+  }
+
+  const handleFilterAccountClick = (data, colRef, filterRef) => {
+     
+    const filteredArray = useFilterArray(data, colRef, filterRef)
+    setAccounts(filteredArray)
+
+  }
+
 return (
   <>
     <div className={loadingGrid != false ? "modal is-active" : "modal"}><div className="loading"></div></div>
     <button type="submit" className="is-hidden" onClick={()=>handleFilterClick(services, "Type", "Ethernet")}>Test</button>
+
     <GridComponent 
       label="SERVICES"
       headerFields={serviceColumns}
@@ -381,6 +401,7 @@ return (
       label="TICKETS"
       headerFields={ticketColumns}
       data={tickets}
+      resetter={(e)=>setTickets(e)}
       handleFilter={(e)=>handleFilterTicketClick(e)}
       handleSearch={(e)=>handleChangeSearchTickets(e)}
       handleClick={(e)=>handleTicketClick(e)}
@@ -393,6 +414,8 @@ return (
       label="ORDERS"
       headerFields={orderColumns}
       data={orders}
+      resetter={(e)=>setOrders(e)}
+      handleFilter={(e)=>handleFilterOrderClick(e)}
       handleClick={(e)=>handleOrderClick(e)}
       handleAddBtn={() => handleAddOrderBtn()}
       isVisible={orderIsVisible}
@@ -403,8 +426,10 @@ return (
       label="ACCOUNTS"
       headerFields={accountColumns}
       data={accounts}
+      resetter={(e)=>setAccounts(e)}
+      handleFilter={(e)=>handleFilterAccountClick(e)}
       handleClick={(e)=>handleAccountClick(e)}
-      handleAddBtn={() => history.push("/addaccount")}
+      handleAddBtn={() => handleAddAccountBtn()}
       isVisible={accountIsVisible}
       toggleIsVisible={()=>{setAccountIsVisible(!accountIsVisible)}}
     /> 
@@ -428,9 +453,7 @@ return (
       isVisible={contractIsVisible}
       toggleIsVisible={()=>{setContractIsVisible(!contractIsVisible)}}
     />
-
-    
-    
+    <p/>
   </>
     
   

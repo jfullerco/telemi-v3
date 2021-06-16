@@ -5,12 +5,12 @@ import Columns from './Layout/Columns'
 import Column from './Layout/Column'
 
 
-const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}) => {
+const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, handleToggleReadOnly, visible, children}) => {
 
   const history = useHistory()
   
   return(
-      <div className="page">
+      <div className="wrapper">
         <Columns options="is-vcentered">
           <Column size="is-9 is-8-tablet is-12-mobile">
             <a className="link is-size-6" onClick={()=>history.goBack()}>{`< Back`}</a>
@@ -21,6 +21,7 @@ const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, children}
           <Column size="is-3 is-4-tablet is-12-mobile is-aligned-right">
             <div className="mx-2 my-2">
             <button className="button is-link is-rounded mr-1" type="submit" onClick={handleSubmit}>Save</button>
+            <button className="button is-link is-rounded mr-1" type="submit" onClick={handleToggleReadOnly}>Edit</button>
             <button className="button is-rounded mr-1" onClick={()=>autoClose()}>Close</button>
             </div>
           </Column>

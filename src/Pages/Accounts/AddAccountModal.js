@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom'
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
-import Page from '../../Components/Page'
+import Modal from '../../Components/Modal'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import TextInput from '../../Components/Forms/TextInput'
 import TextInputAC from '../../Components/Forms/TextInputAC'
@@ -17,9 +17,11 @@ const AddAccount = ({id}) => {
   const {vendorList} = userContext
   const {currentCompany, currentCompanyID} = userContext.userSession
   
-  const [pageError, setPageError] = useState()
-  const [pageSuccess, setPageSuccess] = useState()
+  const [modalState, setModalState] = useState(true)
   
+  const [success, setSuccess] = useState(false)
+  const [triggerClose, setTriggerClose] = useState()
+
   const [accounts, setAccounts] = useState()
   
   const accountAccountNum = useRef("")
@@ -63,6 +65,10 @@ const AddAccount = ({id}) => {
 
   }
 
+  const handleModalClose = () => {
+    setModalState(false)
+  }
+
   const autoClose = () => {
     setTimeout(() => {history.goBack()}, 1000)
   }
@@ -70,7 +76,7 @@ const AddAccount = ({id}) => {
   
 
   return (
-    <Page title="Add Account" handleSubmit={handleSubmit} handleToggleReadOnly={()=> setInputReadOnly(!inputReadOnly)} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
+    <Modal title="Add Account" handleSubmit={handleSubmit} modalState={modalState}>
       <form>
         
             <TextInput 
@@ -109,7 +115,7 @@ const AddAccount = ({id}) => {
             />
             
       </form>
-    </Page>
+    </Modal>
   )
 }
 export default AddAccount

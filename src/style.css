@@ -3,19 +3,12 @@
 }
 
 .page {
-  animation: fadeIn 1s ease-in-out;
-  transition: all 1s ease-in-out 5s;
-}
-
-.grid-content::before {
-  animation: dropDown 100s ease-in-out;
-  
+  display: flex;
   
 }
 
-.modal {
-  animation: fadeIn 2s ease-in-out;
-  transition: all 5s ease-in-out 5s;
+.notification {
+  display: flex;
 }
 
 body {

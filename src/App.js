@@ -81,7 +81,7 @@ export default function App() {
         </div>  
         </div>
       <div className="footer">
-      <div className="content has-text-right is-size-7">
+      <div className="content has-text-right is-size-7 ">
         Telemi by J Fuller Co| Terms | Settings
       </div>
       </div>

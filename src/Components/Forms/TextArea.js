@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Hint from './Hint'
 
-const TextArea = ({inputFieldName, inputFieldRef, inputFieldValue, inputFieldLabel, inputFieldChange, hint, isVisible}) => {
+const TextArea = ({inputFieldName, inputFieldRef, inputFieldValue, inputFieldLabel, inputFieldChange, hint, readonly, isVisible}) => {
 
   const [visible, setVisible] = useState(isVisible)
 
@@ -21,7 +21,7 @@ const TextArea = ({inputFieldName, inputFieldRef, inputFieldValue, inputFieldLab
       </label>
 
         <div className={visible != false ? "control" : "control is-hidden"}>
-          <textarea className="textarea is-rounded" type="textarea" ref={inputFieldRef} defaultValue={inputFieldValue} onChange={handleChange} />
+          <textarea className="textarea is-rounded" type="textarea" ref={inputFieldRef} defaultValue={inputFieldValue} onChange={handleChange} readOnly={readonly} />
           <Hint>{hint && hint}</Hint>
         </div>
       </div>

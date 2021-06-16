@@ -88,19 +88,18 @@ const TicketDetail = (state) => {
     setTimeout(() => {history.push("/dashboard")}, 1000)
   }
   
-const inProp=true
   return (
     <Page title="TICKET DETAILS" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
           <form>
           {activeTicket && <>
             
-            <Fade >
+            
             <TextInput 
               inputFieldLabel="Ticket Number"
               inputFieldRef={ticketNum}
               inputFieldValue={activeTicket.TicketNum}
             />
-            </Fade>
+            
 
             <SelectInputProps 
               fieldLabel="Service Location"

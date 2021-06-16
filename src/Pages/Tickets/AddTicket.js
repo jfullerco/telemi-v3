@@ -18,7 +18,8 @@ const AddTicket = (state) => {
 
   const [locations, setLocations] = useState(state.location.state.locations)
   const [accounts, setAccounts] = useState(state.location.state.accounts)
-  const [dropDown, setDropDown] = useState(false)
+  const [ticketDropDown, setTicketDropDown] = useState(false)
+  const [ticketDropDownValues, setTicketDropDownValues] = useState("")
   const [pageError, setPageError] = useState()
   const [pageSuccess, setPageSuccess] = useState()
   
@@ -67,19 +68,23 @@ const AddTicket = (state) => {
   }
 
   const handleChange = (e) => {
-    setDropDown("")
+    setTicketDropDown(true)
     const {value} = e.target
+    
     const locationAC = locations.filter(({Name, Address1, State, City}) => Name.indexOf(value) > -1 || Address1.indexOf(value) > 1 || State.indexOf(value) > -1 || City.indexOf(value) > -1 )
     ticketLocationName.current = value
-    setDropDown(locationAC)
+    console.log(locationAC)
+    setTicketDropDownValues(locationAC)
   }
 
-  const handleSuggestedRef = (name, id) => {
-    console.log(name)
+  const handleSuggestedRef = (id, name) => {
     console.log(id)
+    console.log(name)
+    
     ticketLocationID.current = id
     ticketLocationName.current = name
-    setDropDown("")
+    
+    setTicketDropDown(false)
   }
   
 
@@ -95,12 +100,13 @@ const AddTicket = (state) => {
             <TextInputAC handleChange={(e)=>handleChange(e)} 
               label="Service Location" 
               value={ticketLocationName.current} 
-              dropDownState={dropDown}>
-                {dropDown != "" ? 
+              isVisible={ticketDropDown}
+              handleClose={()=>handleSuggestedRef("")}>
+                {ticketDropDownValues != "" ? 
                   <ul> 
-                  {dropDown.map(d => 
-                    <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.Name, d.id)}>
-                      <li >{d.Name}</li>
+                  {ticketDropDownValues.map(d => 
+                    <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.id, d.Name)}>
+                      <li>{d.Name}</li>
                     </a>
                   )}
                   </ul> : ""} 

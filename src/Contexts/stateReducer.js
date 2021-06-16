@@ -20,11 +20,6 @@ export default (state, action) => {
         ...state,
         loggedIn: action.payload
       };
-    case "SET_COMPANIES":
-      return {
-        ...state,
-        companies: action.payload
-      };
     case "SET_CURRENT_LOCATIONID":
       return {
         ...state,
@@ -90,25 +85,46 @@ export default (state, action) => {
         ...state,
         userFirstName: action.payload
       };  
+    case "SET_COMPANIES":
+      return {
+        ...state,
+        companies: action.payload
+      };
+    case "SET_SERVICES":
+      return {
+        ...state,
+        services: action.payload
+      };
+    case "SET_TICKETS":
+      return {
+        ...state,
+        tickets: action.payload
+      };
+    case "SET_ORDERS":
+      return {
+        ...state,
+        orders: action.payload
+      };
     case "SET_ACCOUNTS":
       return {
         ...state,
         accounts: action.payload
       }; 
-    case "SET_SERVICES":
+    case "SET_USERS":
       return {
         ...state,
-        services: action.payload
-      };  
+        users: action.payload
+      }; 
+    case "SET_CONTRACTS":
+      return {
+        ...state,
+        contracts: action.payload
+      }; 
     case "SET_LOCATIONS":
       return {
         ...state,
         locations: action.payload
       }; 
-    case "SET_TICKETS":
-      return {
-        ...state,
-        tickets: action.payload
-      };    
+        
   };
 }

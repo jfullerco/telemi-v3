@@ -32,6 +32,7 @@ const Dashboard = () => {
     
     const userRef = await db.collection("Users").where("Email", "==", email).get()
     const user = await userRef.docs.map(doc => ({id: doc.id, FirstName: doc.FirstName, Type: doc.Type, ...doc.data()}))
+    console.log(user[0].FirstName)
     userContext.setUserFirstName(user[0].FirstName)
     userContext.setUserType(user[0].Type)
     
@@ -43,7 +44,7 @@ const Dashboard = () => {
 
   const fetchCompanies = async() => {
     
-    const companiesRef = await db.collection("Companies").where("Users", "array-contains", `${currentUser}`).get()
+    const companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser).get()
     const companies = companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
     
     userContext.setCurrentCompanyID(companies[0].id)

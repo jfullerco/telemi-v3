@@ -187,6 +187,27 @@ export const StateProvider = (props) => {
         })
       };
 
+      const setOrders = (orders) => {
+        dispatch({
+          type: "SET_ORDERS",
+          payload: orders
+        })
+      }
+
+      const setUsers = (users) => {
+        dispatch({
+          type: "SET_USERS",
+          payload: users
+        })
+      }
+
+      const setContracts = (contracts) => {
+        dispatch({
+          type: "SET_CONTRACTS",
+          payload: contracts
+        })
+      }
+
       const setCurrentCompanyID = (id) => {
         dispatch({
           type: "SET_CURRENT_COMPANYID",
@@ -290,6 +311,9 @@ export const StateProvider = (props) => {
           setAccounts,
           setLocations,
           setTickets,
+          setOrders,
+          setUsers,
+          setContracts,
           setCurrentCompanyID,
           setCurrentCompany,
           setCurrentLocationID,

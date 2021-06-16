@@ -16,16 +16,18 @@ const AccountDetail = (state) => {
 
   const userContext = useContext(stateContext)
   const {dataLoading} = userContext
+  const {currentUser, currentCompanyID, currentAccountID} = userContext.userSession
   const history = useHistory()
   
   const [pageError, setPageError] = useState()
   const [pageSuccess, setPageSuccess] = useState()
+  const [inputReadOnly, setInputReadOnly] = useState(true)
 
   const [activeAccount, setActiveAccount] = useState()
   const [locations, setLocations] = useState(state.location.state.locations)
   const [servicesByLocation, setServicesByLocation] = useState()
-  const [bills, setBills] = useState()
   const [toggleServiceList, setToggleServiceList] = useState()
+  const [bills, setBills] = useState()
   
   const accountNum = useRef("")
   const subAccountNum = useRef("")
@@ -38,7 +40,6 @@ const AccountDetail = (state) => {
   const accountPreTaxMRC = useRef("")
   const accountPostTaxMRC = useRef("")
   
-console.log(state)
   useEffect(() => {
     fetchAccount()
     fetchBills()
@@ -121,22 +122,20 @@ console.log(state)
   ] 
 
   const handleAddBillBtn = (id) => {
-    
-    console.log(id)
-                    history.push({
-                      pathname: "/addbill",
-                      state: {
-                      AccountNum: activeAccount.AccountNum,
-                      AccountID: state.location.state.id
-                      }
-                    })
+    history.push({
+      pathname: "/addbill",
+        state: {
+          AccountNum: activeAccount.AccountNum,
+          AccountID: state.location.state.id
+          }
+        })
   }
 
   return (
     <>
     {activeAccount != undefined ? ( 
     <>
-    <Page title="Account Details" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>  
+    <Page title="Account Details" handleSubmit={handleSubmit} handleToggleReadOnly={()=> setInputReadOnly(!inputReadOnly)} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>  
         <form>
           
 
