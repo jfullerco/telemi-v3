@@ -101,7 +101,8 @@ const CompanyList = () => {
               fieldInitialOption="Choose a Company"
               fieldIDRef={activeCompanyID}
               placeholder="Choose a Company"
-              onChange={handleChange}>
+              onChange={handleChange}
+              size="is-small">
                 {userContext.userSession.companies != "" ? 
                   userContext.userSession.companies.map(company => (
                     <option value={company.id} key={company.id}> 
@@ -113,7 +114,7 @@ const CompanyList = () => {
             </Column>
           <Column >
 
-            <Button label="Add" options="px-6" handleSubmit={handleAddCompany} />
+            <Button label="Add" options="px-4 is-small" handleSubmit={handleAddCompany} />
 
           </Column>
        

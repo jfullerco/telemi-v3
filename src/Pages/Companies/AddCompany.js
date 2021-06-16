@@ -1,20 +1,21 @@
 import React, {useEffect, useState, useRef, useContext} from 'react'
 import {useHistory} from 'react-router-dom'
+import Drawer from '@material-ui/core/Drawer'
 
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
 import TextInput from '../../Components/Forms/TextInput'
-import Modal from '../../Components/Modal'
+import Page from '../../Components/Page'
 
 
-const AddCompany = () => {
+const AddCompany = ({open}) => {
   const history = useHistory()
   const userContext = useContext(stateContext)
   const {setDataLoading} = userContext
   const {currentUser} = userContext.userSession
 
-  const [modalState, setModalState] = useState(true)
+  const [checked, setChecked] = useState(true)
   
   const [pageError, setPageError] = useState()
   const [pageSuccess, setPageSuccess] = useState()
@@ -44,20 +45,13 @@ const AddCompany = () => {
 
   const autoClose = () => {
     
-    setTimeout(() => {
-
-      setDataLoading(true)
-
-      setModalState(false)
-
-      history.goBack()
-    }, 1000)
     
   }
   
 
   return (
-    <Modal title="Add Company" handleSubmit={handleSubmit} modalState={modalState}>
+    
+      <Page title="Add Account" handleSubmit={handleSubmit} handleToggleReadOnly={()=> setInputReadOnly(!inputReadOnly)} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
 
           <form>
             <TextInput 
@@ -66,7 +60,8 @@ const AddCompany = () => {
             />
           </form>
         
-      </Modal>
+      </Page>
+    
   )
 }
 export default AddCompany

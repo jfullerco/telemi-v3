@@ -1,13 +1,13 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
-import { useHistory } from 'react-router-dom'
-import Slide from '@material-ui/core/Slide';
+import { useHistory, Link } from 'react-router-dom'
+import Drawer from '@material-ui/core/Drawer';
 
 import { stateContext } from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
 
 import GridComponent from './Components/GridComponent'
 import {useFilterArray} from '../../Components/Tables/useFilterArray'
-import AddAccount from '../Accounts/AddAccount'
+import AddCompany from '../Companies/AddCompany'
 
 
 const DashboardGrids = ({visible}) => {
@@ -61,7 +61,7 @@ const DashboardGrids = ({visible}) => {
       fetchTickets()
       fetchContracts()
       cancelLoading()
-    }, 2000)
+    }, 1000)
     
     return () => clearTimeout(timer)
     
@@ -379,10 +379,21 @@ const DashboardGrids = ({visible}) => {
 
   }
 
+  const AddCompanyDrawer = ({children, open}) => (
+    <Drawer anchor="right" open={open} onClose={()=>setChecked(!checked)}> 
+      <div className="drawerPaper">{children}</div>
+    </Drawer>
+  )
+  
+
 return (
   <>
     <div className={loadingGrid != false ? "modal is-active" : "modal"}><div className="loading"></div></div>
     <button type="submit" className="is-hidden" onClick={()=>handleFilterClick(services, "Type", "Ethernet")}>Test</button>
+    <a onClick={()=> setChecked(!checked)}>side</a>
+    
+    
+    
 
     <GridComponent 
       label="SERVICES"
@@ -396,6 +407,9 @@ return (
       isVisible={!serviceIsVisible}
       toggleIsVisible={()=>{setServiceIsVisible(!serviceIsVisible)}}
     />
+    <AddCompanyDrawer open={checked}>
+      <AddCompany />
+    </AddCompanyDrawer>
 
     <GridComponent 
       label="TICKETS"
