@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import Drawer from '@material-ui/core/Drawer';
+import Paper from '@material-ui/core/Paper';
 
 import { stateContext } from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
@@ -381,7 +382,11 @@ const DashboardGrids = ({visible}) => {
 
   const AddCompanyDrawer = ({children, open}) => (
     <Drawer anchor="right" open={open} onClose={()=>setChecked(!checked)}> 
-      <div className="drawerPaper">{children}</div>
+      <Paper>
+        <div className="drawerPaper">
+          {children}
+        </div>
+      </Paper>
     </Drawer>
   )
   

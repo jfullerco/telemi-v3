@@ -12,7 +12,7 @@ import SelectInput from '../../Components/Forms/SelectInput'
 import Page from '../../Components/Page'
 import DeleteButton from '../../Components/Buttons/DeleteButton'
 
-const ServiceDetailEdit = ({state}) => {
+const EditService = (state) => {
 
   const history = useHistory()
   const userContext = useContext(stateContext)
@@ -328,4 +328,4 @@ console.log(state.location.state)
     </Page>
   )
 }
-export default ServiceDetailEdit
+export default EditService

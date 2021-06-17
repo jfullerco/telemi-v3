@@ -5,26 +5,43 @@ import Columns from './Layout/Columns'
 import Column from './Layout/Column'
 
 
-const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, handleToggleReadOnly, visible, children}) => {
+const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, status, children}) => {
 
   const history = useHistory()
   
   return(
       <div className="wrapper">
         <Columns options="is-vcentered">
-          <Column size="is-9 is-8-tablet is-12-mobile">
-            <a className="link is-size-6" onClick={()=>history.goBack()}>{`< Back`}</a>
+          
+          <Column size="is-half">
             <div className="title">
               {title}
             </div> 
           </Column>
-          <Column size="is-3 is-4-tablet is-12-mobile is-aligned-right">
+
+          <Column size="is-half">
             <div className="mx-2 my-2">
-            <button className="button is-link is-rounded mr-1" type="submit" onClick={handleSubmit}>Save</button>
-            <button className="button is-link is-rounded mr-1" type="submit" onClick={handleToggleReadOnly}>Edit</button>
-            <button className="button is-rounded mr-1" onClick={()=>autoClose()}>Close</button>
+
+              <button 
+                className={status === "edit" ? "button is-link is-rounded is-small mr-1" : "is-hidden"} 
+                type="submit" 
+                onClick={handleSubmit}
+              >Save</button>
+
+              <button 
+                className={status === "view" ? "button is-link is-rounded is-small mr-1" : "is-hidden"} 
+                type="submit" 
+                onClick={()=>toggleEditDrawer()}
+              >Edit</button>
+
+              <button 
+                className="button is-rounded is-small mr-1" 
+                onClick={()=>history.goBack()}
+              >Back</button>
+
             </div>
           </Column>
+          
         </Columns>
         
           <div className="block">
