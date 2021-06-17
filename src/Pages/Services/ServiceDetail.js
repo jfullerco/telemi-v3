@@ -25,7 +25,8 @@ const ServiceDetailEdit = (state) => {
           orders, 
           tickets } = userContext.userSession
 
-  const [activeService, setActiveService] = useState()
+  const [activeService, setActiveService] = useState("")
+  const [data, setData] = useState()
 
   useEffect(() => {
     fetchService()
@@ -79,7 +80,7 @@ const ServiceDetailEdit = (state) => {
   const pageFields = [
     
     { label: "Service Location", dataField: "LocationName", inputFieldType: "select", inputSource: locations, inputID: "ID", inputValue: "Name" },
-    { label: "Service Location ID", dataField: "LocationID", inputFieldType: "select", inputSource: locations, inputID: "ID", inputValue: "Name" },
+    { label: "Service Location ID", dataField: "LocationID", inputFieldType: "select", inputSource: locations, inputID: "ID", inputValue: "id" },
     { label: "Vendor", dataField: "Vendor", inputFieldType: "select", inputSource: vendorList, inputID: "id", inputValue: "Name" },
     { label: "Type", dataField: "Type", inputFieldType: "select", inputSource: serviceTypes, inputID: "id", inputValue: "Name"},
     { label: "Service Name", dataField: "VendorServiceName", inputFieldType: "text" },
@@ -91,8 +92,13 @@ const ServiceDetailEdit = (state) => {
     { label: "Notes", dataField: "Notes", inputFieldType: "textarea" }
     
   ]
-console.log(activeService)
 
+const handleChange = (e) => {
+  e.preventDefault()
+  const {name, value} = e.target
+  setData({...data, [name]: value})
+}
+console.log(data)
   return (
       <Page title="SERVICE DETAILS" status="view" autoClose={autoClose}>
         {userContext && userContext.userSession != undefined ? 
@@ -123,35 +129,37 @@ console.log(activeService)
                   case "select":
                     return (
                       <Columns>
-                        <Column size="is-2">
-                          <div className="has-text-weight-semibold" key={h.label}>
+                        <Column size="is-2 px-2 is-narrow">
+                          <div className="is-size-6 has-text-weight-semibold" key={h.label}>
                             {h.label} 
                           </div>
                         </Column>
                         <Column size="is-1 is-narrow">:</Column>
                         <Column size="is-2">
-                          <select type="select" defaultValue={h.inputValue}>
-                            <option></option>
-                              {h.inputSource && h.inputSource.map(i => 
-                                <option key={i[h.inputID]}>
-                                  {i[h.inputValue]}{console.log(i)}
-                                </option>
-                              )}
-                          </select>
+                          <div className="select is-rounded is-small is-fullwidth">
+                            <select type="select" name={h.dataField} value={activeService[h.dataField] && activeService[h.dataField]} onChange={handleChange}>
+                              <option></option>
+                                {h.inputSource && h.inputSource.map(i => 
+                                  <option key={i[h.inputID]}>
+                                    {i[h.inputValue]}
+                                  </option>
+                                )}
+                            </select>
+                          </div>
                         </Column>
                       </Columns> 
                     ) 
                   case "text":
                     return (
                       <Columns>
-                        <Column size="is-2">
-                          <div className="has-text-weight-semibold" key={h.label}>
+                        <Column size="is-2 px-2 is-narrow">
+                          <div className="is-size-6 has-text-weight-semibold" key={h.label}>
                             {h.label} 
                           </div>
                         </Column>
                         <Column size="is-1 is-narrow">:</Column>
                         <Column size="is-2">
-                          <input type="text" defaultValue={h.inputValue} />
+                          <input type="text" className="input is-rounded is-small is-fullwidth" name={h.dataField} value={activeService[h.dataField] && activeService[h.dataField]} onChange={handleChange} />
                         </Column>
                       </Columns> 
                     ) 
