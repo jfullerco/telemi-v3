@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
 import {Link, useHistory} from 'react-router-dom'
+import Drawer from '@material-ui/core/Drawer'
 
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
@@ -27,6 +28,7 @@ const ServiceDetailEdit = (state) => {
 
   const [activeService, setActiveService] = useState("")
   const [data, setData] = useState()
+  const [checked, setChecked] = useState(false)
 
   useEffect(() => {
     fetchService()
@@ -73,6 +75,14 @@ const ServiceDetailEdit = (state) => {
     
   }
 
+  const handleSubmit = (data) => {
+    console.log(data)
+  }
+
+  const handleToggle = () => {
+    setChecked(!checked)
+  }
+
   const autoClose = () => {
     setTimeout(() => {history.push("/dashboard")}, 1500)
   }
@@ -100,7 +110,7 @@ const handleChange = (e) => {
 }
 console.log(data)
   return (
-      <Page title="SERVICE DETAILS" status="view" autoClose={autoClose}>
+      <Page title="SERVICE DETAILS" status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
         {userContext && userContext.userSession != undefined ? 
           <>
             {activeService && pageFields.map(el => 
@@ -123,7 +133,9 @@ console.log(data)
               </>
             )}
 
-            <>
+            <Drawer open={checked} onClose={()=>setChecked(!checked)}>
+              <>
+              <button onClick={()=>handleSubmit()}>Save</button>
               {pageFields.map(h => {
                 switch (h.inputFieldType) {
                   case "select":
@@ -166,7 +178,8 @@ console.log(data)
                   }
                 }
               )}
-            </>
+              </>
+            </Drawer>
           </> : 
         <div className="tile warning"> No record to display </div>}    
       </Page>

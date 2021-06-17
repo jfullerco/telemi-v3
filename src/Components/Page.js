@@ -5,7 +5,7 @@ import Columns from './Layout/Columns'
 import Column from './Layout/Column'
 
 
-const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, status, children}) => {
+const Page = ({title, pageError, pageSuccess, handleSubmit, handleToggle, autoClose, status, children}) => {
 
   const history = useHistory()
   
@@ -31,7 +31,7 @@ const Page = ({title, pageError, pageSuccess, handleSubmit, autoClose, status, c
               <button 
                 className={status === "view" ? "button is-link is-rounded is-small mr-1" : "is-hidden"} 
                 type="submit" 
-                onClick={()=>toggleEditDrawer()}
+                onClick={handleToggle}
               >Edit</button>
 
               <button 
