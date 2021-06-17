@@ -32,6 +32,7 @@ const ServiceDetailEdit = (state) => {
 
   useEffect(() => {
     fetchService()
+    
   }, [])
 
   const fetchService = async() => {
@@ -41,7 +42,7 @@ const ServiceDetailEdit = (state) => {
     const data = await serviceRef.data()
     const id = await serviceRef.id
     setActiveService({id: id, ...data})
-    
+    setData(data)
   }
 
   const fetchAccounts = async() => {
@@ -75,7 +76,7 @@ const ServiceDetailEdit = (state) => {
     
   }
 
-  const handleSubmit = (data) => {
+  const handleSubmit = () => {
     console.log(data)
   }
 
@@ -108,7 +109,7 @@ const handleChange = (e) => {
   const {name, value} = e.target
   setData({...data, [name]: value})
 }
-console.log(data)
+
   return (
       <Page title="SERVICE DETAILS" status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
         {userContext && userContext.userSession != undefined ? 
@@ -117,7 +118,7 @@ console.log(data)
               <>
                 {[activeService].map(h => 
                   <div className={el.visible != false ? "" : "is-hidden" }> 
-                  <Columns>
+                  <Columns size="is-mobile">
                     <Column size="is-2">
                       <div className="has-text-weight-semibold" key={el.label}>
                         {el.label} 
@@ -133,14 +134,14 @@ console.log(data)
               </>
             )}
 
-            <Drawer open={checked} onClose={()=>setChecked(!checked)}>
-              <>
-              <button onClick={()=>handleSubmit()}>Save</button>
+            <Drawer anchor="right" open={checked} onClose={()=>setChecked(!checked)}>
+              <div className="drawerPaper">
+              <button className="button is-small is-rounded is-link" onClick={()=>handleSubmit()}>Save</button>
               {pageFields.map(h => {
                 switch (h.inputFieldType) {
                   case "select":
                     return (
-                      <Columns>
+                      <Columns size="is-mobile">
                         <Column size="is-2 px-2 is-narrow">
                           <div className="is-size-6 has-text-weight-semibold" key={h.label}>
                             {h.label} 
@@ -149,7 +150,7 @@ console.log(data)
                         <Column size="is-1 is-narrow">:</Column>
                         <Column size="is-2">
                           <div className="select is-rounded is-small is-fullwidth">
-                            <select type="select" name={h.dataField} value={activeService[h.dataField] && activeService[h.dataField]} onChange={handleChange}>
+                            <select type="select" name={h.dataField} defaultValue={activeService[h.dataField] && activeService[h.dataField]} onChange={handleChange}>
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
                                   <option key={i[h.inputID]}>
@@ -163,7 +164,7 @@ console.log(data)
                     ) 
                   case "text":
                     return (
-                      <Columns>
+                      <Columns size="is-mobile">
                         <Column size="is-2 px-2 is-narrow">
                           <div className="is-size-6 has-text-weight-semibold" key={h.label}>
                             {h.label} 
@@ -171,14 +172,14 @@ console.log(data)
                         </Column>
                         <Column size="is-1 is-narrow">:</Column>
                         <Column size="is-2">
-                          <input type="text" className="input is-rounded is-small is-fullwidth" name={h.dataField} value={activeService[h.dataField] && activeService[h.dataField]} onChange={handleChange} />
+                          <input type="text" className="input is-rounded is-small is-fullwidth" name={h.dataField} defaultValue={activeService[h.dataField] && activeService[h.dataField]} onChange={handleChange} />
                         </Column>
                       </Columns> 
                     ) 
                   }
                 }
               )}
-              </>
+              </div>
             </Drawer>
           </> : 
         <div className="tile warning"> No record to display </div>}    
