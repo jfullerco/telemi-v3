@@ -7,7 +7,7 @@ const TextBox = (props) => {
       <div className="field">
       <label className="label">{title}</label>
         <div className="control">
-          <input type="text" className="input is-rounded is-small" name={name} defaultValue={value} onChange={e=>fieldChanged(e)} />  
+          <input type="text" className="input is-rounded is-small" name={name} value={value} onChange={e=>fieldChanged(e)} />  
         </div>
         {hint && <Hint>{hint}</Hint>}
       </div>

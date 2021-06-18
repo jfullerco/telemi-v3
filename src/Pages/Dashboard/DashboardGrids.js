@@ -379,26 +379,12 @@ const DashboardGrids = ({visible}) => {
     setAccounts(filteredArray)
 
   }
-
-  const AddCompanyDrawer = ({children, open}) => (
-    <Drawer anchor="right" open={open} onClose={()=>setChecked(!checked)}> 
-      <Paper>
-        <div className="drawerPaper">
-          {children}
-        </div>
-      </Paper>
-    </Drawer>
-  )
   
 
 return (
   <>
     <div className={loadingGrid != false ? "modal is-active" : "modal"}><div className="loading"></div></div>
     <button type="submit" className="is-hidden" onClick={()=>handleFilterClick(services, "Type", "Ethernet")}>Test</button>
-    <a onClick={()=> setChecked(!checked)}>side</a>
-    
-    
-    
 
     <GridComponent 
       label="SERVICES"
@@ -412,9 +398,6 @@ return (
       isVisible={!serviceIsVisible}
       toggleIsVisible={()=>{setServiceIsVisible(!serviceIsVisible)}}
     />
-    <AddCompanyDrawer open={checked}>
-      <AddCompany />
-    </AddCompanyDrawer>
 
     <GridComponent 
       label="TICKETS"

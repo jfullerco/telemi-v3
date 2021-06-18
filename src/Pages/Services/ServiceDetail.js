@@ -80,7 +80,6 @@ const ServiceDetailEdit = (state) => {
   const handleSubmit = async(e) => {
     
     const res = await db.collection("Services").doc(activeService.id).update(data)
-    setActiveService(data)
     userContext.setDataLoading(true)
     console.log(res)
     handleToggle(!checked)
@@ -114,9 +113,8 @@ const ServiceDetailEdit = (state) => {
 const handleChange = (e) => {
   
   const {name, value} = e.target
-  
+  setActiveService({...activeService, [name]: value})
   setData({...data, [name]: value})
-  console.log("data", data)
 }
 
 const handleRelatedSelectChange = (e, relatedDataField) => {
@@ -127,6 +125,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   const {value} = e.target
   
   console.log({[relatedName]: id, [name]: value})
+  setActiveService({...activeService, [relatedName]: id, [name]: value})
   setData({...data, [relatedName]: id, [name]: value})
 }
 
