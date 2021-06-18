@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
 import {Link, useHistory} from 'react-router-dom'
-import Drawer from '@material-ui/core/Drawer'
 
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
@@ -8,7 +7,9 @@ import { db } from '../../Contexts/firebase'
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
 import Page from '../../Components/Page'
-import DeleteButton from '../../Components/Buttons/DeleteButton'
+import EditDrawer from '../../Components/Layout/EditDrawer'
+import SelectField from '../../Components/Forms/SelectField'
+import TextField from '../../Components/Forms/TextField'
 
 const ServiceDetailEdit = (state) => {
 
@@ -76,8 +77,14 @@ const ServiceDetailEdit = (state) => {
     
   }
 
-  const handleSubmit = () => {
-    console.log(data)
+  const handleSubmit = async(e) => {
+    
+    const res = await db.collection("Services").doc(activeService.id).update(data)
+    setActiveService(data)
+    userContext.setDataLoading(true)
+    console.log(res)
+    handleToggle(!checked)
+
   }
 
   const handleToggle = () => {
@@ -90,7 +97,7 @@ const ServiceDetailEdit = (state) => {
 
   const pageFields = [
     
-    { label: "Service Location", dataField: "LocationName", inputFieldType: "select", inputSource: locations, inputID: "ID", inputValue: "Name" },
+    { label: "Service Location", dataField: "LocationName", inputFieldType: "related-select", inputSource: locations, inputID: "id", inputValue: "Name", relatedDataField: "LocationID"  },
     { label: "Service Location ID", dataField: "LocationID", inputFieldType: "select", inputSource: locations, inputID: "ID", inputValue: "id" },
     { label: "Vendor", dataField: "Vendor", inputFieldType: "select", inputSource: vendorList, inputID: "id", inputValue: "Name" },
     { label: "Type", dataField: "Type", inputFieldType: "select", inputSource: serviceTypes, inputID: "id", inputValue: "Name"},
@@ -106,9 +113,20 @@ const ServiceDetailEdit = (state) => {
 
 const handleChange = (e) => {
   e.preventDefault()
+  
   const {name, value} = e.target
+  
   setData({...data, [name]: value})
 }
+
+const handleRelatedSelectChange = (e, relatedDataField) => {
+  e.preventDefault()
+  
+  const {name, value} = e.target
+  console.log(e.target.options[e.target.options.selectedIndex].text)
+  setData({...data, [name]: value})
+}
+
 
   return (
       <Page title="SERVICE DETAILS" status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
@@ -118,7 +136,7 @@ const handleChange = (e) => {
               <>
                 {[activeService].map(h => 
                   <div className={el.visible != false ? "" : "is-hidden" }> 
-                  <Columns size="is-mobile">
+                  <Columns options="is-mobile">
                     <Column size="is-2">
                       <div className="has-text-weight-semibold" key={el.label}>
                         {el.label} 
@@ -134,53 +152,57 @@ const handleChange = (e) => {
               </>
             )}
 
-            <Drawer anchor="right" open={checked} onClose={()=>setChecked(!checked)}>
-              <div className="drawerPaper">
-              <button className="button is-small is-rounded is-link" onClick={()=>handleSubmit()}>Save</button>
+            <EditDrawer 
+              title="BASIC INFO" 
+              checked={checked} 
+              handleClose={()=>setChecked(!checked)} 
+              handleSubmit={()=> handleSubmit()} 
+              colRef="Services" 
+              docRef={activeService.id}
+            >
               {pageFields.map(h => {
                 switch (h.inputFieldType) {
-                  case "select":
+
+                  case "related-select":
                     return (
-                      <Columns size="is-mobile">
-                        <Column size="is-2 px-2 is-narrow">
-                          <div className="is-size-6 has-text-weight-semibold" key={h.label}>
-                            {h.label} 
-                          </div>
-                        </Column>
-                        <Column size="is-1 is-narrow">:</Column>
-                        <Column size="is-2">
-                          <div className="select is-rounded is-small is-fullwidth">
-                            <select type="select" name={h.dataField} defaultValue={activeService[h.dataField] && activeService[h.dataField]} onChange={handleChange}>
+                      
+                            <SelectField type="select" title={h.label} name={h.dataField} value={activeService[h.dataField]} handleRelatedSelectChange={(e)=>handleChange(e, {field: h.relatedDataField})} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
-                                  <option key={i[h.inputID]}>
+                                  <option key={i.id} value={i[h.inputID]}>
                                     {i[h.inputValue]}
                                   </option>
                                 )}
-                            </select>
-                          </div>
-                        </Column>
-                      </Columns> 
+                            </SelectField>
+                        
                     ) 
+
+                  case "select":
+                    return (
+                      
+                            <SelectField type="select" title={h.label} name={h.dataField} value={activeService[h.dataField]} handleChange={(e)=>handleChange(e)} >
+                              <option></option>
+                                {h.inputSource && h.inputSource.map(i => 
+                                  <option key={i.id}>
+                                    {i[h.inputValue]}
+                                  </option>
+                                )}
+                            </SelectField>
+                        
+                    ) 
+
                   case "text":
                     return (
-                      <Columns size="is-mobile">
-                        <Column size="is-2 px-2 is-narrow">
-                          <div className="is-size-6 has-text-weight-semibold" key={h.label}>
-                            {h.label} 
-                          </div>
-                        </Column>
-                        <Column size="is-1 is-narrow">:</Column>
-                        <Column size="is-2">
-                          <input type="text" className="input is-rounded is-small is-fullwidth" name={h.dataField} defaultValue={activeService[h.dataField] && activeService[h.dataField]} onChange={handleChange} />
-                        </Column>
-                      </Columns> 
+                      
+                          <TextField title={h.label} name={h.dataField} value={activeService[h.dataField]} handleChange={handleChange} />
+                        
                     ) 
+
                   }
                 }
               )}
-              </div>
-            </Drawer>
+              
+            </EditDrawer>
           </> : 
         <div className="tile warning"> No record to display </div>}    
       </Page>
