@@ -10,7 +10,6 @@ import Page from '../../Components/Page'
 import EditDrawer from '../../Components/Layout/EditDrawer'
 import SelectField from '../../Components/Forms/SelectField'
 import TextBox from '../../Components/Forms/TextBox'
-import TabBar from '../../Components/Tabs/TabBar'
 
 const ServiceDetailEdit = (state) => {
 
@@ -135,14 +134,6 @@ console.log(data)
       <Page title="SERVICE DETAILS" status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
         {userContext && userContext.userSession != undefined ? 
           <>
-            <TabBar>
-              <ul>
-              <li className="is-active"><a>Basic Info</a></li>
-              <li><a>Config</a></li>
-              <li><a>Support</a></li>
-              <li><a>Billing</a></li>
-              </ul>
-            </TabBar>
             {activeService && pageFields.map(el => 
               <>
                 {[activeService].map(h => 

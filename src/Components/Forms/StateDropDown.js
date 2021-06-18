@@ -9,7 +9,6 @@ const StateDropDown = ({
     fieldRef, 
     fieldChange}) => {
   
-  const selectRef = useRef("")
   const handleChange = () => {
     
    console.log(fieldRef.current.value)
