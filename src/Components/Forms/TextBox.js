@@ -1,16 +1,16 @@
 import React from 'react'
 import Hint from './Hint'
 
-const TextField = ({title, value, name, handleChange, hint}) => {
-
+const TextBox = (props) => {
+  const {title, value, name, fieldChanged, hint} = props
   return(
       <div className="field">
       <label className="label">{title}</label>
         <div className="control">
-          <input className="input is-rounded is-small" type="text" name={name} onChange={handleChange} defaultValue={value} />  
+          <input type="text" className="input is-rounded is-small" name={name} defaultValue={value} onChange={e=>fieldChanged(e)} />  
         </div>
         {hint && <Hint>{hint}</Hint>}
       </div>
   )
 }
-export default TextField
+export default TextBox

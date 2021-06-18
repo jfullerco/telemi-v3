@@ -9,7 +9,7 @@ import Column from '../../Components/Layout/Column'
 import Page from '../../Components/Page'
 import EditDrawer from '../../Components/Layout/EditDrawer'
 import SelectField from '../../Components/Forms/SelectField'
-import TextField from '../../Components/Forms/TextField'
+import TextBox from '../../Components/Forms/TextBox'
 
 const ServiceDetailEdit = (state) => {
 
@@ -116,18 +116,21 @@ const handleChange = (e) => {
   const {name, value} = e.target
   
   setData({...data, [name]: value})
+  console.log("data", data)
 }
 
 const handleRelatedSelectChange = (e, relatedDataField) => {
   e.preventDefault()
   const selectedValue = e.target.options[e.target.selectedIndex].text
+  const id = e.target.options[e.target.selectedIndex].id
   const {name, relatedName} = relatedDataField
   const {value} = e.target
-  console.log( name, relatedName, selectedValue, value)
-  setData({...data, [name]: value})
+  
+  console.log({[relatedName]: id, [name]: value})
+  setData({...data, [relatedName]: id, [name]: value})
 }
 
-
+console.log(data)
   return (
       <Page title="SERVICE DETAILS" status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
         {userContext && userContext.userSession != undefined ? 
@@ -169,7 +172,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
                             <SelectField type="select" title={h.label} name={h.dataField} value={activeService[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
-                                  <option key={i.id} value={i[h.inputID]}>
+                                  <option id={i[h.inputID]} name={i[h.dataField]}>
                                     {i[h.inputValue]}
                                   </option>
                                 )}
@@ -194,7 +197,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
                   case "text":
                     return (
                       
-                          <TextField title={h.label} name={h.dataField} value={activeService[h.dataField]} handleChange={(e)=>handleChange(e)} />
+                          <TextBox title={h.label} name={h.dataField} value={activeService[h.dataField]} fieldChanged={handleChange} />
                         
                     ) 
 
