@@ -112,9 +112,10 @@ const ServiceDetailEdit = (state) => {
   ]
 
 const handleChange = (e) => {
+  e.preventDefault()
   
   const {name, value} = e.target
-  
+  console.log(name, value)
   setData({...data, [name]: value})
 }
 
@@ -183,8 +184,8 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
                             <SelectField type="select" title={h.label} name={h.dataField} value={activeService[h.dataField]} handleChange={(e)=>handleChange(e)} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
-                                  <option name={i[h.dataField]}>
-                                    {i[h.inputValue]} 
+                                  <option name={h.dataField}>
+                                    {i[h.inputValue]}
                                   </option>
                                 )}
                             </SelectField>
@@ -194,7 +195,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
                   case "text":
                     return (
                       
-                          <TextField title={h.label} name={h.dataField} value={activeService[h.dataField]} handleChange={(e)=>handleChange(e)} />
+                          <TextField title={h.label} name={h.dataField} value={activeService[h.dataField]} handleChange={handleChange} />
                         
                     ) 
 

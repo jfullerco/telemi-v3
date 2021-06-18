@@ -8,7 +8,7 @@ const SelectField = ({title, value, handleChange, name, hide, hint, children}) =
       <label className="label">{title && title}</label>
         <div className="control">
         <div className={hide != true ? "select is-rounded is-fullwidth is-small" : "is-hidden"}>
-          <select type="select" defaultValue={value && value} onChange={handleChange} >
+          <select type="select" name={name && name} defaultValue={value && value} onChange={handleChange} >
             {children}
           </select>
         </div>
