@@ -31,7 +31,12 @@ body {
 
 
 .textarea {
-  border-radius: 25px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.field {
+  white-space: pre-wrap;
 }
 
 .loading {

@@ -1,29 +1,15 @@
 import React, { useState } from 'react'
 import Hint from './Hint'
 
-const TextArea = ({inputFieldName, inputFieldRef, inputFieldValue, inputFieldLabel, inputFieldChange, hint, readonly, isVisible}) => {
-
-  const [visible, setVisible] = useState(isVisible)
-
-  const handleChange = () => {
-   inputFieldChange != undefined ? inputFieldChange() : ""
-  }
-
+const TextArea = (props) => {
+  const {title, value, name, fieldChanged, hint} = props
   return(
-    
-      <div className="field">
-
-      <label className="label">
-        {inputFieldLabel}
-          {visible == false ? 
-          <span className="is-size-6 ml-1"><a onClick={()=> setVisible(!visible)}>+</a></span> : 
-          <span className="is-size-6 ml-1"><a onClick={()=> setVisible(!visible)}>-</a></span> }
-      </label>
-
-        <div className={visible != false ? "control" : "control is-hidden"}>
-          <textarea className="textarea is-rounded" type="textarea" ref={inputFieldRef} defaultValue={inputFieldValue} onChange={handleChange} readOnly={readonly} />
-          <Hint>{hint && hint}</Hint>
+    <div className="field">
+      <label className="label">{title}</label>
+        <div className="control">
+          <textarea type="textarea" className="textarea is-rounded" name={name} value={value} onChange={e=>fieldChanged(e)} />  
         </div>
+        {hint && <Hint>{hint}</Hint>}
       </div>
   )
 }

@@ -10,6 +10,7 @@ import Page from '../../Components/Page'
 import EditDrawer from '../../Components/Layout/EditDrawer'
 import SelectField from '../../Components/Forms/SelectField'
 import TextBox from '../../Components/Forms/TextBox'
+import TextArea from '../../Components/Forms/TextArea'
 import TabBar from '../../Components/Tabs/TabBar'
 
 const OrderDetail = (state) => {
@@ -40,7 +41,7 @@ const OrderDetail = (state) => {
 
   const fetchOrder = async() => {
    
-    const orderRef = await db.collection("Order").doc(state.location.state.id).get()
+    const orderRef = await db.collection("Orders").doc(state.location.state.id).get()
     
     const data = await orderRef.data()
     const id = await orderRef.id
@@ -82,7 +83,7 @@ const OrderDetail = (state) => {
 
   const handleSubmit = async(e) => {
     
-    const res = await db.collection("Services").doc(state.location.state.id).update(data)
+    const res = await db.collection("Orders").doc(state.location.state.id).update(data)
     userContext.setDataLoading(true)
     console.log(res)
     handleToggle(!checked)
@@ -106,7 +107,7 @@ const OrderDetail = (state) => {
     { label: "Monthly Cost", dataField: "MRC", inputFieldType: "text" },
     { label: "Order Location", dataField: "LocationName", inputFieldType: "related-select", inputSource: locations, inputID: "id", inputValue: "Name", relatedDataField: "LocationID"  },
     { label: "Status", dataField: "Status", inputFieldType: "select", inputSource: orderStatusType, inputID: "id", inputValue: "Name" },
-    { label: "Details", dataField: "Details", inputFieldType: "textarea" }
+    { label: "Details", dataField: "Details", inputFieldType: "text-area" }
   ]
 
 const handleChange = (e) => {
@@ -152,8 +153,8 @@ console.log(data)
                       </div>
                     </Column>
                     <Column size="is-1 is-narrow">:</Column>
-                    <Column size="is-2">
-                      <div>{h[el.dataField]}</div>
+                    <Column>
+                      <div className="field">{h[el.dataField]}</div>
                     </Column>
                   </Columns>
                   </div>
@@ -207,6 +208,13 @@ console.log(data)
                         
                     ) 
 
+                  case "text-area":
+                    return (
+                      
+                          <TextArea title={h.label} name={h.dataField} value={active && active[h.dataField]} fieldChanged={handleChange} />
+                        
+                    ) 
+  
                   }
                 }
               )}
