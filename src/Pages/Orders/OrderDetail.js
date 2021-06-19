@@ -1,232 +1,222 @@
-import React, {useEffect, useState, useRef, useContext} from 'react'
-import {useHistory} from 'react-router-dom'
+import React, {useState, useEffect, useContext, useRef} from 'react'
+import {Link, useHistory} from 'react-router-dom'
 
-import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
+import { db } from '../../Contexts/firebase'
 
-import TextInput from '../../Components/Forms/TextInput'
-import TextArea from '../../Components/Forms/TextArea'
-import SelectInputProps from '../../Components/Forms/SelectInputProps'
-import TextInputAC from '../../Components/Forms/TextInputAC'
-import Page from '../../Components/Page'
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
+import Page from '../../Components/Page'
+import EditDrawer from '../../Components/Layout/EditDrawer'
+import SelectField from '../../Components/Forms/SelectField'
+import TextBox from '../../Components/Forms/TextBox'
+import TabBar from '../../Components/Tabs/TabBar'
 
 const OrderDetail = (state) => {
 
   const history = useHistory()
   const userContext = useContext(stateContext)
 
-  const {serviceTypes, accessTypes, vendorList} = userContext
-  const {currentUser, currentCompany, currentCompanyID} = userContext.userSession
+  const { serviceTypes, 
+          accessTypes, 
+          serviceStatusType,
+          vendorList, 
+          isStyle } = userContext
 
-  const [pageError, setPageError] = useState()
-  const [pageSuccess, setPageSuccess] = useState()
+  const { locations,
+          services, 
+          orders, 
+          tickets } = userContext.userSession
 
-  const [dropDown, setDropDown] = useState("")
-  const [activeOrder, setActiveOrder] = useState()
-  const [locations, setLocations] = useState(state.location.state.locations)
-  const [accounts, setAccounts] = useState(state.location.state.accounts)
-  
-  const orderNum = useRef("")
-  const orderDate = useRef("")
-  const orderType = useRef("")
-  const orderStatus = useRef("")
-  const orderVendorServiceName = useRef("")
-  const orderBandwidth = useRef("")
-  const orderMRC = useRef("")
-  const orderDetails = useRef("")
-  const orderVendor = useRef("")
-  const orderLocationID = useRef("")
-  const orderLocationName = useRef()
-  
-  const orderServiceID = useRef("")
-  const orderServiceAssetID = useRef("")
-  
+  const [activeService, setActiveService] = useState("")
+  const [data, setData] = useState()
+  const [checked, setChecked] = useState(false)
+
   useEffect(() => {
-    fetchOrder()
-  },[])
-
-  console.log(state.location.state)
-
-  const fetchOrder = async() => {
-    const orderRef = await db.collection("Orders").doc(state.location.state.id).get()
-    console.log(orderRef)
+    fetchService()
     
-    const data = await orderRef.data()
+  }, [])
+
+  const fetchService = async() => {
+   
+    const serviceRef = await db.collection("Services").doc(state.location.state.id).get()
     
-    setActiveOrder(data)
-    orderLocationID.current = await activeOrder.LocationID
-    orderLocationName.current = await activeOrder.LocationName
+    const data = await serviceRef.data()
+    const id = await serviceRef.id
+    setActiveService({id: id, ...data})
+    setData(data)
+  }
+
+  const fetchAccounts = async() => {
+   
+    const accountRef = await db.collection("Accounts").where("AccountServiceID", "==", state.location.state.id).get()
+    
+    const accounts = await accountRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+
+    setActiveAccounts(accounts)
+    
+  }
+
+  const fetchTickets = async() => {
+   
+    const serviceRef = await db.collection("Tickets").where("TicketServiceID", "==", state.location.state.id).get()
+    
+    const data = await serviceRef.data()
+    const id = await serviceRef.id
+    setActiveService(data)
+    
+  }
+
+  const fetchOrders = async() => {
+   
+    const serviceRef = await db.collection("Orders").where("OrderServiceID", "==", state.location.state.id).get()
+    
+    const data = await serviceRef.data()
+    const id = await serviceRef.id
+    
+    setActiveService(id, data)
+    
   }
 
   const handleSubmit = async(e) => {
-    const data = {
-      OrderNum: orderNum.current.value,
-      OrderDate: orderDate.current.value,
-      Vendor: orderVendor.current.value,
-      VendorServiceName: orderVendorServiceName.current.value,
-      Bandwidth: orderBandwidth.current.value,
-      MRC: orderMRC.current.value,
-      LocationID: orderLocationID.current,
-      LocationName: orderLocationName.current,
-      Status: orderStatus.current.value,     
-      Details: orderDetails.current.value,
-      CompanyID: currentCompanyID,
-      CompanyName: currentCompany,
-      LastUpdatedBy: userContext.userSession.currentUser,
-      LastUpdated: Date()
-      
-    }  
-    console.log(data)
-    const res = await db.collection("Orders").doc(state.location.state.id).update(data)
+    
+    const res = await db.collection("Services").doc(activeService.id).update(data)
     userContext.setDataLoading(true)
-    autoClose()
+    console.log(res)
+    handleToggle(!checked)
+
+  }
+
+  const handleToggle = () => {
+    setChecked(!checked)
   }
 
   const autoClose = () => {
-    setTimeout(() => {history.goBack()}, 1000)
+    setTimeout(() => {history.push("/dashboard")}, 1500)
   }
+
+  const pageFields = [
+    
+    { label: "Order Location", dataField: "LocationName", inputFieldType: "related-select", inputSource: locations, inputID: "id", inputValue: "Name", relatedDataField: "LocationID"  },
+    
+    { label: "Vendor", dataField: "Vendor", inputFieldType: "select", inputSource: vendorList, inputID: "id", inputValue: "Name" },
+    { label: "Type", dataField: "Type", inputFieldType: "select", inputSource: serviceTypes, inputID: "id", inputValue: "Name"},
+    { label: "Service Name", dataField: "VendorServiceName", inputFieldType: "text" },
+    { label: "Access Type", dataField: "AccessType", inputFieldType: "select", inputSource: accessTypes, inputID: "id", inputValue: "Name" },
+    { label: "Asset ID", dataField: "AssetID", inputFieldType: "text" },
+    { label: "Bandwidth", dataField: "Bandwidth", inputFieldType: "text" },
+    { label: "Monthly Cost", dataField: "MRC", inputFieldType: "text" },
+    { label: "Status", dataField: "Status", inputFieldType: "select", inputSource: serviceStatusType, inputID: "id", inputValue: "Name" },
+    { label: "Notes", dataField: "Notes", inputFieldType: "textarea" }
+    
+  ]
+
+const handleChange = (e) => {
   
-  const handleChange = (e) => {
-    setDropDown(true)
-    const {value} = e.target
-    const locationAC = locations.filter(({Name, Address1, State, City}) => Name.indexOf(value) > -1 || Address1.indexOf(value) > 1 || State.indexOf(value) > -1 || City.indexOf(value) > -1 )
-    orderLocationName.current = value
-    setDropDown(locationAC)
-  }
+  const {name, value} = e.target
+  setActiveService({...activeService, [name]: value})
+  setData({...data, [name]: value})
+}
 
-  const handleSuggestedRef = (name, id) => {
-    console.log(name)
-    console.log(id)
-    orderLocationID.current = id
-    orderLocationName.current = name
-    setDropDown("")
-  }
-
-  const handleDateChange = (date) => {
-    orderDate.current = date
-  }
+const handleRelatedSelectChange = (e, relatedDataField) => {
+  e.preventDefault()
+  const selectedValue = e.target.options[e.target.selectedIndex].text
+  const id = e.target.options[e.target.selectedIndex].id
+  const {name, relatedName} = relatedDataField
+  const {value} = e.target
   
+  console.log({[relatedName]: id, [name]: value})
+  setActiveService({...activeService, [relatedName]: id, [name]: value})
+  setData({...data, [relatedName]: id, [name]: value})
+}
 
+console.log(data)
   return (
-    <Page title={`${activeOrder && activeOrder.OrderNum != undefined ? activeOrder.OrderNum : "Order"} DETAILS`} handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
-        
-      <form>
-        {activeOrder && <>
-          <Column size="is-three-quarters" isVisible={true}>
-            <TextInput 
-              inputFieldLabel="Order Number"
-              inputFieldRef={orderNum}
-              inputFieldValue={activeOrder.OrderNum}
-              hint=""
-            />
-          </Column>
-
-          <Column size="is-three-quarters" isVisible={true}>
-            <TextInput 
-              inputFieldLabel="Date Ordered"
-              inputFieldRef={orderDate}
-              inputFieldValue={activeOrder.OrderDate}
-              hint="format. MM/DD/YYYY"
-            />       
-          </Column>
-
-          <Column size="is-three-quarters" isVisible={true}>
-            <SelectInputProps
-              fieldLabel="Vendor"
-              fieldInitialValue={activeOrder.Vendor}
-              fieldInitialOption={activeOrder.Vendor}
-              fieldIDRef={orderVendor}
-              hint="">
-                {vendorList && vendorList.map(vendor => 
-                <option key={vendor.id}>{vendor.Name}</option>
+      <Page title="SERVICE DETAILS" status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
+        {userContext && userContext.userSession != undefined ? 
+          <>
+            <TabBar>
+              <ul>
+              <li className="is-active"><a>Basic Info</a></li>
+              <li><a>Config</a></li>
+              <li><a>Support</a></li>
+              <li><a>Billing</a></li>
+              </ul>
+            </TabBar>
+            {activeService && pageFields.map(el => 
+              <>
+                {[activeService].map(h => 
+                  <div className={el.visible != false ? "" : "is-hidden" }> 
+                  <Columns options="is-mobile">
+                    <Column size="is-2">
+                      <div className="has-text-weight-semibold" key={el.label}>
+                        {el.label} 
+                      </div>
+                    </Column>
+                    <Column size="is-1 is-narrow">:</Column>
+                    <Column size="is-2">
+                      <div>{h[el.dataField]}</div>
+                    </Column>
+                  </Columns>
+                  </div>
                 )}
-            </SelectInputProps>
-          </Column>
-          
-          <Column size="is-three-quarters" isVisible={true}>
-            <TextInput 
-              inputFieldLabel="Vendor Service Name"
-              inputFieldRef={orderVendorServiceName}
-              inputFieldValue={activeOrder.VendorServiceName}
-              hint="ie. IP Flex or AVPN"
-            />
-          </Column>
+              </>
+            )}
 
-          <Column size="is-three-quarters" isVisible={false}>
-            <TextInput 
-              inputFieldLabel="Type"
-              inputFieldRef={orderType}
-              inputFieldValue={activeOrder.Type}
-            />
-          </Column> 
-
-          <Column size="is-three-quarters" isVisible={true}>
-            <TextInput 
-              inputFieldLabel="Bandwidth"
-              inputFieldRef={orderBandwidth}
-              inputFieldValue={activeOrder.Bandwidth}
-              hint="ie. 100M"
-            />
-          </Column> 
-
-          <Column size="is-three-quarters" isVisible={true}>
-            <TextInput 
-              inputFieldLabel="Monthly Cost"
-              inputFieldRef={orderMRC}
-              inputFieldValue={activeOrder.MRC}
-              hint="Price quoted by vendor"
-            />
-          </Column>
-
-          <Column size="is-three-quarters" isVisible={true}>
-            <TextInputAC handleChange={(e)=>handleChange(e)} 
-              label="Related Location" 
-              value={orderLocationName.current}
-              dropDownState={dropDown}
-              hint="Location where service will be installed"
+            <EditDrawer 
+              title="BASIC INFO" 
+              checked={checked} 
+              handleClose={()=>setChecked(!checked)} 
+              handleSubmit={()=> handleSubmit()} 
+              colRef="Services" 
+              docRef={activeService.id}
             >
-                {dropDown && dropDown != "" ? 
-                  <ul> 
-                  {dropDown.map(d => 
-                    <a className="dropdown-item" key={d.id} onClick={()=> handleSuggestedRef(d.Name, d.id)}>
-                      <li >
-                        {d.Name}
-                      </li>
-                    </a>
-                  )}
-                  </ul> : ""} 
-            </TextInputAC>
-          </Column>
+              {pageFields.map(h => {
+                switch (h.inputFieldType) {
 
-          <Column size="is-three-quarters" isVisible={true}>
-            <SelectInputProps
-              fieldLabel="Status"
-              fieldInitialValue={activeOrder.Status}
-              fieldInitialOption={activeOrder.Status}
-              fieldIDRef={orderStatus}>
-                <option>  </option>
-                <option> Placed </option>
-                <option> Completed </option>
-                <option> Cancelled </option>
-            </SelectInputProps>
-          </Column>
+                  case "related-select":
+                    return (
+                      
+                            <SelectField type="select" title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
+                              <option></option>
+                                {h.inputSource && h.inputSource.map(i => 
+                                  <option id={i[h.inputID]} name={i[h.dataField]}>
+                                    {i[h.inputValue]}
+                                  </option>
+                                )}
+                            </SelectField>
+                        
+                    ) 
 
-          <Column size="is-three-quarters" isVisible={true}>
-            <TextArea 
-              inputFieldLabel="Details"
-              inputFieldRef={orderDetails}
-              inputFieldValue={activeOrder.Details}
-              isVisible={false}
-            />
-          </Column>
-        </>}  
-      </form>
+                  case "select":
+                    return (
+                      
+                            <SelectField type="select" title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} handleChange={(e)=>handleChange(e)} >
+                              <option></option>
+                                {h.inputSource && h.inputSource.map(i => 
+                                  <option name={i[h.dataField]}>
+                                    {i[h.inputValue]} 
+                                  </option>
+                                )}
+                            </SelectField>
+                        
+                    ) 
 
-        
-    </Page>
-      
+                  case "text":
+                    return (
+                      
+                          <TextBox title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} fieldChanged={handleChange} />
+                        
+                    ) 
+
+                  }
+                }
+              )}
+              
+            </EditDrawer>
+          </> : 
+        <div className="tile warning"> No record to display </div>}    
+      </Page>
   )
 }
 export default OrderDetail

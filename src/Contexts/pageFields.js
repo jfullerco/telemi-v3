@@ -1,7 +1,6 @@
 const pageFields = [
   {
     module: "SERVICES",
-    
     fieldGroups: [
       {
         group: "BASIC_INFO",
@@ -14,14 +13,6 @@ const pageFields = [
             inputID: "id", 
             inputValue: "Name", 
             relatedDataField: "LocationID"
-          },
-          { 
-            label: "Service Location ID", 
-            dataField: "LocationID", 
-            inputFieldType: "select", 
-            inputSource: locations, 
-            inputID: "ID", 
-            inputValue: "id" 
           },
           { 
             label: "Vendor", 
@@ -73,20 +64,39 @@ const pageFields = [
             inputSource: serviceStatusType, 
             inputID: "id", 
             inputValue: "Name" 
-          },
-          { 
-            label: "Notes", 
-            dataField: "Notes", 
-            inputFieldType: "textarea" 
           }
 
         ]
         
       },
       {
-        group: "CONFIG",
+        group: "DATA_DETAILS",
         fields: [
-          
+          {
+            label: "Bandwidth", 
+            dataField: "Bandwidth", 
+            inputFieldType: "text",  
+            inputValue: "Bandwidth"
+          },
+          {
+            label: "Private IP Range", 
+            dataField: "PrivateIPRange", 
+            inputFieldType: "text",  
+            inputValue: "PrivateIPRange"
+          },
+          { 
+            label: "Managed Router", 
+            dataField: "ManagedRouter", 
+            inputFieldType: "select",
+            inputSource: [{id: "Yes", Name: "Yes"}, {id: "No", Name: "No"}], 
+            inputID: "id",
+            inputValue: "Name"
+          },
+          { 
+            label: "Notes", 
+            dataField: "Notes", 
+            inputFieldType: "textarea" 
+          }
         ]
       }
       

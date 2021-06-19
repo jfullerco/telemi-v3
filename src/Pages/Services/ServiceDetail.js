@@ -177,7 +177,7 @@ console.log(data)
                   case "related-select":
                     return (
                       
-                            <SelectField type="select" title={h.label} name={h.dataField} value={activeService[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
+                            <SelectField type="select" title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
                                   <option id={i[h.inputID]} name={i[h.dataField]}>
@@ -191,7 +191,7 @@ console.log(data)
                   case "select":
                     return (
                       
-                            <SelectField type="select" title={h.label} name={h.dataField} value={activeService[h.dataField]} handleChange={(e)=>handleChange(e)} >
+                            <SelectField type="select" title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} handleChange={(e)=>handleChange(e)} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
                                   <option name={i[h.dataField]}>
@@ -205,7 +205,7 @@ console.log(data)
                   case "text":
                     return (
                       
-                          <TextBox title={h.label} name={h.dataField} value={activeService[h.dataField]} fieldChanged={handleChange} />
+                          <TextBox title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} fieldChanged={handleChange} />
                         
                     ) 
 
