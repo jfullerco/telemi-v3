@@ -87,6 +87,15 @@ export const StateProvider = (props) => {
       Name: "Pending Disconnect" },
     ]
 
+    const orderStatusType = [
+      { id: "Ordered",
+      Name: "Ordered" },
+      { id: "Completed",
+      Name: "Completed" },
+      { id: "Cancelled",
+      Name: "Cancelled" },
+    ]
+
     const vendorList = [
       {id: "AT&T",
       Name: "AT&T"},
@@ -330,6 +339,7 @@ export const StateProvider = (props) => {
           accessTypes,
           vendorList,
           serviceStatusType,
+          orderStatusType,
           fetchCompanies,
           toggleAdmin,
           setToggleDevTools,

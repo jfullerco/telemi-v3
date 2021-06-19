@@ -20,6 +20,7 @@ const OrderDetail = (state) => {
   const { serviceTypes, 
           accessTypes, 
           serviceStatusType,
+          orderStatusType,
           vendorList, 
           isStyle } = userContext
 
@@ -28,23 +29,24 @@ const OrderDetail = (state) => {
           orders, 
           tickets } = userContext.userSession
 
-  const [activeService, setActiveService] = useState("")
+  const [active, setActive] = useState("")
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
 
   useEffect(() => {
-    fetchService()
+    fetchOrder()
     
   }, [])
 
-  const fetchService = async() => {
+  const fetchOrder = async() => {
    
-    const serviceRef = await db.collection("Services").doc(state.location.state.id).get()
+    const orderRef = await db.collection("Order").doc(state.location.state.id).get()
     
-    const data = await serviceRef.data()
-    const id = await serviceRef.id
-    setActiveService({id: id, ...data})
+    const data = await orderRef.data()
+    const id = await orderRef.id
+    setActive({id: id, ...data})
     setData(data)
+    console.log({id: state.location.state.id, active, data})
   }
 
   const fetchAccounts = async() => {
@@ -80,7 +82,7 @@ const OrderDetail = (state) => {
 
   const handleSubmit = async(e) => {
     
-    const res = await db.collection("Services").doc(activeService.id).update(data)
+    const res = await db.collection("Services").doc(state.location.state.id).update(data)
     userContext.setDataLoading(true)
     console.log(res)
     handleToggle(!checked)
@@ -96,25 +98,21 @@ const OrderDetail = (state) => {
   }
 
   const pageFields = [
-    
-    { label: "Order Location", dataField: "LocationName", inputFieldType: "related-select", inputSource: locations, inputID: "id", inputValue: "Name", relatedDataField: "LocationID"  },
-    
+    { label: "Order Number", dataField: "OrderNum", inputFieldType: "text" },
+    { label: "Date Ordered", dataField: "OrderDate", inputFieldType: "text" },
     { label: "Vendor", dataField: "Vendor", inputFieldType: "select", inputSource: vendorList, inputID: "id", inputValue: "Name" },
-    { label: "Type", dataField: "Type", inputFieldType: "select", inputSource: serviceTypes, inputID: "id", inputValue: "Name"},
     { label: "Service Name", dataField: "VendorServiceName", inputFieldType: "text" },
-    { label: "Access Type", dataField: "AccessType", inputFieldType: "select", inputSource: accessTypes, inputID: "id", inputValue: "Name" },
-    { label: "Asset ID", dataField: "AssetID", inputFieldType: "text" },
     { label: "Bandwidth", dataField: "Bandwidth", inputFieldType: "text" },
     { label: "Monthly Cost", dataField: "MRC", inputFieldType: "text" },
-    { label: "Status", dataField: "Status", inputFieldType: "select", inputSource: serviceStatusType, inputID: "id", inputValue: "Name" },
-    { label: "Notes", dataField: "Notes", inputFieldType: "textarea" }
-    
+    { label: "Order Location", dataField: "LocationName", inputFieldType: "related-select", inputSource: locations, inputID: "id", inputValue: "Name", relatedDataField: "LocationID"  },
+    { label: "Status", dataField: "Status", inputFieldType: "select", inputSource: orderStatusType, inputID: "id", inputValue: "Name" },
+    { label: "Details", dataField: "Details", inputFieldType: "textarea" }
   ]
 
 const handleChange = (e) => {
   
   const {name, value} = e.target
-  setActiveService({...activeService, [name]: value})
+  setActive({...active, [name]: value})
   setData({...data, [name]: value})
 }
 
@@ -126,13 +124,13 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   const {value} = e.target
   
   console.log({[relatedName]: id, [name]: value})
-  setActiveService({...activeService, [relatedName]: id, [name]: value})
+  setActive({...active, [relatedName]: id, [name]: value})
   setData({...data, [relatedName]: id, [name]: value})
 }
 
 console.log(data)
   return (
-      <Page title="SERVICE DETAILS" status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
+      <Page title="ORDER DETAILS" status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
         {userContext && userContext.userSession != undefined ? 
           <>
             <TabBar>
@@ -143,9 +141,9 @@ console.log(data)
               <li><a>Billing</a></li>
               </ul>
             </TabBar>
-            {activeService && pageFields.map(el => 
+            {active && pageFields.map(el => 
               <>
-                {[activeService].map(h => 
+                {[active].map(h => 
                   <div className={el.visible != false ? "" : "is-hidden" }> 
                   <Columns options="is-mobile">
                     <Column size="is-2">
@@ -169,7 +167,7 @@ console.log(data)
               handleClose={()=>setChecked(!checked)} 
               handleSubmit={()=> handleSubmit()} 
               colRef="Services" 
-              docRef={activeService.id}
+              docRef={active.id}
             >
               {pageFields.map(h => {
                 switch (h.inputFieldType) {
@@ -177,7 +175,7 @@ console.log(data)
                   case "related-select":
                     return (
                       
-                            <SelectField type="select" title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
+                            <SelectField type="select" title={h.label} name={h.dataField} value={active && active[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
                                   <option id={i[h.inputID]} name={i[h.dataField]}>
@@ -191,7 +189,7 @@ console.log(data)
                   case "select":
                     return (
                       
-                            <SelectField type="select" title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} handleChange={(e)=>handleChange(e)} >
+                            <SelectField type="select" title={h.label} name={h.dataField} value={active && active[h.dataField]} handleChange={(e)=>handleChange(e)} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
                                   <option name={i[h.dataField]}>
@@ -205,7 +203,7 @@ console.log(data)
                   case "text":
                     return (
                       
-                          <TextBox title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} fieldChanged={handleChange} />
+                          <TextBox title={h.label} name={h.dataField} value={active && active[h.dataField]} fieldChanged={handleChange} />
                         
                     ) 
 
