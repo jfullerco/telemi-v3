@@ -115,8 +115,53 @@ const initialPageFields = [
               inputFieldValue: "OrderNum"
             },
             {
-              
-            }
+              label: "Order Date",
+              dataField: "OrderDate",
+              inputFieldType: "text",
+              inputFieldValue: "OrderDate"
+            },
+            {
+              label: "Vendor",
+              dataField: "Vendor",
+              inputFieldType: "select",
+              inputFieldValue: "Vendor"
+            },
+            {
+              label: "Service Name",
+              dataField: "VendorServiceName",
+              inputFieldType: "text",
+              inputFieldValue: "VendorServiceName"
+            },
+            {
+              label: "Bandwidth",
+              dataField: "Bandwidth",
+              inputFieldType: "text",
+              inputFieldValue: "Bandwidth"
+            },
+            {
+              label: "Monthly Cost",
+              dataField: "MRC",
+              inputFieldType: "text",
+              inputFieldValue: "MRC"
+            },
+            {
+              label: "Order Location",
+              dataField: "Location Name",
+              inputFieldType: "related-select",
+              inputFieldValue: "LocationName"
+            },
+            {
+              label: "Status",
+              dataField: "Status",
+              inputFieldType: "select",
+              inputFieldValue: "Status"
+            },
+            {
+              label: "Additional Details",
+              dataField: "Details",
+              inputFieldType: "text-area",
+              inputFieldValue: "Details"
+            },
           ]
         }
       ]
