@@ -113,6 +113,9 @@ const initialPageFields = [
               dataField: "OrderNum",
               inputFieldType: "text",
               inputFieldValue: "OrderNum"
+            },
+            {
+              
             }
           ]
         }
