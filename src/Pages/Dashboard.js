@@ -9,6 +9,8 @@ import CompanyList from './Companies/CompanyList'
 
 import DashboardGrids from './Dashboard/DashboardGrids'
 
+import DocViewer from './DocViewer'
+
 import Login from './Login'
 
 
@@ -90,7 +92,7 @@ const Dashboard = () => {
         <div>
           <DashboardGrids />
         </div>
-
+        <DocViewer />
       </>
       : 
       <>

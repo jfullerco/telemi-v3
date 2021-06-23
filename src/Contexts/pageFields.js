@@ -1,15 +1,16 @@
-const initialPageFields = [
+const pageFields = [
     {
       page: "SERVICES",
       fieldGroups: [
         {
           group: "BASIC_INFO",
+          name: "BASIC INFO",
           fields: [
             { 
               label: "Service Location", 
               dataField: "LocationName", 
               inputFieldType: "related-select", 
-              inputSource: locations, 
+              inputSource: "locations", 
               inputID: "id", 
               inputValue: "Name", 
               relatedDataField: "LocationID"
@@ -18,7 +19,7 @@ const initialPageFields = [
               label: "Vendor", 
               dataField: "Vendor", 
               inputFieldType: "select", 
-              inputSource: vendorList, 
+              inputSource: "vendorList", 
               inputID: "id", 
               inputValue: "Name" 
             },
@@ -26,7 +27,7 @@ const initialPageFields = [
               label: "Type", 
               dataField: "Type", 
               inputFieldType: "select", 
-              inputSource: serviceTypes, 
+              inputSource: "serviceTypes", 
               inputID: "id", 
               inputValue: "Name"
             },
@@ -39,7 +40,7 @@ const initialPageFields = [
               label: "Access Type", 
               dataField: "AccessType", 
               inputFieldType: "select", 
-              inputSource: accessTypes, 
+              inputSource: "accessTypes", 
               inputID: "id", 
               inputValue: "Name" 
             },
@@ -61,7 +62,7 @@ const initialPageFields = [
               label: "Status", 
               dataField: "Status", 
               inputFieldType: "select", 
-              inputSource: serviceStatusType, 
+              inputSource: "serviceStatusType", 
               inputID: "id", 
               inputValue: "Name" 
             }
@@ -71,6 +72,7 @@ const initialPageFields = [
         },
         {
           group: "DATA_DETAILS",
+          name: "DATA DETAILS",
           fields: [
             {
               label: "Bandwidth", 
@@ -168,4 +170,4 @@ const initialPageFields = [
     }    
   ]
 
-  export {pageFields}
+  export { pageFields }
