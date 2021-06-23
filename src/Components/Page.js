@@ -50,15 +50,7 @@ const Page = ({title, pageError, pageSuccess, handleSubmit, handleToggle, autoCl
           </div>
           
             {children}
-
-          <div className="py-6">
-            <button className="button is-rounded is-link mr-2" type="submit" onClick={handleSubmit}>
-              Save
-            </button>
-            <button className="button is-rounded mr-2" onClick={()=>autoClose()}>Close</button>
-        </div>
-
-           
+        <Column></Column> 
       </div>
   )
 }

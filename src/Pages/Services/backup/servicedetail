@@ -34,7 +34,6 @@ const ServiceDetailEdit = (state) => {
   const [activeService, setActiveService] = useState("")
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
-  const [tab, setTab] = useState("BASIC_INFO")
 
   useEffect(() => {
     fetchService()
@@ -101,19 +100,17 @@ const ServiceDetailEdit = (state) => {
 
   const pageFields = [
     
-    { label: "Service Location", dataField: "LocationName", inputFieldType: "related-select", inputSource: locations, inputID: "id", inputValue: "Name", relatedDataField: "LocationID", tab: "BASIC_INFO"  },
-    { label: "Service Location ID", dataField: "LocationID", visible: false, inputSource: locations, inputID: "ID", inputValue: "id", tab: "BASIC_INFO" },
-    { label: "Vendor", dataField: "Vendor", inputFieldType: "select", inputSource: vendorList, inputID: "id", inputValue: "Name", tab: "BASIC_INFO" },
-    { label: "Type", dataField: "Type", inputFieldType: "select", inputSource: serviceTypes, inputID: "id", inputValue: "Name", tab: "BASIC_INFO"},
-    { label: "Service Name", dataField: "VendorServiceName", inputFieldType: "text", tab: "BASIC_INFO" },
-    { label: "Access Type", dataField: "AccessType", inputFieldType: "select", inputSource: accessTypes, inputID: "id", inputValue: "Name", tab: "BASIC_INFO" },
-    { label: "Asset ID", dataField: "AssetID", inputFieldType: "text", tab: "BASIC_INFO" },
-    { label: "Bandwidth", dataField: "Bandwidth", inputFieldType: "text", tab: "BASIC_INFO" },
-    { label: "Monthly Cost", dataField: "MRC", inputFieldType: "text", tab: "BASIC_INFO" },
-    { label: "Status", dataField: "Status", inputFieldType: "select", inputSource: serviceStatusType, inputID: "id", inputValue: "Name", tab: "BASIC_INFO" },
-    { label: "Notes", dataField: "Notes", inputFieldType: "text-area", tab: "BASIC_INFO" },
-    { label: "Related Order", dataField: "OrderNum", inputFieldType: "related-select", inputSource: orders, inputID: "id", inputValue: "OrderNum", relatedDataField: "OrderID", tab: "DETAILS"  },
-    { label: "Related Order ID", dataField: "OrderID", visible: false, inputSource: orders, inputID: "ID", inputValue: "id", tab: "DETAILS" }
+    { label: "Service Location", dataField: "LocationName", inputFieldType: "related-select", inputSource: locations, inputID: "id", inputValue: "Name", relatedDataField: "LocationID"  },
+    { label: "Service Location ID", dataField: "LocationID", visible: false, inputSource: locations, inputID: "ID", inputValue: "id" },
+    { label: "Vendor", dataField: "Vendor", inputFieldType: "select", inputSource: vendorList, inputID: "id", inputValue: "Name" },
+    { label: "Type", dataField: "Type", inputFieldType: "select", inputSource: serviceTypes, inputID: "id", inputValue: "Name"},
+    { label: "Service Name", dataField: "VendorServiceName", inputFieldType: "text" },
+    { label: "Access Type", dataField: "AccessType", inputFieldType: "select", inputSource: accessTypes, inputID: "id", inputValue: "Name" },
+    { label: "Asset ID", dataField: "AssetID", inputFieldType: "text" },
+    { label: "Bandwidth", dataField: "Bandwidth", inputFieldType: "text" },
+    { label: "Monthly Cost", dataField: "MRC", inputFieldType: "text" },
+    { label: "Status", dataField: "Status", inputFieldType: "select", inputSource: serviceStatusType, inputID: "id", inputValue: "Name" },
+    { label: "Notes", dataField: "Notes", inputFieldType: "text-area" }
     
   ]
 
@@ -143,17 +140,17 @@ console.log(data)
           <>
             <TabBar>
               <ul>
-              <li className={tab === "BASIC_INFO" ? "is-active" : ""}><a onClick={()=>setTab("BASIC_INFO")}>Basic Info</a></li>
-              <li className={tab === "DETAILS" ? "is-active" : ""}><a onClick={()=>setTab("DETAILS")}>Details</a></li>
-              <li className={tab === "SUPPORT" ? "is-active" : ""}><a onClick={()=>setTab("SUPPORT")}>Support</a></li>
-              <li className={tab === "BILLING" ? "is-active" : ""}><a onClick={()=>setTab("BILLING")}>Billing</a></li>
+              <li className="is-active"><a>Basic Info</a></li>
+              <li><a>Config</a></li>
+              <li><a>Support</a></li>
+              <li><a>Billing</a></li>
               </ul>
             </TabBar>
-
+            
             {activeService && pageFields.map(el => 
               <>
                 {[activeService].map(h => 
-                  <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
+                  <div className={el.visible != false ? "" : "is-hidden" }> 
                   <Columns options="is-mobile">
                     <Column size="is-2">
                       <div className="has-text-weight-semibold" key={el.label}>
@@ -178,7 +175,7 @@ console.log(data)
               colRef="Services" 
               docRef={activeService.id}
             >
-              {pageFields.filter(t => t.tab === tab).map(h => { 
+              {pageFields.map(h => {
                 switch (h.inputFieldType) {
 
                   case "related-select":

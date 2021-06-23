@@ -116,9 +116,14 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   setActiveService({...activeService, [relatedName]: id, [name]: value})
   setData({...data, [relatedName]: id, [name]: value})
 }
+const pageName="SERVICES"
+const pageGroup = "BASIC_INFO"
+const [pageRef] = pageFields.filter(a => a.page === pageName)
+const [groupRef] = pageRef.fieldGroups.filter(a => a.group === pageGroup)
+const {fields} = groupRef
 
  
-console.log()
+console.log(fields)
   return (
       <></>
         
