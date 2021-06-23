@@ -9,9 +9,11 @@ import Column from '../../Components/Layout/Column'
 import Page from '../../Components/Page'
 import EditDrawer from '../../Components/Layout/EditDrawer'
 import SelectField from '../../Components/Forms/SelectField'
-import TextBox from '../../Components/Forms/TextBox'
 import TextArea from '../../Components/Forms/TextArea'
 import TabBar from '../../Components/Tabs/TabBar'
+import TextBox from '../../Components/Forms/TextBox'
+import SelectBox from '../../Components/Forms/SelectBox'
+
 
 const ServiceDetailEdit = (state) => {
 
@@ -99,7 +101,7 @@ const ServiceDetailEdit = (state) => {
   const pageFields = [
     
     { label: "Service Location", dataField: "LocationName", inputFieldType: "related-select", inputSource: locations, inputID: "id", inputValue: "Name", relatedDataField: "LocationID"  },
-    { label: "Service Location ID", dataField: "LocationID", inputFieldType: "select", visible: false, inputSource: locations, inputID: "ID", inputValue: "id" },
+    { label: "Service Location ID", dataField: "LocationID", visible: false, inputSource: locations, inputID: "ID", inputValue: "id" },
     { label: "Vendor", dataField: "Vendor", inputFieldType: "select", inputSource: vendorList, inputID: "id", inputValue: "Name" },
     { label: "Type", dataField: "Type", inputFieldType: "select", inputSource: serviceTypes, inputID: "id", inputValue: "Name"},
     { label: "Service Name", dataField: "VendorServiceName", inputFieldType: "text" },
@@ -210,13 +212,13 @@ console.log(data)
                         
                     ) 
 
-                    case "text-area":
+                  case "text-area":
                     return (
                       
                           <TextArea title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} fieldChanged={handleChange} />
                         
                     ) 
-
+  
                   }
                 }
               )}

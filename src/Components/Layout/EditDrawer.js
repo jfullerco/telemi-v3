@@ -15,7 +15,7 @@ const EditDrawer = ({title, checked, handleClose, handleSubmit, colRef, docRef, 
         </div>
         <div className="mb-2">
           <button className="button is-small is-rounded is-link" type="submit" onClick={handleSubmit}>Save</button>
-          <button className="button is-small is-rounded" onClick={handleClose}>Close</button>
+          <button className="button is-small is-rounded ml-2" onClick={handleClose}>Close</button>
           <DeleteButton colRef={colRef} docRef={docRef} />
         </div>
           {children}    
