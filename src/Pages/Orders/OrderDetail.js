@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
-import {Link, useHistory} from 'react-router-dom'
+import {useParams, useHistory} from 'react-router-dom'
 
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
@@ -14,7 +14,8 @@ import TextArea from '../../Components/Forms/TextArea'
 import TabBar from '../../Components/Tabs/TabBar'
 
 const OrderDetail = (state) => {
-
+  const params = useParams()
+  console.log(params)
   const history = useHistory()
   const userContext = useContext(stateContext)
 
@@ -33,8 +34,10 @@ const OrderDetail = (state) => {
   const [active, setActive] = useState("")
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
+  const [tab, setTab] = useState("BASIC_INFO")
 
   useEffect(() => {
+    params.checked === "true" ? setChecked(true) : ""
     fetchOrder()
     
   }, [])
@@ -99,15 +102,70 @@ const OrderDetail = (state) => {
   }
 
   const pageFields = [
-    { label: "Order Number", dataField: "OrderNum", inputFieldType: "text" },
-    { label: "Date Ordered", dataField: "OrderDate", inputFieldType: "text" },
-    { label: "Vendor", dataField: "Vendor", inputFieldType: "select", inputSource: vendorList, inputID: "id", inputValue: "Name" },
-    { label: "Service Name", dataField: "VendorServiceName", inputFieldType: "text" },
-    { label: "Bandwidth", dataField: "Bandwidth", inputFieldType: "text" },
-    { label: "Monthly Cost", dataField: "MRC", inputFieldType: "text" },
-    { label: "Order Location", dataField: "LocationName", inputFieldType: "related-select", inputSource: locations, inputID: "id", inputValue: "Name", relatedDataField: "LocationID"  },
-    { label: "Status", dataField: "Status", inputFieldType: "select", inputSource: orderStatusType, inputID: "id", inputValue: "Name" },
-    { label: "Details", dataField: "Details", inputFieldType: "text-area" }
+    { 
+      label: "Order Number", 
+      dataField: "OrderNum", 
+      inputFieldType: "text", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Date Ordered", 
+      dataField: "OrderDate", 
+      inputFieldType: "text", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Vendor", 
+      dataField: "Vendor", 
+      inputFieldType: "select", 
+      inputSource: vendorList, 
+      inputID: "id", 
+      inputValue: "Name", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Service Name", 
+      dataField: "VendorServiceName", 
+      inputFieldType: "text", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Bandwidth", 
+      dataField: "Bandwidth", 
+      inputFieldType: "text", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Monthly Cost", 
+      dataField: "MRC", 
+      inputFieldType: "text", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Order Location", 
+      dataField: "LocationName", 
+      inputFieldType: "related-select", 
+      inputSource: locations, 
+      inputID: "id", 
+      inputValue: "Name", 
+      relatedDataField: "LocationID", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Status", 
+      dataField: "Status", 
+      inputFieldType: "select", 
+      inputSource: orderStatusType, 
+      inputID: "id", 
+      inputValue: "Name", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Details", 
+      dataField: "Details", 
+      inputFieldType: "text-area", 
+      tab: "BASIC_INFO" 
+    }
   ]
 
 const handleChange = (e) => {
@@ -136,18 +194,18 @@ console.log(data)
           <>
             <TabBar>
               <ul>
-              <li className="is-active"><a>Basic Info</a></li>
-              <li><a>Config</a></li>
-              <li><a>Support</a></li>
-              <li><a>Billing</a></li>
+              <li className={tab === "BASIC_INFO" ? "is-active" : ""}><a onClick={()=>setTab("BASIC_INFO")}>Basic Info</a></li>
+              <li className={tab === "DETAILS" ? "is-active" : ""}><a onClick={()=>setTab("DETAILS")}>Details</a></li>
+              <li className={tab === "SUPPORT" ? "is-active" : ""}><a onClick={()=>setTab("SUPPORT")}>Support</a></li>
+              <li className={tab === "BILLING" ? "is-active" : ""}><a onClick={()=>setTab("BILLING")}>Billing</a></li>
               </ul>
             </TabBar>
             {active && pageFields.map(el => 
               <>
                 {[active].map(h => 
-                  <div className={el.visible != false ? "" : "is-hidden" }> 
+                  <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
                   <Columns options="is-mobile">
-                    <Column size="is-2">
+                    <Column size="is-5-mobile is-3-fullhd">
                       <div className="has-text-weight-semibold" key={el.label}>
                         {el.label} 
                       </div>

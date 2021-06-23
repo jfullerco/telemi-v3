@@ -155,13 +155,13 @@ console.log(data)
                 {[activeService].map(h => 
                   <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
                   <Columns options="is-mobile">
-                    <Column size="is-2">
+                    <Column size="is-5-mobile is-3-fullhd">
                       <div className="has-text-weight-semibold" key={el.label}>
                         {el.label} 
                       </div>
                     </Column>
                     <Column size="is-1 is-narrow">:</Column>
-                    <Column size="is-2">
+                    <Column >
                       <div>{h[el.dataField]}</div>
                     </Column>
                   </Columns>
@@ -212,14 +212,14 @@ console.log(data)
                   case "text":
                     return (
                       
-                          <TextBox title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} fieldChanged={handleChange} />
+                          <TextBox title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
                         
                     ) 
 
                   case "text-area":
                     return (
                       
-                          <TextArea title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} fieldChanged={handleChange} />
+                          <TextArea title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
                         
                     ) 
   

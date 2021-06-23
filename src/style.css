@@ -33,6 +33,7 @@ body {
 .textarea {
   border-radius: 20px;
   white-space: nowrap;
+  font-size: .75rem;
 }
 
 .field {

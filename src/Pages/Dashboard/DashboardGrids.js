@@ -301,7 +301,7 @@ const DashboardGrids = ({visible}) => {
   const handleOrderClick = (id) => {
     console.log(id)
                     history.push({
-                      pathname: "/orderdetail",
+                      pathname: `/orderdetail/${id}/${false}`,
                       state: {
                       id: id,
                       
@@ -317,7 +317,7 @@ const DashboardGrids = ({visible}) => {
     
     console.log(id)
                     history.push({
-                      pathname: "/addorder",
+                      pathname: `/addorder`,
                       state: {
                       id: id,
                       services: services,
