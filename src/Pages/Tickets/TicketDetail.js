@@ -1,193 +1,345 @@
-import React, {useEffect, useState, useRef, useContext} from 'react'
-import {useHistory} from 'react-router-dom'
+import React, {useState, useEffect, useContext, useRef} from 'react'
+import {useParams, useHistory} from 'react-router-dom'
 
-import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
+import { db } from '../../Contexts/firebase'
 
-import TextInput from '../../Components/Forms/TextInput'
-import TextArea from '../../Components/Forms/TextArea'
-import SelectInputProps from '../../Components/Forms/SelectInputProps'
+import Columns from '../../Components/Layout/Columns'
+import Column from '../../Components/Layout/Column'
 import Page from '../../Components/Page'
-import GridComponent from '../../Components/Layout/GridComponent'
-import Fade from '../../Components/Transitions/FadeTransition'
+import EditDocDrawer from '../../Components/Layout/EditDocDrawer'
+import SelectField from '../../Components/Forms/SelectField'
+import TextArea from '../../Components/Forms/TextArea'
+import TabBar from '../../Components/Tabs/TabBar'
+import TextBox from '../../Components/Forms/TextBox'
+import SelectBox from '../../Components/Forms/SelectBox'
+
 
 const TicketDetail = (state) => {
-
-  const userContext = useContext(stateContext)
-  const { currentTicketID,
-          services} = userContext.userSession
-
+  const params = useParams()
   const history = useHistory()
-  
-  
-  const [pageSuccess, setPageSuccess] = useState()
-  const [pageError, setPageError] = useState()
-  
+  const userContext = useContext(stateContext)
 
-  const [activeTicket, setActiveTicket] = useState()
-  const [locations, setLocations] = useState(state.location.state.locations)
-  const [accounts, setAccounts] = useState(state.location.state.accounts)
-  
-  const ticketNum = useRef("")
-  const ticketLocationID = useRef("")
-  const ticketVendor = useRef("")
-  const ticketDate = useRef("")
-  const ticketType = useRef("")
-  const ticketStatus = useRef("")
-  const ticketDetails = useRef("")
-  const ticketAccountID = useRef("")
-  const ticketAccountNum = useRef("")
-  const ticketCompletedDate = useRef("")
+  const { serviceTypes, 
+          accessTypes, 
+          serviceStatusType,
+          vendorList, 
+          isStyle } = userContext
 
-  const serviceColumns = [
-  {docField: 'Vendor', headerName: 'Vendor', key: "1", filterable: true},
-  {docField: 'VendorServiceName', headerName: 'Product', key: "2", filterable: true},
-  {docField: 'LocationName', headerName: 'Location', key: "3", filterable: true},
-  {docField: 'AssetID', headerName: 'Asset ID', key: "4", filterable: false},
-  {docField: 'Type', headerName: 'Type', key: "5", filterable: true}
-  ]
-  
+  const { locations,
+          services, 
+          orders, 
+          tickets } = userContext.userSession
+
+  const [activeTicket, setActiveTicket] = useState("")
+  const [data, setData] = useState()
+  const [checked, setChecked] = useState(false)
+  const [tab, setTab] = useState("BASIC_INFO")
 
   useEffect(() => {
     fetchTicket()
-  },[])
+    
+  }, [])
 
   const fetchTicket = async() => {
+   
     const ticketRef = await db.collection("Tickets").doc(state.location.state.id).get()
-    const id = ticketRef.id
-    const data = ticketRef.data()
-    setActiveTicket(data)
+    
+    const data = await ticketRef.data()
+    const id = await ticketRef.id
+    setActiveTicket({id: id, ...data})
+    setData(data)
+  }
+
+  const fetchAccounts = async() => {
+   
+    const accountRef = await db.collection("Accounts").where("AccountServiceID", "==", state.location.state.id).get()
+    
+    const accounts = await accountRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+
+    setActiveAccounts(accounts)
+    
+  }
+
+  const fetchTickets = async() => {
+   
+    const serviceRef = await db.collection("Tickets").where("TicketServiceID", "==", state.location.state.id).get()
+    
+    const data = await serviceRef.data()
+    const id = await serviceRef.id
+    setActiveService(data)
+    
+  }
+
+  const fetchOrders = async() => {
+   
+    const serviceRef = await db.collection("Orders").where("OrderServiceID", "==", state.location.state.id).get()
+    
+    const data = await serviceRef.data()
+    const id = await serviceRef.id
+    
+    setActiveService(id, data)
+    
   }
 
   const handleSubmit = async(e) => {
-    const data = {
-      TicketNum: ticketNum.current.value,
-      CompanyID: userContext.userSession.currentCompanyID,
-      CompanyName: userContext.userSession.currentCompany,
-      DateSubmitted: ticketDate.current.value,
-      Type: ticketType.current.value,
-      Status: ticketStatus.current.value,
-      Details: ticketDetails.current.value,
-      LocationID: ticketLocationID.current.value,
-      LocationName: ticketLocationID.current[ticketLocationID.current.selectedIndex].text,
-      AccountID: ticketAccountID.current.value,
-      AccountNum: ticketAccountID.current[ticketAccountID.current.selectedIndex].text,
-      Vendor: ticketVendor.current.value
-    }  
-    console.log(data)
-    try {
-      await db.collection("Tickets").doc(state.location.state.id).update(data)
-      setPageSuccess("Ticket Added")
-      autoClose()
-    } catch {
-      setPageError("Error Adding Ticket")
-    }
+    
+    const res = await db.collection("Tickets").doc(activeTicket.id).update(data)
+    userContext.setDataLoading(true)
+    console.log(res)
+    handleToggle(!checked)
+
+  }
+
+  const handleToggle = () => {
+    setChecked(!checked)
   }
 
   const autoClose = () => {
-    setTimeout(() => {history.push("/dashboard")}, 1000)
+    setTimeout(() => {history.push("/dashboard")}, 1500)
   }
+
+  const pageFields = [
+    
+    { 
+      label: "Ticket Number", 
+      dataField: "TicketNum", 
+      inputFieldType: "text", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Service Location", 
+      dataField: "LocationName", 
+      inputFieldType: "related-select", 
+      inputSource: locations, 
+      inputID: "id", 
+      inputValue: "Name", 
+      relatedDataField: "LocationID", 
+      tab: "BASIC_INFO"  
+    },
+    { 
+      label: "Service Location ID", 
+      dataField: "LocationID", 
+      visible: false, 
+      inputSource: locations, 
+      inputID: "ID", 
+      inputValue: "id", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Vendor", 
+      dataField: "Vendor", 
+      inputFieldType: "select", 
+      inputSource: vendorList, 
+      inputID: "id", 
+      inputValue: "Name", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Type", 
+      dataField: "Type", 
+      inputFieldType: "select", 
+      inputSource: serviceTypes, 
+      inputID: "id", 
+      inputValue: "Name", 
+      tab: "BASIC_INFO"
+    },
+    { 
+      label: "Service Name", 
+      dataField: "VendorServiceName", 
+      inputFieldType: "text", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Access Type", 
+      dataField: "AccessType", 
+      inputFieldType: "select", 
+      inputSource: accessTypes, 
+      inputID: "id", 
+      inputValue: "Name", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Asset ID", 
+      dataField: "AssetID", 
+      inputFieldType: "text", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Bandwidth", 
+      dataField: "Bandwidth", 
+      inputFieldType: "text", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Monthly Cost", 
+      dataField: "MRC", 
+      inputFieldType: "text", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Status", 
+      dataField: "Status", 
+      inputFieldType: "select", 
+      inputSource: serviceStatusType, 
+      inputID: "id", 
+      inputValue: "Name", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Notes", 
+      dataField: "Notes", 
+      inputFieldType: "text-area", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Related Order", 
+      dataField: "OrderNum", 
+      inputFieldType: "related-select", 
+      inputSource: orders, 
+      inputID: "id", 
+      inputValue: "OrderNum", 
+      relatedDataField: "OrderID", 
+      tab: "DETAILS"  
+    },
+    { 
+      label: "Related Order ID", 
+      dataField: "OrderID", 
+      visible: false, 
+      inputSource: orders, 
+      inputID: "ID", 
+      inputValue: "id", 
+      tab: "DETAILS" 
+    },
+    { 
+      label: "Last Updated", 
+      dataField: "LastUpdated", 
+      visible: false, 
+      inputFieldType: "text", 
+      inputValue: Date.now() 
+    },
+    
+  ]
+
+const handleChange = (e) => {
   
+  const {name, value} = e.target
+  setActiveTicket({...activeService, [name]: value})
+  setData({...data, [name]: value})
+}
+
+const handleRelatedSelectChange = (e, relatedDataField) => {
+  e.preventDefault()
+  const selectedValue = e.target.options[e.target.selectedIndex].text
+  const id = e.target.options[e.target.selectedIndex].id
+  const {name, relatedName} = relatedDataField
+  const {value} = e.target
+  
+  console.log({[relatedName]: id, [name]: value})
+  setActiveTicket({...activeService, [relatedName]: id, [name]: value})
+  setData({...data, [relatedName]: id, [name]: value})
+}
+
+console.log(data)
   return (
-    <Page title="TICKET DETAILS" handleSubmit={handleSubmit} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
-          <form>
-          {activeTicket && <>
-            
-            
-            <TextInput 
-              inputFieldLabel="Ticket Number"
-              inputFieldRef={ticketNum}
-              inputFieldValue={activeTicket.TicketNum}
-            />
-            
-
-            <SelectInputProps 
-              fieldLabel="Service Location"
-              fieldInitialValue={activeTicket.LocationID}
-              fieldInitialOption={activeTicket.LocationName}
-              fieldIDRef={ticketLocationID}>
-                {locations != undefined ? 
-                  locations.map(location => (
-                    <option value={location.id} key={location.id}> 
-                    {location.Name}</option>
-                )) : (
-                  <option></option>
+      <Page title="TICKET" subtitle={activeTicket.TicketNum} status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
+        {userContext && userContext.userSession != undefined ? 
+          <>
+            <TabBar>
+              <ul>
+              <li className={tab === "BASIC_INFO" ? "is-active" : ""}><a onClick={()=>setTab("BASIC_INFO")}>Basic Info</a></li>
+              <li className={tab === "DETAILS" ? "is-active" : ""}><a onClick={()=>setTab("DETAILS")}>Details</a></li>
+              <li className={tab === "SUPPORT" ? "is-active" : ""}><a onClick={()=>setTab("SUPPORT")}>Support</a></li>
+              <li className={tab === "BILLING" ? "is-active" : ""}><a onClick={()=>setTab("BILLING")}>Billing</a></li>
+              </ul>
+            </TabBar>
+            <nav className="breadcrumb" aria-label="breadcrumbs">
+              <ul>
+                <li className="is-size-7 is-uppercase">last updated: {activeTicket.LastUpdated && activeTicket.LastUpdated}</li>
+                <li className="is-size-7 is-uppercase">updated by: {activeTicket.LastUpdatedBy && activeTicket.LastUpdatedBy}</li>
+              </ul>
+            </nav>
+            {activeTicket && pageFields.map(el => 
+              <>
+                {[activeTicket].map(h => 
+                  <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
+                  <Columns options="is-mobile">
+                    <Column size="is-5-mobile is-3-fullhd">
+                      <div className="has-text-weight-semibold" key={el.label}>
+                        {el.label} 
+                      </div>
+                    </Column>
+                    <Column size="is-1 is-narrow">:</Column>
+                    <Column >
+                      <div>{h[el.dataField]}</div>
+                    </Column>
+                  </Columns>
+                  </div>
                 )}
-            </SelectInputProps>
+              </>
+            )}
 
-            <SelectInputProps 
-              fieldLabel="Related Account"
-              fieldInitialValue={activeTicket.AccountID}
-              fieldInitialOption={activeTicket.AccountNum}
-              fieldIDRef={ticketAccountID}>
-                {accounts != undefined ? 
-                  accounts.map(account => (
-                    <option value={account.id} key={account.id}> 
-                    {account.AccountNum}</option>
-                )) : (
-                  <option></option>
-                )}
-            </SelectInputProps>
+            <EditDocDrawer 
+              title="BASIC INFO" 
+              checked={checked} 
+              handleClose={()=>setChecked(!checked)} 
+              handleSubmit={()=> handleSubmit()} 
+              colRef="Tickets" 
+              docRef={activeTicket.id}
+            >
+              {pageFields.filter(t => t.tab === tab).map(h => { 
+                switch (h.inputFieldType) {
 
-            <SelectInputProps
-              fieldLabel="Vendor"
-              fieldInitialValue={activeTicket.Vendor}
-              fieldInitialOption={activeTicket.Vendor}
-              fieldIDRef={ticketVendor}>
-                <option>AT&T</option>
-                <option>Verizon</option>
-                <option>CenturyLink</option>
-                <option>Lumos</option>
-                <option>Windstream</option>
-                <option>Spectrum</option>
-                <option>Comcast</option>
-                <option>Masergy</option>
-                <option>Microsoft</option>
-            </SelectInputProps>
+                  case "related-select":
+                    return (
+                      
+                            <SelectField type="select" title={h.label} name={h.dataField} value={activeTicket && activeTicket[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
+                              <option></option>
+                                {h.inputSource && h.inputSource.map(i => 
+                                  <option id={i[h.inputID]} name={i[h.dataField]}>
+                                    {i[h.inputValue]}
+                                  </option>
+                                )}
+                            </SelectField>
+                        
+                    ) 
 
-            <TextInput 
-              inputFieldLabel="Date Submitted"
-              inputFieldRef={ticketDate}
-              inputFieldValue={activeTicket.DateSubmitted}
-            />
+                  case "select":
+                    return (
+                      
+                            <SelectField type="select" title={h.label} name={h.dataField} value={activeTicket && activeTicket[h.dataField]} handleChange={(e)=>handleChange(e)} >
+                              <option></option>
+                                {h.inputSource && h.inputSource.map(i => 
+                                  <option name={i[h.dataField]}>
+                                    {i[h.inputValue]} 
+                                  </option>
+                                )}
+                            </SelectField>
+                        
+                    ) 
 
-            <SelectInputProps
-              fieldLabel="Type"
-              fieldInitialValue={activeTicket.Type}
-              fieldInitialOption={activeTicket.Type}
-              fieldIDRef={ticketType}>
-                <option> Dispute </option>
-                <option> Disconnect </option>
-                <option> Service </option>
-                <option> Order </option>
-            </SelectInputProps>
-            
-            <SelectInputProps
-              fieldLabel="Status"
-              fieldInitialValue={activeTicket.Status}
-              fieldInitialOption={activeTicket.Status}
-              fieldIDRef={ticketStatus}>
-                <option> Active </option>
-                <option> Closed/Resolved </option>
-                <option> Closed/Unresolved </option>
-                <option> Completed </option>
-            </SelectInputProps>
+                  case "text":
+                    return (
+                      
+                          <TextBox title={h.label} name={h.dataField} value={activeTicket && activeTicket[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
+                        
+                    ) 
 
-            <TextArea 
-              inputFieldLabel="Details"
-              inputFieldRef={ticketDetails}
-              inputFieldValue={activeTicket.Details}
-            />
-
-            <GridComponent 
-              label="Related Service"
-              headerFields={serviceColumns}
-              data={services}
-              isVisible={true}
-            />
-          </>}
-          </form>
-       </Page>
+                  case "text-area":
+                    return (
+                      
+                          <TextArea title={h.label} name={h.dataField} value={activeTicket && activeTicket[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
+                        
+                    ) 
+  
+                  }
+                }
+              )}
+              
+            </EditDocDrawer>
+          </> : 
+        <div className="tile warning"> No record to display </div>}    
+      </Page>
   )
 }
 export default TicketDetail

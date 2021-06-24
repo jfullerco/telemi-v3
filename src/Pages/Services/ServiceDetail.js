@@ -7,7 +7,7 @@ import { db } from '../../Contexts/firebase'
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
 import Page from '../../Components/Page'
-import EditDrawer from '../../Components/Layout/EditDrawer'
+import EditDocDrawer from '../../Components/Layout/EditDocDrawer'
 import SelectField from '../../Components/Forms/SelectField'
 import TextArea from '../../Components/Forms/TextArea'
 import TabBar from '../../Components/Tabs/TabBar'
@@ -113,7 +113,8 @@ const ServiceDetailEdit = (state) => {
     { label: "Status", dataField: "Status", inputFieldType: "select", inputSource: serviceStatusType, inputID: "id", inputValue: "Name", tab: "BASIC_INFO" },
     { label: "Notes", dataField: "Notes", inputFieldType: "text-area", tab: "BASIC_INFO" },
     { label: "Related Order", dataField: "OrderNum", inputFieldType: "related-select", inputSource: orders, inputID: "id", inputValue: "OrderNum", relatedDataField: "OrderID", tab: "DETAILS"  },
-    { label: "Related Order ID", dataField: "OrderID", visible: false, inputSource: orders, inputID: "ID", inputValue: "id", tab: "DETAILS" }
+    { label: "Related Order ID", dataField: "OrderID", visible: false, inputSource: orders, inputID: "ID", inputValue: "id", tab: "DETAILS" },
+    { label: "Last Updated", dataField: "LastUpdated", visible: false, inputFieldType: "text", inputValue: Date.now() },
     
   ]
 
@@ -138,7 +139,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
 
 console.log(data)
   return (
-      <Page title="SERVICE DETAILS" status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
+      <Page title="DETAILS" subtitle={activeService.AssetID} status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
         {userContext && userContext.userSession != undefined ? 
           <>
             <TabBar>
@@ -149,7 +150,12 @@ console.log(data)
               <li className={tab === "BILLING" ? "is-active" : ""}><a onClick={()=>setTab("BILLING")}>Billing</a></li>
               </ul>
             </TabBar>
-
+            <nav className="breadcrumb" aria-label="breadcrumbs">
+              <ul>
+                <li className="is-size-7 is-uppercase">last updated: {activeService.LastUpdated && activeService.LastUpdated}</li>
+                <li className="is-size-7 is-uppercase">updated by: {activeService.LastUpdatedBy && activeService.LastUpdatedBy}</li>
+              </ul>
+            </nav>
             {activeService && pageFields.map(el => 
               <>
                 {[activeService].map(h => 
@@ -170,7 +176,7 @@ console.log(data)
               </>
             )}
 
-            <EditDrawer 
+            <EditDocDrawer 
               title="BASIC INFO" 
               checked={checked} 
               handleClose={()=>setChecked(!checked)} 
@@ -227,7 +233,7 @@ console.log(data)
                 }
               )}
               
-            </EditDrawer>
+            </EditDocDrawer>
           </> : 
         <div className="tile warning"> No record to display </div>}    
       </Page>

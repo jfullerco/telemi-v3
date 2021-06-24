@@ -56,10 +56,10 @@ const DashboardGrids = ({visible}) => {
     const timer = setTimeout(() => {
       fetchLocations(),
       fetchServices(),
+      fetchTickets(),
       fetchOrders(),
       fetchAccounts()
       fetchUsers()
-      fetchTickets()
       fetchContracts()
       cancelLoading()
     }, 1000)
@@ -75,17 +75,6 @@ const DashboardGrids = ({visible}) => {
   const fetchLocations = async() => {
 
     const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const locations = locationsRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setLocations(locations)
-    userContext.setDataLoading(false)
-  }
-
-  const fetchLocationsSort = async(value) => {
-
-    const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).orderBy(value).get()
 
     const locations = locationsRef.docs.map(doc => ({
       id: doc.id,
@@ -125,39 +114,6 @@ const DashboardGrids = ({visible}) => {
       ...doc.data()}))
     setContracts(contracts)
     userContext.setDataLoading(false)
-  }
-
-  const fetchServicesFilter = async(key, value) => {
-  
-    const servicesRef = await db.collection("Services").where("CompanyID", "==", userContext.userSession.currentCompanyID).where(key, "==", value).get()
-
-    const services = servicesRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setServices(services)
-    userContext.setDataLoading(false)
-
-  }
-
-  const fetchServicesSort = async(value) => {
-    
-    const servicesRef = await db.collection("Services").where("CompanyID", "==", userContext.userSession.currentCompanyID).orderBy(value).get()
-
-    const services = servicesRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setServices(services)
-    userContext.setDataLoading(false)
-
-  }
-
-  const handleServicesSort = (value) => {
-    
-    sortOrder = !sortOrder
-    const sorted = [...services].sort((a,b) => (sortOrder ? (a[value] > b[value]) : (b[value] > a[value])))
-    
-    console.log(sorted)
-    setServices(sorted)
   }
 
   const fetchAccounts = async() => {
@@ -220,14 +176,6 @@ const DashboardGrids = ({visible}) => {
   {docField: 'Type', headerName: 'Type', key: "5", filterable: true}
   ]
 
-  const accountColumns = [
-  {docField: 'Vendor', headerName: 'Vendor', key: "1", filterable: true},
-  {docField: 'AccountNum', headerName: 'Account', key: "2", filterable: true},
-  {docField: 'SubAccountNum', headerName: 'Sub-Account', key: "3", filterable: true},
-  {docField: 'AccountServiceLocationName', headerName: 'Location', key: "4", filterable: true},
-  {docField: 'PostTaxMRC', headerName: 'Cost', key: "5", filterable: false}
-  ]
-
   const ticketColumns = [
   {docField: 'Status', headerName: 'Status', key: "1", filterable: true},
   {docField: 'TicketNum', headerName: 'Ticket', key: "2", filterable: false},
@@ -242,6 +190,14 @@ const DashboardGrids = ({visible}) => {
   {docField: 'VendorServiceName', headerName: 'Product', key: "3", filterable: true},
   {docField: 'LocationName', headerName: 'Location', key: "4", filterable: true},
   {docField: 'OrderNum', headerName: 'Order Number', key: "5", filterable: false}
+  ]
+
+  const accountColumns = [
+  {docField: 'Vendor', headerName: 'Vendor', key: "1", filterable: true},
+  {docField: 'AccountNum', headerName: 'Account', key: "2", filterable: true},
+  {docField: 'SubAccountNum', headerName: 'Sub-Account', key: "3", filterable: true},
+  {docField: 'AccountServiceLocationName', headerName: 'Location', key: "4", filterable: true},
+  {docField: 'PostTaxMRC', headerName: 'Cost', key: "5", filterable: false}
   ]
 
   const userColumns = [
@@ -301,7 +257,7 @@ const DashboardGrids = ({visible}) => {
   const handleOrderClick = (id) => {
     console.log(id)
                     history.push({
-                      pathname: `/orderdetail/${id}/${false}`,
+                      pathname: `/orderdetail/${id}/${false}/${false}`,
                       state: {
                       id: id,
                       
@@ -317,7 +273,7 @@ const DashboardGrids = ({visible}) => {
     
     console.log(id)
                     history.push({
-                      pathname: `/addorder`,
+                      pathname: `/orderdetail/${id}/${true}/${true}`,
                       state: {
                       id: id,
                       services: services,
@@ -385,7 +341,6 @@ const DashboardGrids = ({visible}) => {
 return (
   <>
     <div className={loadingGrid != false ? "modal is-active" : "modal"}><div className="loading"></div></div>
-    <button type="submit" className="is-hidden" onClick={()=>handleFilterClick(services, "Type", "Ethernet")}>Test</button>
 
     <GridComponent 
       label="SERVICES"
@@ -396,7 +351,7 @@ return (
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
       handleAddBtn={() => history.push("/addservice")}
-      isVisible={!serviceIsVisible}
+      isVisible={serviceIsVisible}
       toggleIsVisible={()=>{setServiceIsVisible(!serviceIsVisible)}}
     />
 

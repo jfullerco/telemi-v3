@@ -65,19 +65,20 @@ const NavBar = () => {
             <a className="navbar-item" onClick={()=>history.push("/dashboard")}>{userFirstName}</a>
             
           <div className="navbar-item has-dropdown is-hoverable">
+
             <a className="navbar-link" onClick={()=>history.push("/dashboard")}>Dashboard</a>
   
             <div className="navbar-dropdown">
-            <a className="navbar-item">ACCOUNTS</a>
-            <a className="navbar-item">ORDERS</a>
-            <a className="navbar-item">TICKETS</a>
-            <a className="navbar-item">LOCATIONS</a>
-            <a className="navbar-item">USERS</a>
-            <a className="navbar-item">SETTINGS</a>
-          </div>
+              <a className="navbar-item">ACCOUNTS</a>
+              <a className="navbar-item">ORDERS</a>
+              <a className="navbar-item">TICKETS</a>
+              <a className="navbar-item">LOCATIONS</a>
+              <a className="navbar-item">USERS</a>
+              <a className="navbar-item">SETTINGS</a>
+            </div>
             
-          
           </div>
+
           <a onClick={()=>logOut()} className="navbar-item">
             Logout
           </a>

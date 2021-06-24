@@ -5,7 +5,7 @@ import Columns from './Layout/Columns'
 import Column from './Layout/Column'
 
 
-const Page = ({title, pageError, pageSuccess, handleSubmit, handleToggle, autoClose, status, children}) => {
+const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, handleToggle, autoClose, status, children}) => {
 
   const history = useHistory()
   
@@ -14,8 +14,8 @@ const Page = ({title, pageError, pageSuccess, handleSubmit, handleToggle, autoCl
         <Columns options="is-vcentered">
           
           <Column size="is-half">
-            <div className="title">
-              {title}
+            <div>
+              <span className="is-size-6 is-family-monospace">{title}/</span> <span className="is-size-4 has-text-weight-semibold ">{subtitle}</span>
             </div> 
           </Column>
 

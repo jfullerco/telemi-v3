@@ -92,15 +92,15 @@ const CompanyList = () => {
       {
         userContext.userSession.userType != "User" ? 
         <>
-        <Columns options="is-vcentered is-1">
+        <Columns options="is-vcentered">
         
           <Column options="is-10">
             <SelectInputProps 
               fieldLabel=""
               fieldInitialValue={userContext.userSession.currentCompanyID}
-              fieldInitialOption="Choose a Company"
+              fieldInitialOption="Select Company"
               fieldIDRef={activeCompanyID}
-              placeholder="Choose a Company"
+              placeholder="Select Company"
               onChange={handleChange}
               size="is-small">
                 {userContext.userSession.companies != "" ? 

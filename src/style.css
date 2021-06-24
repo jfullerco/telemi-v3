@@ -1,5 +1,6 @@
 :root {
   --speed: 500ms
+  
 }
 
 .page {
@@ -16,6 +17,7 @@ body {
         display: flex;
         flex-direction: column;
         scroll-behavior: smooth;
+        
       }
  
 #wrapper {

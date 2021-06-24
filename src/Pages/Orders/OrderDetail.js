@@ -7,7 +7,7 @@ import { db } from '../../Contexts/firebase'
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
 import Page from '../../Components/Page'
-import EditDrawer from '../../Components/Layout/EditDrawer'
+import EditDocDrawer from '../../Components/Layout/EditDocDrawer'
 import SelectField from '../../Components/Forms/SelectField'
 import TextBox from '../../Components/Forms/TextBox'
 import TextArea from '../../Components/Forms/TextArea'
@@ -15,7 +15,7 @@ import TabBar from '../../Components/Tabs/TabBar'
 
 const OrderDetail = (state) => {
   const params = useParams()
-  console.log(params)
+  
   const history = useHistory()
   const userContext = useContext(stateContext)
 
@@ -29,22 +29,32 @@ const OrderDetail = (state) => {
   const { locations,
           services, 
           orders, 
-          tickets } = userContext.userSession
+          tickets, 
+          currentCompany,
+          currentCompanyID } = userContext.userSession
 
   const [active, setActive] = useState("")
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
+  const [newOrder, setNewOrder] = useState(false)
   const [tab, setTab] = useState("BASIC_INFO")
 
   useEffect(() => {
     params.checked === "true" ? setChecked(true) : ""
+    params.new === "true" ? setNewOrder(true) : 
     fetchOrder()
     
   }, [])
 
+  useEffect(()=> {
+    newOrder === true ?
+    setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany}) : ""
+    console.log(data)
+  },[newOrder])
+
   const fetchOrder = async() => {
    
-    const orderRef = await db.collection("Orders").doc(state.location.state.id).get()
+    const orderRef = await db.collection("Orders").doc(params.id).get()
     
     const data = await orderRef.data()
     const id = await orderRef.id
@@ -85,10 +95,12 @@ const OrderDetail = (state) => {
   }
 
   const handleSubmit = async(e) => {
+    newOrder  === true ? 
     
-    const res = await db.collection("Orders").doc(state.location.state.id).update(data)
+    await db.collection("Orders").doc().set(data) : 
+    await db.collection("Orders").doc(state.location.state.id).update(data)
     userContext.setDataLoading(true)
-    console.log(res)
+    console.log()
     handleToggle(!checked)
 
   }
@@ -189,7 +201,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
 
 console.log(data)
   return (
-      <Page title="ORDER DETAILS" status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
+      <Page title={`ORDER`} subtitle={active.OrderNum} active={active.CompanyName} status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
         {userContext && userContext.userSession != undefined ? 
           <>
             <TabBar>
@@ -220,12 +232,12 @@ console.log(data)
               </>
             )}
 
-            <EditDrawer 
+            <EditDocDrawer 
               title="BASIC INFO" 
               checked={checked} 
               handleClose={()=>setChecked(!checked)} 
               handleSubmit={()=> handleSubmit()} 
-              colRef="Services" 
+              colRef="Orders" 
               docRef={active.id}
             >
               {pageFields.map(h => {
@@ -277,7 +289,7 @@ console.log(data)
                 }
               )}
               
-            </EditDrawer>
+            </EditDocDrawer>
           </> : 
         <div className="tile warning"> No record to display </div>}    
       </Page>

@@ -65,19 +65,16 @@ const Dashboard = () => {
           <>
              
 
-              <div className="block">
-                <span className="title has-text-black is-size-3 is-size-5-mobile" style={{textTransform: "uppercase"}}>
+              <section className="hero is-small">
+                <div className="hero-body">
+                <p className="title has-text-black is-size-3 is-size-5-mobile" style={{textTransform: "uppercase"}}>
                   {userContext.userSession.currentCompany}
-                </span>
+                </p>
 
-                 
-                  <span className="px-3">
-                    <a className={companies && companies.length > 1 ? "link is-small is-link is-rounded is-7" : "is-hidden"} onClick={()=>setToggleCompanyList(!toggleCompanyList)}>
-                      change
-                    </a> 
-                  </span>
-                
-              </div>
+                 <CompanyList />
+                  
+                </div>
+              </section>
 
             
 
@@ -92,7 +89,6 @@ const Dashboard = () => {
         <div>
           <DashboardGrids />
         </div>
-        <DocViewer />
       </>
       : 
       <>
