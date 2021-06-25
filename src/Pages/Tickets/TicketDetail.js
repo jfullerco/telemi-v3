@@ -16,6 +16,7 @@ import SelectBox from '../../Components/Forms/SelectBox'
 
 
 const TicketDetail = (state) => {
+
   const params = useParams()
   const history = useHistory()
   const userContext = useContext(stateContext)
@@ -24,23 +25,40 @@ const TicketDetail = (state) => {
           accessTypes, 
           serviceStatusType,
           vendorList, 
-          isStyle } = userContext
+          isStyle,
+          setCurrentDate } = userContext
 
   const { locations,
           services, 
           orders,
           accounts, 
-          tickets } = userContext.userSession
+          tickets,
+          currentUser,
+          currentCompany,
+          currentCompanyID } = userContext.userSession
 
   const [activeTicket, setActiveTicket] = useState("")
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
+  const [newTicket, setNewTicket] = useState(false)
+  const [updated, setUpdated] = useState(false)
   const [tab, setTab] = useState("BASIC_INFO")
 
   useEffect(() => {
+    params.checked === "true" ? setChecked(true) : ""
+    params.new === "true" ? setNewTicket(true) : 
     fetchTicket()
-    
   }, [])
+
+  useEffect(()=> {
+    newTicket === true ?
+    setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany}) : ""
+    console.log(data)
+  },[newTicket])
+
+  useEffect(() => {
+    handleSetLastUpdatedFields()
+  },[updated])
 
   const fetchTicket = async() => {
    
@@ -84,12 +102,11 @@ const TicketDetail = (state) => {
   }
 
   const handleSubmit = async(e) => {
-    
-    const res = await db.collection("Tickets").doc(activeTicket.id).update(data)
+    newTicket  === true ? 
+    await db.collection("Tickets").doc().set(data) : 
+    await db.collection("Tickets").doc(activeTicket.id).update(data)
     userContext.setDataLoading(true)
-    console.log(res)
     handleToggle(!checked)
-
   }
 
   const handleToggle = () => {
@@ -164,8 +181,21 @@ const TicketDetail = (state) => {
     { 
       label: "Type", 
       dataField: "Type", 
-      inputFieldType: "text", 
-      inputSource: "", 
+      inputFieldType: "select", 
+      inputSource: [
+                      { 
+                        id: "Service",
+                        Name: "Service" 
+                      },
+                      { 
+                        id: "Billing",
+                        Name: "Billing" 
+                      },
+                      { 
+                        id: "Disconnect",
+                        Name: "Disconnect" 
+                      }
+        ], 
       inputID: "id", 
       inputValue: "Name", 
       tab: "BASIC_INFO" 
@@ -173,8 +203,25 @@ const TicketDetail = (state) => {
     { 
       label: "Status", 
       dataField: "Status", 
-      inputFieldType: "text", 
-      inputSource: "", 
+      inputFieldType: "select", 
+      inputSource: [
+                      { 
+                        id: "Active",
+                        Name: "Active" 
+                      },
+                      { 
+                        id: "Completed",
+                        Name: "Completed" 
+                      },
+                      { 
+                        id: "Cancelled",
+                        Name: "Cancelled" 
+                      },
+                      { 
+                        id: "Closed",
+                        Name: "Closed" 
+                      }
+        ], 
       inputID: "id", 
       inputValue: "Name", 
       tab: "BASIC_INFO"  
@@ -185,21 +232,27 @@ const TicketDetail = (state) => {
       inputFieldType: "text-area", 
       tab: "BASIC_INFO" 
     },
-    { 
-      label: "Last Updated", 
-      dataField: "LastUpdated", 
-      visible: false, 
-      inputFieldType: "text", 
-      inputValue: Date.now() 
-    },
     
   ]
 
+  const handleSetLastUpdatedFields = () => {
+    setActiveTicket({
+      ...activeTicket,  
+      ['LastUpdated']: setCurrentDate(),
+      ['LastUpdatedBy']: currentUser
+    })
+    setData({
+      ...data, 
+      ['LastUpdated']: setCurrentDate(),
+      ['LastUpdatedBy']: currentUser
+    })
+  }  
+
 const handleChange = (e) => {
-  
   const {name, value} = e.target
   setActiveTicket({...activeTicket, [name]: value})
   setData({...data, [name]: value})
+  setUpdated(!updated)
 }
 
 const handleRelatedSelectChange = (e, relatedDataField) => {
@@ -212,6 +265,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   console.log({[relatedName]: id, [name]: value})
   setActiveTicket({...activeTicket, [relatedName]: id, [name]: value})
   setData({...data, [relatedName]: id, [name]: value})
+  setUpdated(!updated)
 }
 
 console.log(data)

@@ -139,6 +139,7 @@ const ServiceDetailEdit = (state) => {
     
     
   ]
+  
 const handleSetLastUpdatedFields = () => {
   setActiveService({
     ...activeService,  
@@ -151,6 +152,7 @@ const handleSetLastUpdatedFields = () => {
     ['LastUpdatedBy']: currentUser
   })
 }  
+
 const handleChange = (e) => {
   const {name, value} = e.target
   console.log(name, value)
