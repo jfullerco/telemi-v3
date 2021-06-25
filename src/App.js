@@ -11,7 +11,7 @@ import Register from './Pages/Register'
 import NavBar from './Components/NavBar'
 
 import AddCompany from './Pages/Companies/AddCompany'
-import AddService from './Pages/Services/AddService'
+
 import AddAccount from './Pages/Accounts/AddAccount'
 import AddLocation from './Pages/Locations/AddLocation'
 import AddOrder from './Pages/Orders/AddOrder'
@@ -64,7 +64,7 @@ export default function App() {
             <Route path="/contractdetail/:id/:checked/:new" component={ContractDetail} />
             
             <Route path="/addcompany" component={AddCompany} />
-            <Route path="/addservice" component={AddService} />
+            
             <Route path="/addaccount" component={AddAccount} />
             <Route path="/addlocation" component={AddLocation} />
             <Route path="/addorder" component={AddOrder} />

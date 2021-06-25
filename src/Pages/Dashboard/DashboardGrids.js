@@ -214,8 +214,6 @@ const DashboardGrids = ({visible}) => {
   ]
 {/**Row Clicks */}
   const handleServiceClick = (id) => {
-    
-    console.log(id)
                     history.push({
                       pathname: `/servicedetail/${id}/${false}/${false}`,
                       state: {
@@ -255,7 +253,6 @@ const DashboardGrids = ({visible}) => {
   }
 
   const handleOrderClick = (id) => {
-    console.log(id)
                     history.push({
                       pathname: `/orderdetail/${id}/${false}/${false}`,
                       state: {
@@ -268,10 +265,19 @@ const DashboardGrids = ({visible}) => {
   }
 
 {/**Add Buttons */}
+  const handleAddServiceBtn = (id) => {
+                    history.push({
+                      pathname: `/servicedetail/${id}/${true}/${true}`,
+                      state: {
+                      id: id,
+                      services: services,
+                      locations: locations,
+                      orders: orders
+                      }
+                    })
+  }
 
   const handleAddOrderBtn = (id) => {
-    
-    console.log(id)
                     history.push({
                       pathname: `/orderdetail/${id}/${true}/${true}`,
                       state: {
@@ -350,7 +356,7 @@ return (
       handleFilter={(e)=>handleFilterServiceClick(e)}
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
-      handleAddBtn={() => history.push("/addservice")}
+      handleAddBtn={() => handleAddServiceBtn()}
       isVisible={tab}
       isGrid="SERVICES"
       toggleIsVisible={()=>{setServiceIsVisible(!serviceIsVisible)}}

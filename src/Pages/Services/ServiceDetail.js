@@ -16,20 +16,26 @@ import SelectBox from '../../Components/Forms/SelectBox'
 
 
 const ServiceDetailEdit = (state) => {
+
   const params = useParams()
   const history = useHistory()
+
   const userContext = useContext(stateContext)
 
   const { serviceTypes, 
           accessTypes, 
           serviceStatusType,
           vendorList, 
-          isStyle, setCurrentDate } = userContext
+          isStyle,
+          setCurrentDate } = userContext
 
   const { locations,
           services, 
           orders, 
-          tickets } = userContext.userSession
+          tickets,
+          currentCompanyID,
+          currentCompany,
+          currentUser } = userContext.userSession
 
   const [activeService, setActiveService] = useState("")
   const [data, setData] = useState()
@@ -43,6 +49,12 @@ const ServiceDetailEdit = (state) => {
     fetchService()
     
   }, [])
+
+  useEffect(()=> {
+    newService === true ?
+    setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany}) : ""
+    console.log(data)
+  },[newService])
 
   const fetchService = async() => {
    
@@ -86,7 +98,10 @@ const ServiceDetailEdit = (state) => {
   }
 
   const handleSubmit = async(e) => {
-    const res = await db.collection("Services").doc(activeService.id).update(data)
+    newService  === true ? 
+    
+    await db.collection("Services").doc().set(data) : 
+    await db.collection("Services").doc(activeService.id).update(data)
     userContext.setDataLoading(true)
     console.log(res)
     handleToggle(!checked)
@@ -116,15 +131,25 @@ const ServiceDetailEdit = (state) => {
     { label: "Notes", dataField: "Notes", inputFieldType: "text-area", tab: "BASIC_INFO" },
     { label: "Related Order", dataField: "OrderNum", inputFieldType: "related-select", inputSource: orders, inputID: "id", inputValue: "OrderNum", relatedDataField: "OrderID", tab: "DETAILS"  },
     { label: "Related Order ID", dataField: "OrderID", visible: false, inputSource: orders, inputID: "ID", inputValue: "id", tab: "DETAILS" },
-    { label: "Last Updated", dataField: "LastUpdated", visible: false, inputFieldType: "text", inputValue: Date() },
+    { label: "Service Start Date", dataField: "StartDate", visible: true, inputFieldType: "datepicker", tab: "DETAILS" },
+    
     
   ]
-  
+const handleSetLastUpdatedFields = () => {
+  setActiveService({
+    ...activeService,  
+    ['LastUpdated']: setCurrentDate(),
+    ['LastUpdatedBy']: currentUser
+  })
+  setData({
+    ...data, 
+    ['LastUpdated']: setCurrentDate(),
+    ['LastUpdatedBy']: currentUser
+  })
+}  
 const handleChange = (e) => {
-  
   const {name, value} = e.target
-  setActiveService({...activeService, [name]: value, ['LastUpdated']: setCurrentDate()})
-  setData({...data, [name]: value, ['LastUpdated']: setCurrentDate()})
+  handleSetLastUpdatedFields()
 }
 
 const handleRelatedSelectChange = (e, relatedDataField) => {
@@ -135,11 +160,8 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   const {value} = e.target
   
   console.log({[relatedName]: id, [name]: value})
-  setActiveService({...activeService, [relatedName]: id, [name]: value, ['LastUpdated']: setCurrentDate()})
-  setData({...data, [relatedName]: id, [name]: value, ['LastUpdated']: setCurrentDate()})
+  handleSetLastUpdatedFields()
 }
-const dateNow = new Date()
-console.log()
 
 console.log(data)
   return (
@@ -230,6 +252,21 @@ console.log(data)
                     return (
                       
                           <TextArea title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
+                        
+                    ) 
+
+                  case "datepicker":
+                    return (
+                      
+                          <TextBox 
+                            id="datetime-local"
+                            title={h.label}
+                            type="date" 
+                            name={h.dataField} 
+                            className="input is-rounded is-small"
+                            value={activeService && activeService[h.dataField]} 
+                            fieldChanged={(e)=>handleChange(e)} 
+                          />
                         
                     ) 
   
