@@ -83,7 +83,8 @@ const ServiceDetailEdit = (state) => {
   }
 
   const handleSubmit = async(e) => {
-    
+    setData({...data, ['LastUpdated']: Date().toString()})
+    setActiveService({...data, ['LastUpdated']: Date().toString()})
     const res = await db.collection("Services").doc(activeService.id).update(data)
     userContext.setDataLoading(true)
     console.log(res)
@@ -114,10 +115,10 @@ const ServiceDetailEdit = (state) => {
     { label: "Notes", dataField: "Notes", inputFieldType: "text-area", tab: "BASIC_INFO" },
     { label: "Related Order", dataField: "OrderNum", inputFieldType: "related-select", inputSource: orders, inputID: "id", inputValue: "OrderNum", relatedDataField: "OrderID", tab: "DETAILS"  },
     { label: "Related Order ID", dataField: "OrderID", visible: false, inputSource: orders, inputID: "ID", inputValue: "id", tab: "DETAILS" },
-    { label: "Last Updated", dataField: "LastUpdated", visible: false, inputFieldType: "text", inputValue: Date.now() },
+    { label: "Last Updated", dataField: "LastUpdated", visible: false, inputFieldType: "text", inputValue: Date() },
     
   ]
-
+  
 const handleChange = (e) => {
   
   const {name, value} = e.target

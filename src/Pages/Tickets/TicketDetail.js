@@ -28,7 +28,8 @@ const TicketDetail = (state) => {
 
   const { locations,
           services, 
-          orders, 
+          orders,
+          accounts, 
           tickets } = userContext.userSession
 
   const [activeTicket, setActiveTicket] = useState("")
@@ -127,89 +128,62 @@ const TicketDetail = (state) => {
       tab: "BASIC_INFO" 
     },
     { 
+      label: "Related Account", 
+      dataField: "AccountNum", 
+      inputFieldType: "related-select", 
+      inputSource: accounts, 
+      inputID: "id", 
+      inputValue: "AccountNum", 
+      relatedDataField: "AccountID", 
+      tab: "BASIC_INFO"  
+    },
+    { 
+      label: "Related Account ID", 
+      dataField: "AccountID", 
+      visible: false, 
+      inputSource: accounts, 
+      inputID: "ID", 
+      inputValue: "id", 
+      tab: "BASIC_INFO" 
+    },
+    { 
       label: "Vendor", 
       dataField: "Vendor", 
       inputFieldType: "select", 
       inputSource: vendorList, 
       inputID: "id", 
       inputValue: "Name", 
-      tab: "BASIC_INFO" 
+      tab: "BASIC_INFO"
+    },
+    { 
+      label: "Date Submitted", 
+      dataField: "DateSubmitted", 
+      inputFieldType: "datepicker", 
+      tab: "BASIC_INFO"
     },
     { 
       label: "Type", 
       dataField: "Type", 
-      inputFieldType: "select", 
-      inputSource: serviceTypes, 
+      inputFieldType: "text", 
+      inputSource: "", 
       inputID: "id", 
       inputValue: "Name", 
-      tab: "BASIC_INFO"
-    },
-    { 
-      label: "Service Name", 
-      dataField: "VendorServiceName", 
-      inputFieldType: "text", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Access Type", 
-      dataField: "AccessType", 
-      inputFieldType: "select", 
-      inputSource: accessTypes, 
-      inputID: "id", 
-      inputValue: "Name", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Asset ID", 
-      dataField: "AssetID", 
-      inputFieldType: "text", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Bandwidth", 
-      dataField: "Bandwidth", 
-      inputFieldType: "text", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Monthly Cost", 
-      dataField: "MRC", 
-      inputFieldType: "text", 
       tab: "BASIC_INFO" 
     },
     { 
       label: "Status", 
       dataField: "Status", 
-      inputFieldType: "select", 
-      inputSource: serviceStatusType, 
+      inputFieldType: "text", 
+      inputSource: "", 
       inputID: "id", 
       inputValue: "Name", 
-      tab: "BASIC_INFO" 
+      tab: "BASIC_INFO"  
     },
     { 
-      label: "Notes", 
-      dataField: "Notes", 
+      label: "Details", 
+      dataField: "Details", 
       inputFieldType: "text-area", 
       tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Related Order", 
-      dataField: "OrderNum", 
-      inputFieldType: "related-select", 
-      inputSource: orders, 
-      inputID: "id", 
-      inputValue: "OrderNum", 
-      relatedDataField: "OrderID", 
-      tab: "DETAILS"  
-    },
-    { 
-      label: "Related Order ID", 
-      dataField: "OrderID", 
-      visible: false, 
-      inputSource: orders, 
-      inputID: "ID", 
-      inputValue: "id", 
-      tab: "DETAILS" 
     },
     { 
       label: "Last Updated", 
@@ -224,7 +198,7 @@ const TicketDetail = (state) => {
 const handleChange = (e) => {
   
   const {name, value} = e.target
-  setActiveTicket({...activeService, [name]: value})
+  setActiveTicket({...activeTicket, [name]: value})
   setData({...data, [name]: value})
 }
 
@@ -236,7 +210,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   const {value} = e.target
   
   console.log({[relatedName]: id, [name]: value})
-  setActiveTicket({...activeService, [relatedName]: id, [name]: value})
+  setActiveTicket({...activeTicket, [relatedName]: id, [name]: value})
   setData({...data, [relatedName]: id, [name]: value})
 }
 
@@ -329,6 +303,21 @@ console.log(data)
                     return (
                       
                           <TextArea title={h.label} name={h.dataField} value={activeTicket && activeTicket[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
+                        
+                    ) 
+
+                  case "datepicker":
+                    return (
+                      
+                          <TextBox 
+                            id="datetime-local"
+                            title={h.label}
+                            type="date" 
+                            name={h.dataField} 
+                            className="input is-rounded is-small"
+                            value={activeTicket && activeTicket[h.dataField]} 
+                            fieldChanged={(e)=>handleChange(e)} 
+                          />
                         
                     ) 
   

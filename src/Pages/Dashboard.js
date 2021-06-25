@@ -80,7 +80,7 @@ const Dashboard = () => {
 
 {/**      Toggle Company List          */        }
 
-        <div className={toggleCompanyList != false ? "block" : "block is-hidden"} id="companyList">
+        <div className={toggleCompanyList != false ? "block" : "is-hidden"} id="companyList">
           <CompanyList /> 
         </div>
 

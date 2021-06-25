@@ -9,6 +9,7 @@ import { db } from '../../Contexts/firebase'
 import GridComponent from './Components/GridComponent'
 import {useFilterArray} from '../../Components/Tables/useFilterArray'
 import AddCompany from '../Companies/AddCompany'
+import {serviceGridColumns} from '../../Contexts/initialFields'
 
 
 const DashboardGrids = ({visible}) => {
@@ -50,6 +51,8 @@ const DashboardGrids = ({visible}) => {
   const [userIsVisible, setUserIsVisible] = useState(false)
   const [contractIsVisible, setContractIsVisible] = useState(false)
   
+  
+  console.log(serviceGridColumns)
   
   useEffect(() => {
     setLoadingGrid(true)
