@@ -95,7 +95,7 @@ const CompanyList = () => {
         <>
         <Columns options="is-vcentered">
         
-          <Column options="is-10">
+          <Column options="is-12-mobile is-10-tablet">
             <SelectInputProps 
               fieldLabel=""
               fieldInitialValue={userContext.userSession.currentCompanyID}
@@ -113,12 +113,12 @@ const CompanyList = () => {
                 )}
               </SelectInputProps>
             </Column>
-          <Column >
+          <Column options="is-12-mobile is-2-tablet">
 
-             <a onClick={()=>handleAddCompany()}><FaPlus /></a>
+             <button className="button is-small is-rounded is-link is-fullwidth" onClick={()=>handleAddCompany()}>New Company</button>
 
           </Column>
-       
+        
         </Columns>
 
         

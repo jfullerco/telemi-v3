@@ -20,11 +20,11 @@ const FilterSelectInput = ({dataRef, colRef, onSelect, onReset, isFilterable}) =
   },[dataRef])
 
   const handleBackupArr = (dataRef) => {
-    const backupArr = isFiltered != true & dataRef.length > 0 ? setInitialArr(dataRef) : ""
+    const backupArr = isFiltered != true & dataRef && dataRef.length > 0 ? setInitialArr(dataRef) : ""
   }
 
   const uniqueValues = (dataRef, colRef) => { 
-    const valueArr = dataRef.length > 0 ? [...new Set(dataRef.map(d => d[colRef]))] : ""
+    const valueArr = dataRef && dataRef.length > 0 ? [...new Set(dataRef.map(d => d[colRef]))] : ""
     setValues(valueArr)
   }
 

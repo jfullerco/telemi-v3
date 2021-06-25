@@ -8,7 +8,6 @@ import { db } from '../../Contexts/firebase'
 
 import GridComponent from './Components/GridComponent'
 import {useFilterArray} from '../../Components/Tables/useFilterArray'
-import AddCompany from '../Companies/AddCompany'
 import {serviceGridColumns} from '../../Contexts/initialFields'
 
 
@@ -50,6 +49,7 @@ const DashboardGrids = ({visible}) => {
   const [accountIsVisible, setAccountIsVisible] = useState(false)
   const [userIsVisible, setUserIsVisible] = useState(false)
   const [contractIsVisible, setContractIsVisible] = useState(false)
+  const [tab, setTab] = useState("SERVICES")
   
   useEffect(() => {
     setLoadingGrid(true)
@@ -351,7 +351,8 @@ return (
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
       handleAddBtn={() => history.push("/addservice")}
-      isVisible={serviceIsVisible}
+      isVisible={tab}
+      isGrid="SERVICES"
       toggleIsVisible={()=>{setServiceIsVisible(!serviceIsVisible)}}
     />
 
