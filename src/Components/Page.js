@@ -11,10 +11,11 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
   
   return(
       <div className="wrapper">
-        <Columns options="is-mobile">
+        
           
           <section className="hero is-small">
                 <div className="hero-body">
+                <Columns options="is-mobile">
                   <Column size="is-three-quarters">
                     <div>
                       <span className="is-size-6 is-family-monospace">
@@ -53,13 +54,14 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
 
                     </div>
                   </Column>
+                  </Columns>
                 </div>
               </section>
             
 
           
           
-        </Columns>
+        
         
           <div className="block">
             <div className={pageSuccess != undefined ? "notification is-success" : "is-hidden"}>{pageSuccess}</div>
