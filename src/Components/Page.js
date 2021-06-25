@@ -12,7 +12,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
   return(
       <div className="wrapper">
         <Columns options="is-mobile">
-          <Column size="is-full">
+          
           <section className="hero is-small">
                 <div className="hero-body">
                   <Column size="is-three-quarters">
@@ -55,7 +55,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
                   </Column>
                 </div>
               </section>
-            </Column>
+            
 
           
           
