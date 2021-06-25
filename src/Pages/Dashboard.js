@@ -34,7 +34,7 @@ const Dashboard = () => {
     
     const userRef = await db.collection("Users").where("Email", "==", email).get()
     const user = await userRef.docs.map(doc => ({id: doc.id, FirstName: doc.FirstName, Type: doc.Type, ...doc.data()}))
-    console.log(user[0].FirstName)
+    
     userContext.setUserFirstName(user[0].FirstName)
     userContext.setUserType(user[0].Type)
     
