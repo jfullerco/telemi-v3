@@ -11,11 +11,11 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
   
   return(
       <div className="wrapper">
-        <Columns options="is-vcentered">
+        <Columns >
           
           <section className="hero is-small">
                 <div className="hero-body">
-                  <Column size="is-half">
+                  <Column>
                     <div>
                       <span className="is-size-6 is-family-monospace">
                         {title}/
