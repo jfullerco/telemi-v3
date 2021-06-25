@@ -357,7 +357,7 @@ return (
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
       handleAddBtn={() => handleAddServiceBtn()}
-      isVisible={tab}
+      isVisible={serviceIsVisible}
       isGrid="SERVICES"
       toggleIsVisible={()=>{setServiceIsVisible(!serviceIsVisible)}}
     />
