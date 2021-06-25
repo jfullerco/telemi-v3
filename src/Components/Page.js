@@ -19,8 +19,9 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
                   <Column size="is-three-quarters">
                     <div>
                       <span className="is-size-6">
-                        {title}/
+                        {title}
                       </span> 
+                      /
                       <span className="is-size-4">
                         {subtitle}
                       </span>
