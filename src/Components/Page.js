@@ -12,10 +12,10 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
   return(
       <div className="wrapper">
         <Columns options="is-mobile">
-          <Column size="is-full is-mobile">
+          <Column size="is-full">
           <section className="hero is-small">
                 <div className="hero-body">
-                  <Column size="is-half">
+                  <Column size="is-three-quarters">
                     <div>
                       <span className="is-size-6 is-family-monospace">
                         {title}/
@@ -25,7 +25,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
                       </span>
                     </div> 
                   </Column>
-                  <Column size="is-one-quarter is-justify-content-flex-right">
+                  <Column size="is-one-quarter">
                     <div className="mx-2 my-2">
 
                       <button 
