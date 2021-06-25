@@ -283,9 +283,9 @@ const DashboardGrids = ({visible}) => {
                     })
   }
 
-  const handleAddTicketBtn = () => {
+  const handleAddTicketBtn = (id) => {
                     history.push({
-                      pathname: `/addticket/${id}/${true}/${true}`,
+                      pathname: `/ticketdetail/${id}/${true}/${true}`,
                       state: {
                       services: services,
                       locations: locations,
@@ -295,10 +295,10 @@ const DashboardGrids = ({visible}) => {
                     })
   }
 
-  const handleAddAccountBtn = () => {
+  const handleAddAccountBtn = (id) => {
                     {
                     history.push({
-                      pathname: `/addaccount/${id}/${true}/${true}`,
+                      pathname: `/accountdetail/${id}/${true}/${true}`,
                       state: {
                       services: services,
                       locations: locations,
