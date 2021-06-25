@@ -11,7 +11,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
   
   return(
       <div className="wrapper">
-        <Columns >
+        <Columns options="is-mobile">
           
           <section className="hero is-small">
                 <div className="hero-body">
