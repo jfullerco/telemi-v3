@@ -25,7 +25,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
                       </span>
                     </div> 
                   </Column>
-                  <Column size="is-one-quarter is-flex is-justify-content-flex-right">
+                  <Column size="is-one-quarter is-justify-content-flex-right">
                     <div className="mx-2 my-2">
 
                       <button 
