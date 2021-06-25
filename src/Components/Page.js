@@ -15,7 +15,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
           <Column size="is-full">
           <section className="hero is-small">
                 <div className="hero-body">
-                  <Column size="is-three-quarters">
+                  <Column size="is-half">
                     <div>
                       <span className="is-size-6 is-family-monospace">
                         {title}/
