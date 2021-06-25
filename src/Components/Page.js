@@ -18,7 +18,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
                 <Columns options="is-mobile">
                   <Column size="is-three-quarters">
                     <div>
-                      <span className="is-size-6 is-family-monospace">
+                      <span className="is-size-6">
                         {title}/
                       </span> 
                       <span className="is-size-4 has-text-weight-semibold ">
