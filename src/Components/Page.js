@@ -21,7 +21,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
                       <span className="is-size-6">
                         {title}/
                       </span> 
-                      <span className="is-size-4 has-text-weight-semibold ">
+                      <span className="is-size-4">
                         {subtitle}
                       </span>
                     </div> 
