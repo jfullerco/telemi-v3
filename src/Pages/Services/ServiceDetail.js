@@ -41,13 +41,13 @@ const ServiceDetailEdit = (state) => {
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
   const [newService, setNewService] = useState(false)
+  const [updated, setUpdated] = useState(false)
   const [tab, setTab] = useState("BASIC_INFO")
 
   useEffect(() => {
     params.checked === "true" ? setChecked(true) : ""
     params.new === "true" ? setNewService(true) : 
     fetchService()
-    
   }, [])
 
   useEffect(()=> {
@@ -55,6 +55,10 @@ const ServiceDetailEdit = (state) => {
     setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany}) : ""
     console.log(data)
   },[newService])
+
+  useEffect(() => {
+    handleSetLastUpdatedFields()
+  },[updated])
 
   const fetchService = async() => {
    
@@ -103,7 +107,7 @@ const ServiceDetailEdit = (state) => {
     await db.collection("Services").doc().set(data) : 
     await db.collection("Services").doc(activeService.id).update(data)
     userContext.setDataLoading(true)
-    console.log(res)
+    
     handleToggle(!checked)
 
   }
@@ -149,7 +153,10 @@ const handleSetLastUpdatedFields = () => {
 }  
 const handleChange = (e) => {
   const {name, value} = e.target
-  handleSetLastUpdatedFields()
+  console.log(name, value)
+  setActiveService({...activeService, [name]: value})
+  setData({...data, [name]: value})
+  setUpdated(!updated)
 }
 
 const handleRelatedSelectChange = (e, relatedDataField) => {
@@ -160,7 +167,9 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   const {value} = e.target
   
   console.log({[relatedName]: id, [name]: value})
-  handleSetLastUpdatedFields()
+  setActiveService({...activeService, [relatedName]: id, [name]: value})
+  setData({...data, [relatedName]: id, [name]: value})
+  setUpdated(!updated)
 }
 
 console.log(data)

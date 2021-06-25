@@ -19,7 +19,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
             </div> 
           </Column>
 
-          <Column size="is-half">
+          <Column size="is-half is-flex is-justify-content-flex-end">
             <div className="mx-2 my-2">
 
               <button 
