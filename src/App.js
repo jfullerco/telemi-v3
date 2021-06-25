@@ -56,14 +56,14 @@ export default function App() {
             <Route path="/register" component={Register} />
             
             <Route path="/companydetails" component={CompanyDetail} />
-            <Route path="/servicedetail" component={ServiceDetail} />
-            <Route path="/accountdetail" component={AccountDetail} />
-            <Route path="/locationdetail" component={LocationDetail} />
+            <Route path="/servicedetail/:id/:checked/:new" component={ServiceDetail} />
+            <Route path="/accountdetail/:id/:checked/:new" component={AccountDetail} />
+            <Route path="/locationdetail/:id/:checked/:new" component={LocationDetail} />
             <Route path="/orderdetail/:id/:checked/:new" component={OrderDetail} />
-            <Route path="/ticketdetail" component={TicketDetail} />
-            <Route path="/contractdetail" component={ContractDetail} />
+            <Route path="/ticketdetail/:id/:checked/:new" component={TicketDetail} />
+            <Route path="/contractdetail/:id/:checked/:new" component={ContractDetail} />
             
-            
+            <Route path="/addcompany" component={AddCompany} />
             <Route path="/addservice" component={AddService} />
             <Route path="/addaccount" component={AddAccount} />
             <Route path="/addlocation" component={AddLocation} />

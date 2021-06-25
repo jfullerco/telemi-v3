@@ -10,6 +10,7 @@ import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
 import Button from '../../Components/Buttons/Button'
+import { FaPlus } from "react-icons/fa"
 
 
 
@@ -114,7 +115,7 @@ const CompanyList = () => {
             </Column>
           <Column >
 
-            <Button label="Add" options="px-4 is-small" handleSubmit={handleAddCompany} />
+             <a onClick={()=>handleAddCompany()}><FaPlus /></a>
 
           </Column>
        

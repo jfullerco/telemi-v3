@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
-import {Link, useHistory} from 'react-router-dom'
+import {useParams, useHistory} from 'react-router-dom'
 
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
@@ -16,7 +16,7 @@ import SelectBox from '../../Components/Forms/SelectBox'
 
 
 const ServiceDetailEdit = (state) => {
-
+  const params = useParams()
   const history = useHistory()
   const userContext = useContext(stateContext)
 
@@ -24,7 +24,7 @@ const ServiceDetailEdit = (state) => {
           accessTypes, 
           serviceStatusType,
           vendorList, 
-          isStyle } = userContext
+          isStyle, setCurrentDate } = userContext
 
   const { locations,
           services, 
@@ -34,9 +34,12 @@ const ServiceDetailEdit = (state) => {
   const [activeService, setActiveService] = useState("")
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
+  const [newService, setNewService] = useState(false)
   const [tab, setTab] = useState("BASIC_INFO")
 
   useEffect(() => {
+    params.checked === "true" ? setChecked(true) : ""
+    params.new === "true" ? setNewService(true) : 
     fetchService()
     
   }, [])
@@ -83,8 +86,6 @@ const ServiceDetailEdit = (state) => {
   }
 
   const handleSubmit = async(e) => {
-    setData({...data, ['LastUpdated']: Date().toString()})
-    setActiveService({...data, ['LastUpdated']: Date().toString()})
     const res = await db.collection("Services").doc(activeService.id).update(data)
     userContext.setDataLoading(true)
     console.log(res)
@@ -122,8 +123,8 @@ const ServiceDetailEdit = (state) => {
 const handleChange = (e) => {
   
   const {name, value} = e.target
-  setActiveService({...activeService, [name]: value})
-  setData({...data, [name]: value})
+  setActiveService({...activeService, [name]: value, ['LastUpdated']: setCurrentDate()})
+  setData({...data, [name]: value, ['LastUpdated']: setCurrentDate()})
 }
 
 const handleRelatedSelectChange = (e, relatedDataField) => {
@@ -134,9 +135,11 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   const {value} = e.target
   
   console.log({[relatedName]: id, [name]: value})
-  setActiveService({...activeService, [relatedName]: id, [name]: value})
-  setData({...data, [relatedName]: id, [name]: value})
+  setActiveService({...activeService, [relatedName]: id, [name]: value, ['LastUpdated']: setCurrentDate()})
+  setData({...data, [relatedName]: id, [name]: value, ['LastUpdated']: setCurrentDate()})
 }
+const dateNow = new Date()
+console.log()
 
 console.log(data)
   return (
@@ -154,7 +157,7 @@ console.log(data)
             <nav className="breadcrumb" aria-label="breadcrumbs">
               <ul>
                 <li className="is-size-7 is-uppercase">last updated: {activeService.LastUpdated && activeService.LastUpdated}</li>
-                <li className="is-size-7 is-uppercase">updated by: {activeService.LastUpdatedBy && activeService.LastUpdatedBy}</li>
+                <li className="is-size-7 is-uppercase pl-2">updated by: {activeService.LastUpdatedBy && activeService.LastUpdatedBy}</li>
               </ul>
             </nav>
             {activeService && pageFields.map(el => 

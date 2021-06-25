@@ -51,11 +51,11 @@ const AddCompany = ({open}) => {
 
   return (
     
-      <Page title="Add Account" handleSubmit={handleSubmit} handleToggleReadOnly={()=> setInputReadOnly(!inputReadOnly)} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
+      <Page subtitle="Add Company" handleSubmit={handleSubmit} status="new" handleToggleReadOnly={()=> setInputReadOnly(!inputReadOnly)} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
 
           <form>
             <TextInput 
-              inputFieldLabel="Company Name"
+              inputFieldLabel="New Company Name"
               inputFieldRef={companyName}
             />
           </form>

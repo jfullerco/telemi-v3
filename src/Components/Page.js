@@ -35,6 +35,12 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
               >Edit</button>
 
               <button 
+                className={status === "new" ? "button is-link is-rounded is-small mr-1" : "is-hidden"} 
+                type="submit" 
+                onClick={handleSubmit}
+              >Save</button>
+
+              <button 
                 className="button is-rounded is-small mr-1" 
                 onClick={()=>history.goBack()}
               >Back</button>

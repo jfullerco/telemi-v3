@@ -309,10 +309,16 @@ export const StateProvider = (props) => {
         })
       };
 
+      const setCurrentDate = () => {
+        const currentDate = new Date()
+        return currentDate.toISOString().substring(0, 10)
+      }
+
     
     return (
       <Provider value={{ 
           isStyle,
+          setCurrentDate,
           setDataLoading,
           setLoggedIn,
           setCompanies,

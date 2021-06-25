@@ -51,9 +51,6 @@ const DashboardGrids = ({visible}) => {
   const [userIsVisible, setUserIsVisible] = useState(false)
   const [contractIsVisible, setContractIsVisible] = useState(false)
   
-  
-  console.log(serviceGridColumns)
-  
   useEffect(() => {
     setLoadingGrid(true)
     const timer = setTimeout(() => {
@@ -220,7 +217,7 @@ const DashboardGrids = ({visible}) => {
     
     console.log(id)
                     history.push({
-                      pathname: "/servicedetail",
+                      pathname: `/servicedetail/${id}/${false}/${false}`,
                       state: {
                       id: id,
                       services: services,
@@ -232,7 +229,7 @@ const DashboardGrids = ({visible}) => {
 
   const handleTicketClick = (id) => {
                     history.push({
-                      pathname: "/ticketdetail",
+                      pathname: `/ticketdetail/${id}/${false}/${false}`,
                       state: {
                       id: id,
                       services: services,
@@ -247,7 +244,7 @@ const DashboardGrids = ({visible}) => {
 
   const handleAccountClick = (id) => {
                     history.push({
-                      pathname: "/accountdetail",
+                      pathname: `/accountdetail/${id}/${false}/${false}`,
                       state: {
                       id: id,
                       services: services,
@@ -288,7 +285,7 @@ const DashboardGrids = ({visible}) => {
 
   const handleAddTicketBtn = () => {
                     history.push({
-                      pathname: "/addticket",
+                      pathname: `/addticket/${id}/${true}/${true}`,
                       state: {
                       services: services,
                       locations: locations,
@@ -301,7 +298,7 @@ const DashboardGrids = ({visible}) => {
   const handleAddAccountBtn = () => {
                     {
                     history.push({
-                      pathname: "/addaccount",
+                      pathname: `/addaccount/${id}/${true}/${true}`,
                       state: {
                       services: services,
                       locations: locations,
