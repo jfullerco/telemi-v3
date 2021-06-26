@@ -14,7 +14,8 @@ const GridComponent = ({
   handleFilter, 
   handleClick, 
   handleAddBtn,  
-  isVisible, 
+  isVisible,
+  isGrid, 
   toggleIsVisible}) => {
 
   
@@ -26,7 +27,7 @@ const GridComponent = ({
 
   return(
       
-      <div className={data != undefined ? "box" : "is-hidden"}>
+      <div className={isGrid === isVisible ? "box" : "is-hidden"}>
       
         <div className="title" style={headerStyle}> 
           {label} {isVisible != false ? 
@@ -65,7 +66,7 @@ const GridComponent = ({
             </div> 
           </div>
 
-      {isVisible != false ?
+      {isGrid === isVisible ?
 
         <div className="table-container">
           

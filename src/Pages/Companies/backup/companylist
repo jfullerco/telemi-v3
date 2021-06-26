@@ -98,6 +98,33 @@ const CompanyList = () => {
       {
         userContext.userSession.userType != "User" ? 
         <>
+        <Columns options="is-vcentered">
+        
+          <Column options="is-12-mobile is-10-tablet">
+            <SelectInputProps 
+              fieldLabel=""
+              fieldInitialValue={userContext.userSession.currentCompanyID}
+              fieldInitialOption="Select Company"
+              fieldIDRef={activeCompanyID}
+              placeholder="Select Company"
+              onChange={handleChange}
+              size="is-small">
+                {userContext.userSession.companies != "" ? 
+                  userContext.userSession.companies.map(company => (
+                    <option value={company.id} key={company.id}> 
+                    {company.Name}</option>
+                )) : (
+                  <option></option>
+                )}
+              </SelectInputProps>
+            </Column>
+          <Column options="is-12-mobile is-2-tablet">
+
+             <button className="button is-small is-rounded is-link is-fullwidth" onClick={()=>handleAddCompany()}>New Company</button>
+
+          </Column>
+        
+        </Columns>
 
                   <CompanyDropDown 
                     isActive={active}

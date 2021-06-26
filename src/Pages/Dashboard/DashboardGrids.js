@@ -9,12 +9,13 @@ import { db } from '../../Contexts/firebase'
 import GridComponent from './Components/GridComponent'
 import {useFilterArray} from '../../Components/Tables/useFilterArray'
 import {serviceGridColumns} from '../../Contexts/initialFields'
+import SelectInputProps from '../../Components/Forms/SelectInputProps'
 
 
 const DashboardGrids = ({visible}) => {
 
   const userContext = useContext(stateContext)
-  const [checked, setChecked] = useState(false)
+  const history = useHistory()
 
   const { isStyle, 
           setDataLoading,
@@ -37,19 +38,11 @@ const DashboardGrids = ({visible}) => {
           users,
           contracts } = userContext.userSession
 
-  const history = useHistory()
-
-  const [loadingGrid, setLoadingGrid] = useState()
-  
   const searchRef = useRef("")
 
-  const [serviceIsVisible, setServiceIsVisible] = useState(false)
-  const [ticketIsVisible, setTicketIsVisible] = useState(false)
-  const [orderIsVisible, setOrderIsVisible] = useState(false)
-  const [accountIsVisible, setAccountIsVisible] = useState(false)
-  const [userIsVisible, setUserIsVisible] = useState(false)
-  const [contractIsVisible, setContractIsVisible] = useState(false)
-  const [tab, setTab] = useState("SERVICES")
+  const [loadingGrid, setLoadingGrid] = useState()
+  const [checked, setChecked] = useState(false)
+  const [grid, setGrid] = useState("SERVICES")
   
   useEffect(() => {
     setLoadingGrid(true)
@@ -238,8 +231,6 @@ const DashboardGrids = ({visible}) => {
                     })
   }
 
-  
-
   const handleAccountClick = (id) => {
                     history.push({
                       pathname: `/accountdetail/${id}/${false}/${false}`,
@@ -343,10 +334,24 @@ const DashboardGrids = ({visible}) => {
 
   }
   
+  const handleGridChange = (e) => {
+    const {value} = e.target
+    console.log(value)
+    setGrid(value)
+  }
 
 return (
   <>
     <div className={loadingGrid != false ? "modal is-active" : "modal"}><div className="loading"></div></div>
+
+    <SelectInputProps onChange={(e)=>handleGridChange(e)}>
+      <option value="SERVICES">Services</option>
+      <option value="TICKETS">Tickets</option>
+      <option value="ORDERS">Orders</option>
+      <option value="ACCOUNTS">Accounts</option>
+      <option value="USERS">Users</option>
+      <option value="CONTRACTS">Contracts</option>
+    </SelectInputProps>
 
     <GridComponent 
       label="SERVICES"
@@ -357,7 +362,7 @@ return (
       handleSearch={(e)=>handleChangeSearchServices(e)}
       handleClick={(e)=>handleServiceClick(e)}
       handleAddBtn={() => handleAddServiceBtn()}
-      isVisible={serviceIsVisible}
+      isVisible={grid}
       isGrid="SERVICES"
       toggleIsVisible={()=>{setServiceIsVisible(!serviceIsVisible)}}
     />
@@ -371,7 +376,8 @@ return (
       handleSearch={(e)=>handleChangeSearchTickets(e)}
       handleClick={(e)=>handleTicketClick(e)}
       handleAddBtn={() => handleAddTicketBtn()}
-      isVisible={ticketIsVisible}
+      isVisible={grid}
+      isGrid="TICKETS"
       toggleIsVisible={()=>{setTicketIsVisible(!ticketIsVisible)}}
     /> 
 
@@ -383,7 +389,8 @@ return (
       handleFilter={(e)=>handleFilterOrderClick(e)}
       handleClick={(e)=>handleOrderClick(e)}
       handleAddBtn={() => handleAddOrderBtn()}
-      isVisible={orderIsVisible}
+      isVisible={grid}
+      isGrid="ORDERS"
       toggleIsVisible={()=>{setOrderIsVisible(!orderIsVisible)}}
     /> 
 
@@ -395,7 +402,8 @@ return (
       handleFilter={(e)=>handleFilterAccountClick(e)}
       handleClick={(e)=>handleAccountClick(e)}
       handleAddBtn={() => handleAddAccountBtn()}
-      isVisible={accountIsVisible}
+      isVisible={grid}
+      isGrid="ACCOUNTS"
       toggleIsVisible={()=>{setAccountIsVisible(!accountIsVisible)}}
     /> 
 
@@ -405,7 +413,8 @@ return (
       data={users}
       handleClick={(e)=>handleAccountClick(e)}
       handleAddBtn={() => history.push("/adduser")}
-      isVisible={userIsVisible}
+      isVisible={grid}
+      isGrid="USERS"
       toggleIsVisible={()=>{setUserIsVisible(!userIsVisible)}}
     /> 
 
@@ -415,7 +424,8 @@ return (
       data={contracts}
       handleClick={(e)=>handleAccountClick(e)}
       handleAddBtn={() => history.push("/addcontract")}
-      isVisible={contractIsVisible}
+      isVisible={grid}
+      isGrid="CONTRACTS"
       toggleIsVisible={()=>{setContractIsVisible(!contractIsVisible)}}
     />
     <p/>

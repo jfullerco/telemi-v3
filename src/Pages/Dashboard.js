@@ -67,9 +67,7 @@ const Dashboard = () => {
 
               <section className="hero is-small">
                 <div className="hero-body">
-                <p className="title has-text-black is-size-3 is-size-5-mobile" style={{textTransform: "uppercase"}}>
-                  {userContext.userSession.currentCompany}
-                </p>
+                
 
                  <CompanyList />
                   
