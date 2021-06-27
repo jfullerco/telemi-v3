@@ -43,6 +43,8 @@ const TicketDetail = (state) => {
   const [newTicket, setNewTicket] = useState(false)
   const [updated, setUpdated] = useState(false)
   const [tab, setTab] = useState("BASIC_INFO")
+  const [pageSuccess, setPageSuccess] = useState(false)
+  const [pageError, setPageError] = useState(false)
 
   useEffect(() => {
     params.checked === "true" ? setChecked(true) : ""
@@ -107,14 +109,16 @@ const TicketDetail = (state) => {
     await db.collection("Tickets").doc(activeTicket.id).update(data)
     userContext.setDataLoading(true)
     handleToggle(!checked)
+    handlePageSuccess()
   }
 
   const handleToggle = () => {
     setChecked(!checked)
   }
 
-  const autoClose = () => {
-    setTimeout(() => {history.push("/dashboard")}, 1500)
+  const handlePageSuccess = () => {
+    setPageSuccess(true)
+    setTimeout(() => {setPageSuccess(false)}, 3000)
   }
 
   const pageFields = [
@@ -152,7 +156,7 @@ const TicketDetail = (state) => {
       inputID: "id", 
       inputValue: "AccountNum", 
       relatedDataField: "AccountID", 
-      tab: "BASIC_INFO"  
+      tab: "DETAILS"  
     },
     { 
       label: "Related Account ID", 
@@ -162,6 +166,16 @@ const TicketDetail = (state) => {
       inputID: "ID", 
       inputValue: "id", 
       tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Related Service", 
+      dataField: "ServiceAssetID", 
+      inputFieldType: "related-select", 
+      inputSource: services, 
+      inputID: "id", 
+      inputValue: "AssetID", 
+      relatedDataField: "ServiceID", 
+      tab: "DETAILS"  
     },
     { 
       label: "Vendor", 
@@ -270,7 +284,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
 
 console.log(data)
   return (
-      <Page title="TICKET" subtitle={activeTicket.TicketNum} status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
+      <Page title="TICKET" subtitle={activeTicket.TicketNum} status={updated === true ? "edit" : "view"} handleToggle={()=> handleToggle()} pageSuccess={pageSuccess} pageError={pageError}>
         {userContext && userContext.userSession != undefined ? 
           <>
             <TabBar>

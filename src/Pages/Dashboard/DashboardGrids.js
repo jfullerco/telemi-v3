@@ -122,7 +122,7 @@ const DashboardGrids = ({visible}) => {
 
   const fetchTickets = async() => {
 
-    const ticketsRef = await db.collection("Tickets").where("CompanyID", "==", userContext.userSession.currentCompanyID).where("Status", "==", "Active").get()
+    const ticketsRef = await db.collection("Tickets").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
 
     const tickets = ticketsRef.docs.map(doc => ({
       id: doc.id,

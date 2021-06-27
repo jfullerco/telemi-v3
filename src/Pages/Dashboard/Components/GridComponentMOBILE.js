@@ -81,7 +81,7 @@ const GridComponent = ({
             <thead className="is-size-6">
               <tr>
                 {headerFields && headerFields.map(col => 
-                  <th style={{width: "20%"}} key={col.keyProp}>
+                  <th className={col.mobileAnchor === true || col[0] ? "" : "is-hidden"} style={{width: "20%"}} key={col.keyProp}>
 
                     {col.headerName}
 
@@ -102,8 +102,11 @@ const GridComponent = ({
               {data && data != undefined ? data.map(item => 
                 <tr onClick={()=>handleClick(item.id)} key={item.id}> 
                   {headerFields && headerFields.map(col => 
+                    
                     <td className="py-5" style={{width: "20%"}} key={item[col.headerName]} >
+                    
                       {item[col.docField]} 
+
                     </td>)}
                 </tr>
               ) : ""}

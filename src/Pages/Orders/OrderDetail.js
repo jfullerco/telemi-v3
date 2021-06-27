@@ -38,6 +38,8 @@ const OrderDetail = (state) => {
   const [checked, setChecked] = useState(false)
   const [newOrder, setNewOrder] = useState(false)
   const [tab, setTab] = useState("BASIC_INFO")
+  const [pageSuccess, setPageSuccess] = useState(false)
+  const [pageError, setPageError] = useState(false)
 
   useEffect(() => {
     params.checked === "true" ? setChecked(true) : ""
@@ -201,7 +203,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
 
 console.log(data)
   return (
-      <Page title={`ORDER`} subtitle={active.OrderNum} active={active.CompanyName} status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
+      <Page title={`ORDER`} subtitle={active.OrderNum} active={active.CompanyName} status="view" handleToggle={()=> handleToggle()} pageSuccess={pageSuccess} pageError={pageError}>
         {userContext && userContext.userSession != undefined ? 
           <>
             <TabBar>

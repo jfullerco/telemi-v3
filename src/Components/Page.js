@@ -12,17 +12,14 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
   return(
       <div className="wrapper">
         
-          
-          <section className="hero is-small">
-                <div className="hero-body">
                 <Columns options="is-mobile">
                   <Column size="is-three-quarters">
                     <div>
-                      <span className="is-size-6">
+                      <span className="is-size-6 has-text-weight-bold">
                         {title}
                       </span> 
                       
-                      <span className="is-size-4">
+                      <span className="is-size-4 has-text-weight-normal">
                         /{subtitle}
                       </span>
                     </div> 
@@ -56,17 +53,10 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
                     </div>
                   </Column>
                   </Columns>
-                </div>
-              </section>
-            
-
-          
-          
-        
-        
+                
           <div className="block">
-            <div className={pageSuccess != undefined ? "notification is-success" : "is-hidden"}>{pageSuccess}</div>
-            <div className={pageError != undefined ? "notification is-danger" : "is-hidden"}>{pageError}</div>
+            <div className={pageSuccess && pageSuccess != false ? "notification is-success" : "is-hidden"}>Saved</div>
+            <div className={pageError && pageError != false ? "notification is-danger" : "is-hidden"}>Error Saving</div>
           </div>
           
             {children}

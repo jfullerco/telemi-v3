@@ -43,6 +43,8 @@ const ServiceDetailEdit = (state) => {
   const [newService, setNewService] = useState(false)
   const [updated, setUpdated] = useState(false)
   const [tab, setTab] = useState("BASIC_INFO")
+  const [pageSuccess, setPageSuccess] = useState(false)
+  const [pageError, setPageError] = useState(false)
 
   useEffect(() => {
     params.checked === "true" ? setChecked(true) : ""
@@ -139,7 +141,7 @@ const ServiceDetailEdit = (state) => {
     
     
   ]
-  
+
 const handleSetLastUpdatedFields = () => {
   setActiveService({
     ...activeService,  
@@ -176,7 +178,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
 
 console.log(data)
   return (
-      <Page title="DETAILS" subtitle={activeService.AssetID} status="view" handleToggle={()=> handleToggle()} autoClose={autoClose}>
+      <Page title="DETAILS" subtitle={activeService.AssetID} status="view" handleToggle={()=> handleToggle()} pageSuccess={pageSuccess} pageError={pageError}>
         {userContext && userContext.userSession != undefined ? 
           <>
             <TabBar>

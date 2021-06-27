@@ -1,54 +1,63 @@
-import React, {useEffect, useState, useRef, useContext} from 'react'
-import {useHistory} from 'react-router-dom'
+import React, {useState, useEffect, useContext, useRef} from 'react'
+import {useParams, useHistory} from 'react-router-dom'
 
-import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
+import { db } from '../../Contexts/firebase'
 
-import TextInput from '../../Components/Forms/TextInput'
-import SelectInput from '../../Components/Forms/SelectInput'
-import SelectInputProps from '../../Components/Forms/SelectInputProps'
-import Page from '../../Components/Page'
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
-import GridComponent from '../Dashboard/Components/GridComponent'
+import Page from '../../Components/Page'
+import EditDocDrawer from '../../Components/Layout/EditDocDrawer'
+import SelectField from '../../Components/Forms/SelectField'
+import TextArea from '../../Components/Forms/TextArea'
+import TabBar from '../../Components/Tabs/TabBar'
+import TextBox from '../../Components/Forms/TextBox'
+import SelectBox from '../../Components/Forms/SelectBox'
 
 const AccountDetail = (state) => {
 
-  const userContext = useContext(stateContext)
-  const {dataLoading} = userContext
-  const {currentUser, currentCompanyID, currentAccountID} = userContext.userSession
+  const params = useParams()
   const history = useHistory()
-  
-  const [pageError, setPageError] = useState()
-  const [pageSuccess, setPageSuccess] = useState()
-  const [inputReadOnly, setInputReadOnly] = useState(true)
+  const userContext = useContext(stateContext)
 
-  const [activeAccount, setActiveAccount] = useState()
-  const [locations, setLocations] = useState(state.location.state.locations)
-  const [servicesByLocation, setServicesByLocation] = useState()
-  const [toggleServiceList, setToggleServiceList] = useState()
-  const [bills, setBills] = useState()
+  const { serviceTypes, 
+          accessTypes, 
+          serviceStatusType,
+          vendorList, 
+          isStyle,
+          setCurrentDate } = userContext
+
+  const { locations,
+          services, 
+          orders,
+          accounts, 
+          tickets,
+          currentUser,
+          currentCompany,
+          currentCompanyID } = userContext.userSession
   
-  const accountNum = useRef("")
-  const subAccountNum = useRef("")
-  const accountVendor = useRef("")
-  const accountGroupNum = useRef("")
-  const accountInternalBillingCode = useRef("")
-  const accountServiceLocationID = useRef("")
-  const accountServiceLocationName = useRef("")
-  const accountServiceID = useRef("")
-  const accountPreTaxMRC = useRef("")
-  const accountPostTaxMRC = useRef("")
+  const [activeAccount, setActiveAccount] = useState()
+  const [bills, setBills] = useState()
+  const [data, setData] = useState()
+  const [checked, setChecked] = useState(false)
+  const [newAccount, setNewAccount] = useState(false)
+  const [updated, setUpdated] = useState(false)
+  const [tab, setTab] = useState("BASIC_INFO")
+  const [pageSuccess, setPageSuccess] = useState(false)
+  const [pageError, setPageError] = useState(false)
   
   useEffect(() => {
+    params.checked === "true" ? setChecked(true) : ""
+    params.new === "true" ? setNewTicket(true) : 
     fetchAccount()
     fetchBills()
-  },[])
+  }, [])
 
-  useEffect(() => {
-    accountServiceLocationID.current.value != undefined ?
-    fetchServices() : ""
-  },[toggleServiceList])
+  useEffect(()=> {
+    newAccount === true ?
+    setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany}) : ""
+    console.log(data)
+  },[newAccount])
 
   const fetchAccount = async() => {
    
@@ -56,8 +65,8 @@ const AccountDetail = (state) => {
 
     const data = await accountRef.data()
     const id = await accountRef.id
-    setActiveAccount(data)
-    userContext.setDataLoading(false)
+    setActiveAccount({id: id, ...data})
+    setData(data)
   }
 
   const fetchServices = async() => {
@@ -106,14 +115,105 @@ const AccountDetail = (state) => {
     const res = await db.collection("Accounts").doc(state.location.state.id).update(data)
     history.push("/dashboard")
   }
-  
-  const autoClose = () => {
-    setTimeout(() => {history.goBack()}, 1000)
-  }
 
-  const handleRelatedServiceID = (e) => {
-    console.log(accountServiceID.current.value)
-  }
+  const pageFields = [
+    
+    { 
+      label: "Account Number", 
+      dataField: "AccountNum", 
+      inputFieldType: "text", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Sub Account Number", 
+      dataField: "SubAccountNum", 
+      inputFieldType: "text", 
+      tab: "BASIC_INFO" 
+    },
+    { 
+      label: "Vendor", 
+      dataField: "Vendor", 
+      inputFieldType: "select", 
+      inputSource: vendorList, 
+      inputID: "id", 
+      inputValue: "Name", 
+      tab: "BASIC_INFO"
+    },
+    { 
+      label: "Service Location", 
+      dataField: "AccountServiceLocationName", 
+      inputFieldType: "related-select", 
+      inputSource: locations, 
+      inputID: "id", 
+      inputValue: "Name", 
+      relatedDataField: "LocationID", 
+      tab: "BASIC_INFO"  
+    },
+    { 
+      label: "Service Asset", 
+      dataField: "AccountServiceName", 
+      inputFieldType: "related-select", 
+      inputSource: services, 
+      inputID: "id", 
+      inputValue: "AssetID", 
+      relatedDataField: "ServiceID", 
+      tab: "BASIC_INFO"  
+    },
+    { 
+      label: "Date Billing Started", 
+      dataField: "BillingStartDate", 
+      inputFieldType: "datepicker", 
+      tab: "DETAILS"
+    },
+    { 
+      label: "Type", 
+      dataField: "Type", 
+      inputFieldType: "text", 
+      tab: "DETAILS" 
+    },
+    { 
+      label: "Details", 
+      dataField: "Details", 
+      inputFieldType: "text-area", 
+      tab: "DETAILS" 
+    },
+    
+  ]
+
+  const handleSetLastUpdatedFields = () => {
+    setActiveAccount({
+      ...activeAccount,  
+      ['LastUpdated']: setCurrentDate(),
+      ['LastUpdatedBy']: currentUser
+    })
+    setData({
+      ...data, 
+      ['LastUpdated']: setCurrentDate(),
+      ['LastUpdatedBy']: currentUser
+    })
+  }  
+
+const handleChange = (e) => {
+  const {name, value} = e.target
+  setActiveAccount({...activeAccount, [name]: value})
+  setData({...data, [name]: value})
+  setUpdated(!updated)
+}
+
+const handleRelatedSelectChange = (e, relatedDataField) => {
+  e.preventDefault()
+  const selectedValue = e.target.options[e.target.selectedIndex].text
+  const id = e.target.options[e.target.selectedIndex].id
+  const {name, relatedName} = relatedDataField
+  const {value} = e.target
+  
+  console.log({[relatedName]: id, [name]: value})
+  setActiveAccount({...activeAccount, [relatedName]: id, [name]: value})
+  setData({...data, [relatedName]: id, [name]: value})
+  setUpdated(!updated)
+}
+  
+  
 
   const billColumns = [
   {docField: 'Date', headerName: 'Date', key: "1"},
@@ -135,110 +235,119 @@ const AccountDetail = (state) => {
     <>
     {activeAccount != undefined ? ( 
     <>
-    <Page title="Account Details" handleSubmit={handleSubmit} handleToggleReadOnly={()=> setInputReadOnly(!inputReadOnly)} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>  
-        <form>
-          
+    <Page title="TICKET" subtitle={activeAccount.AccountNum} status={updated === true ? "edit" : "view"} handleToggle={()=> handleToggle()} pageSuccess={pageSuccess} pageError={pageError}>
+        {userContext && userContext.userSession != undefined ? 
+          <>
+            <TabBar>
+              <ul>
+              <li className={tab === "BASIC_INFO" ? "is-active" : ""}><a onClick={()=>setTab("BASIC_INFO")}>Basic Info</a></li>
+              <li className={tab === "DETAILS" ? "is-active" : ""}><a onClick={()=>setTab("DETAILS")}>Details</a></li>
+              <li className={tab === "SUPPORT" ? "is-active" : ""}><a onClick={()=>setTab("SUPPORT")}>Support</a></li>
+              <li className={tab === "BILLING" ? "is-active" : ""}><a onClick={()=>setTab("BILLING")}>Billing</a></li>
+              </ul>
+            </TabBar>
+            <nav className="breadcrumb" aria-label="breadcrumbs">
+              <ul>
+                <li className="is-size-7 is-uppercase">last updated: {activeAccount.LastUpdated && activeAccount.LastUpdated}</li>
+                <li className="is-size-7 is-uppercase">updated by: {activeAccount.LastUpdatedBy && activeAccount.LastUpdatedBy}</li>
+              </ul>
+            </nav>
+            {activeAccount && pageFields.map(el => 
+              <>
+                {[activeAccount].map(h => 
+                  <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
+                  <Columns options="is-mobile">
+                    <Column size="is-5-mobile is-3-fullhd">
+                      <div className="has-text-weight-semibold" key={el.label}>
+                        {el.label} 
+                      </div>
+                    </Column>
+                    <Column size="is-1 is-narrow">:</Column>
+                    <Column >
+                      <div>{h[el.dataField]}</div>
+                    </Column>
+                  </Columns>
+                  </div>
+                )}
+              </>
+            )}
 
-            <Column>
-            <TextInput 
-              inputFieldLabel="Account Number"
-              inputFieldRef={accountNum}
-              inputFieldValue={activeAccount.AccountNum}
-            />
-            </Column>
-            <Column>
-            <TextInput 
-              inputFieldLabel="Sub Account Number"
-              inputFieldRef={subAccountNum}
-              inputFieldValue={activeAccount.SubAccountNum}
-            />
-            </Column>
-            <Column>
-            <SelectInputProps
-              fieldLabel="Vendor"
-              fieldInitialValue={activeAccount.Vendor}
-              fieldInitialOption={activeAccount.Vendor}
-              fieldIDRef={accountVendor}>
-                <option>AT&T</option>
-                <option>Verizon</option>
-                <option>CenturyLink</option>
-                <option>Lumos</option>
-                <option>Windstream</option>
-                <option>Spectrum</option>
-                <option>Comcast</option>
-                <option>Masergy</option>
-                <option>Microsoft</option>
-            </SelectInputProps>
-            </Column>
-            <Column>
-            <SelectInput 
-              fieldOptions={locations}
-              fieldLabel="Related Location"
-              fieldInitialValue={activeAccount.AccountServiceLocationID}
-              fieldInitialOption={activeAccount.AccountServiceLocationName}
-              fieldIDRef={accountServiceLocationID}
-              fieldChange={()=>handleToggleServiceList()}
-            />
-            </Column>
-            <Column>
-            <SelectInputProps 
-              fieldLabel="Related Service"
-              fieldInitialValue={activeAccount.AccountServiceID}
-              fieldInitialOption={activeAccount.AccountServiceName}
-              fieldIDRef={accountServiceID}
-              onChange={()=>handleRelatedServiceID()}
+            <EditDocDrawer 
+              title="BASIC INFO" 
+              checked={checked} 
+              handleClose={()=>setChecked(!checked)} 
+              handleSubmit={()=> handleSubmit()} 
+              colRef="Tickets" 
+              docRef={activeAccount.id}
             >
-              {servicesByLocation != undefined ? 
-                servicesByLocation.map(service => (
-                  <option value={service.id} key={service.id}> 
-                  {service.AssetID}</option>
-                )) : (
-                  <option></option>
-              )}
-            </SelectInputProps>
-            </Column>
-            <Column>
-            <TextInput 
-              inputFieldLabel="Pre-Tax Cost"
-              inputFieldRef={accountPreTaxMRC}
-              inputFieldValue={activeAccount.PreTaxMRC}
-            />
-            </Column>
-            <Column>
-            <TextInput 
-              inputFieldLabel="Post-Tax Cost"
-              inputFieldRef={accountPostTaxMRC}
-              inputFieldValue={activeAccount.PostTaxMRC}
-            />
-            </Column>
-            <Column>
-            <TextInput 
-              inputFieldLabel="Bill Group Number"
-              inputFieldRef={accountGroupNum}
-              inputFieldValue={activeAccount.GroupNum}
-            />
-            </Column>
-            <Column>
-            <TextInput 
-              inputFieldLabel="Internal Billing Code"
-              inputFieldRef={accountInternalBillingCode}
-              inputFieldValue={activeAccount.InternalBillingCode}
-            />
-            </Column>
-            
-          
-          <Column>
-          <GridComponent 
-            label="BILLS"
-            headerFields={billColumns}
-            data={bills}
-            handleAddBtn={()=>handleAddBillBtn()}      
-          />
-          </Column>
+              {pageFields.filter(t => t.tab === tab).map(h => { 
+                switch (h.inputFieldType) {
 
-      
-      </form>
-    </Page>
+                  case "related-select":
+                    return (
+                      
+                            <SelectField type="select" title={h.label} name={h.dataField} value={activeAccount && activeAccount[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
+                              <option></option>
+                                {h.inputSource && h.inputSource.map(i => 
+                                  <option id={i[h.inputID]} name={i[h.dataField]}>
+                                    {i[h.inputValue]}
+                                  </option>
+                                )}
+                            </SelectField>
+                        
+                    ) 
+
+                  case "select":
+                    return (
+                      
+                            <SelectField type="select" title={h.label} name={h.dataField} value={activeAccount && activeAccount[h.dataField]} handleChange={(e)=>handleChange(e)} >
+                              <option></option>
+                                {h.inputSource && h.inputSource.map(i => 
+                                  <option name={i[h.dataField]}>
+                                    {i[h.inputValue]} 
+                                  </option>
+                                )}
+                            </SelectField>
+                        
+                    ) 
+
+                  case "text":
+                    return (
+                      
+                          <TextBox title={h.label} name={h.dataField} value={activeAccount && activeAccount[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
+                        
+                    ) 
+
+                  case "text-area":
+                    return (
+                      
+                          <TextArea title={h.label} name={h.dataField} value={activeAccount && activeAccount[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
+                        
+                    ) 
+
+                  case "datepicker":
+                    return (
+                      
+                          <TextBox 
+                            id="datetime-local"
+                            title={h.label}
+                            type="date" 
+                            name={h.dataField} 
+                            className="input is-rounded is-small"
+                            value={activeAccount && activeAccount[h.dataField]} 
+                            fieldChanged={(e)=>handleChange(e)} 
+                          />
+                        
+                    ) 
+  
+                  }
+                }
+              )}
+              
+            </EditDocDrawer>
+          </> : 
+        <div className="tile warning"> No record to display </div>}    
+      </Page>
           
     </> ) : ""}
     </>
