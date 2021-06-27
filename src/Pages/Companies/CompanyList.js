@@ -7,11 +7,11 @@ import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
 
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
-import CompanyDropDown from '../../Components/Layout/CompanyDropDown'
+import CompanyDropDown from '../../Components/DropDowns/CompanyDropDown'
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
 import Button from '../../Components/Buttons/Button'
-import { FaPlus } from "react-icons/fa"
+
 
 
 

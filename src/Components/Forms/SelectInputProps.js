@@ -1,15 +1,14 @@
-import React, { useRef, forwardRef } from 'react'
+import React from 'react'
 import Hint from './Hint'
 
-const SelectInputProps = ({fieldLabel, fieldIDRef, fieldInitialOption, fieldInitialValue, onChange, isVisible, hint, readonly, children}) => {
+const SelectInputProps = ({fieldLabel, fieldIDRef, fieldInitialOption, fieldInitialValue, onChange, isVisible, size, hint, readonly, children}) => {
   
-  const selectRef = useRef("")
-
+ 
   return(
       <div className="field">
       <label className="label">{fieldLabel && fieldLabel}</label>
         <div className="control">
-        <div className={isVisible != false ? "select is-rounded is-fullwidth is-small" : "is-hidden"}>
+        <div className={isVisible != false ? `select ${size} is-rounded is-fullwidth` : "is-hidden"}>
           <select type="select" ref={fieldIDRef} defaultValue={fieldInitialOption} onChange={onChange} readOnly={readonly}>
 
             {fieldInitialValue != undefined ? 

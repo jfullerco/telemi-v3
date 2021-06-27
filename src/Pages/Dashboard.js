@@ -67,7 +67,6 @@ const Dashboard = () => {
 
               <section className="hero is-small">
                 <div className="hero-body">
-                
 
                  <CompanyList />
                   

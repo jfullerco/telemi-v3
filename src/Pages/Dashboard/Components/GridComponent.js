@@ -5,6 +5,7 @@ import Column from '../../../Components/Layout/Column'
 import FilterSelectInput from '../../../Components/Tables/useFilterArray'
 
 
+
 const GridComponent = ({
   headerFields,  
   label, 
@@ -30,9 +31,7 @@ const GridComponent = ({
       <div className={isGrid === isVisible ? "box" : "is-hidden"}>
       
         <div className="title" style={headerStyle}> 
-          {label} {isVisible != false ? 
-            <a className="link ml-2 is-size-7" onClick={toggleIsVisible}>hide</a> : 
-            <a className="link ml-2 is-size-7" onClick={toggleIsVisible}>show</a>}
+          {label} 
           <div className="is-pulled-right is-clearfix">
             <button className="button is-small is-link is-rounded mr-1" onClick={handleAddBtn}>Add</button>
 
