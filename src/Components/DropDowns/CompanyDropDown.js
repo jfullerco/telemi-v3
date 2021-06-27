@@ -12,7 +12,7 @@ const CompanyDropDown = ({currentCompany, companies, isActive, handleClick, hand
         <div className="title has-text-black" style={{textTransform: "uppercase"}} onClick={handleToggle}>
         {currentCompany}
           <span className="icon is-large">
-            <FaAngleDown onClick={handleToggle} style={{marginTop: 'auto'}} />
+            {currentCompany && <FaAngleDown onClick={handleToggle} style={{marginTop: 'auto'}} />}
           </span>
       </div>
         
