@@ -165,7 +165,7 @@ const DashboardGrids = ({visible}) => {
   {docField: 'Vendor', headerName: 'Vendor', key: "1", filterable: true},
   {docField: 'VendorServiceName', headerName: 'Product', key: "2", filterable: true},
   {docField: 'LocationName', headerName: 'Location', key: "3", filterable: true},
-  {docField: 'AssetID', headerName: 'Asset ID', key: "4", filterable: false},
+  {docField: 'AssetID', headerName: 'Asset ID', key: "4", filterable: false, mobileAnchor: true},
   {docField: 'Type', headerName: 'Type', key: "5", filterable: true}
   ]
 
