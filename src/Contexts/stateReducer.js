@@ -14,7 +14,12 @@ export default (state, action) => {
       return {
         ...state,
         currentCompany: action.payload
-      }  
+      }
+      case "SET_CURRENT_GRID":
+        return {
+          ...state,
+          currentGrid: action.payload
+        }  
     case "LOGGED_IN":
       return {
         ...state,

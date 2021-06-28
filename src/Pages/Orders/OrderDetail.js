@@ -23,6 +23,7 @@ const OrderDetail = (state) => {
           accessTypes, 
           serviceStatusType,
           orderStatusType,
+          orderType,
           vendorList, 
           isStyle } = userContext
 
@@ -33,7 +34,7 @@ const OrderDetail = (state) => {
           currentCompany,
           currentCompanyID } = userContext.userSession
 
-  const [active, setActive] = useState("")
+  const [activeOrder, setActiveOrder] = useState("")
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
   const [newOrder, setNewOrder] = useState(false)
@@ -60,9 +61,9 @@ const OrderDetail = (state) => {
     
     const data = await orderRef.data()
     const id = await orderRef.id
-    setActive({id: id, ...data})
+    setActiveOrder({id: id, ...data})
     setData(data)
-    console.log({id: state.location.state.id, active, data})
+    
   }
 
   const fetchAccounts = async() => {
@@ -125,7 +126,7 @@ const OrderDetail = (state) => {
     { 
       label: "Date Ordered", 
       dataField: "OrderDate", 
-      inputFieldType: "text", 
+      inputFieldType: "datepicker", 
       tab: "BASIC_INFO" 
     },
     { 
@@ -142,6 +143,15 @@ const OrderDetail = (state) => {
       dataField: "VendorServiceName", 
       inputFieldType: "text", 
       tab: "BASIC_INFO" 
+    },
+    {
+      label: "Order Type",
+      dataField: "Type",
+      inputField: "select",
+      inputSource: orderType,
+      inputID: "id",
+      inputValue: "Name",
+      tab: "BASIC_INFO"
     },
     { 
       label: "Bandwidth", 
@@ -179,13 +189,19 @@ const OrderDetail = (state) => {
       dataField: "Details", 
       inputFieldType: "text-area", 
       tab: "BASIC_INFO" 
+    },
+    {
+      label: "Notes",
+      dataField: "Notes",
+      inputFieldType: "map",
+      tab: "DETAILS"
     }
   ]
 
 const handleChange = (e) => {
   
   const {name, value} = e.target
-  setActive({...active, [name]: value})
+  setActiveOrder({...activeOrder, [name]: value})
   setData({...data, [name]: value})
 }
 
@@ -197,13 +213,13 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   const {value} = e.target
   
   console.log({[relatedName]: id, [name]: value})
-  setActive({...active, [relatedName]: id, [name]: value})
+  setActiveOrder({...activeOrder, [relatedName]: id, [name]: value})
   setData({...data, [relatedName]: id, [name]: value})
 }
 
 console.log(data)
   return (
-      <Page title={`ORDER`} subtitle={active.OrderNum} active={active.CompanyName} status="view" handleToggle={()=> handleToggle()} pageSuccess={pageSuccess} pageError={pageError}>
+      <Page title={`ORDER`} subtitle={activeOrder.OrderNum} active={activeOrder.CompanyName} status="view" handleToggle={()=> handleToggle()} pageSuccess={pageSuccess} pageError={pageError}>
         {userContext && userContext.userSession != undefined ? 
           <>
             <TabBar>
@@ -214,9 +230,9 @@ console.log(data)
               <li className={tab === "BILLING" ? "is-active" : ""}><a onClick={()=>setTab("BILLING")}>Billing</a></li>
               </ul>
             </TabBar>
-            {active && pageFields.map(el => 
+            {activeOrder && pageFields.map(el => 
               <>
-                {[active].map(h => 
+                {[activeOrder].map(h => 
                   <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
                   <Columns options="is-mobile">
                     <Column size="is-5-mobile is-3-fullhd">
@@ -240,7 +256,7 @@ console.log(data)
               handleClose={()=>setChecked(!checked)} 
               handleSubmit={()=> handleSubmit()} 
               colRef="Orders" 
-              docRef={active.id}
+              docRef={activeOrder.id}
             >
               {pageFields.map(h => {
                 switch (h.inputFieldType) {
@@ -248,7 +264,7 @@ console.log(data)
                   case "related-select":
                     return (
                       
-                            <SelectField type="select" title={h.label} name={h.dataField} value={active && active[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
+                            <SelectField type="select" title={h.label} name={h.dataField} value={activeOrder && activeOrder[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
                                   <option id={i[h.inputID]} name={i[h.dataField]}>
@@ -262,7 +278,7 @@ console.log(data)
                   case "select":
                     return (
                       
-                            <SelectField type="select" title={h.label} name={h.dataField} value={active && active[h.dataField]} handleChange={(e)=>handleChange(e)} >
+                            <SelectField type="select" title={h.label} name={h.dataField} value={activeOrder && activeOrder[h.dataField]} handleChange={(e)=>handleChange(e)} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
                                   <option name={i[h.dataField]}>
@@ -276,16 +292,51 @@ console.log(data)
                   case "text":
                     return (
                       
-                          <TextBox title={h.label} name={h.dataField} value={active && active[h.dataField]} fieldChanged={handleChange} />
+                          <TextBox title={h.label} name={h.dataField} value={activeOrder && activeOrder[h.dataField]} fieldChanged={handleChange} />
                         
                     ) 
 
                   case "text-area":
                     return (
                       
-                          <TextArea title={h.label} name={h.dataField} value={active && active[h.dataField]} fieldChanged={handleChange} />
+                          <TextArea title={h.label} name={h.dataField} value={activeOrder && activeOrder[h.dataField]} fieldChanged={handleChange} />
                         
                     ) 
+                  
+                    case "datepicker":
+                      return (
+                        
+                            <TextBox 
+                              id="datetime-local"
+                              title={h.label}
+                              type="date" 
+                              name={h.dataField} 
+                              className="input is-rounded is-small"
+                              value={activeOrder && activeOrder[h.dataField]} 
+                              fieldChanged={(e)=>handleChange(e)} 
+                            />
+                          
+                      )
+
+                      case "mapTEST":
+                        return (
+                          
+                              <>
+                              {activeOrder[h.dataField].map(item => 
+                                <TextArea value={activeOrder} />
+                              )}
+                              <TextBox 
+                                id="datetime-local"
+                                title={h.label}
+                                type="date" 
+                                name={h.dataField} 
+                                className="input is-rounded is-small"
+                                value={activeOrder && activeOrder[h.dataField]} 
+                                fieldChanged={(e)=>handleChange(e)} 
+                              />
+                              </>
+                            
+                        ) 
   
                   }
                 }

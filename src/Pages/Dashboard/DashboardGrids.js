@@ -19,6 +19,7 @@ const DashboardGrids = ({visible}) => {
 
   const { isStyle, 
           setDataLoading,
+          setCurrentGrid,
           setLocations,
           setServices,
           setTickets,
@@ -30,6 +31,7 @@ const DashboardGrids = ({visible}) => {
   const { dataLoading,
           currentCompany,
           currentUser,
+          currentGrid,
           locations,
           services,
           tickets,
@@ -42,7 +44,7 @@ const DashboardGrids = ({visible}) => {
 
   const [loadingGrid, setLoadingGrid] = useState()
   const [checked, setChecked] = useState(false)
-  const [grid, setGrid] = useState("SERVICES")
+  const [grid, setGrid] = useState(currentGrid != undefined ? currentGrid : "SERVICES")
   
   useEffect(() => {
     setLoadingGrid(true)
@@ -338,13 +340,14 @@ const DashboardGrids = ({visible}) => {
     const {value} = e.target
     console.log(value)
     setGrid(value)
+    setCurrentGrid(value)
   }
 
 return (
   <>
     <div className={loadingGrid != false ? "modal is-active" : "modal"}><div className="loading"></div></div>
 
-    <SelectInputProps onChange={(e)=>handleGridChange(e)}>
+    <SelectInputProps placeholder="Change Current View" onChange={(e)=>handleGridChange(e)}>
       <option value="SERVICES">Services</option>
       <option value="TICKETS">Tickets</option>
       <option value="ORDERS">Orders</option>

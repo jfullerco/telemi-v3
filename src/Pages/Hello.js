@@ -11,7 +11,8 @@ const Hello = () => {
   const currentUser = useAuth()
   
   return (
-    <div>
+    <div className="hero is-medium">
+      <div className="hero-body">
     {modalState === true ? <Register modalState={modalState} /> : ""}
       <div className="title has-text-weight-bold"> Telecom is hard... </div>
       <div className="subtitle has-text-weight-light">
@@ -22,6 +23,7 @@ const Hello = () => {
       <span className="has-text-weight-semibold is-uppercase has-text-black">Think of this as your telecom passport</span>
       <div className="content is-small has-text-black">
         <a>Join our quest</a> to bring a single source of truth to Telecom Asset, Billing and Service management where leveraging existing service and billing data will drive more informed purchasing decisions and roadmap adoption. 
+      </div>
       </div>
       </div>
       </div>

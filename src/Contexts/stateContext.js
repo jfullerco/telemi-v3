@@ -96,6 +96,21 @@ export const StateProvider = (props) => {
       Name: "Cancelled" },
     ]
 
+    const orderType = [
+      {
+        id: "New",
+      Name: "New"
+      },
+      {
+        id: "Change",
+        Name: "Change"
+      },
+      {
+        id: "Disconnect",
+        Name: "Disconnect"
+      },
+    ]
+
     const vendorList = [
       {id: "AT&T",
       Name: "AT&T"},
@@ -309,6 +324,13 @@ export const StateProvider = (props) => {
         })
       };
 
+      const setCurrentGrid = (name) => {
+        dispatch({
+          type: "SET_CURRENT_GRID",
+          payload: name
+        })
+      };
+
       const setCurrentDate = () => {
         const currentDate = new Date()
         return currentDate.toISOString().substring(0, 10)
@@ -341,11 +363,13 @@ export const StateProvider = (props) => {
           setCurrentOrderNum,
           setCurrentAccountID,
           setCurrentAccountNum,
+          setCurrentGrid,
           serviceTypes,
           accessTypes,
           vendorList,
           serviceStatusType,
           orderStatusType,
+          orderType,
           fetchCompanies,
           toggleAdmin,
           setToggleDevTools,

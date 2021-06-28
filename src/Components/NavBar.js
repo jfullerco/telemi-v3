@@ -69,11 +69,6 @@ const NavBar = () => {
             <a className="navbar-link" onClick={()=>history.push("/dashboard")}>Dashboard</a>
   
             <div className="navbar-dropdown">
-              <a className="navbar-item">ACCOUNTS</a>
-              <a className="navbar-item">ORDERS</a>
-              <a className="navbar-item">TICKETS</a>
-              <a className="navbar-item">LOCATIONS</a>
-              <a className="navbar-item">USERS</a>
               <a className="navbar-item">SETTINGS</a>
             </div>
             
