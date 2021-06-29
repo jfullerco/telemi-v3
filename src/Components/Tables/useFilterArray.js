@@ -19,8 +19,8 @@ const FilterSelectInput = ({dataRef, colRef, onSelect, onReset, isFilterable}) =
      
   },[dataRef])
 
-  const handleBackupArr = (dataRef) => {
-    const backupArr = isFiltered != true & dataRef && dataRef.length > 0 ? setInitialArr(dataRef) : ""
+  const handleBackupArr = (dataRef, initialArr) => {
+    const backupArr = isFiltered != true & dataRef.length > 0 ? setInitialArr(dataRef) : ""
   }
 
   const uniqueValues = (dataRef, colRef) => { 
@@ -30,6 +30,7 @@ const FilterSelectInput = ({dataRef, colRef, onSelect, onReset, isFilterable}) =
 
   const handleSelectFilter = (e) => {
     const {value} = e.target
+    console.log(value)
     value != "Reset Filter" ? onSelect({data: dataRef, colRef: colRef, filterRef: value}) : handleResetArr(initialArr)
     setIsFiltered(true)
   }
@@ -37,6 +38,7 @@ const FilterSelectInput = ({dataRef, colRef, onSelect, onReset, isFilterable}) =
   const handleResetArr = () => {
     onReset(initialArr)
     setIsFiltered(false)
+    setVisible(!visible)
   }
 
   return(
@@ -44,7 +46,8 @@ const FilterSelectInput = ({dataRef, colRef, onSelect, onReset, isFilterable}) =
       {isFilterable && isFilterable != false ? 
       visible != true ? 
       <a className="has-text-weight-small has-text-black ml-2" onClick={()=> setVisible(!visible)}>+</a> : 
-      <a className="has-text-weight-small has-text-black ml-2" onClick={()=> setVisible(!visible)}>x</a> : ""}
+      <a className="has-text-weight-small has-text-black ml-2" onClick={()=> handleResetArr()}>x</a> : ""}
+      {isFiltered === false ?
       <SelectInputProps
         isVisible={visible}
         size="is-small"
@@ -56,7 +59,8 @@ const FilterSelectInput = ({dataRef, colRef, onSelect, onReset, isFilterable}) =
         {values != "" ? values.map(value => 
           <option key={value}>{value}</option>
         ) : ""}
-      </SelectInputProps>
+      </SelectInputProps> :
+      ""}
     </>
   )
 }

@@ -427,6 +427,69 @@ import React from 'react'
       },
       
     ]
+    const accountDetailFields = [
+    
+      { 
+        label: "Account Number", 
+        dataField: "AccountNum", 
+        inputFieldType: "text", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Sub Account Number", 
+        dataField: "SubAccountNum", 
+        inputFieldType: "text", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Vendor", 
+        dataField: "Vendor", 
+        inputFieldType: "select", 
+        inputSource: vendorList, 
+        inputID: "id", 
+        inputValue: "Name", 
+        tab: "BASIC_INFO"
+      },
+      { 
+        label: "Service Location", 
+        dataField: "AccountServiceLocationName", 
+        inputFieldType: "related-select", 
+        inputSource: locations, 
+        inputID: "id", 
+        inputValue: "Name", 
+        relatedDataField: "LocationID", 
+        tab: "BASIC_INFO"  
+      },
+      { 
+        label: "Service Asset", 
+        dataField: "AccountServiceName", 
+        inputFieldType: "related-select", 
+        inputSource: services, 
+        inputID: "id", 
+        inputValue: "AssetID", 
+        relatedDataField: "ServiceID", 
+        tab: "BASIC_INFO"  
+      },
+      { 
+        label: "Date Billing Started", 
+        dataField: "BillingStartDate", 
+        inputFieldType: "datepicker", 
+        tab: "DETAILS"
+      },
+      { 
+        label: "Type", 
+        dataField: "Type", 
+        inputFieldType: "text", 
+        tab: "DETAILS" 
+      },
+      { 
+        label: "Details", 
+        dataField: "Details", 
+        inputFieldType: "text-area", 
+        tab: "DETAILS" 
+      },
+      
+    ]
 
 export {
     serviceGridColumns, 
@@ -436,5 +499,6 @@ export {
     userGridColumns, 
     contractGridColumns,
     serviceDetailFields,
-    ticketDetailFields
+    ticketDetailFields,
+    accountDetailFields
 }

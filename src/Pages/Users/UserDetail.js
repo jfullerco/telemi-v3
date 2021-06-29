@@ -3,7 +3,6 @@ import {useParams, useHistory} from 'react-router-dom'
 
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
-import {accountDetailFields as pageFields} from '../../Contexts/initialFields'
 
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
@@ -15,7 +14,7 @@ import TabBar from '../../Components/Tabs/TabBar'
 import TextBox from '../../Components/Forms/TextBox'
 import SelectBox from '../../Components/Forms/SelectBox'
 
-const AccountDetail = (state) => {
+const UserDetail = (state) => {
 
   const params = useParams()
   const history = useHistory()
@@ -37,11 +36,10 @@ const AccountDetail = (state) => {
           currentCompany,
           currentCompanyID } = userContext.userSession
   
-  const [activeAccount, setActiveAccount] = useState()
-  const [bills, setBills] = useState()
+  const [activeUser, setActiveUser] = useState()
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
-  const [newAccount, setNewAccount] = useState(false)
+  const [newUser, setNewUser] = useState(false)
   const [updated, setUpdated] = useState(false)
   const [tab, setTab] = useState("BASIC_INFO")
   const [pageSuccess, setPageSuccess] = useState(false)
@@ -49,134 +47,52 @@ const AccountDetail = (state) => {
   
   useEffect(() => {
     params.checked === "true" ? setChecked(true) : ""
-    params.new === "true" ? setNewTicket(true) : 
-    fetchAccount()
-    fetchBills()
+    params.new === "true" ? setNewUser(true) : 
+    fetchUser()
   }, [])
 
   useEffect(()=> {
     newAccount === true ?
-    setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany}) : ""
+    setData({...data, ['Companies']: [currentCompanyID]}) : ""
     console.log(data)
   },[newAccount])
 
-  const fetchAccount = async() => {
+  const fetchUser = async() => {
    
-    const accountRef = await db.collection("Accounts").doc(state.location.state.id).get()
+    const userRef = await db.collection("Users").doc(state.location.state.id).get()
 
-    const data = await accountRef.data()
-    const id = await accountRef.id
-    setActiveAccount({id: id, ...data})
+    const data = await userRef.data()
+    const id = await userRef.id
+    setActiveUser({id: id, ...data})
     setData(data)
-  }
-
-  const fetchServices = async() => {
-    
-    const servicesRef = await db.collection("Services").where("LocationID", "==", accountServiceLocationID.current.value).get()
-
-    const services = servicesRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setServicesByLocation(services)
-    
-  }
-
-  const fetchBills = async() => {
-    const billsRef = await db.collection("Bills").where("AccountID", "==", state.location.state.id).get()
-    const bills = billsRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setBills(bills)
-  }
-
-  const handleToggleServiceList = () => {
-    setToggleServiceList(!toggleServiceList)
   }
   
   const handleSubmit = async(e) => {
 
-    const data = {
-
-      AccountNum: accountNum.current.value,
-      CompanyID: userContext.userSession.currentCompanyID,
-      CompanyName: userContext.userSession.currentCompany,
-      Vendor: accountVendor.current.value,
-      PreTaxMRC: accountPreTaxMRC.current.value,
-      PostTaxMRC: accountPostTaxMRC.current.value,
-      SubAccountNum: subAccountNum.current.value,
-      GroupNum: accountGroupNum.current.value,
-      InternalBillingCode: accountInternalBillingCode.current.value,
-      AccountServiceLocationID: accountServiceLocationID.current.value,
-      AccountServiceLocationName: accountServiceLocationID.current[accountServiceLocationID.current.selectedIndex].text,
-      AccountServiceID: accountServiceID.current.value,
-      AccountServiceName: accountServiceID.current[accountServiceID.current.selectedIndex].text
-    }  
-
     console.log(data)
-    const res = await db.collection("Accounts").doc(state.location.state.id).update(data)
+    const res = await db.collection("Users").doc(state.location.state.id).update(data)
     history.push("/dashboard")
   }
 
-  const pageFieldss = [
+  const pageFields = [
     
     { 
-      label: "Account Number", 
-      dataField: "AccountNum", 
+      label: "First Name", 
+      dataField: "FirstName", 
       inputFieldType: "text", 
       tab: "BASIC_INFO" 
     },
     { 
-      label: "Sub Account Number", 
-      dataField: "SubAccountNum", 
+      label: "Last Name", 
+      dataField: "LastName", 
       inputFieldType: "text", 
       tab: "BASIC_INFO" 
     },
     { 
-      label: "Vendor", 
-      dataField: "Vendor", 
-      inputFieldType: "select", 
-      inputSource: vendorList, 
-      inputID: "id", 
-      inputValue: "Name", 
+      label: "Email", 
+      dataField: "Email", 
+      inputFieldType: "text", 
       tab: "BASIC_INFO"
-    },
-    { 
-      label: "Service Location", 
-      dataField: "AccountServiceLocationName", 
-      inputFieldType: "related-select", 
-      inputSource: locations, 
-      inputID: "id", 
-      inputValue: "Name", 
-      relatedDataField: "LocationID", 
-      tab: "BASIC_INFO"  
-    },
-    { 
-      label: "Service Asset", 
-      dataField: "AccountServiceName", 
-      inputFieldType: "related-select", 
-      inputSource: services, 
-      inputID: "id", 
-      inputValue: "AssetID", 
-      relatedDataField: "ServiceID", 
-      tab: "BASIC_INFO"  
-    },
-    { 
-      label: "Date Billing Started", 
-      dataField: "BillingStartDate", 
-      inputFieldType: "datepicker", 
-      tab: "DETAILS"
-    },
-    { 
-      label: "Type", 
-      dataField: "Type", 
-      inputFieldType: "text", 
-      tab: "DETAILS" 
-    },
-    { 
-      label: "Details", 
-      dataField: "Details", 
-      inputFieldType: "text-area", 
-      tab: "DETAILS" 
     },
     
   ]
@@ -196,7 +112,7 @@ const AccountDetail = (state) => {
 
 const handleChange = (e) => {
   const {name, value} = e.target
-  setActiveAccount({...activeAccount, [name]: value})
+  setActiveUser({...activeUser, [name]: value})
   setData({...data, [name]: value})
   setUpdated(!updated)
 }
@@ -209,28 +125,11 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   const {value} = e.target
   
   console.log({[relatedName]: id, [name]: value})
-  setActiveAccount({...activeAccount, [relatedName]: id, [name]: value})
+  setActiveUser({...activeUser, [relatedName]: id, [name]: value})
   setData({...data, [relatedName]: id, [name]: value})
   setUpdated(!updated)
 }
-  
-  
 
-  const billColumns = [
-  {docField: 'Date', headerName: 'Date', key: "1"},
-  {docField: 'Cost', headerName: 'Cost', key: "2"},
-  {docField: 'DisputedCost', headerName: 'Cost Disputed', key: "3"}
-  ] 
-
-  const handleAddBillBtn = (id) => {
-    history.push({
-      pathname: "/addbill",
-        state: {
-          AccountNum: activeAccount.AccountNum,
-          AccountID: state.location.state.id
-          }
-        })
-  }
 
   return (
     <>
@@ -354,4 +253,4 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
     </>
   )
 }
-export default AccountDetail
+export default UserDetail
