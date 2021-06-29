@@ -37,8 +37,7 @@ const AccountDetail = (state) => {
           currentCompany,
           currentCompanyID } = userContext.userSession
   
-  const [activeAccount, setActiveAccount] = useState()
-  const [bills, setBills] = useState()
+  const [activeAccount, setActiveAccount] = useState("")
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
   const [newAccount, setNewAccount] = useState(false)
@@ -49,9 +48,9 @@ const AccountDetail = (state) => {
   
   useEffect(() => {
     params.checked === "true" ? setChecked(true) : ""
-    params.new === "true" ? setNewTicket(true) : 
+    params.new === "true" ? setNewAccount(true) : 
     fetchAccount()
-    fetchBills()
+    
   }, [])
 
   useEffect(()=> {
@@ -59,6 +58,10 @@ const AccountDetail = (state) => {
     setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany}) : ""
     console.log(data)
   },[newAccount])
+
+  useEffect(() => {
+    handleSetLastUpdatedFields()
+  },[updated])
 
   const fetchAccount = async() => {
    
@@ -70,17 +73,6 @@ const AccountDetail = (state) => {
     setData(data)
   }
 
-  const fetchServices = async() => {
-    
-    const servicesRef = await db.collection("Services").where("LocationID", "==", accountServiceLocationID.current.value).get()
-
-    const services = servicesRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setServicesByLocation(services)
-    
-  }
-
   const fetchBills = async() => {
     const billsRef = await db.collection("Bills").where("AccountID", "==", state.location.state.id).get()
     const bills = billsRef.docs.map(doc => ({
@@ -88,98 +80,13 @@ const AccountDetail = (state) => {
       ...doc.data()}))
     setBills(bills)
   }
-
-  const handleToggleServiceList = () => {
-    setToggleServiceList(!toggleServiceList)
-  }
   
   const handleSubmit = async(e) => {
-
-    const data = {
-
-      AccountNum: accountNum.current.value,
-      CompanyID: userContext.userSession.currentCompanyID,
-      CompanyName: userContext.userSession.currentCompany,
-      Vendor: accountVendor.current.value,
-      PreTaxMRC: accountPreTaxMRC.current.value,
-      PostTaxMRC: accountPostTaxMRC.current.value,
-      SubAccountNum: subAccountNum.current.value,
-      GroupNum: accountGroupNum.current.value,
-      InternalBillingCode: accountInternalBillingCode.current.value,
-      AccountServiceLocationID: accountServiceLocationID.current.value,
-      AccountServiceLocationName: accountServiceLocationID.current[accountServiceLocationID.current.selectedIndex].text,
-      AccountServiceID: accountServiceID.current.value,
-      AccountServiceName: accountServiceID.current[accountServiceID.current.selectedIndex].text
-    }  
 
     console.log(data)
     const res = await db.collection("Accounts").doc(state.location.state.id).update(data)
     history.push("/dashboard")
   }
-
-  const pageFieldss = [
-    
-    { 
-      label: "Account Number", 
-      dataField: "AccountNum", 
-      inputFieldType: "text", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Sub Account Number", 
-      dataField: "SubAccountNum", 
-      inputFieldType: "text", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Vendor", 
-      dataField: "Vendor", 
-      inputFieldType: "select", 
-      inputSource: vendorList, 
-      inputID: "id", 
-      inputValue: "Name", 
-      tab: "BASIC_INFO"
-    },
-    { 
-      label: "Service Location", 
-      dataField: "AccountServiceLocationName", 
-      inputFieldType: "related-select", 
-      inputSource: locations, 
-      inputID: "id", 
-      inputValue: "Name", 
-      relatedDataField: "LocationID", 
-      tab: "BASIC_INFO"  
-    },
-    { 
-      label: "Service Asset", 
-      dataField: "AccountServiceName", 
-      inputFieldType: "related-select", 
-      inputSource: services, 
-      inputID: "id", 
-      inputValue: "AssetID", 
-      relatedDataField: "ServiceID", 
-      tab: "BASIC_INFO"  
-    },
-    { 
-      label: "Date Billing Started", 
-      dataField: "BillingStartDate", 
-      inputFieldType: "datepicker", 
-      tab: "DETAILS"
-    },
-    { 
-      label: "Type", 
-      dataField: "Type", 
-      inputFieldType: "text", 
-      tab: "DETAILS" 
-    },
-    { 
-      label: "Details", 
-      dataField: "Details", 
-      inputFieldType: "text-area", 
-      tab: "DETAILS" 
-    },
-    
-  ]
 
   const handleSetLastUpdatedFields = () => {
     setActiveAccount({
@@ -233,10 +140,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   }
 
   return (
-    <>
-    {activeAccount != undefined ? ( 
-    <>
-    <Page title="Account" subtitle={activeAccount.AccountNum} status={updated === true ? "edit" : "view"} handleToggle={()=> handleToggle()} pageSuccess={pageSuccess} pageError={pageError}>
+    <Page title="Account" subtitle={activeAccount && activeAccount.AccountNum} status={updated === true ? "edit" : "view"} handleToggle={()=> handleToggle()} pageSuccess={pageSuccess} pageError={pageError}>
         {userContext && userContext.userSession != undefined ? 
           <>
             <TabBar>
@@ -249,8 +153,8 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
             </TabBar>
             <nav className="breadcrumb" aria-label="breadcrumbs">
               <ul>
-                <li className="is-size-7 is-uppercase">last updated: {activeAccount.LastUpdated && activeAccount.LastUpdated}</li>
-                <li className="is-size-7 is-uppercase">updated by: {activeAccount.LastUpdatedBy && activeAccount.LastUpdatedBy}</li>
+                <li className="is-size-7 is-uppercase">last updated: {activeAccount && activeAccount.LastUpdated && activeAccount.LastUpdated}</li>
+                <li className="is-size-7 is-uppercase">updated by: {activeAccount && activeAccount.LastUpdatedBy && activeAccount.LastUpdatedBy}</li>
               </ul>
             </nav>
             {activeAccount && pageFields.map(el => 
@@ -278,7 +182,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
               checked={checked} 
               handleClose={()=>setChecked(!checked)} 
               handleSubmit={()=> handleSubmit()} 
-              colRef="Tickets" 
+              colRef="Accounts" 
               docRef={activeAccount.id}
             >
               {pageFields.filter(t => t.tab === tab).map(h => { 
@@ -350,8 +254,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
         <div className="tile warning"> No record to display </div>}    
       </Page>
           
-    </> ) : ""}
-    </>
+    
   )
 }
 export default AccountDetail

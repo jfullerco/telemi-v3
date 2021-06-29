@@ -286,6 +286,7 @@ const DashboardGrids = ({visible}) => {
                     history.push({
                       pathname: `/ticketdetail/${id}/${true}/${true}`,
                       state: {
+                      id: id,
                       services: services,
                       locations: locations,
                       accounts: accounts,
@@ -299,6 +300,7 @@ const DashboardGrids = ({visible}) => {
                     history.push({
                       pathname: `/accountdetail/${id}/${true}/${true}`,
                       state: {
+                      id: id,
                       services: services,
                       locations: locations,
                       accounts: accounts,
