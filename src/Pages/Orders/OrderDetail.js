@@ -162,7 +162,7 @@ const OrderDetail = (state) => {
     { 
       label: "Monthly Cost", 
       dataField: "MRC", 
-      inputFieldType: "text", 
+      inputFieldType: "currency", 
       tab: "BASIC_INFO" 
     },
     { 
@@ -295,6 +295,13 @@ console.log(data)
                           <TextBox title={h.label} name={h.dataField} value={activeOrder && activeOrder[h.dataField]} fieldChanged={handleChange} />
                         
                     ) 
+                  
+                    case "currency":
+                      return (
+                        
+                            <TextBox title={h.label} name={h.dataField} value={activeOrder && activeOrder[h.dataField]} fieldChanged={handleChange} />
+                          
+                      )
 
                   case "text-area":
                     return (

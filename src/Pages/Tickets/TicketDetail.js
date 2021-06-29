@@ -3,6 +3,7 @@ import {useParams, useHistory} from 'react-router-dom'
 
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
+import {ticketDetailFields as pageFields} from '../../Contexts/initialFields'
 
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
@@ -121,7 +122,7 @@ const TicketDetail = (state) => {
     setTimeout(() => {setPageSuccess(false)}, 3000)
   }
 
-  const pageFields = [
+  const pageFieldss = [
     
     { 
       label: "Ticket Number", 

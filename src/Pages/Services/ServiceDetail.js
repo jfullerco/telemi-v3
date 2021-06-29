@@ -3,7 +3,7 @@ import {useParams, useHistory} from 'react-router-dom'
 
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
-
+import {serviceDetailFields as pageFields} from '../../Contexts/initialFields'
 
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
@@ -123,7 +123,7 @@ const ServiceDetailEdit = (state) => {
     setTimeout(() => {history.push("/dashboard")}, 1500)
   }
 
-  const pageFields = [
+  const pageFieldss = [
     
     { 
       label: "Service Location", 
@@ -192,7 +192,7 @@ const ServiceDetailEdit = (state) => {
     { 
       label: "Monthly Cost", 
       dataField: "MRC", 
-      inputFieldType: "text", 
+      inputFieldType: "currency", 
       tab: "BASIC_INFO" 
     },
     { 
@@ -208,7 +208,7 @@ const ServiceDetailEdit = (state) => {
       label: "Notes", 
       dataField: "Notes", 
       inputFieldType: "text-area", 
-      tab: "BASIC_INFO" 
+      tab: "NOTES" 
     },
     { 
       label: "Related Order", 
@@ -284,6 +284,7 @@ console.log(data)
               <li className={tab === "DETAILS" ? "is-active" : ""}><a onClick={()=>setTab("DETAILS")}>Details</a></li>
               <li className={tab === "SUPPORT" ? "is-active" : ""}><a onClick={()=>setTab("SUPPORT")}>Support</a></li>
               <li className={tab === "BILLING" ? "is-active" : ""}><a onClick={()=>setTab("BILLING")}>Billing</a></li>
+              <li className={tab === "NOTES" ? "is-active" : ""}><a onClick={()=>setTab("NOTES")}>Notes</a></li>
               </ul>
             </TabBar>
             <nav className="breadcrumb" aria-label="breadcrumbs">
