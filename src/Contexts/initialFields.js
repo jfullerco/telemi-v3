@@ -445,8 +445,7 @@ import React from 'react'
         label: "Vendor", 
         dataField: "Vendor", 
         inputFieldType: "select",  
-        inputSource: "",
-        set setInputSource(i) {this.inputSource = i.map(obj => ({...obj}))},
+        
         inputID: "id", 
         inputValue: "Name", 
         tab: "BASIC_INFO"
@@ -455,8 +454,7 @@ import React from 'react'
         label: "Service Location", 
         dataField: "AccountServiceLocationName", 
         inputFieldType: "related-select", 
-        inputSource: "",
-        set setInputSource(i) {this.inputSource = i && i.map(obj => ({...obj}))},
+        
         inputID: "id", 
         inputValue: "Name", 
         relatedDataField: "LocationID", 
@@ -466,8 +464,7 @@ import React from 'react'
         label: "Service Asset", 
         dataField: "AccountServiceName", 
         inputFieldType: "related-select", 
-        inputSource: services, 
-        set setInputSource(i) {this.inputSource = i && i.map(obj => ({...obj}))},
+         
         inputID: "id", 
         inputValue: "AssetID", 
         relatedDataField: "ServiceID", 
@@ -493,6 +490,10 @@ import React from 'react'
       },
       
     ]
+  const handleFieldMapping = (arr, field, value) => {
+    const mappedField = arr.map(obj => obj.dataField === field ? ({...obj, ['inputSource']: value}) : ({...obj}))
+    return mappedField
+  }
 
 export {
     serviceGridColumns, 
@@ -503,5 +504,6 @@ export {
     contractGridColumns,
     serviceDetailFields,
     ticketDetailFields,
-    accountDetailFields
+    accountDetailFields,
+    handleFieldMapping
 }

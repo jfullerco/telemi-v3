@@ -46,13 +46,14 @@ const AccountDetail = (state) => {
   const [pageSuccess, setPageSuccess] = useState(false)
   const [pageError, setPageError] = useState(false)
   
-console.log(pageFields)
   useEffect(() => {
-
+    
     params.checked === "true" ? setChecked(true) : ""
     params.new === "true" ? setNewAccount(true) : 
     fetchAccount()
-    
+    handleInitialFieldMapping("Vendor", vendorList, pageFields)
+    handleInitialFieldMapping("AccountServiceName", services, pageFields)
+    handleInitialFieldMapping("AccountServiceLocationName", locations, pageFields)
   }, [])
 
   useEffect(()=> {
@@ -65,6 +66,13 @@ console.log(pageFields)
     handleSetLastUpdatedFields()
   },[updated])
 
+  const handleInitialFieldMapping = async(field, value, arr) => {
+    
+    const mappedArray = await arr.filter(f => f.dataField === field).map(obj => ({...obj, ['inputSource']: value}))
+    console.log(pageFields)
+  
+  }
+  
   const fetchAccount = async() => {
    
     const accountRef = await db.collection("Accounts").doc(state.location.state.id).get()
@@ -198,8 +206,7 @@ const handleToggle = () => {
 
                   case "related-select":
                     return (
-                      h.label === "Service Location" ? h.setInputSource = locations : "",
-                      h.label === "Service Asset" ? h.setInputSource = services : "",
+                      
                             <SelectField type="select" title={h.label} name={h.dataField} value={activeAccount && activeAccount[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
@@ -213,7 +220,7 @@ const handleToggle = () => {
 
                   case "select":
                     return (
-                            h.label === "Vendor" ? h.setInputSource = vendorList : "",
+                            
                             
                             <SelectField type="select" title={h.label} name={h.dataField} value={activeAccount && activeAccount[h.dataField]} handleChange={(e)=>handleChange(e)} >
                               <option></option>

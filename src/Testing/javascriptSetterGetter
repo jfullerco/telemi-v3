@@ -1,0 +1,14 @@
+h.label === "Service Location" ? h.setInputSource = locations : "",
+h.label === "Service Asset" ? h.setInputSource = services : "",
+
+{ 
+        label: "Service Asset", 
+        dataField: "AccountServiceName", 
+        inputFieldType: "related-select", 
+        inputSource: services, 
+        set setInputSource(i) {this.inputSource = i && i.map(obj => ({...obj}))},
+        inputID: "id", 
+        inputValue: "AssetID", 
+        relatedDataField: "ServiceID", 
+        tab: "BASIC_INFO"  
+      },
