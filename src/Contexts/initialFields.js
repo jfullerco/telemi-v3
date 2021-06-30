@@ -7,7 +7,7 @@ import React from 'react'
   let accounts = []
   let services = []
   let serviceStatusType = []
-  let vendorList = []
+  let vendorList
   let serviceTypes = []
   let accessTypes = []
 
@@ -444,8 +444,9 @@ import React from 'react'
       { 
         label: "Vendor", 
         dataField: "Vendor", 
-        inputFieldType: "select", 
-        inputSource: [vendorList], 
+        inputFieldType: "select",  
+        inputSource: "",
+        set setInputSource(i) {this.inputSource = i.map(obj => ({...obj}))},
         inputID: "id", 
         inputValue: "Name", 
         tab: "BASIC_INFO"
@@ -454,7 +455,8 @@ import React from 'react'
         label: "Service Location", 
         dataField: "AccountServiceLocationName", 
         inputFieldType: "related-select", 
-        inputSource: locations, 
+        inputSource: "",
+        set setInputSource(i) {this.inputSource = i && i.map(obj => ({...obj}))},
         inputID: "id", 
         inputValue: "Name", 
         relatedDataField: "LocationID", 
@@ -465,6 +467,7 @@ import React from 'react'
         dataField: "AccountServiceName", 
         inputFieldType: "related-select", 
         inputSource: services, 
+        set setInputSource(i) {this.inputSource = i && i.map(obj => ({...obj}))},
         inputID: "id", 
         inputValue: "AssetID", 
         relatedDataField: "ServiceID", 

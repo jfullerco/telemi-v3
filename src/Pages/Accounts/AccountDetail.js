@@ -36,7 +36,7 @@ const AccountDetail = (state) => {
           currentUser,
           currentCompany,
           currentCompanyID } = userContext.userSession
-  
+  const [pageFields, setPageFields] = useState(accountDetailFields)
   const [activeAccount, setActiveAccount] = useState("")
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
@@ -45,9 +45,10 @@ const AccountDetail = (state) => {
   const [tab, setTab] = useState("BASIC_INFO")
   const [pageSuccess, setPageSuccess] = useState(false)
   const [pageError, setPageError] = useState(false)
-  const pageFields = accountDetailFields.map(obj => ({...obj}))
-
+  
+console.log(pageFields)
   useEffect(() => {
+
     params.checked === "true" ? setChecked(true) : ""
     params.new === "true" ? setNewAccount(true) : 
     fetchAccount()
@@ -194,7 +195,8 @@ const handleToggle = () => {
 
                   case "related-select":
                     return (
-                      
+                      h.label === "Service Location" ? h.setInputSource = locations : "",
+                      h.label === "Service Asset" ? h.setInputSource = services : "",
                             <SelectField type="select" title={h.label} name={h.dataField} value={activeAccount && activeAccount[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
@@ -208,7 +210,8 @@ const handleToggle = () => {
 
                   case "select":
                     return (
-                      
+                            h.label === "Vendor" ? h.setInputSource = vendorList : "",
+                            
                             <SelectField type="select" title={h.label} name={h.dataField} value={activeAccount && activeAccount[h.dataField]} handleChange={(e)=>handleChange(e)} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
