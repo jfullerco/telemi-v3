@@ -14,6 +14,7 @@ import TextArea from '../../Components/Forms/TextArea'
 import TabBar from '../../Components/Tabs/TabBar'
 import TextBox from '../../Components/Forms/TextBox'
 import SelectBox from '../../Components/Forms/SelectBox'
+import FieldHover from '../../Components/Layout/FieldHover'
 
 
 const ServiceDetailEdit = (state) => {
@@ -46,6 +47,7 @@ const ServiceDetailEdit = (state) => {
   const [tab, setTab] = useState("BASIC_INFO")
   const [pageSuccess, setPageSuccess] = useState(false)
   const [pageError, setPageError] = useState(false)
+  const [toggleHoverField, setToggleHoverField] = useState(false)
 
   useEffect(() => {
     params.checked === "true" ? setChecked(true) : ""
@@ -305,7 +307,7 @@ console.log(data)
                     </Column>
                     <Column size="is-1 is-narrow">:</Column>
                     <Column >
-                      <div>{h[el.dataField]}</div>
+                      <div ><FieldHover isVisible={toggleHoverField}>{h[el.dataField]}</FieldHover>{h[el.dataField]}</div>
                     </Column>
                   </Columns>
                   </div>
@@ -354,9 +356,11 @@ console.log(data)
 
                   case "text":
                     return (
-                      
+                          
+                          
                           <TextBox title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
-                        
+                          
+                          
                     ) 
 
                   case "text-area":
