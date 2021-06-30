@@ -3,7 +3,7 @@ import {useParams, useHistory} from 'react-router-dom'
 
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
-import {accountDetailFields as pageFields} from '../../Contexts/initialFields'
+import {accountDetailFields} from '../../Contexts/initialFields'
 
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
@@ -45,7 +45,8 @@ const AccountDetail = (state) => {
   const [tab, setTab] = useState("BASIC_INFO")
   const [pageSuccess, setPageSuccess] = useState(false)
   const [pageError, setPageError] = useState(false)
-  
+  const pageFields = accountDetailFields.map(obj => ({...obj}))
+
   useEffect(() => {
     params.checked === "true" ? setChecked(true) : ""
     params.new === "true" ? setNewAccount(true) : 
@@ -120,7 +121,10 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   setData({...data, [relatedName]: id, [name]: value})
   setUpdated(!updated)
 }
-  
+
+const handleToggle = () => {
+  setChecked(!checked)
+}
   
 
   const billColumns = [

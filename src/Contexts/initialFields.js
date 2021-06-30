@@ -2,14 +2,14 @@ import React from 'react'
 
 /** Reference Object Dummy Assignments */
 
-  let locations
-  let orders
-  let accounts
-  let services
-  let serviceStatusType
-  let vendorList
-  let serviceTypes
-  let accessTypes
+  let locations = []
+  let orders = []
+  let accounts = []
+  let services = []
+  let serviceStatusType = []
+  let vendorList = []
+  let serviceTypes = []
+  let accessTypes = []
 
 /** Grid Fields */
     const serviceGridColumns = [
@@ -445,7 +445,7 @@ import React from 'react'
         label: "Vendor", 
         dataField: "Vendor", 
         inputFieldType: "select", 
-        inputSource: vendorList, 
+        inputSource: [vendorList], 
         inputID: "id", 
         inputValue: "Name", 
         tab: "BASIC_INFO"
