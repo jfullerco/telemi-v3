@@ -84,10 +84,13 @@ console.log(pageFields)
   }
   
   const handleSubmit = async(e) => {
-
-    console.log(data)
-    const res = await db.collection("Accounts").doc(state.location.state.id).update(data)
-    history.push("/dashboard")
+    newAccount  === true ? 
+    
+    await db.collection("Accounts").doc().set(data) : 
+    await db.collection("Accounts").doc(state.location.state.id).update(data)
+    userContext.setDataLoading(true)
+    console.log()
+    handleToggle(!checked)
   }
 
   const handleSetLastUpdatedFields = () => {
