@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import SelectInputProps from '../Forms/SelectInputProps'
 
-import { BsFillFunnelFill, BsXCircleFill } from 'react-icons/bs'
+import { BsFunnelFill, BsXCircleFill } from 'react-icons/bs'
 
 export const useFilterArray = ({data, colRef, filterRef}) => {
   return data.filter(e => e[colRef] == filterRef)
@@ -47,7 +47,7 @@ const FilterSelectInput = ({dataRef, colRef, onSelect, onReset, isFilterable}) =
     <>
       {isFilterable && isFilterable != false ? 
       visible != true ? 
-      <a className="has-text-weight-small has-text-black ml-2" onClick={()=> setVisible(!visible)}><BsFillFunnelFill /></a> : 
+      <a className="has-text-weight-small has-text-black ml-2" onClick={()=> setVisible(!visible)}><BsFunnelFill /></a> : 
       <a className="has-text-weight-small has-text-black ml-2" onClick={()=> handleResetArr()}><BsXCircleFill /></a> : ""}
       {isFiltered === false ?
       <SelectInputProps
