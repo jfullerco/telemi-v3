@@ -22,7 +22,7 @@ body {
         display: flex;
         flex-direction: column;
         scroll-behavior: smooth;
-        background-image: url("./ab_bg2.jpg")
+        background-image: url("https://telemi.app/ab_bg2.jpg")
       }
  
 #wrapper {
