@@ -43,7 +43,13 @@ export default function App() {
     <AuthProvider>
       <Router>
       <NavBar />
-      <div className="container is-max-fullhd is-max-desktop is-one-third-tablet" style={{'background-image': 'ab_bg2.jpg'}}> 
+      <div style={{
+        backgroundImage: "url(" + "https://image.freepik.com/free-vector/vector-network-background-abstract-polygon-triangle_2065-76.jpg" + ")",
+        backgroundRepeat: "repeat-x",
+        backgroundAttachment: "fixed"
+        }} >
+
+      <div className="container is-max-fullhd is-max-desktop is-one-third-tablet"> 
       <div className="columns">
       <div className="column">
        
@@ -85,7 +91,7 @@ export default function App() {
         Telemi by J Fuller Co| Terms | Settings | <a href="https://www.vecteezy.com/free-vector/network">Vectors by Vecteezy</a>
       </div>
       </div>
-      
+    </div>  
     </Router>
     </AuthProvider>
     </StateProvider>
