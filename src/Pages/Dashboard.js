@@ -44,12 +44,11 @@ const Dashboard = () => {
     
     await userContext.setUserFirstName(user[0].FirstName)
     await setUserType(user[0].Type)
-    console.log(user[0].Type)
-    user[0].Type === "Admin" ? setIsUserAdmin(true) : ""
+    setIsUserAdmin(user[0].Type)
   }
 
   const isCurrentCompany = () => {
-    isUserAdmin != "" & isUserAdmin === true ?
+    isUserAdmin != "" & isUserAdmin === "Admin" ?
     currentCompany == "" ? fetchCompaniesAdmin() : "" : 
     currentCompany == "" ? fetchCompanies() : ""
   }
@@ -63,7 +62,7 @@ const Dashboard = () => {
     userContext.setCurrentCompany(companies[0].Name)
     userContext.setCompanies(companies)
     userContext.setDataLoading(false)
-
+    console.log("Not Admin")
   }
 
   const fetchCompaniesAdmin = async() => {
@@ -75,7 +74,7 @@ const Dashboard = () => {
     userContext.setCurrentCompany(companies[0].Name)
     userContext.setCompanies(companies)
     userContext.setDataLoading(false)
-
+    console.log("Is Admin")
   }
   
   return (   
