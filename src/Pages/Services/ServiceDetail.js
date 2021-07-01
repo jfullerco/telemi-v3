@@ -189,7 +189,8 @@ console.log(data)
         {userContext && userContext.userSession != undefined ? 
           <>
             <TabBar>
-              <ul>
+              <ul>  
+                
               <li className={tab === "BASIC_INFO" ? "is-active" : ""}><a onClick={()=>setTab("BASIC_INFO")}>Basic Info</a></li>
               <li className={tab === "DETAILS" ? "is-active" : ""}><a onClick={()=>setTab("DETAILS")}>Details</a></li>
               <li className={tab === "SUPPORT" ? "is-active" : ""}><a onClick={()=>setTab("SUPPORT")}>Support</a></li>
@@ -197,7 +198,9 @@ console.log(data)
               <li className={tab === "NOTES" ? "is-active" : ""}><a onClick={()=>setTab("NOTES")}>Notes</a></li>
               </ul>
             </TabBar>
-            <div className="box p-2 is-rounded">
+
+            <div className="box p-4 is-rounded">
+
             <nav className="breadcrumb" aria-label="breadcrumbs">
               <ul>
                 <li className="is-size-7 is-uppercase">last updated: {activeService.LastUpdated && activeService.LastUpdated}</li>
