@@ -66,7 +66,7 @@ const AccountDetail = (state) => {
     handleSetLastUpdatedFields()
   },[updated])
 
-  const handleInitialFieldMapping = async(field, value, arr) => {
+  const handleInitialFieldMapping = (field, value, arr) => {
     const indexRef = arr.findIndex(i => i.dataField === field)
     arr[indexRef] = {...arr[indexRef], inputSource: value}
 
