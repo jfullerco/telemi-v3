@@ -11,7 +11,8 @@ const EditDocDrawer = ({
     handleClose, 
     handleSubmit, 
     pageFields, 
-    active, 
+    active,
+    tab, 
     direction, 
     handleChange, 
     handleRelatedSelectChange, 
@@ -34,7 +35,7 @@ const EditDocDrawer = ({
           <button className="button is-rounded is-small is-link" type="submit" onClick={handleSubmit}>Save</button>
           <button className="button is-small is-rounded ml-2" onClick={handleClose}>Close</button>
         </div>
-        {pageFields.map(h => {
+        {pageFields.filter(t => t.tab === tab).map(h => {
                 switch (h.inputFieldType) {
 
                   case "related-select":

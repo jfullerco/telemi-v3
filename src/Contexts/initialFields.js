@@ -453,8 +453,7 @@ import React from 'react'
       { 
         label: "Service Location", 
         dataField: "AccountServiceLocationName", 
-        inputFieldType: "related-select", 
-        
+        inputFieldType: "related-select",
         inputID: "id", 
         inputValue: "Name", 
         relatedDataField: "LocationID", 

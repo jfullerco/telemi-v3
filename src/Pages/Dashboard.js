@@ -27,15 +27,18 @@ const Dashboard = () => {
 
 
   const isUserLoggedIn = currentUser != undefined ? currentUser : ""
-  const [isUserAdmin, setIsUserAdmin] = useState()
+  const isUserAdmin = userType != undefined ? userType : ""
   const [toggleCompanyList, setToggleCompanyList] = useState(false)
   const [toggleDashboard, setToggleDashboard] = useState(false)
 
   useEffect(() => {
     fetchUser(currentUser)
-    isCurrentCompany()
-
+    
   },[isUserLoggedIn])
+
+  useEffect(() => {
+    isCurrentCompany()
+  },[isUserAdmin])
 
   const fetchUser = async(email) => {
     
@@ -48,7 +51,7 @@ const Dashboard = () => {
   }
 
   const isCurrentCompany = () => {
-    isUserAdmin != "" & isUserAdmin === "Admin" ?
+    userType != "" & userType === "Admin" ?
     currentCompany == "" ? fetchCompaniesAdmin() : "" : 
     currentCompany == "" ? fetchCompanies() : ""
   }

@@ -210,6 +210,7 @@ console.log(data)
               handleRelatedSelectChange={(e)=> handleRelatedSelectChange(e)}
               pageFields={pageFields}
               active={activeOrder}
+              tab={tab}
               direction="right"
               colRef="Orders"
               docRef={activeOrder.id}

@@ -232,6 +232,7 @@ console.log(data)
               handleRelatedSelectChange={(e)=> handleRelatedSelectChange(e)}
               pageFields={pageFields}
               active={activeService}
+              tab={tab}
               direction="right"
               colRef="Services"
               docRef={activeService.id}

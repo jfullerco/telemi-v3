@@ -217,6 +217,7 @@ console.log(data)
               handleRelatedSelectChange={(e)=> handleRelatedSelectChange(e)}
               pageFields={pageFields}
               active={activeTicket}
+              tab={tab}
               direction="right"
               colRef="Tickets"
               docRef={activeTicket.id}

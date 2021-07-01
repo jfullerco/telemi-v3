@@ -199,75 +199,16 @@ const handleToggle = () => {
               checked={checked} 
               handleClose={()=>setChecked(!checked)} 
               handleSubmit={()=> handleSubmit()} 
-              colRef="Accounts" 
+              handleChange={(e)=> handleChange(e)}
+              handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
+              pageFields={pageFields}
+              active={activeAccount}
+              tab={tab}
+              direction="right"
+              colRef="Services"
               docRef={activeAccount.id}
-            >
-              {pageFields.filter(t => t.tab === tab).map(h => { 
-                switch (h.inputFieldType) {
+            />
 
-                  case "related-select":
-                    return (
-                      
-                            <SelectField type="select" title={h.label} name={h.dataField} value={activeAccount && activeAccount[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
-                              <option></option>
-                                {h.inputSource && h.inputSource.map(i => 
-                                  <option id={i[h.inputID]} name={i[h.dataField]}>
-                                    {i[h.inputValue]}
-                                  </option>
-                                )}
-                            </SelectField>
-                        
-                    ) 
-
-                  case "select":
-                    return (
-                            
-                            
-                            <SelectField type="select" title={h.label} name={h.dataField} value={activeAccount && activeAccount[h.dataField]} handleChange={(e)=>handleChange(e)} >
-                              <option></option>
-                                {h.inputSource && h.inputSource.map(i => 
-                                  <option name={i[h.dataField]}>
-                                    {i[h.inputValue]} 
-                                  </option>
-                                )}
-                            </SelectField>
-                        
-                    ) 
-
-                  case "text":
-                    return (
-                      
-                          <TextBox title={h.label} name={h.dataField} value={activeAccount && activeAccount[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
-                        
-                    ) 
-
-                  case "text-area":
-                    return (
-                      
-                          <TextArea title={h.label} name={h.dataField} value={activeAccount && activeAccount[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
-                        
-                    ) 
-
-                  case "datepicker":
-                    return (
-                      
-                          <TextBox 
-                            id="datetime-local"
-                            title={h.label}
-                            type="date" 
-                            name={h.dataField} 
-                            className="input is-rounded is-small"
-                            value={activeAccount && activeAccount[h.dataField]} 
-                            fieldChanged={(e)=>handleChange(e)} 
-                          />
-                        
-                    ) 
-  
-                  }
-                }
-              )}
-              
-            </EditDocDrawer>
           </> : 
         <div className="tile warning"> No record to display </div>}    
       </Page>
