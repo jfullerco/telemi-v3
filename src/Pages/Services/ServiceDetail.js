@@ -197,6 +197,7 @@ console.log(data)
               <li className={tab === "NOTES" ? "is-active" : ""}><a onClick={()=>setTab("NOTES")}>Notes</a></li>
               </ul>
             </TabBar>
+            <div className="box p-2 is-rounded">
             <nav className="breadcrumb" aria-label="breadcrumbs">
               <ul>
                 <li className="is-size-7 is-uppercase">last updated: {activeService.LastUpdated && activeService.LastUpdated}</li>
@@ -238,7 +239,7 @@ console.log(data)
               docRef={activeService.id}
             />
 
-          </> : 
+          </div></> : 
         <div className="tile warning"> No record to display </div>}    
       </Page>
   )

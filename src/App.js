@@ -43,11 +43,7 @@ export default function App() {
     <AuthProvider>
       <Router>
       <NavBar />
-      <div style={{
-        backgroundImage: "url(" + "https://image.freepik.com/free-vector/vector-network-background-abstract-polygon-triangle_2065-76.jpg" + ")",
-        backgroundRepeat: "repeat-x",
-        backgroundAttachment: "fixed"
-        }} >
+      <div  >
 
       <div className="container is-max-fullhd is-max-desktop is-one-third-tablet"> 
       <div className="columns">

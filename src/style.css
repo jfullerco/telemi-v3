@@ -22,7 +22,10 @@ body {
         display: flex;
         flex-direction: column;
         scroll-behavior: smooth;
-        background-image: url("https://telemi.app/ab_bg2.jpg")
+        background-image: url("https://image.freepik.com/free-vector/vector-network-background-abstract-polygon-triangle_2065-76.jpg");
+        background-repeat: "repeat-x";
+        background-attachment: "fixed";
+        background-blend-mode: "screen";
       }
  
 #wrapper {
