@@ -10,7 +10,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
   const history = useHistory()
   
   return(
-      <div className="wrapper">
+      <div className="wrapper p-3">
         
                 <Columns options="is-mobile">
                   <Column size="is-three-quarters">
