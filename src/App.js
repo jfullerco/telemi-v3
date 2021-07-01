@@ -43,7 +43,7 @@ export default function App() {
     <AuthProvider>
       <Router>
       <NavBar />
-      <div className="container is-max-fullhd is-max-desktop is-one-third-tablet"> 
+      <div className="container is-max-fullhd is-max-desktop is-one-third-tablet" style={{'background-image': 'ab_bg2.jpg'}}> 
       <div className="columns">
       <div className="column">
        
