@@ -490,10 +490,7 @@ import React from 'react'
       },
       
     ]
-  const handleFieldMapping = (arr, field, value) => {
-    const mappedField = arr.map(obj => obj.dataField === field ? ({...obj, ['inputSource']: value}) : ({...obj}))
-    return mappedField
-  }
+  
 
 export {
     serviceGridColumns, 

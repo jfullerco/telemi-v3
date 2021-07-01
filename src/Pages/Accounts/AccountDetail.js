@@ -67,9 +67,10 @@ const AccountDetail = (state) => {
   },[updated])
 
   const handleInitialFieldMapping = async(field, value, arr) => {
-    
-    const mappedArray = await arr.filter(f => f.dataField === field).map(obj => ({...obj, ['inputSource']: value}))
-    console.log(pageFields)
+    const indexRef = arr.findIndex(i => i.dataField === field)
+    arr[indexRef] = {...arr[indexRef], inputSource: value}
+
+    console.log(arr)
   
   }
   
