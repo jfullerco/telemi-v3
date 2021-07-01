@@ -3,7 +3,7 @@ import {useParams, useHistory} from 'react-router-dom'
 
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
-import {ticketDetailFields as pageFields} from '../../Contexts/initialFields'
+import {ticketDetailFields} from '../../Contexts/initialFields'
 
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
@@ -39,6 +39,7 @@ const TicketDetail = (state) => {
           currentCompanyID } = userContext.userSession
 
   const [activeTicket, setActiveTicket] = useState("")
+  const [pageFields, setPageFields] = useState(ticketDetailFields)
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
   const [newTicket, setNewTicket] = useState(false)
@@ -51,6 +52,11 @@ const TicketDetail = (state) => {
     params.checked === "true" ? setChecked(true) : ""
     params.new === "true" ? setNewTicket(true) : 
     fetchTicket()
+    handleInitialFieldMapping("Vendor", vendorList, pageFields)
+    handleInitialFieldMapping("LocationName", locations, pageFields)
+    handleInitialFieldMapping("AccountNum", accounts, pageFields)
+    handleInitialFieldMapping("ServiceAssetID", services, pageFields)
+    handleInitialFieldMapping("OrderNum", orders, pageFields)
   }, [])
 
   useEffect(()=> {
@@ -62,6 +68,14 @@ const TicketDetail = (state) => {
   useEffect(() => {
     handleSetLastUpdatedFields()
   },[updated])
+
+  const handleInitialFieldMapping = (field, value, arr) => {
+    const indexRef = arr.findIndex(i => i.dataField === field)
+    arr[indexRef] = {...arr[indexRef], inputSource: value}
+
+    console.log(arr)
+  
+  }
 
   const fetchTicket = async() => {
    
@@ -121,134 +135,6 @@ const TicketDetail = (state) => {
     setPageSuccess(true)
     setTimeout(() => {setPageSuccess(false)}, 3000)
   }
-
-  const pageFieldss = [
-    
-    { 
-      label: "Ticket Number", 
-      dataField: "TicketNum", 
-      inputFieldType: "text", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Service Location", 
-      dataField: "LocationName", 
-      inputFieldType: "related-select", 
-      inputSource: locations, 
-      inputID: "id", 
-      inputValue: "Name", 
-      relatedDataField: "LocationID", 
-      tab: "BASIC_INFO"  
-    },
-    { 
-      label: "Service Location ID", 
-      dataField: "LocationID", 
-      visible: false, 
-      inputSource: locations, 
-      inputID: "ID", 
-      inputValue: "id", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Related Account", 
-      dataField: "AccountNum", 
-      inputFieldType: "related-select", 
-      inputSource: accounts, 
-      inputID: "id", 
-      inputValue: "AccountNum", 
-      relatedDataField: "AccountID", 
-      tab: "DETAILS"  
-    },
-    { 
-      label: "Related Account ID", 
-      dataField: "AccountID", 
-      visible: false, 
-      inputSource: accounts, 
-      inputID: "ID", 
-      inputValue: "id", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Related Service", 
-      dataField: "ServiceAssetID", 
-      inputFieldType: "related-select", 
-      inputSource: services, 
-      inputID: "id", 
-      inputValue: "AssetID", 
-      relatedDataField: "ServiceID", 
-      tab: "DETAILS"  
-    },
-    { 
-      label: "Vendor", 
-      dataField: "Vendor", 
-      inputFieldType: "select", 
-      inputSource: vendorList, 
-      inputID: "id", 
-      inputValue: "Name", 
-      tab: "BASIC_INFO"
-    },
-    { 
-      label: "Date Submitted", 
-      dataField: "DateSubmitted", 
-      inputFieldType: "datepicker", 
-      tab: "BASIC_INFO"
-    },
-    { 
-      label: "Type", 
-      dataField: "Type", 
-      inputFieldType: "select", 
-      inputSource: [
-                      { 
-                        id: "Service",
-                        Name: "Service" 
-                      },
-                      { 
-                        id: "Billing",
-                        Name: "Billing" 
-                      },
-                      { 
-                        id: "Disconnect",
-                        Name: "Disconnect" 
-                      }
-        ], 
-      inputID: "id", 
-      inputValue: "Name", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Status", 
-      dataField: "Status", 
-      inputFieldType: "select", 
-      inputSource: [
-                      { 
-                        id: "Active",
-                        Name: "Active" 
-                      },
-                      { 
-                        id: "Completed",
-                        Name: "Completed" 
-                      },
-                      { 
-                        id: "Cancelled",
-                        Name: "Cancelled" 
-                      },
-                      { 
-                        id: "Closed",
-                        Name: "Closed" 
-                      }
-        ], 
-      inputID: "id", 
-      inputValue: "Name", 
-      tab: "BASIC_INFO"  
-    },
-    { 
-      label: "Details", 
-      dataField: "Details", 
-      inputFieldType: "text-area", 
-      tab: "BASIC_INFO" 
-    },
-    
-  ]
 
   const handleSetLastUpdatedFields = () => {
     setActiveTicket({

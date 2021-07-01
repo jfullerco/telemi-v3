@@ -3,7 +3,7 @@ import {useParams, useHistory} from 'react-router-dom'
 
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
-import {serviceDetailFields as pageFields} from '../../Contexts/initialFields'
+import {serviceDetailFields} from '../../Contexts/initialFields'
 
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
@@ -40,6 +40,7 @@ const ServiceDetailEdit = (state) => {
           currentUser } = userContext.userSession
 
   const [activeService, setActiveService] = useState("")
+  const [pageFields, setPageFields] = useState(serviceDetailFields)
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
   const [newService, setNewService] = useState(false)
@@ -53,6 +54,12 @@ const ServiceDetailEdit = (state) => {
     params.checked === "true" ? setChecked(true) : ""
     params.new === "true" ? setNewService(true) : 
     fetchService()
+    handleInitialFieldMapping("Vendor", vendorList, pageFields)
+    handleInitialFieldMapping("LocationName", locations, pageFields)
+    handleInitialFieldMapping("Type", serviceTypes, pageFields)
+    handleInitialFieldMapping("AccessType", accessTypes, pageFields)
+    handleInitialFieldMapping("Status", serviceStatusType, pageFields)
+    handleInitialFieldMapping("OrderNum", orders, pageFields)
   }, [])
 
   useEffect(()=> {
@@ -64,6 +71,14 @@ const ServiceDetailEdit = (state) => {
   useEffect(() => {
     handleSetLastUpdatedFields()
   },[updated])
+
+  const handleInitialFieldMapping = (field, value, arr) => {
+    const indexRef = arr.findIndex(i => i.dataField === field)
+    arr[indexRef] = {...arr[indexRef], inputSource: value}
+
+    console.log(arr)
+  
+  }
 
   const fetchService = async() => {
    

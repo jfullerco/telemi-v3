@@ -3,6 +3,7 @@ import {useParams, useHistory} from 'react-router-dom'
 
 import {stateContext} from '../../Contexts/stateContext'
 import { db } from '../../Contexts/firebase'
+import {orderDetailFields} from '../../Contexts/initialFields'
 
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
@@ -25,19 +26,23 @@ const OrderDetail = (state) => {
           orderStatusType,
           orderType,
           vendorList, 
-          isStyle } = userContext
+          isStyle,
+          setCurrentDate } = userContext
 
   const { locations,
           services, 
           orders, 
-          tickets, 
+          tickets,
+          currentUser, 
           currentCompany,
           currentCompanyID } = userContext.userSession
 
   const [activeOrder, setActiveOrder] = useState("")
+  const [pageFields, setPageFields] = useState(orderDetailFields)
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
   const [newOrder, setNewOrder] = useState(false)
+  const [updated, setUpdated] = useState(false)
   const [tab, setTab] = useState("BASIC_INFO")
   const [pageSuccess, setPageSuccess] = useState(false)
   const [pageError, setPageError] = useState(false)
@@ -47,6 +52,10 @@ const OrderDetail = (state) => {
     params.new === "true" ? setNewOrder(true) : 
     fetchOrder()
     
+    handleInitialFieldMapping("LocationName", locations, pageFields)
+    handleInitialFieldMapping("Vendor", vendorList, pageFields)
+    handleInitialFieldMapping("Status", orderStatusType, pageFields)
+    handleInitialFieldMapping("Type", orderType, pageFields)
   }, [])
 
   useEffect(()=> {
@@ -54,6 +63,29 @@ const OrderDetail = (state) => {
     setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany}) : ""
     console.log(data)
   },[newOrder])
+
+  useEffect(() => {
+    handleSetLastUpdatedFields()
+  },[updated])
+
+  const handleInitialFieldMapping = (field, value, arr) => {
+    const indexRef = arr.findIndex(i => i.dataField === field)
+    arr[indexRef] = {...arr[indexRef], inputSource: value}
+    console.log(arr)
+  }
+
+  const handleSetLastUpdatedFields = () => {
+    setActiveOrder({
+      ...activeOrder,  
+      ['LastUpdated']: setCurrentDate(),
+      ['LastUpdatedBy']: currentUser
+    })
+    setData({
+      ...data, 
+      ['LastUpdated']: setCurrentDate(),
+      ['LastUpdatedBy']: currentUser
+    })
+  }  
 
   const fetchOrder = async() => {
    
@@ -116,88 +148,6 @@ const OrderDetail = (state) => {
     setTimeout(() => {history.push("/dashboard")}, 1500)
   }
 
-  const pageFields = [
-    { 
-      label: "Order Number", 
-      dataField: "OrderNum", 
-      inputFieldType: "text", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Date Ordered", 
-      dataField: "OrderDate", 
-      inputFieldType: "datepicker", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Vendor", 
-      dataField: "Vendor", 
-      inputFieldType: "select", 
-      inputSource: vendorList, 
-      inputID: "id", 
-      inputValue: "Name", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Service Name", 
-      dataField: "VendorServiceName", 
-      inputFieldType: "text", 
-      tab: "BASIC_INFO" 
-    },
-    {
-      label: "Order Type",
-      dataField: "Type",
-      inputField: "select",
-      inputSource: orderType,
-      inputID: "id",
-      inputValue: "Name",
-      tab: "BASIC_INFO"
-    },
-    { 
-      label: "Bandwidth", 
-      dataField: "Bandwidth", 
-      inputFieldType: "text", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Monthly Cost", 
-      dataField: "MRC", 
-      inputFieldType: "currency", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Order Location", 
-      dataField: "LocationName", 
-      inputFieldType: "related-select", 
-      inputSource: locations, 
-      inputID: "id", 
-      inputValue: "Name", 
-      relatedDataField: "LocationID", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Status", 
-      dataField: "Status", 
-      inputFieldType: "select", 
-      inputSource: orderStatusType, 
-      inputID: "id", 
-      inputValue: "Name", 
-      tab: "BASIC_INFO" 
-    },
-    { 
-      label: "Details", 
-      dataField: "Details", 
-      inputFieldType: "text-area", 
-      tab: "BASIC_INFO" 
-    },
-    {
-      label: "Notes",
-      dataField: "Notes",
-      inputFieldType: "map",
-      tab: "DETAILS"
-    }
-  ]
-
 const handleChange = (e) => {
   
   const {name, value} = e.target
@@ -249,107 +199,23 @@ console.log(data)
                 )}
               </>
             )}
-
+            
             <EditDocDrawer 
               title="BASIC INFO" 
               checked={checked} 
               handleClose={()=>setChecked(!checked)} 
               handleSubmit={()=> handleSubmit()} 
-              colRef="Orders" 
+              handleChange={()=> handleChange()}
+              handleRelatedSelectChange={()=> handleRelatedSelectChange()}
+              pageFields={pageFields}
+              active={activeOrder}
+              direction="right"
+              colRef="Orders"
               docRef={activeOrder.id}
-            >
-              {pageFields.map(h => {
-                switch (h.inputFieldType) {
-
-                  case "related-select":
-                    return (
-                      
-                            <SelectField type="select" title={h.label} name={h.dataField} value={activeOrder && activeOrder[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
-                              <option></option>
-                                {h.inputSource && h.inputSource.map(i => 
-                                  <option id={i[h.inputID]} name={i[h.dataField]}>
-                                    {i[h.inputValue]}
-                                  </option>
-                                )}
-                            </SelectField>
-                        
-                    ) 
-
-                  case "select":
-                    return (
-                      
-                            <SelectField type="select" title={h.label} name={h.dataField} value={activeOrder && activeOrder[h.dataField]} handleChange={(e)=>handleChange(e)} >
-                              <option></option>
-                                {h.inputSource && h.inputSource.map(i => 
-                                  <option name={i[h.dataField]}>
-                                    {i[h.inputValue]} 
-                                  </option>
-                                )}
-                            </SelectField>
-                        
-                    ) 
-
-                  case "text":
-                    return (
-                      
-                          <TextBox title={h.label} name={h.dataField} value={activeOrder && activeOrder[h.dataField]} fieldChanged={handleChange} />
-                        
-                    ) 
-                  
-                    case "currency":
-                      return (
-                        
-                            <TextBox title={h.label} name={h.dataField} value={activeOrder && activeOrder[h.dataField]} fieldChanged={handleChange} />
-                          
-                      )
-
-                  case "text-area":
-                    return (
-                      
-                          <TextArea title={h.label} name={h.dataField} value={activeOrder && activeOrder[h.dataField]} fieldChanged={handleChange} />
-                        
-                    ) 
-                  
-                    case "datepicker":
-                      return (
-                        
-                            <TextBox 
-                              id="datetime-local"
-                              title={h.label}
-                              type="date" 
-                              name={h.dataField} 
-                              className="input is-rounded is-small"
-                              value={activeOrder && activeOrder[h.dataField]} 
-                              fieldChanged={(e)=>handleChange(e)} 
-                            />
-                          
-                      )
-
-                      case "mapTEST":
-                        return (
-                          
-                              <>
-                              {activeOrder[h.dataField].map(item => 
-                                <TextArea value={activeOrder} />
-                              )}
-                              <TextBox 
-                                id="datetime-local"
-                                title={h.label}
-                                type="date" 
-                                name={h.dataField} 
-                                className="input is-rounded is-small"
-                                value={activeOrder && activeOrder[h.dataField]} 
-                                fieldChanged={(e)=>handleChange(e)} 
-                              />
-                              </>
-                            
-                        ) 
-  
-                  }
-                }
-              )}
+            />
+            
               
-            </EditDocDrawer>
+            
           </> : 
         <div className="tile warning"> No record to display </div>}    
       </Page>

@@ -191,7 +191,7 @@ import React from 'react'
         label: "Service Location", 
         dataField: "LocationName", 
         inputFieldType: "related-select", 
-        inputSource: locations, 
+        inputSource: "", 
         inputID: "id", 
         inputValue: "Name", 
         relatedDataField: "LocationID", 
@@ -201,7 +201,7 @@ import React from 'react'
         label: "Service Location ID", 
         dataField: "LocationID", 
         visible: false, 
-        inputSource: locations, 
+        inputSource: "", 
         inputID: "ID", 
         inputValue: "id", 
         tab: "BASIC_INFO" 
@@ -210,7 +210,7 @@ import React from 'react'
         label: "Vendor", 
         dataField: "Vendor", 
         inputFieldType: "select", 
-        inputSource: vendorList, 
+        inputSource: "", 
         inputID: "id", 
         inputValue: "Name", 
         tab: "BASIC_INFO" 
@@ -490,6 +490,87 @@ import React from 'react'
       },
       
     ]
+    const orderDetailFields = [
+      { 
+        label: "Order Number", 
+        dataField: "OrderNum", 
+        inputFieldType: "text", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Date Ordered", 
+        dataField: "OrderDate", 
+        inputFieldType: "datepicker", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Vendor", 
+        dataField: "Vendor", 
+        inputFieldType: "select", 
+        inputSource: vendorList, 
+        inputID: "id", 
+        inputValue: "Name", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Service Name", 
+        dataField: "VendorServiceName", 
+        inputFieldType: "text", 
+        tab: "BASIC_INFO" 
+      },
+      {
+        label: "Order Type",
+        dataField: "Type",
+        inputField: "select",
+        inputSource: "",
+        inputID: "id",
+        inputValue: "Name",
+        tab: "BASIC_INFO"
+      },
+      { 
+        label: "Bandwidth", 
+        dataField: "Bandwidth", 
+        inputFieldType: "text", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Monthly Cost", 
+        dataField: "MRC", 
+        inputFieldType: "currency", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Order Location", 
+        dataField: "LocationName", 
+        inputFieldType: "related-select", 
+        inputSource: locations, 
+        inputID: "id", 
+        inputValue: "Name", 
+        relatedDataField: "LocationID", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Status", 
+        dataField: "Status", 
+        inputFieldType: "select", 
+        inputSource: "", 
+        inputID: "id", 
+        inputValue: "Name", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Details", 
+        dataField: "Details", 
+        inputFieldType: "text-area", 
+        tab: "BASIC_INFO" 
+      },
+      {
+        label: "Notes",
+        dataField: "Notes",
+        inputFieldType: "map",
+        tab: "DETAILS"
+      }
+    ]
   
 
 export {
@@ -502,5 +583,5 @@ export {
     serviceDetailFields,
     ticketDetailFields,
     accountDetailFields,
-    handleFieldMapping
+    orderDetailFields
 }
