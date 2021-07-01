@@ -45,7 +45,7 @@ const Dashboard = () => {
     await userContext.setUserFirstName(user[0].FirstName)
     await setUserType(user[0].Type)
     console.log(user[0].Type)
-    userType === "Admin" ? setIsUserAdmin(true) : ""
+    user[0].Type === "Admin" ? setIsUserAdmin(true) : ""
   }
 
   const isCurrentCompany = () => {
