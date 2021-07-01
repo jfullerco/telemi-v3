@@ -17,17 +17,24 @@ import Login from './Login'
 const Dashboard = () => {
   
   const userContext = useContext(stateContext)
-  const {currentUser, userFirstName, currentCompany, companies} = userContext.userSession
+  const { setUserType } = userContext
+  const { 
+    currentUser, 
+    userType, 
+    currentCompany, 
+    companies } = userContext.userSession
   const history = useHistory()
 
 
   const isUserLoggedIn = currentUser != undefined ? currentUser : ""
+  const [isUserAdmin, setIsUserAdmin] = useState()
   const [toggleCompanyList, setToggleCompanyList] = useState(false)
   const [toggleDashboard, setToggleDashboard] = useState(false)
 
   useEffect(() => {
     fetchUser(currentUser)
     isCurrentCompany()
+
   },[isUserLoggedIn])
 
   const fetchUser = async(email) => {
@@ -35,18 +42,33 @@ const Dashboard = () => {
     const userRef = await db.collection("Users").where("Email", "==", email).get()
     const user = await userRef.docs.map(doc => ({id: doc.id, FirstName: doc.FirstName, Type: doc.Type, ...doc.data()}))
     
-    userContext.setUserFirstName(user[0].FirstName)
-    userContext.setUserType(user[0].Type)
-    
+    await userContext.setUserFirstName(user[0].FirstName)
+    await setUserType(user[0].Type)
+    console.log(user[0].Type)
+    userType === "Admin" ? setIsUserAdmin(true) : ""
   }
 
   const isCurrentCompany = () => {
+    isUserAdmin != "" & isUserAdmin === true ?
+    currentCompany == "" ? fetchCompaniesAdmin() : "" : 
     currentCompany == "" ? fetchCompanies() : ""
   }
 
   const fetchCompanies = async() => {
+    const companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser).get() 
+     
+    const companies = companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
     
-    const companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser).get()
+    userContext.setCurrentCompanyID(companies[0].id)
+    userContext.setCurrentCompany(companies[0].Name)
+    userContext.setCompanies(companies)
+    userContext.setDataLoading(false)
+
+  }
+
+  const fetchCompaniesAdmin = async() => {
+    const companiesRef = await db.collection("Companies").get() 
+    
     const companies = companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
     
     userContext.setCurrentCompanyID(companies[0].id)

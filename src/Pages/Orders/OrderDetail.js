@@ -137,15 +137,16 @@ const OrderDetail = (state) => {
     userContext.setDataLoading(true)
     console.log()
     handleToggle(!checked)
-
+    handlePageSuccess()
   }
 
   const handleToggle = () => {
     setChecked(!checked)
   }
 
-  const autoClose = () => {
-    setTimeout(() => {history.push("/dashboard")}, 1500)
+  const handlePageSuccess = () => {
+    setPageSuccess(true)
+    setTimeout(() => {setPageSuccess(false)}, 3000)
   }
 
 const handleChange = (e) => {
@@ -205,8 +206,8 @@ console.log(data)
               checked={checked} 
               handleClose={()=>setChecked(!checked)} 
               handleSubmit={()=> handleSubmit()} 
-              handleChange={()=> handleChange()}
-              handleRelatedSelectChange={()=> handleRelatedSelectChange()}
+              handleChange={(e)=> handleChange(e)}
+              handleRelatedSelectChange={(e)=> handleRelatedSelectChange(e)}
               pageFields={pageFields}
               active={activeOrder}
               direction="right"

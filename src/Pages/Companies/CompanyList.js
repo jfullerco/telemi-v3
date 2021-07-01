@@ -20,7 +20,19 @@ const CompanyList = () => {
   const history = useHistory()
 
   const userContext = useContext(stateContext)
-  const {dataLoading, currentUser, currentCompany, companies} = userContext.userSession
+
+  const { 
+    setCurrentCompany,
+    setCurrentCompanyID,
+    setDataLoading } = userContext
+
+  const { 
+    dataLoading,
+    currentUser,
+    userType,
+    companies, 
+    currentCompany, 
+    currentCompanyID } = userContext.userSession
   
   const [selectedCompany, setSelectedCompany] = useState({
     id: "",
@@ -32,7 +44,8 @@ const CompanyList = () => {
   const activeCompanyName = useRef("")
 
   const isUserLoggedIn = currentUser != undefined ? currentUser : ""
-
+  const isUserAdmin = isUserLoggedIn && userType === "Admin" ? true : false
+  
   useEffect(() => {
     
   }, [isUserLoggedIn]) 
@@ -50,35 +63,35 @@ const CompanyList = () => {
     userContext.setDataLoading(true)
     activeCompanyID.current = id
     activeCompanyName.current = name
-    userContext.setCurrentCompanyID(id)
-    userContext.setCurrentCompany(name)
-    userContext.setDataLoading(false)
+    setCurrentCompanyID(id)
+    setCurrentCompany(name)
+    setDataLoading(false)
     setActive(!active)
   }
 
   const fetchCompanies = async() => {
-   
-    const companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser).get()
-
-    const initialCompanyRef = await db.collection("Companies").where("Users", "array-contains", currentUser).limit(1).get()
     
-    const initialCompanyID = initialCompanyRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
-    userContext.setCurrentCompanyID(initialCompanyID[0].id)
-    userContext.setCurrentCompany(initialCompanyID[0].Name)
-    userContext.setDataLoading(false)
+    isUserAdmin != true ?
+      companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser).get() : 
+      companiesRef = await db.collection("Companies").get()
 
     const companies = companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    
+    setCurrentCompanyID(companies[0].id)
+    setCurrentCompany(companies[0].Name)
+    setDataLoading(false)
     setUserCompanies(companies)
 
   }
 
   const fetchCompaniesRefresh = async() => {
-   
-    const companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser).get()
+    isUserAdmin === true ? 
+      companiesRef = await db.collection("Companies").get() :
+      companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser).get() 
 
-    userContext.setDataLoading(false)
+      const snapshot = companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
 
-    const companies = companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    setDataLoading(false)
     setUserCompanies(companies)
     setLoading(false)
 
@@ -96,7 +109,7 @@ const CompanyList = () => {
 
     <>
       {
-        userContext.userSession.userType != "User" ? 
+        userType === "Admin" ? 
         <>
 
                   <CompanyDropDown 
@@ -108,7 +121,7 @@ const CompanyList = () => {
                   />
         
         </>
-        : <span className="title is-5 has-text-black">{userContext.userSession.currentCompany}</span>
+        : <span className="title is-5 has-text-black">{currentCompany}</span>
       }
     </>
   )

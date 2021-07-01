@@ -175,6 +175,14 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   setUpdated(!updated)
 }
 
+const handleHoverLocation = (name, arr) => {
+  console.log(arr)
+  const indexRef = arr.findIndex(i => i.Name === name)
+  const hoverRef = `${arr[indexRef].Address1} + ${arr[indexRef].Address2} + ${arr[indexRef].City} + ${arr[indexRef].State}` 
+  
+  return hoverRef
+}
+
 console.log(data)
   return (
       <Page title="DETAILS" subtitle={activeService.AssetID} status="view" handleToggle={()=> handleToggle()} pageSuccess={pageSuccess} pageError={pageError}>
@@ -207,7 +215,7 @@ console.log(data)
                     </Column>
                     <Column size="is-1 is-narrow">:</Column>
                     <Column >
-                      <div ><FieldHover isVisible={toggleHoverField}>{h[el.dataField]}</FieldHover>{h[el.dataField]}</div>
+                      <div onClick={()=> setToggleHoverField(!toggleHoverField)}><FieldHover isVisible={toggleHoverField}>{h[el.dataField] === "LocationName" ? handleHoverLocation(activeService.LocationName, locations): ""}</FieldHover>{h[el.dataField]}</div>
                     </Column>
                   </Columns>
                   </div>
@@ -220,76 +228,15 @@ console.log(data)
               checked={checked} 
               handleClose={()=>setChecked(!checked)} 
               handleSubmit={()=> handleSubmit()} 
-              colRef="Services" 
+              handleChange={(e)=> handleChange(e)}
+              handleRelatedSelectChange={(e)=> handleRelatedSelectChange(e)}
+              pageFields={pageFields}
+              active={activeService}
+              direction="right"
+              colRef="Services"
               docRef={activeService.id}
-            >
-              {pageFields.filter(t => t.tab === tab).map(h => { 
-                switch (h.inputFieldType) {
+            />
 
-                  case "related-select":
-                    return (
-                      
-                            <SelectField type="select" title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
-                              <option></option>
-                                {h.inputSource && h.inputSource.map(i => 
-                                  <option id={i[h.inputID]} name={i[h.dataField]}>
-                                    {i[h.inputValue]}
-                                  </option>
-                                )}
-                            </SelectField>
-                        
-                    ) 
-
-                  case "select":
-                    return (
-                      
-                            <SelectField type="select" title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} handleChange={(e)=>handleChange(e)} >
-                              <option></option>
-                                {h.inputSource && h.inputSource.map(i => 
-                                  <option name={i[h.dataField]}>
-                                    {i[h.inputValue]} 
-                                  </option>
-                                )}
-                            </SelectField>
-                        
-                    ) 
-
-                  case "text":
-                    return (
-                          
-                          
-                          <TextBox title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
-                          
-                          
-                    ) 
-
-                  case "text-area":
-                    return (
-                      
-                          <TextArea title={h.label} name={h.dataField} value={activeService && activeService[h.dataField]} fieldChanged={(e)=>handleChange(e)} />
-                        
-                    ) 
-
-                  case "datepicker":
-                    return (
-                      
-                          <TextBox 
-                            id="datetime-local"
-                            title={h.label}
-                            type="date" 
-                            name={h.dataField} 
-                            className="input is-rounded is-small"
-                            value={activeService && activeService[h.dataField]} 
-                            fieldChanged={(e)=>handleChange(e)} 
-                          />
-                        
-                    ) 
-  
-                  }
-                }
-              )}
-              
-            </EditDocDrawer>
           </> : 
         <div className="tile warning"> No record to display </div>}    
       </Page>
