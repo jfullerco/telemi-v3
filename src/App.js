@@ -82,7 +82,7 @@ export default function App() {
         </div>
       <div className="footer">
       <div className="content has-text-right is-size-7 ">
-        Telemi by J Fuller Co| Terms | Settings
+        Telemi by J Fuller Co| Terms | Settings | <a href="https://www.vecteezy.com/free-vector/network">Vectors by Vecteezy</a>
       </div>
       </div>
       
