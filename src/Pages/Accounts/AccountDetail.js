@@ -168,6 +168,9 @@ const handleToggle = () => {
               <li className={tab === "BILLING" ? "is-active" : ""}><a onClick={()=>setTab("BILLING")}>Billing</a></li>
               </ul>
             </TabBar>
+
+            <div className="box p-4 is-rounded">
+
             <nav className="breadcrumb" aria-label="breadcrumbs">
               <ul>
                 <li className="is-size-7 is-uppercase">last updated: {activeAccount && activeAccount.LastUpdated && activeAccount.LastUpdated}</li>
@@ -209,7 +212,7 @@ const handleToggle = () => {
               docRef={activeAccount.id}
             />
 
-          </> : 
+          </div></> : 
         <div className="tile warning"> No record to display </div>}    
       </Page>
           

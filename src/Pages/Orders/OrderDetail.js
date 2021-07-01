@@ -181,6 +181,9 @@ console.log(data)
               <li className={tab === "BILLING" ? "is-active" : ""}><a onClick={()=>setTab("BILLING")}>Billing</a></li>
               </ul>
             </TabBar>
+
+            <div className="box p-4 is-rounded">
+
             {activeOrder && pageFields.map(el => 
               <>
                 {[activeOrder].map(h => 
@@ -218,7 +221,7 @@ console.log(data)
             
               
             
-          </> : 
+          </div></> : 
         <div className="tile warning"> No record to display </div>}    
       </Page>
   )
