@@ -1,11 +1,14 @@
 import React from 'react'
 import Hint from './Hint'
 
-const SelectField = ({title, value, handleChange, name, hide, hint, children}) => {
+const SelectField = ({title, value, handleChange, name, hide, hint, handleAddValue, showAddLink, addColName, children}) => {
 
   return(
       <div className="field">
-      <label className="label">{title && title}</label>
+      <label className="label">
+        {title && title} 
+        {showAddLink === true ? <a className="link is-size-7 pl-1" onClick={()=>handleAddValue(addColName)}>(add)</a> : ""}
+      </label> 
         <div className="control">
         <div className={hide != true ? "select is-rounded is-fullwidth is-small" : "is-hidden"}>
           <select type="select" name={name && name} defaultValue={value && value} onChange={handleChange} >

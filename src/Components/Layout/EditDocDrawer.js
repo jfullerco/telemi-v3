@@ -5,6 +5,7 @@ import TextBox from '../../Components/Forms/TextBox'
 import TextArea from '../../Components/Forms/TextArea'
 import QuickAdd from '../../Components/Forms/QuickAdd'
 import DeleteButton from '../Buttons/DeleteButton'
+import AddLocationModal from '../../Pages/Locations/AddLocationModal'
 
 
 const EditDocDrawer = ({
@@ -19,7 +20,9 @@ const EditDocDrawer = ({
     handleChange, 
     handleRelatedSelectChange,
     handleAddRelatedValue,
-    addRelatedValue, 
+    addRelatedValue,
+    resetAddRelatedValue, 
+    handleUpdated,
     colRef, 
     docRef,
     currentCompany,
@@ -50,18 +53,25 @@ const EditDocDrawer = ({
                     return (
                       
                             <>
-                            <SelectField type="select" title={h.label} name={h.dataField} value={active && active[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
-                              <option></option>
+                            <SelectField 
+                              type="select" 
+                              title={h.label} 
+                              name={ h.dataField } 
+                              value={ active && active[h.dataField] } 
+                              handleChange={ (e)=>handleRelatedSelectChange(e, { name: h.dataField, relatedName: h.relatedDataField }) }
+                              addColName={h.relatedCollection} 
+                              handleAddValue={(e)=> handleAddRelatedValue(e)}
+                              showAddLink={true}
+                            >
+                                <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
                                   <option id={i[h.inputID]} name={i[h.dataField]}>
                                     {i[h.inputValue]}
                                   </option>
                                 )}
                             </SelectField>
-                            <a className="link is-7" onClick={(e)=>handleAddRelatedValue(h.relatedCollection)}>(add)</a>
-                            <div className="control">
-                              <QuickAdd visible="true" colRef={h.relatedCollection} nameRef={h.inputValue} currentCompany={currentCompany} currentCompanyID={currentCompanyID} /> 
-                            </div>
+                            
+                            {addRelatedValue === "Locations" ? <AddLocationModal handleUpdated={handleUpdated} resetAddRelatedValue={()=>resetAddRelatedValue()} currentCompany={currentCompany} currentCompanyID={currentCompanyID} nameRef={h.inputValue} /> :""}
                             </>
                         
                     ) 

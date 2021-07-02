@@ -181,13 +181,6 @@ const handleAddRelatedValue = (e) => {
   setAddRelatedValue(e)
 }
 
-const handleHoverLocation = (name, arr) => {
-  console.log(arr)
-  const indexRef = arr.findIndex(i => i.Name === name)
-  const hoverRef = `${arr[indexRef].Address1} + ${arr[indexRef].Address2} + ${arr[indexRef].City} + ${arr[indexRef].State}` 
-  
-  return hoverRef
-}
 
 console.log(data)
   return (
@@ -248,6 +241,8 @@ console.log(data)
               docRef={activeService.id}
               addRelatedValue={addRelatedValue}
               handleAddRelatedValue={(e)=>handleAddRelatedValue(e)}
+              resetAddRelatedValue={()=>setAddRelatedValue("")}
+              handleUpdated={()=>setUpdated()}
               currentCompany={currentCompany}
               currentCompanyID={currentCompanyID}
             />

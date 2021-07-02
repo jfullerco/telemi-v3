@@ -6,39 +6,39 @@ import TextBox from './TextBox'
 
 const QuickAdd = ({
     label,
-    visible, 
-    colRef, 
+    visible,
+    resetter, 
+    colAddRef, 
     nameRef,
     currentCompany, 
     currentCompanyID
   }) => {
 
   const [data, setData] = useState()
-  const [isVisible, setIsVisible] = useState(visible)
 
   const handleChange = (e) => {
     const {value} = e.target
-    console.log(colRef)
+    
     setData({[nameRef]: value})
-    console.log(data)
+    
   }
-
-  const handleSubmit = (data) => {
+console.log(data)
+  const handleSubmit = () => {
     setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany})
-    const res = db.collection(colRef).doc().set(data)
-    console.log(res)
-    setIsVisible(!isVisible)
+    const res = db.collection(colAddRef).doc().set(data)
+    
+    
   }
 
   return(
-    <div className={isVisible === "true" ? "" : "is-hidden"}>
+    <div className="control">
     <TextBox 
       title={label}
       name={nameRef}
       fieldChanged={(e)=>handleChange(e)}
 
     />
-    <button onClick={()=> handleSubmit()}>Add</button>
+    <button className="button is-small is-rounded" onClick={()=> handleSubmit()}>Add</button>
     </div>
   )
 }

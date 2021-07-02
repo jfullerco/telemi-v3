@@ -8,7 +8,7 @@ import TextInput from '../../Components/Forms/TextInput'
 import StateDropDown from '../../Components/Forms/StateDropDown'
 import Modal from '../../Components/Modal'
 
-const AddLocation = () => {
+const AddLocation = ({resetAddRelatedValue}) => {
 
   const userContext = useContext(stateContext)
   
@@ -18,37 +18,28 @@ const AddLocation = () => {
   const [triggerClose, setTriggerClose] = useState()
   
   const locationName = useRef("")
-  const locationAddress1 = useRef("")
-  const locationAddress2 = useRef("")
-  const locationCity = useRef("")
-  const locationPhone = useRef("")
-  const locationState = useRef("")
-  const locationZip = useRef("")
 
   const handleSubmit = async(e) => {
     const data = {
       Name: locationName.current.value,
-      Address1: locationAddress1.current.value,
-      Address2: locationAddress2.current.value,
-      City: locationCity.current.value,
       CompanyID: userContext.userSession.currentCompanyID,
-      CompanyName: userContext.userSession.currentCompany,
-      Phone: locationPhone.current.value,
-      State: locationState.current.value,
-      Zip: locationZip.current.value
+      CompanyName: userContext.userSession.currentCompany
     }  
     console.log(data)
     const res = await db.collection("Locations").doc().set(data)
-    userContext.setDataLoading(true)
-    autoClose()
+    refreshLocations()
+  }
+
+  const refreshLocations = () => {
+    const locationsRef = db.collection("Locations").where("CompanyID", "==", currentCompanyID).get()
+    const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    userContext.setLocations(locations)
+    handleModalClose()
   }
 
   const handleModalClose = () => {
+    resetAddRelatedValue()
     setModalState(false)
-  }
-
-  const autoClose = () => {
-    setTimeout(() => {setModalState(false)}, 1000)
   }
   
 
@@ -59,35 +50,6 @@ const AddLocation = () => {
             <TextInput 
               inputFieldLabel="Location Name"
               inputFieldRef={locationName}
-              inputFieldValue={""}
-            />
-            <TextInput 
-              inputFieldLabel="Address 1"
-              inputFieldRef={locationAddress1}
-              inputFieldValue={""}
-            />
-            <TextInput 
-              inputFieldLabel="Address 2"
-              inputFieldRef={locationAddress2}
-              inputFieldValue={""}
-            />
-            <TextInput 
-              inputFieldLabel="City"
-              inputFieldRef={locationCity}
-              inputFieldValue={""}
-            />
-            <StateDropDown 
-              fieldRef={locationState}
-              
-            />
-            <TextInput 
-              inputFieldLabel="Zip"
-              inputFieldRef={locationZip}
-              inputFieldValue={""}
-            />
-            <TextInput 
-              inputFieldLabel="Phone"
-              inputFieldRef={locationPhone}
               inputFieldValue={""}
             />
             
