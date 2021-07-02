@@ -41,6 +41,7 @@ const ServiceDetailEdit = (state) => {
 
   const [activeService, setActiveService] = useState("")
   const [pageFields, setPageFields] = useState(serviceDetailFields)
+  const [addRelatedValue, setAddRelatedValue] = useState()
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
   const [newService, setNewService] = useState(false)
@@ -175,6 +176,11 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   setUpdated(!updated)
 }
 
+const handleAddRelatedValue = (e) => {
+  console.log(e)
+  setAddRelatedValue(e)
+}
+
 const handleHoverLocation = (name, arr) => {
   console.log(arr)
   const indexRef = arr.findIndex(i => i.Name === name)
@@ -233,13 +239,17 @@ console.log(data)
               handleClose={()=>setChecked(!checked)} 
               handleSubmit={()=> handleSubmit()} 
               handleChange={(e)=> handleChange(e)}
-              handleRelatedSelectChange={(e)=> handleRelatedSelectChange(e)}
+              handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
               pageFields={pageFields}
               active={activeService}
               tab={tab}
               direction="right"
               colRef="Services"
               docRef={activeService.id}
+              addRelatedValue={addRelatedValue}
+              handleAddRelatedValue={(e)=>handleAddRelatedValue(e)}
+              currentCompany={currentCompany}
+              currentCompanyID={currentCompanyID}
             />
 
           </div></> : 

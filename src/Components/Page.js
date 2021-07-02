@@ -13,18 +13,18 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
       <div className="wrapper p-3">
         
                 <Columns options="is-mobile">
-                  <Column size="is-three-quarters">
+                  <Column size="is-three-fifths-mobile is-three-quarters-tablet">
                     <div>
-                      <span className="is-size-6 has-text-weight-bold">
+                      <span className="is-size-7-mobile is-size-6-tablet has-text-weight-bold">
                         {title}
                       </span> 
                       
-                      <span className="is-size-4 has-text-weight-normal">
+                      <span className="is-size-5-mobile is-size-4-tablet has-text-weight-normal">
                         /{subtitle}
                       </span>
                     </div> 
                   </Column>
-                  <Column size="is-one-quarter">
+                  <Column >
                     <div className="mx-2 my-2">
 
                       <button 

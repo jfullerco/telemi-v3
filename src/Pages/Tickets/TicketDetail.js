@@ -217,7 +217,7 @@ console.log(data)
               handleClose={()=>setChecked(!checked)} 
               handleSubmit={()=> handleSubmit()} 
               handleChange={(e)=> handleChange(e)}
-              handleRelatedSelectChange={(e)=> handleRelatedSelectChange(e)}
+              handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
               pageFields={pageFields}
               active={activeTicket}
               tab={tab}

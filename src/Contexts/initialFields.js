@@ -193,7 +193,8 @@ import React from 'react'
         inputFieldType: "related-select", 
         inputSource: "", 
         inputID: "id", 
-        inputValue: "Name", 
+        inputValue: "Name",
+        relatedCollection: "Locations", 
         relatedDataField: "LocationID", 
         tab: "BASIC_INFO"  
       },
@@ -278,7 +279,8 @@ import React from 'react'
         inputFieldType: "related-select", 
         inputSource: orders, 
         inputID: "id", 
-        inputValue: "OrderNum", 
+        inputValue: "OrderNum",
+        relatedCollection: "Orders", 
         relatedDataField: "OrderID", 
         tab: "DETAILS"  
       },

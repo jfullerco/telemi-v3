@@ -3,7 +3,9 @@ import Drawer from '@material-ui/core/Drawer'
 import SelectField from '../../Components/Forms/SelectField'
 import TextBox from '../../Components/Forms/TextBox'
 import TextArea from '../../Components/Forms/TextArea'
+import QuickAdd from '../../Components/Forms/QuickAdd'
 import DeleteButton from '../Buttons/DeleteButton'
+
 
 const EditDocDrawer = ({
     title, 
@@ -15,9 +17,13 @@ const EditDocDrawer = ({
     tab, 
     direction, 
     handleChange, 
-    handleRelatedSelectChange, 
+    handleRelatedSelectChange,
+    handleAddRelatedValue,
+    addRelatedValue, 
     colRef, 
-    docRef, 
+    docRef,
+    currentCompany,
+    currentCompanyID, 
     children 
   }) => {
       const headerStyle = {
@@ -25,6 +31,8 @@ const EditDocDrawer = ({
         borderBottomWidth: "1px",
         bottomBorderColor: "black"
       }
+      
+
   return(
     <Drawer anchor={direction} open={checked} onClose={handleClose}>
       <div className="drawerPaper">
@@ -41,6 +49,7 @@ const EditDocDrawer = ({
                   case "related-select":
                     return (
                       
+                            <>
                             <SelectField type="select" title={h.label} name={h.dataField} value={active && active[h.dataField]} handleChange={(e)=>handleRelatedSelectChange(e, {name: h.dataField, relatedName: h.relatedDataField})} >
                               <option></option>
                                 {h.inputSource && h.inputSource.map(i => 
@@ -49,6 +58,11 @@ const EditDocDrawer = ({
                                   </option>
                                 )}
                             </SelectField>
+                            <a className="link is-7" onClick={(e)=>handleAddRelatedValue(h.relatedCollection)}>(add)</a>
+                            <div className="control">
+                              <QuickAdd visible="true" colRef={h.relatedCollection} nameRef={h.inputValue} currentCompany={currentCompany} currentCompanyID={currentCompanyID} /> 
+                            </div>
+                            </>
                         
                     ) 
 
