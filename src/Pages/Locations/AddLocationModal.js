@@ -8,9 +8,11 @@ import TextInput from '../../Components/Forms/TextInput'
 import StateDropDown from '../../Components/Forms/StateDropDown'
 import Modal from '../../Components/Modal'
 
-const AddLocation = ({resetAddRelatedValue}) => {
+const AddLocation = ({resetAddRelatedValue, handleUpdated}) => {
 
   const userContext = useContext(stateContext)
+  const { setLocations, refreshLocations } = userContext
+  const { currentCompanyID, currentCompany } = userContext.userSession
   
   const [modalState, setModalState] = useState(true)
   const [addLocationError, setAddLocationError] = useState("")
@@ -22,18 +24,13 @@ const AddLocation = ({resetAddRelatedValue}) => {
   const handleSubmit = async(e) => {
     const data = {
       Name: locationName.current.value,
-      CompanyID: userContext.userSession.currentCompanyID,
-      CompanyName: userContext.userSession.currentCompany
+      CompanyID: currentCompanyID,
+      CompanyName: currentCompany
     }  
     console.log(data)
     const res = await db.collection("Locations").doc().set(data)
     refreshLocations()
-  }
-
-  const refreshLocations = () => {
-    const locationsRef = db.collection("Locations").where("CompanyID", "==", currentCompanyID).get()
-    const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
-    userContext.setLocations(locations)
+    handleUpdated()
     handleModalClose()
   }
 

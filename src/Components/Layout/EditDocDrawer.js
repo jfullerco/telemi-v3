@@ -100,7 +100,7 @@ const EditDocDrawer = ({
                     case "currency":
                       return (
                         
-                            <TextBox title={h.label} name={h.dataField} value={active && active[h.dataField]} fieldChanged={handleChange} />
+                            <TextBox title={h.label} addOn="currency" name={h.dataField} value={active && active[h.dataField]} fieldChanged={handleChange} />
                           
                       )
 

@@ -132,6 +132,13 @@ export const StateProvider = (props) => {
       Name: "Microsoft"}
     ]
 
+    const refreshLocations = async() => {
+      const locationsRef = await db.collection("Locations").where("CompanyID", "==", userSession.currentCompanyID).get()
+      const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+      setLocations(locations)
+      
+    }
+
     const isStyle = {
       headerStyle: {
         borderBottomStyle: "solid",
@@ -378,6 +385,7 @@ export const StateProvider = (props) => {
           setUserFirstName,
           setUserType,
           setCurrentUser,
+          refreshLocations,
           userSession
       }}>
         {props.children}

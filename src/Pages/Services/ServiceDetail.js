@@ -29,7 +29,8 @@ const ServiceDetailEdit = (state) => {
           serviceStatusType,
           vendorList, 
           isStyle,
-          setCurrentDate } = userContext
+          setCurrentDate,
+          refreshLocations } = userContext
 
   const { locations,
           services, 
@@ -42,6 +43,7 @@ const ServiceDetailEdit = (state) => {
   const [activeService, setActiveService] = useState("")
   const [pageFields, setPageFields] = useState(serviceDetailFields)
   const [addRelatedValue, setAddRelatedValue] = useState()
+  
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
   const [newService, setNewService] = useState(false)
@@ -63,7 +65,7 @@ const ServiceDetailEdit = (state) => {
     handleInitialFieldMapping("OrderNum", orders, pageFields)
   }, [])
 
-  useEffect(()=> {
+  useEffect(() => {
     newService === true ?
     setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany}) : ""
     console.log(data)
@@ -71,7 +73,19 @@ const ServiceDetailEdit = (state) => {
 
   useEffect(() => {
     handleSetLastUpdatedFields()
+    handleInitialFieldMapping("Vendor", vendorList, pageFields)
+    handleInitialFieldMapping("LocationName", locations, pageFields)
+    handleInitialFieldMapping("Type", serviceTypes, pageFields)
+    handleInitialFieldMapping("AccessType", accessTypes, pageFields)
+    handleInitialFieldMapping("Status", serviceStatusType, pageFields)
+    handleInitialFieldMapping("OrderNum", orders, pageFields)
   },[updated])
+
+  
+console.log(locations)
+  const handleRefresh = () => {
+    refresh === "Locations" ? refreshLocations() : ""
+  }
 
   const handleInitialFieldMapping = (field, value, arr) => {
     const indexRef = arr.findIndex(i => i.dataField === field)
@@ -218,7 +232,7 @@ console.log(data)
                     </Column>
                     <Column size="is-1 is-narrow">:</Column>
                     <Column >
-                      <div onClick={()=> setToggleHoverField(!toggleHoverField)}><FieldHover isVisible={toggleHoverField}>{h[el.dataField] === "LocationName" ? handleHoverLocation(activeService.LocationName, locations): ""}</FieldHover>{h[el.dataField]}</div>
+                      {el.inputFieldType === "currency" ? "$" : ""} {h[el.dataField]}
                     </Column>
                   </Columns>
                   </div>
@@ -242,7 +256,7 @@ console.log(data)
               addRelatedValue={addRelatedValue}
               handleAddRelatedValue={(e)=>handleAddRelatedValue(e)}
               resetAddRelatedValue={()=>setAddRelatedValue("")}
-              handleUpdated={()=>setUpdated()}
+              handleUpdated={()=>setUpdated(!updated)}
               currentCompany={currentCompany}
               currentCompanyID={currentCompanyID}
             />

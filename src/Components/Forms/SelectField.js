@@ -10,7 +10,7 @@ const SelectField = ({title, value, handleChange, name, hide, hint, handleAddVal
         {showAddLink === true ? <a className="link is-size-7 pl-1" onClick={()=>handleAddValue(addColName)}>(add)</a> : ""}
       </label> 
         <div className="control">
-        <div className={hide != true ? "select is-rounded is-fullwidth is-small" : "is-hidden"}>
+        <div className={hide != true ? "select is-rounded is-fullwidth " : "is-hidden"}>
           <select type="select" name={name && name} defaultValue={value && value} onChange={handleChange} >
             {children}
           </select>

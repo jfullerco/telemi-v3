@@ -255,7 +255,7 @@ import React from 'react'
       { 
         label: "Monthly Cost", 
         dataField: "MRC", 
-        inputFieldType: "text", 
+        inputFieldType: "currency", 
         tab: "BASIC_INFO" 
       },
       { 
