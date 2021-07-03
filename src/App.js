@@ -30,6 +30,7 @@ import TicketDetail from './Pages/Tickets/TicketDetail'
 import ContractDetail from './Pages/Contracts/ContractDetail'
 
 import NotFound from './Components/NotFound'
+import UserSettings from './Pages/Users/UserSettings'
 
 
 
@@ -68,6 +69,7 @@ export default function App() {
             <Route path="/contractdetail/:id/:checked/:new" component={ContractDetail} />
             
             <Route path="/addcompany" component={AddCompany} />
+            <Route path="/settings" component={UserSettings} />
             
             <Route path="/addaccount" component={AddAccount} />
             <Route path="/addlocation" component={AddLocation} />
@@ -87,7 +89,7 @@ export default function App() {
         </div>
       <div className="footer">
       <div className="content has-text-right is-size-7 ">
-        Telemi developed by J Fuller Co | <Link to="/terms">Terms</Link> | Settings | <a href="https://www.vecteezy.com/free-vector/network">Vectors by Vecteezy</a>
+        Telemi developed by J Fuller Co | <Link to="/terms">Terms</Link> | <Link to="/settings">Settings</Link> | <a href="https://www.vecteezy.com/free-vector/network">Vectors by Vecteezy</a>
       </div>
       </div>
     </div>  

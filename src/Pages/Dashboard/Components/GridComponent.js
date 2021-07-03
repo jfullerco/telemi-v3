@@ -22,7 +22,6 @@ const GridComponent = ({
   
 
   const headerStyle = {
-        borderBottomStyle: "solid",
         bottomBorderColor: "black"
       }
 

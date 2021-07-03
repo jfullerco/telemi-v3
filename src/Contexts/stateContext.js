@@ -122,6 +122,8 @@ export const StateProvider = (props) => {
       Name: "Lumos"},
       {id: "Windstream",
       Name: "Windstream"},
+      {id: "Lingo",
+      Name: "Lingo"},
       {id: "Comcast",
       Name: "Comcast"},
       {id: "Masergy",
