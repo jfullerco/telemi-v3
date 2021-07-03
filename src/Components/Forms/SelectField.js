@@ -7,7 +7,9 @@ const SelectField = ({title, value, handleChange, name, hide, hint, handleAddVal
       <div className="field">
       <label className="label">
         {title && title} 
-        {showAddLink === true ? <a className="link is-size-7 pl-1" onClick={()=>handleAddValue(addColName)}>(add)</a> : ""}
+        { showAddLink === true ? 
+          <a className="link is-size-7 pl-1" onClick={()=>handleAddValue(addColName)}>(add)</a> 
+        : "" }
       </label> 
         <div className="control">
         <div className={hide != true ? "select is-rounded is-fullwidth " : "is-hidden"}>

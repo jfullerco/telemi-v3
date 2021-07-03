@@ -15,7 +15,7 @@ const NavBar = () => {
   const [isActive, setIsActive] = useState(false)
 
   const handleNewUserButton = () => {
-    history.push("/signup")
+    history.push("/register")
   }
 
   const logOut = async() => {

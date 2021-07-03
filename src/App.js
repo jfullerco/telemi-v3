@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
-import {Route, Switch, BrowserRouter as Router} from 'react-router-dom'
+import {Route, Switch, Link, BrowserRouter as Router} from 'react-router-dom'
 
 import {StateProvider, stateContext} from './Contexts/stateContext'
 import {AuthProvider} from './Contexts/AuthContext'
@@ -28,6 +28,8 @@ import OrderDetail from './Pages/Orders/OrderDetail'
 import TicketDetail from './Pages/Tickets/TicketDetail'
 
 import ContractDetail from './Pages/Contracts/ContractDetail'
+
+import NotFound from './Components/NotFound'
 
 
 
@@ -74,6 +76,7 @@ export default function App() {
             <Route path="/adduser" component={AddUser} />
             <Route path="/addcontract" component={AddContract} />
             <Route path="/addbill" component={AddBill} />
+            <Route component={NotFound} />
             </Switch>
             
           
@@ -84,7 +87,7 @@ export default function App() {
         </div>
       <div className="footer">
       <div className="content has-text-right is-size-7 ">
-        Telemi by J Fuller Co| Terms | Settings | <a href="https://www.vecteezy.com/free-vector/network">Vectors by Vecteezy</a>
+        Telemi developed by J Fuller Co | <Link to="/terms">Terms</Link> | Settings | <a href="https://www.vecteezy.com/free-vector/network">Vectors by Vecteezy</a>
       </div>
       </div>
     </div>  

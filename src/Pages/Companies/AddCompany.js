@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef, useContext} from 'react'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import Drawer from '@material-ui/core/Drawer'
 
 import {db} from '../../Contexts/firebase'
@@ -12,8 +12,8 @@ import Page from '../../Components/Page'
 const AddCompany = ({open}) => {
   const history = useHistory()
   const userContext = useContext(stateContext)
-  const {setDataLoading} = userContext
-  const {currentUser} = userContext.userSession
+  const { setDataLoading } = userContext
+  const { currentUser } = userContext.userSession
 
   const [checked, setChecked] = useState(true)
   
@@ -37,15 +37,9 @@ const AddCompany = ({open}) => {
       setPageError("Error Adding Company")
     }
   }
-  
-
-  const handleModalClose = () => {
-    autoClose()
-  }
 
   const autoClose = () => {
-    
-    
+    setTimeout(() => {history.goBack()}, 1500)
   }
   
 

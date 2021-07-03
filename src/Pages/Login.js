@@ -32,7 +32,7 @@ export default function Login() {
   }
 
   const handleModalClose = () => {
-    setModalState(false)
+    history.goBack()
   }
 
   return(
@@ -80,7 +80,7 @@ export default function Login() {
           <button 
             className="modal-close is-large" 
             aria-label="close" 
-            onClick={()=>handleModalClose}
+            onClick={()=>handleModalClose()}
           >
           </button>  
         </div>
