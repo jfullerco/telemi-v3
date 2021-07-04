@@ -35,6 +35,7 @@ const ServiceDetailEdit = (state) => {
   const { locations,
           services, 
           orders, 
+          accounts,
           tickets,
           currentCompanyID,
           currentCompany,
@@ -63,6 +64,7 @@ const ServiceDetailEdit = (state) => {
     handleInitialFieldMapping("AccessType", accessTypes, pageFields)
     handleInitialFieldMapping("Status", serviceStatusType, pageFields)
     handleInitialFieldMapping("OrderNum", orders, pageFields)
+    handleInitialFieldMapping("AccountNum", accounts, pageFields)
   }, [])
 
   useEffect(() => {
@@ -79,19 +81,14 @@ const ServiceDetailEdit = (state) => {
     handleInitialFieldMapping("AccessType", accessTypes, pageFields)
     handleInitialFieldMapping("Status", serviceStatusType, pageFields)
     handleInitialFieldMapping("OrderNum", orders, pageFields)
+    handleInitialFieldMapping("AccountNum", accounts, pageFields)
   },[updated])
 
-  
-console.log(locations)
-  const handleRefresh = () => {
-    refresh === "Locations" ? refreshLocations() : ""
-  }
 
   const handleInitialFieldMapping = (field, value, arr) => {
+
     const indexRef = arr.findIndex(i => i.dataField === field)
     arr[indexRef] = {...arr[indexRef], inputSource: value}
-
-    console.log(arr)
   
   }
 
@@ -103,48 +100,20 @@ console.log(locations)
     const id = await serviceRef.id
     setActiveService({id: id, ...data})
     setData(data)
-  }
 
-  const fetchAccounts = async() => {
-   
-    const accountRef = await db.collection("Accounts").where("AccountServiceID", "==", state.location.state.id).get()
-    
-    const accounts = await accountRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
-
-    setActiveAccounts(accounts)
-    
-  }
-
-  const fetchTickets = async() => {
-   
-    const serviceRef = await db.collection("Tickets").where("TicketServiceID", "==", state.location.state.id).get()
-    
-    const data = await serviceRef.data()
-    const id = await serviceRef.id
-    setActiveService(data)
-    
-  }
-
-  const fetchOrders = async() => {
-   
-    const serviceRef = await db.collection("Orders").where("OrderServiceID", "==", state.location.state.id).get()
-    
-    const data = await serviceRef.data()
-    const id = await serviceRef.id
-    
-    setActiveService(id, data)
-    
   }
 
   const handleSubmit = async(e) => {
-    newService  === true ? 
-    
-    await db.collection("Services").doc().set(data) : 
-    await db.collection("Services").doc(activeService.id).update(data)
-    userContext.setDataLoading(true)
-    
-    handleToggle(!checked)
-
+    try {
+      newService  === true ?
+      await db.collection("Services").doc().set(data) : 
+      await db.collection("Services").doc(activeService.id).update(data)
+      setPageSuccess("Ticket Added")
+      handleToggle(!checked) 
+    } catch {
+      setPageError("Error Adding Ticket")
+      handleToggle(!checked)
+    } 
   }
 
   const handleToggle = () => {
@@ -195,75 +164,83 @@ const handleAddRelatedValue = (e) => {
   setAddRelatedValue(e)
 }
 
-
-console.log(data)
   return (
-      <Page title="DETAILS" subtitle={activeService.AssetID} status="view" handleToggle={()=> handleToggle()} pageSuccess={pageSuccess} pageError={pageError}>
-        {userContext && userContext.userSession != undefined ? 
-          <>
-            <TabBar>
-              <ul>  
-                
+    <Page 
+      title="DETAILS" 
+      subtitle={activeService.AssetID} 
+      status="view" 
+      handleToggle={()=> handleToggle()} 
+      pageSuccess={pageSuccess} 
+      pageError={pageError}
+    >
+      {userContext && userContext.userSession != undefined ? 
+        <>
+          <TabBar>
+            <ul>  
               <li className={tab === "BASIC_INFO" ? "is-active" : ""}><a onClick={()=>setTab("BASIC_INFO")}>Basic Info</a></li>
               <li className={tab === "DETAILS" ? "is-active" : ""}><a onClick={()=>setTab("DETAILS")}>Details</a></li>
               <li className={tab === "SUPPORT" ? "is-active" : ""}><a onClick={()=>setTab("SUPPORT")}>Support</a></li>
               <li className={tab === "BILLING" ? "is-active" : ""}><a onClick={()=>setTab("BILLING")}>Billing</a></li>
               <li className={tab === "NOTES" ? "is-active" : ""}><a onClick={()=>setTab("NOTES")}>Notes</a></li>
-              </ul>
-            </TabBar>
+            </ul>
+          </TabBar>
 
-            <div className="box p-4 is-rounded">
+          <div className="box p-4 is-rounded">
 
-            <nav className="breadcrumb" aria-label="breadcrumbs">
-              <ul>
-                <li className="is-size-7 is-uppercase">last updated: {activeService.LastUpdated && activeService.LastUpdated}</li>
-                <li className="is-size-7 is-uppercase pl-2">updated by: {activeService.LastUpdatedBy && activeService.LastUpdatedBy}</li>
-              </ul>
-            </nav>
-            {activeService && pageFields.map(el => 
-              <>
-                {[activeService].map(h => 
-                  <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
-                  <Columns options="is-mobile">
-                    <Column size="is-5-mobile is-3-fullhd">
-                      <div className="has-text-weight-semibold" key={el.label}>
-                        {el.label} 
-                      </div>
-                    </Column>
-                    <Column size="is-1 is-narrow">:</Column>
-                    <Column >
-                      {el.inputFieldType === "currency" ? "$" : ""} {h[el.dataField]}
-                    </Column>
-                  </Columns>
-                  </div>
-                )}
-              </>
-            )}
+              <nav className="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                  <li className="is-size-7 is-uppercase">last updated: {activeService.LastUpdated && activeService.LastUpdated}</li>
+                  <li className="is-size-7 is-uppercase pl-2">updated by: {activeService.LastUpdatedBy && activeService.LastUpdatedBy}</li>
+                </ul>
+              </nav>
 
-            <EditDocDrawer 
-              title="BASIC INFO" 
-              checked={checked} 
-              handleClose={()=>setChecked(!checked)} 
-              handleSubmit={()=> handleSubmit()} 
-              handleChange={(e)=> handleChange(e)}
-              handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
-              pageFields={pageFields}
-              active={activeService}
-              tab={tab}
-              direction="right"
-              colRef="Services"
-              docRef={activeService.id}
-              addRelatedValue={addRelatedValue}
-              handleAddRelatedValue={(e)=>handleAddRelatedValue(e)}
-              resetAddRelatedValue={()=>setAddRelatedValue("")}
-              handleUpdated={()=>setUpdated(!updated)}
-              currentCompany={currentCompany}
-              currentCompanyID={currentCompanyID}
-            />
+              {activeService && pageFields.map(el => 
+                <>
+                  {[activeService].map(h => 
+                    <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
+                    <Columns options="is-mobile">
+                      <Column size="is-5-mobile is-3-fullhd">
+                        <div className="has-text-weight-semibold" key={el.label}>
+                          {el.label} 
+                        </div>
+                      </Column>
+                      <Column size="is-1 is-narrow">:</Column>
+                      <Column >
+                        {el.inputFieldType === "currency" ? "$" : ""} {h[el.dataField]}
+                      </Column>
+                    </Columns>
+                    </div>
+                  )}
+                </>
+              )}
 
-          </div></> : 
-        <div className="tile warning"> No record to display </div>}    
-      </Page>
+              <EditDocDrawer 
+                title="BASIC INFO" 
+                checked={checked} 
+                handleClose={()=>setChecked(!checked)} 
+                handleSubmit={()=> handleSubmit()} 
+                handleChange={(e)=> handleChange(e)}
+                handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
+                pageFields={pageFields}
+                active={activeService}
+                tab={tab}
+                direction="right"
+                colRef="Services"
+                docRef={activeService.id}
+                addRelatedValue={addRelatedValue}
+                handleAddRelatedValue={(e)=>handleAddRelatedValue(e)}
+                resetAddRelatedValue={()=>setAddRelatedValue("")}
+                handleUpdated={()=>setUpdated(!updated)}
+                currentCompany={currentCompany}
+                currentCompanyID={currentCompanyID}
+              />
+
+          </div>
+
+        </> : 
+          <div className="tile warning"> No record to display </div>
+      }    
+    </Page>
   )
 }
 export default ServiceDetailEdit

@@ -67,14 +67,16 @@ const TicketDetail = (state) => {
 
   useEffect(() => {
     handleSetLastUpdatedFields()
+    handleInitialFieldMapping("Vendor", vendorList, pageFields)
+    handleInitialFieldMapping("LocationName", locations, pageFields)
+    handleInitialFieldMapping("AccountNum", accounts, pageFields)
+    handleInitialFieldMapping("ServiceAssetID", services, pageFields)
+    handleInitialFieldMapping("OrderNum", orders, pageFields)
   },[updated])
 
   const handleInitialFieldMapping = (field, value, arr) => {
     const indexRef = arr.findIndex(i => i.dataField === field)
     arr[indexRef] = {...arr[indexRef], inputSource: value}
-
-    console.log(arr)
-  
   }
 
   const fetchTicket = async() => {
@@ -85,37 +87,6 @@ const TicketDetail = (state) => {
     const id = await ticketRef.id
     setActiveTicket({id: id, ...data})
     setData(data)
-  }
-
-  const fetchAccounts = async() => {
-   
-    const accountRef = await db.collection("Accounts").where("AccountServiceID", "==", state.location.state.id).get()
-    
-    const accounts = await accountRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
-
-    setActiveAccounts(accounts)
-    
-  }
-
-  const fetchTickets = async() => {
-   
-    const serviceRef = await db.collection("Tickets").where("TicketServiceID", "==", state.location.state.id).get()
-    
-    const data = await serviceRef.data()
-    const id = await serviceRef.id
-    setActiveService(data)
-    
-  }
-
-  const fetchOrders = async() => {
-   
-    const serviceRef = await db.collection("Orders").where("OrderServiceID", "==", state.location.state.id).get()
-    
-    const data = await serviceRef.data()
-    const id = await serviceRef.id
-    
-    setActiveService(id, data)
-    
   }
 
   const handleSubmit = async(e) => {

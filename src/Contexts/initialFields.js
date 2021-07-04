@@ -300,6 +300,24 @@ import React from 'react'
         inputFieldType: "datepicker", 
         tab: "DETAILS" 
       },
+      { 
+        label: "Related Account", 
+        dataField: "AccountNum",
+        visible: true, 
+        inputFieldType: "related-select", 
+        inputSource: "", 
+        inputID: "id", 
+        inputValue: "AccountNum",
+        relatedCollection: "Accounts", 
+        relatedDataField: "AccountID", 
+        tab: "BILLING"  
+      },
+      { 
+        label: "Sub Account", 
+        dataField: "SubAccountNum", 
+        inputFieldType: "text", 
+        tab: "BILLING" 
+      },
       
     ]
     const ticketDetailFields = [
