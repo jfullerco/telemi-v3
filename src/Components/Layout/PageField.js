@@ -23,7 +23,7 @@ const PageField = ({field, fieldData, relatedDataMap}) => {
             return (
               <>
               {console.log(relatedDataMap)}
-                {[fieldData].map(d => relatedDataMap != undefined ? relatedDataMap.filter(r => r[relatedDataField] === d).map(r => console.log(r)) : "") }
+                {[fieldData].map(d => console.log("d:", d, "relatedData:", relatedDataMap, "field:", f)) }
               </>
             )
             default:
