@@ -8,7 +8,7 @@ import { db } from '../../Contexts/firebase'
 
 import GridComponent from './Components/GridComponent'
 import {useFilterArray} from '../../Components/Tables/useFilterArray'
-import {serviceGridColumns} from '../../Contexts/initialFields'
+import {serviceGridColumns, accountGridColumns} from '../../Contexts/initialFields'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
 
 
@@ -401,7 +401,7 @@ return (
 
     <GridComponent 
       label="ACCOUNTS"
-      headerFields={accountColumns}
+      headerFields={accountGridColumns}
       data={accounts}
       resetter={(e)=>setAccounts(e)}
       handleFilter={(e)=>handleFilterAccountClick(e)}

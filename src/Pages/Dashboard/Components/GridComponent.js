@@ -70,7 +70,7 @@ const GridComponent = ({
           
           <Column>
             <input 
-            className={handleSearch != undefined ? "input is-small is-rounded has-text-black" : "is-hidden"}
+            className={handleSearch != undefined ? "input is-rounded has-text-black" : "is-hidden"}
             placeholder="SEARCH" 
             onChange={handleSearch && handleSearch} 
             />
@@ -82,7 +82,7 @@ const GridComponent = ({
                 {headerFields && headerFields.map(col => 
                   <th style={{width: "20%"}} key={col.keyProp}>
 
-                    {col.headerName}
+                    {col.headerName && col.headerName}
 
                   <FilterSelectInput
                     dataRef={data}

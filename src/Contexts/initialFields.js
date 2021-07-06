@@ -116,31 +116,25 @@ import React from 'react'
         docField: 'Vendor',
         headerName: 'Vendor',
         key: "1",
-        filterable: true
+        filterable: true,
+        visible: true,
+        mobile: true
       },
       {
         docField: 'AccountNum',
         headerName: 'Account',
         key: "2",
-        filterable: true
-      },
-      {
-        docField: 'SubAccountNum',
-        headerName: 'Sub-Account',
-        key: "3",
-        filterable: true
-      },
-      {
-        docField: 'AccountServiceLocationName',
-        headerName: 'Location',
-        key: "4",
-        filterable: true
+        filterable: true,
+        visible: true,
+        mobile: false
       },
       {
         docField: 'PostTaxMRC',
         headerName: 'Cost',
         key: "5",
-        filterable: false
+        filterable: false,
+        visible: true,
+        mobile: true
       }
     ]
 
@@ -334,6 +328,21 @@ import React from 'react'
         tab: "BILLING",
         tabLabel: "BILLING" 
       },
+      { 
+        label: "Group Number", 
+        dataField: "GroupNum", 
+        inputFieldType: "text", 
+        tab: "BILLING",
+        tabLabel: "BILLING" 
+      },
+      { 
+        label: "Last Bill Amount", 
+        dataField: "LastBillAmount", 
+        inputFieldType: "currency", 
+        tab: "BILLING",
+        tabLabel: "BILLING" 
+      },
+      
       
     ]
     const ticketDetailFields = [
@@ -472,34 +481,17 @@ import React from 'react'
         tab: "BASIC_INFO" 
       },
       { 
-        label: "Sub Account Number", 
-        dataField: "SubAccountNum", 
-        inputFieldType: "text", 
-        tab: "BASIC_INFO" 
-      },
-      { 
         label: "Vendor", 
         dataField: "Vendor", 
         inputFieldType: "select",  
-        
         inputID: "id", 
         inputValue: "Name", 
         tab: "BASIC_INFO"
       },
       { 
-        label: "Service Location", 
-        dataField: "AccountServiceLocationName", 
-        inputFieldType: "related-select",
-        inputID: "id", 
-        inputValue: "Name", 
-        relatedDataField: "LocationID", 
-        tab: "BASIC_INFO"  
-      },
-      { 
         label: "Service Asset", 
         dataField: "AccountServiceName", 
         inputFieldType: "related-select", 
-         
         inputID: "id", 
         inputValue: "AssetID", 
         relatedDataField: "ServiceID", 

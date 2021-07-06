@@ -208,7 +208,7 @@ const handleToggle = () => {
               active={activeAccount}
               tab={tab}
               direction="right"
-              colRef="Services"
+              colRef="Accounts"
               docRef={activeAccount.id}
             />
 

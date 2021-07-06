@@ -206,7 +206,9 @@ const handleAddRelatedValue = (e) => {
                       </Column>
                       <Column size="is-1 is-narrow">:</Column>
                       <Column >
+                        
                         {el.inputFieldType === "currency" ? "$" : ""} {h[el.dataField]}
+                        
                       </Column>
                     </Columns>
                     </div>
