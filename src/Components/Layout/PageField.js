@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PageField = ({field, fieldData}) => {
+const PageField = ({field, fieldData, relatedDataMap}) => {
   
   return(
     <>
@@ -22,7 +22,8 @@ const PageField = ({field, fieldData}) => {
           case "map-list":
             return (
               <>
-                {[fieldData].map(d => console.log(d[f.dataField])) }
+              {console.log(relatedDataMap)}
+                {[fieldData].map(d => relatedDataMap != undefined ? relatedDataMap.filter(r => r[relatedDataField] === d).map(r => console.log(r)) : "") }
               </>
             )
             default:

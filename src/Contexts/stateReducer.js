@@ -115,6 +115,11 @@ export default (state, action) => {
         ...state,
         accounts: action.payload
       }; 
+      case "SET_BILLS":
+        return {
+          ...state,
+          bills: action.payload
+        };
     case "SET_USERS":
       return {
         ...state,

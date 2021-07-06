@@ -20,6 +20,7 @@ export const StateProvider = (props) => {
       services: "",
       locations: "",
       accounts: "",
+      bills: "",
       orders: "",
       quotes: "",
       contracts: "",
@@ -206,6 +207,13 @@ export const StateProvider = (props) => {
         })
       };
 
+      const setBills = (bills) => {
+        dispatch({
+          type: "SET_BILLS",
+          payload: bills
+        })
+      };
+
       const setLocations = (locations) => {
         dispatch({
           type: "SET_LOCATIONS",
@@ -355,6 +363,7 @@ export const StateProvider = (props) => {
           setCompanies,
           setServices,
           setAccounts,
+          setBills,
           setLocations,
           setTickets,
           setOrders,

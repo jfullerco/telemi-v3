@@ -31,6 +31,7 @@ const ServiceDetailEdit = (state) => {
           vendorList, 
           isStyle,
           setCurrentDate,
+          setBills,
           refreshLocations } = userContext
 
   const { locations,
@@ -38,6 +39,7 @@ const ServiceDetailEdit = (state) => {
           orders, 
           accounts,
           tickets,
+          bills,
           currentCompanyID,
           currentCompany,
           currentUser } = userContext.userSession
@@ -59,6 +61,7 @@ const ServiceDetailEdit = (state) => {
     params.checked === "true" ? setChecked(true) : ""
     params.new === "true" ? setNewService(true) : 
     fetchService()
+    fetchBills()
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
     handleInitialFieldMapping("Type", serviceTypes, pageFields)
@@ -66,6 +69,7 @@ const ServiceDetailEdit = (state) => {
     handleInitialFieldMapping("Status", serviceStatusType, pageFields)
     handleInitialFieldMapping("OrderNum", orders, pageFields)
     handleInitialFieldMapping("AccountNum", accounts, pageFields)
+    handleInitialFieldMapping("Bills", bills, pageFields)
   }, [])
 
   useEffect(() => {
@@ -83,6 +87,7 @@ const ServiceDetailEdit = (state) => {
     handleInitialFieldMapping("Status", serviceStatusType, pageFields)
     handleInitialFieldMapping("OrderNum", orders, pageFields)
     handleInitialFieldMapping("AccountNum", accounts, pageFields)
+    handleInitialFieldMapping("Bills", bills, pageFields)
   },[updated])
 
 
@@ -103,6 +108,14 @@ const ServiceDetailEdit = (state) => {
     setData(data)
 
   }
+
+  const fetchBills = async() => {
+    const billsRef = await db.collection("Bills").where("ServiceID", "==", state.location.state.id).get()
+    const bills = billsRef.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()}))
+    setBills(bills)
+  }  
 
   const handleSubmit = async(e) => {
     try {
@@ -211,6 +224,7 @@ const handleAddRelatedValue = (e) => {
                         <PageField 
                           field={el}
                           fieldData={h}
+                          relatedDataMap={el.relatedCollection}
                         />
 
 

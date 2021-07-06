@@ -346,6 +346,8 @@ import React from 'react'
         label: "Bills", 
         dataField: "Bills", 
         inputFieldType: "map-list", 
+        relatedCollection: "Bills", 
+        relatedDataField: "ServiceID", 
         tab: "BILLING",
         tabLabel: "BILLING" 
       },
