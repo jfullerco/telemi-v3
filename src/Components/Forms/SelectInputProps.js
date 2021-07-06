@@ -8,7 +8,7 @@ const SelectInputProps = ({fieldLabel, fieldIDRef, fieldInitialOption, fieldInit
       <div className="field">
       <label className="label">{fieldLabel && fieldLabel}</label>
         <div className="control">
-        <div className={isVisible != false ? `select ${size} is-rounded is-fullwidth` : "is-hidden"} >
+        <div className={isVisible != false ? `select ${size} is-rounded is-fullwidth px-2` : "is-hidden"} >
           <select type="select" ref={fieldIDRef} defaultValue={fieldInitialOption} onChange={onChange} >
             <option>{placeholder}</option>
             {fieldInitialValue != undefined ? 

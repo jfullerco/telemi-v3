@@ -46,12 +46,11 @@ export default function App() {
     <AuthProvider>
       <Router>
       <NavBar />
-      <div  >
-
-      <div className="container is-max-fullhd is-max-desktop is-one-third-tablet"> 
-      <div className="columns">
-      <div className="column">
        
+      <div className="columns is-variable is-1-mobile is-mobile">
+      <div className="column is-1 is-hidden-mobile"></div>
+      <div className="column is-12-mobile">
+      <div className="container"> 
           <Switch>
             
             <Route exact path="/"  component={Hello} />
@@ -85,14 +84,16 @@ export default function App() {
           
         <DevTools view="false" />
         </div>
-        </div>  
         </div>
+        <div className="column is-1 is-hidden-mobile"></div>
+        </div>  
+        
       <div className="footer">
       <div className="content has-text-right is-size-7 ">
         Telemi developed by J Fuller Co | <Link to="/terms">Terms</Link> | <Link to="/settings">Settings</Link> | <a href="https://www.vecteezy.com/free-vector/network">Vectors by Vecteezy</a>
       </div>
       </div>
-    </div>  
+      
     </Router>
     </AuthProvider>
     </StateProvider>

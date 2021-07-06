@@ -29,18 +29,14 @@ const EditDocDrawer = ({
     currentCompanyID, 
     children 
   }) => {
-      const headerStyle = {
-        borderBottomStyle: "solid",
-        borderBottomWidth: "1px",
-        bottomBorderColor: "black"
-      }
+      
       
 
   return(
     <Drawer anchor={direction} open={checked} onClose={handleClose}>
       <div className="drawerPaper">
-        <div style={headerStyle} className="mb-2">
-          <div className="title">{title}</div>
+        <div className="mb-2">
+          <div className="title">EDIT</div>
         </div>
         <div className="mb-2">
           <button className="button is-rounded is-small is-link" type="submit" onClick={handleSubmit}>Save</button>
@@ -55,7 +51,7 @@ const EditDocDrawer = ({
                             <>
                             <SelectField 
                               type="select" 
-                              title={h.label} 
+                              title={ h.label } 
                               name={ h.dataField } 
                               value={ active && active[h.dataField] } 
                               handleChange={ (e)=>handleRelatedSelectChange(e, { name: h.dataField, relatedName: h.relatedDataField }) }
@@ -126,7 +122,7 @@ const EditDocDrawer = ({
                           
                       )
 
-                      case "mapTEST":
+                      case "map-list":
                         return (
                           
                               <>
