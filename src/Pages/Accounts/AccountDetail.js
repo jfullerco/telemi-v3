@@ -190,6 +190,7 @@ const handleToggle = () => {
                     <Column size="is-1 is-narrow">:</Column>
                     <Column >
                       <div>{h[el.dataField]}</div>
+                      {console.log("h:", h, "el:", el)}
                     </Column>
                   </Columns>
                   </div>

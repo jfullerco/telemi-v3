@@ -15,6 +15,7 @@ import TabBar from '../../Components/Tabs/TabBar'
 import TextBox from '../../Components/Forms/TextBox'
 import SelectBox from '../../Components/Forms/SelectBox'
 import FieldHover from '../../Components/Layout/FieldHover'
+import PageField from '../../Components/Layout/PageField'
 
 
 const ServiceDetailEdit = (state) => {
@@ -206,8 +207,13 @@ const handleAddRelatedValue = (e) => {
                       </Column>
                       <Column size="is-1 is-narrow">:</Column>
                       <Column >
-                        
-                        {el.inputFieldType === "currency" ? "$" : ""} {h[el.dataField]}
+
+                        <PageField 
+                          field={el}
+                          fieldData={h}
+                        />
+
+
                         
                       </Column>
                     </Columns>

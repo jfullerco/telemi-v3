@@ -122,7 +122,7 @@ const EditDocDrawer = ({
                           
                       )
 
-                      case "map-list":
+                      case "map":
                         return (
                           
                               <>

@@ -60,26 +60,6 @@ const AddBill = (state) => {
     setTimeout(() => {history.goBack()}, 1000)
   }
   
-  const handleChange = (e) => {
-    setDropDown(true)
-    const {value} = e.target
-    const locationAC = locations.filter(({Name, Address1, State, City}) => Name.indexOf(value) > -1 || Address1.indexOf(value) > 1 || State.indexOf(value) > -1 || City.indexOf(value) > -1 )
-    orderLocationName.current = value
-    setDropDown(locationAC)
-  }
-
-  const handleSuggestedRef = (name, id) => {
-    console.log(name)
-    console.log(id)
-    orderLocationID.current = id
-    orderLocationName.current = name
-    setDropDown("")
-  }
-
-  const handleDateChange = (date) => {
-    orderDate.current = date
-  }
-  
 
   return (
     <Page title="Add Order" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>

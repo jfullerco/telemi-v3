@@ -342,6 +342,13 @@ import React from 'react'
         tab: "BILLING",
         tabLabel: "BILLING" 
       },
+      { 
+        label: "Bills", 
+        dataField: "Bills", 
+        inputFieldType: "map-list", 
+        tab: "BILLING",
+        tabLabel: "BILLING" 
+      },
       
       
     ]
