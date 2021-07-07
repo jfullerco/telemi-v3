@@ -95,6 +95,7 @@ const TicketDetail = (state) => {
     await db.collection("Tickets").doc(activeTicket.id).update(data)
     userContext.setDataLoading(true)
     handleToggle(!checked)
+    setNewTicket(false)
     handlePageSuccess()
   }
 
@@ -167,7 +168,7 @@ console.log(data)
                 {[activeTicket].map(h => 
                   <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
                   <Columns options="is-mobile">
-                    <Column size="is-5-mobile is-3-fullhd">
+                    <Column size="is-3">
                       <div className="has-text-weight-semibold" key={el.label}>
                         {el.label} 
                       </div>

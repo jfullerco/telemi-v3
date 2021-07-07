@@ -32,7 +32,6 @@ const ServiceDetailEdit = (state) => {
           vendorList, 
           isStyle,
           setCurrentDate,
-          setBills,
           refreshLocations } = userContext
 
   const { locations,
@@ -40,7 +39,6 @@ const ServiceDetailEdit = (state) => {
           orders, 
           accounts,
           tickets,
-          bills,
           currentCompanyID,
           currentCompany,
           currentUser } = userContext.userSession
@@ -51,6 +49,7 @@ const ServiceDetailEdit = (state) => {
   const [modalState, setModalState] = useState()
   
   const [data, setData] = useState()
+  const [bills, setBills] = useState()
   const [checked, setChecked] = useState(false)
   const [newService, setNewService] = useState(false)
   const [updated, setUpdated] = useState(false)
@@ -72,6 +71,7 @@ const ServiceDetailEdit = (state) => {
     handleInitialFieldMapping("OrderNum", orders, pageFields)
     handleInitialFieldMapping("AccountNum", accounts, pageFields)
     handleInitialFieldMapping("Bills", bills, pageFields)
+    
   }, [])
 
   useEffect(() => {
@@ -81,6 +81,7 @@ const ServiceDetailEdit = (state) => {
   },[newService])
 
   useEffect(() => {
+
     handleSetLastUpdatedFields()
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
@@ -90,6 +91,7 @@ const ServiceDetailEdit = (state) => {
     handleInitialFieldMapping("OrderNum", orders, pageFields)
     handleInitialFieldMapping("AccountNum", accounts, pageFields)
     handleInitialFieldMapping("Bills", bills, pageFields)
+    
   },[updated])
 
 
@@ -125,7 +127,8 @@ const ServiceDetailEdit = (state) => {
       await db.collection("Services").doc().set(data) : 
       await db.collection("Services").doc(activeService.id).update(data)
       setPageSuccess("Ticket Added")
-      handleToggle(!checked) 
+      handleToggle(!checked)
+      setNewService(false) 
     } catch {
       setPageError("Error Adding Ticket")
       handleToggle(!checked)

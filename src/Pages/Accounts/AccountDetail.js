@@ -14,6 +14,7 @@ import TextArea from '../../Components/Forms/TextArea'
 import TabBar from '../../Components/Tabs/TabBar'
 import TextBox from '../../Components/Forms/TextBox'
 import SelectBox from '../../Components/Forms/SelectBox'
+import PageField from '../../Components/Layout/PageField'
 
 const AccountDetail = (state) => {
 
@@ -26,7 +27,8 @@ const AccountDetail = (state) => {
           serviceStatusType,
           vendorList, 
           isStyle,
-          setCurrentDate } = userContext
+          setCurrentDate,
+           } = userContext
 
   const { locations,
           services, 
@@ -36,9 +38,12 @@ const AccountDetail = (state) => {
           currentUser,
           currentCompany,
           currentCompanyID } = userContext.userSession
+
+  const [loading, setLoading] = useState(false)
   const [pageFields, setPageFields] = useState(accountDetailFields)
   const [activeAccount, setActiveAccount] = useState("")
   const [data, setData] = useState()
+  const [bills, setBills] = useState()
   const [checked, setChecked] = useState(false)
   const [newAccount, setNewAccount] = useState(false)
   const [updated, setUpdated] = useState(false)
@@ -47,15 +52,23 @@ const AccountDetail = (state) => {
   const [pageError, setPageError] = useState(false)
   
   useEffect(() => {
-    
+    setLoading(true)
     params.checked === "true" ? setChecked(true) : ""
     params.new === "true" ? setNewAccount(true) : 
     fetchAccount()
+    fetchBills()
+    
+    
+  }, [])
+
+  useEffect(() => {
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("AccountServiceName", services, pageFields)
     handleInitialFieldMapping("AccountServiceLocationName", locations, pageFields)
-  }, [])
+    handleInitialFieldMapping("Bills", bills, pageFields)
+  },[loading])
 
+console.log(bills)
   useEffect(()=> {
     newAccount === true ?
     setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany}) : ""
@@ -63,21 +76,22 @@ const AccountDetail = (state) => {
   },[newAccount])
 
   useEffect(() => {
+    fetchBills()
     handleSetLastUpdatedFields()
+    handleInitialFieldMapping("Vendor", vendorList, pageFields)
+    handleInitialFieldMapping("AccountServiceName", services, pageFields)
+    handleInitialFieldMapping("AccountServiceLocationName", locations, pageFields)
+    handleInitialFieldMapping("Bills", bills, pageFields)
+    
   },[updated])
 
   const handleInitialFieldMapping = (field, value, arr) => {
     const indexRef = arr.findIndex(i => i.dataField === field)
     arr[indexRef] = {...arr[indexRef], inputSource: value}
-
-    console.log(arr)
-  
   }
   
   const fetchAccount = async() => {
-   
     const accountRef = await db.collection("Accounts").doc(state.location.state.id).get()
-
     const data = await accountRef.data()
     const id = await accountRef.id
     setActiveAccount({id: id, ...data})
@@ -90,6 +104,7 @@ const AccountDetail = (state) => {
       id: doc.id,
       ...doc.data()}))
     setBills(bills)
+    setLoading(false)
   }
   
   const handleSubmit = async(e) => {
@@ -98,8 +113,8 @@ const AccountDetail = (state) => {
     await db.collection("Accounts").doc().set(data) : 
     await db.collection("Accounts").doc(state.location.state.id).update(data)
     userContext.setDataLoading(true)
-    console.log()
     handleToggle(!checked)
+    setNewAccount(false)
   }
 
   const handleSetLastUpdatedFields = () => {
@@ -182,15 +197,20 @@ const handleToggle = () => {
                 {[activeAccount].map(h => 
                   <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
                   <Columns options="is-mobile">
-                    <Column size="is-5-mobile is-3-fullhd">
+                    <Column size="is-3">
                       <div className="has-text-weight-semibold" key={el.label}>
                         {el.label} 
                       </div>
                     </Column>
                     <Column size="is-1 is-narrow">:</Column>
                     <Column >
-                      <div>{h[el.dataField]}</div>
-                      {console.log("h:", h, "el:", el)}
+
+                      <PageField 
+                          field={el}
+                          fieldData={h}
+                          relatedDataMap={el.inputSource && el.inputSource.filter(f => f[el.relatedDataField] === h.id).map(i => ({...i}))}
+                        />
+
                     </Column>
                   </Columns>
                   </div>

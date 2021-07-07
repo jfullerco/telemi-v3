@@ -10,16 +10,18 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
   const history = useHistory()
   
   return(
-      <div className="wrapper p-3">
-        
-                <Columns options="is-mobile">
+      <div className="wrapper">
+        <section className="hero is-small">
+          <div className="hero-body">
+
+          <Columns options="is-mobile">
                   <Column size="is-three-fifths-mobile is-three-quarters-tablet">
                     <div>
-                      <span className="is-size-7-mobile is-size-6-tablet has-text-weight-bold">
+                      <span className="is-size-7-mobile is-size-6-tablet title has-text-black">
                         {title}
                       </span> 
                       
-                      <span className="is-size-5-mobile is-size-4-tablet has-text-weight-normal">
+                      <span className="is-size-5-mobile is-size-4-tablet title has-text-black">
                         /{subtitle}
                       </span>
                     </div> 
@@ -52,7 +54,11 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
 
                     </div>
                   </Column>
-                  </Columns>
+                  </Columns> 
+                  
+          </div>
+        </section>
+                
                 
           <div className="block">
             <div className={pageSuccess && pageSuccess != false ? "notification is-success" : "is-hidden"}>Saved</div>

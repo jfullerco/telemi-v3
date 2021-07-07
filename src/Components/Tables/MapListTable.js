@@ -5,8 +5,6 @@ import DeleteButton from '../Buttons/DeleteButton'
 const MapListTable = ({
   data,
   headerFields,
-  delBtn,
-  colRef
 }) => {
   return(
     <>
@@ -35,7 +33,7 @@ const MapListTable = ({
                 </td>
 
               )}
-              <td>  </td>
+              
             </tr>
           ) : "" }
           

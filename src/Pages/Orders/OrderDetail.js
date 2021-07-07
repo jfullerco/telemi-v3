@@ -66,6 +66,10 @@ const OrderDetail = (state) => {
 
   useEffect(() => {
     handleSetLastUpdatedFields()
+    handleInitialFieldMapping("LocationName", locations, pageFields)
+    handleInitialFieldMapping("Vendor", vendorList, pageFields)
+    handleInitialFieldMapping("Status", orderStatusType, pageFields)
+    handleInitialFieldMapping("Type", orderType, pageFields)
   },[updated])
 
   const handleInitialFieldMapping = (field, value, arr) => {
@@ -137,6 +141,7 @@ const OrderDetail = (state) => {
     userContext.setDataLoading(true)
     console.log()
     handleToggle(!checked)
+    setNewOrder(false)
     handlePageSuccess()
   }
 
@@ -178,7 +183,7 @@ console.log(data)
               <li className={tab === "BASIC_INFO" ? "is-active" : ""}><a onClick={()=>setTab("BASIC_INFO")}>Basic Info</a></li>
               <li className={tab === "DETAILS" ? "is-active" : ""}><a onClick={()=>setTab("DETAILS")}>Details</a></li>
               <li className={tab === "SUPPORT" ? "is-active" : ""}><a onClick={()=>setTab("SUPPORT")}>Support</a></li>
-              <li className={tab === "BILLING" ? "is-active" : ""}><a onClick={()=>setTab("BILLING")}>Billing</a></li>
+              
               </ul>
             </TabBar>
 
@@ -189,7 +194,7 @@ console.log(data)
                 {[activeOrder].map(h => 
                   <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
                   <Columns options="is-mobile">
-                    <Column size="is-5-mobile is-3-fullhd">
+                    <Column size="is-3">
                       <div className="has-text-weight-semibold" key={el.label}>
                         {el.label} 
                       </div>

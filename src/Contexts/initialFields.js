@@ -542,6 +542,39 @@ import React from 'react'
         inputFieldType: "text-area", 
         tab: "DETAILS" 
       },
+      { 
+        label: "Bills", 
+        dataField: "Bills", 
+        inputFieldType: "map-list", 
+        relatedCollection: "Bills", 
+        relatedDataField: "AccountID",
+        relatedHeaderFields: [
+                              {
+                                headerName: 'Date', 
+                                docField: 'Date', 
+                                fieldType: 'date-picker'
+                              }, 
+                              {
+                                headerName: 'Sub Account', 
+                                docField: 'SubAccountNum', 
+                                fieldType: 'text'
+                              },
+                              {
+                                headerName: 'Asset ID', 
+                                docField: 'AssetID', 
+                                fieldType: 'text'
+                              },
+                              {
+                                headerName: 'Cost', 
+                                docField: 'Cost', 
+                                fieldType: 'currency'
+                              }, 
+                              
+                            ], 
+        tab: "BILLING",
+        tabLabel: "BILLING",
+        addBtn: true 
+      },
       
     ]
     const orderDetailFields = [
@@ -575,6 +608,7 @@ import React from 'react'
       {
         label: "Order Type",
         dataField: "Type",
+        visible: false,
         inputField: "select",
         inputSource: "",
         inputID: "id",
@@ -594,7 +628,7 @@ import React from 'react'
         tab: "BASIC_INFO" 
       },
       { 
-        label: "Order Location", 
+        label: "Location", 
         dataField: "LocationName", 
         inputFieldType: "related-select", 
         inputSource: locations, 
@@ -621,7 +655,7 @@ import React from 'react'
       {
         label: "Notes",
         dataField: "Notes",
-        inputFieldType: "map",
+        inputFieldType: "text",
         tab: "DETAILS"
       }
     ]
