@@ -9,6 +9,7 @@ import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
 import Page from '../../Components/Page'
 import EditDocDrawer from '../../Components/Layout/EditDocDrawer'
+import ViewDocDrawer from '../../Components/Layout/ViewDocDrawer'
 import SelectField from '../../Components/Forms/SelectField'
 import TextArea from '../../Components/Forms/TextArea'
 import TabBar from '../../Components/Tabs/TabBar'
@@ -43,20 +44,22 @@ const ServiceDetailEdit = (state) => {
           currentCompany,
           currentUser } = userContext.userSession
 
-  const [activeService, setActiveService] = useState("")
-  const [loading, setLoading] = useState()
-  const [pageFields, setPageFields] = useState(serviceDetailFields)
-  const [addRelatedValue, setAddRelatedValue] = useState()
-  const [modalState, setModalState] = useState()
-  
-  const [data, setData] = useState()
-  const [bills, setBills] = useState()
-  const [checked, setChecked] = useState(false)
   const [newService, setNewService] = useState(false)
+  const [loading, setLoading] = useState()
   const [updated, setUpdated] = useState(false)
-  const [tab, setTab] = useState("BASIC_INFO")
+  const [pageFields, setPageFields] = useState(serviceDetailFields)
+  const [modalState, setModalState] = useState()
   const [pageSuccess, setPageSuccess] = useState(false)
   const [pageError, setPageError] = useState(false)
+
+  const [activeService, setActiveService] = useState("")
+  const [data, setData] = useState()
+  const [bills, setBills] = useState()
+  
+  const [tab, setTab] = useState("BASIC_INFO")
+  const [editDrawer, setEditDrawer] = useState(false)
+  const [viewDrawer, setViewDrawer] = useState(false)
+  const [addRelatedValue, setAddRelatedValue] = useState()
   const [toggleHoverField, setToggleHoverField] = useState(false)
 
   useEffect(() => {
@@ -65,8 +68,6 @@ const ServiceDetailEdit = (state) => {
     params.new === "true" ? setNewService(true) : 
     fetchService()
     fetchBills()
-    
-    
   }, [])
 
   useEffect(() => {
@@ -99,7 +100,6 @@ const ServiceDetailEdit = (state) => {
     handleInitialFieldMapping("Bills", bills, pageFields)
     
   },[updated])
-
 
   const handleInitialFieldMapping = (field, value, arr) => {
 
@@ -194,7 +194,12 @@ const handleToggleMapField = (e) => {
   setModalState(e)
 }
 
-console.log(modalState)
+const handleToggleViewDrawer = (e) => {
+  setViewDrawer(e)
+  console.log(viewDrawer)
+
+}
+
   return (
     <Page 
       title="DETAILS" 
@@ -241,8 +246,7 @@ console.log(modalState)
                               onClick={() => handleToggleMapField(el.relatedCollection)}
                             >   
                               (add)
-                            </a> : null
-                          }
+                            </a> : null}
 
                         </div>
 
@@ -254,6 +258,7 @@ console.log(modalState)
                           field={el}
                           fieldData={h}
                           relatedDataMap={el.inputSource && el.inputSource.filter(f => f[el.relatedDataField] === h.id).map(i => ({...i}))}
+                          handleViewDrawer={(e)=>handleToggleViewDrawer(e)}
                         />
 
                       </Column>
@@ -265,8 +270,8 @@ console.log(modalState)
 
               <EditDocDrawer 
                 title="BASIC INFO" 
-                checked={checked} 
-                handleClose={()=>setChecked(!checked)} 
+                checked={editDrawer} 
+                handleClose={()=>setEditDrawer(!editDrawer)} 
                 handleSubmit={()=> handleSubmit()} 
                 handleChange={(e)=> handleChange(e)}
                 handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
@@ -283,19 +288,27 @@ console.log(modalState)
                 currentCompany={currentCompany}
                 currentCompanyID={currentCompanyID}
               />
-            <div className={modalState === "Bills" ? "" : "is-hidden"}>
-              <AddBill 
-                accountID={activeService.AccountID}
-                accountNum={activeService.AccountNum}
-                subAccountNum={activeService.SubAccountNum}
-                groupNum={activeService.GroupNum}
-                assetID={activeService.AssetID}
-                serviceID={activeService.id}
-                
-                resetState={()=>handleToggleMapField()}
-                handleUpdated={()=>handleUpdated(!updated)}
+
+              <ViewDocDrawer 
+                checked={viewDrawer}
+                data={}
+                handleClose={()=>setViewDrawer(!viewDrawer)} 
+                direction="right"
               />
-            </div>
+
+              <div className={modalState === "Bills" ? "" : "is-hidden"}>
+                <AddBill 
+                  accountID={activeService.AccountID}
+                  accountNum={activeService.AccountNum}
+                  subAccountNum={activeService.SubAccountNum}
+                  groupNum={activeService.GroupNum}
+                  assetID={activeService.AssetID}
+                  serviceID={activeService.id}
+                  
+                  resetState={()=>handleToggleMapField()}
+                  handleUpdated={()=>handleUpdated(!updated)}
+                />
+              </div>
 
           </div>
 

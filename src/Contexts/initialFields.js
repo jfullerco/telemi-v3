@@ -189,7 +189,8 @@ import React from 'react'
         inputID: "id", 
         inputValue: "Name",
         relatedCollection: "Locations", 
-        relatedDataField: "LocationID", 
+        relatedDataField: "LocationID",
+        relatedValues: ["Address1", "City", "State", "Zip"], 
         tab: "BASIC_INFO",
         tabLabel: "BASIC INFO"  
       },

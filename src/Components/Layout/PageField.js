@@ -2,7 +2,7 @@ import React from 'react'
 
 import MapListTable from '../Tables/MapListTable'
 
-const PageField = ({field, fieldData, relatedDataMap}) => {
+const PageField = ({field, fieldData, relatedDataMap, handleViewDrawer}) => {
   
   return(
     <>
@@ -21,9 +21,16 @@ const PageField = ({field, fieldData, relatedDataMap}) => {
                 $ {[fieldData].map(d => d[f.dataField])}
               </>
             )
+          case "related-select":
+            return (
+              <>
+                {[fieldData].map(d => <a onClick={(e)=>handleViewDrawer({isVisible: true, data: {...d}})}>{d[f.dataField]}</a> )}
+              </>
+            )
           case "map-list":
             return (
               <>
+
                 <MapListTable 
                   headerFields={f.relatedHeaderFields}
                   data={relatedDataMap}
