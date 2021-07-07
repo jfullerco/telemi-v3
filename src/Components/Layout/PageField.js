@@ -1,5 +1,7 @@
 import React from 'react'
 
+import MapListTable from '../Tables/MapListTable'
+
 const PageField = ({field, fieldData, relatedDataMap}) => {
   
   return(
@@ -22,8 +24,11 @@ const PageField = ({field, fieldData, relatedDataMap}) => {
           case "map-list":
             return (
               <>
-              {console.log(relatedDataMap)}
-                {[fieldData].map(d => console.log("d:", d, "relatedData:", relatedDataMap, "field:", f)) }
+                <MapListTable 
+                  headerFields={f.relatedHeaderFields}
+                  data={relatedDataMap}
+                />
+                
               </>
             )
             default:

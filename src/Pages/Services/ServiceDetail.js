@@ -16,6 +16,7 @@ import TextBox from '../../Components/Forms/TextBox'
 import SelectBox from '../../Components/Forms/SelectBox'
 import FieldHover from '../../Components/Layout/FieldHover'
 import PageField from '../../Components/Layout/PageField'
+import AddBill from '../Accounts/Bill/AddBill'
 
 
 const ServiceDetailEdit = (state) => {
@@ -47,6 +48,7 @@ const ServiceDetailEdit = (state) => {
   const [activeService, setActiveService] = useState("")
   const [pageFields, setPageFields] = useState(serviceDetailFields)
   const [addRelatedValue, setAddRelatedValue] = useState()
+  const [modalState, setModalState] = useState(false)
   
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
@@ -177,7 +179,7 @@ const handleAddRelatedValue = (e) => {
   console.log(e)
   setAddRelatedValue(e)
 }
-
+console.log(data)
   return (
     <Page 
       title="DETAILS" 
@@ -213,9 +215,9 @@ const handleAddRelatedValue = (e) => {
                   {[activeService].map(h => 
                     <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
                     <Columns options="is-mobile">
-                      <Column size="is-5-mobile is-3-fullhd">
+                      <Column size="is-3">
                         <div className="has-text-weight-semibold" key={el.label}>
-                          {el.label} 
+                          {el.label} {el.addBtn === true ? <a className="link is-small" onClick={()=> setModalState(el.relatedCollection)}>(add)</a> : null}
                         </div>
                       </Column>
                       <Column size="is-1 is-narrow">:</Column>
@@ -224,11 +226,9 @@ const handleAddRelatedValue = (e) => {
                         <PageField 
                           field={el}
                           fieldData={h}
-                          relatedDataMap={el.relatedCollection}
+                          relatedDataMap={el.inputSource}
                         />
 
-
-                        
                       </Column>
                     </Columns>
                     </div>
@@ -255,6 +255,17 @@ const handleAddRelatedValue = (e) => {
                 handleUpdated={()=>setUpdated(!updated)}
                 currentCompany={currentCompany}
                 currentCompanyID={currentCompanyID}
+              />
+
+              <AddBill 
+                accountID={activeService.AccountID}
+                accountNum={activeService.AccountNum}
+                subAccountNum={activeService.SubAccountNum}
+                groupNum={activeService.GroupNum}
+                assetID={activeService.AssetID}
+                serviceID={activeService.id}
+                modalState={modalState === "Bills" ? true : false}
+                resetState={()=> setModalState("")}
               />
 
           </div>

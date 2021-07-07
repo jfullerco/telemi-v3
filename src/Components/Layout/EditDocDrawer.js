@@ -48,7 +48,8 @@ const EditDocDrawer = ({
                   case "related-select":
                     return (
                       
-                            <>
+                          <>
+                          
                             <SelectField 
                               type="select" 
                               title={ h.label } 
@@ -67,8 +68,16 @@ const EditDocDrawer = ({
                                 )}
                             </SelectField>
                             
-                            {addRelatedValue === "Locations" ? <AddLocationModal handleUpdated={handleUpdated} resetAddRelatedValue={()=>resetAddRelatedValue()} currentCompany={currentCompany} currentCompanyID={currentCompanyID} nameRef={h.inputValue} /> :""}
-                            </>
+                            {addRelatedValue === "Locations" ? 
+                              <AddLocationModal 
+                                handleUpdated={handleUpdated} 
+                                resetAddRelatedValue={()=>resetAddRelatedValue()} 
+                                currentCompany={currentCompany} 
+                                currentCompanyID={currentCompanyID} 
+                                nameRef={h.inputValue} 
+                              /> : "" }
+                          
+                          </>
                         
                     ) 
 

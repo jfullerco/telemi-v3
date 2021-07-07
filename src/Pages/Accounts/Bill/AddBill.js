@@ -8,28 +8,45 @@ import TextInput from '../../../Components/Forms/TextInput'
 import TextArea from '../../../Components/Forms/TextArea'
 import SelectInputProps from '../../../Components/Forms/SelectInputProps'
 import TextInputAC from '../../../Components/Forms/TextInputAC'
-import Page from '../../../Components/Page'
+import Modal from '../../../Components/Modal'
 import Columns from '../../../Components/Layout/Columns'
 import Column from '../../../Components/Layout/Column'
 
-const AddBill = (state) => {
+const AddBill = ({
+  accountID,
+  accountNum,
+  subAccountNum,
+  groupNum,
+  assetID,
+  serviceID,
+  modalState,
+  resetState
+
+}) => {
 
   const userContext = useContext(stateContext)
 
   const {currentUser, currentCompany, currentCompanyID} = userContext.userSession
 
   const history = useHistory()
+
+  useEffect(()=> {
+
+  },[])
   
   const [pageError, setPageError] = useState()
   const [pageSuccess, setPageSuccess] = useState()
   
   const billDate = useRef("")
-  const billAccountID = useRef("")
-  const billAccountNum = useRef("")
+  const billAccountID = useRef(accountID)
+  const billAccountNum = useRef(accountNum)
   const billCost = useRef("")
   const billDisputedCost = useRef("")
   const billTicketID = useRef("")
   const billTicketNum = useRef("")
+  const billGroupNum = useRef("")
+  const billAssetID = useRef(assetID)
+  const billServiceID = useRef(serviceID)
   
   
   const handleSubmit = async(e) => {
@@ -38,8 +55,9 @@ const AddBill = (state) => {
       AccountID: state.location.state.AccountID,
       AccountNum: state.location.state.AccountNum,
       Cost: billCost.current.value,
-      DisputeCost: billDisputedCost.current.value,
-      
+      DisputedAmount: billDisputedCost.current.value,
+      AssetID: billAssetID.current.value,
+      ServiceID: billServiceID.current.value,
       CompanyID: currentCompanyID,
       CompanyName: currentCompany,
       LastUpdatedBy: currentUser,
@@ -57,12 +75,12 @@ const AddBill = (state) => {
   }
 
   const autoClose = () => {
-    setTimeout(() => {history.goBack()}, 1000)
+    setTimeout(() => {resetState}, 1000)
   }
   
 
   return (
-    <Page title="Add Order" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
+    <Modal title="Add Order" modalState={modalState} handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
         
       <form>
 
@@ -71,6 +89,7 @@ const AddBill = (state) => {
               inputFieldLabel="Date"
               inputFieldRef={billDate}
               inputFieldValue={""}
+              type="date"
               hint=""
             />
           </Column>
@@ -80,7 +99,7 @@ const AddBill = (state) => {
               inputFieldLabel="Cost"
               inputFieldRef={billCost}
               inputFieldValue={""}
-              hint="Base cost without taxes and fees"
+              hint=""
             />       
           </Column>
 
@@ -107,7 +126,7 @@ const AddBill = (state) => {
       </form>
 
         
-    </Page>
+    </Modal>
       
   )
 }

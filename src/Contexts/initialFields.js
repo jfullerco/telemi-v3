@@ -347,9 +347,22 @@ import React from 'react'
         dataField: "Bills", 
         inputFieldType: "map-list", 
         relatedCollection: "Bills", 
-        relatedDataField: "ServiceID", 
+        relatedDataField: "ServiceID",
+        relatedHeaderFields: [
+                              {
+                                headerName: 'Date', 
+                                docField: 'Date', 
+                                fieldType: 'date-picker'
+                              }, 
+                              {
+                                headerName: 'Cost', 
+                                docField: 'Cost', 
+                                fieldType: 'currency'
+                              }
+                            ], 
         tab: "BILLING",
-        tabLabel: "BILLING" 
+        tabLabel: "BILLING",
+        addBtn: true 
       },
       
       
