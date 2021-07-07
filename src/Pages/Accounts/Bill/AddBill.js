@@ -21,21 +21,19 @@ const AddBill = ({
   serviceID,
   modalState,
   resetState
+  
 
 }) => {
 
   const userContext = useContext(stateContext)
-
+  const {setCurrentDate} = userContext
   const {currentUser, currentCompany, currentCompanyID} = userContext.userSession
 
   const history = useHistory()
-
-  useEffect(()=> {
-
-  },[])
   
   const [pageError, setPageError] = useState()
   const [pageSuccess, setPageSuccess] = useState()
+  const currentDate = setCurrentDate()
   
   const billDate = useRef("")
   const billAccountID = useRef(accountID)
@@ -47,21 +45,23 @@ const AddBill = ({
   const billGroupNum = useRef("")
   const billAssetID = useRef(assetID)
   const billServiceID = useRef(serviceID)
-  
-  
+  const billCompanyID = useRef(currentCompanyID)
+  const billCompany = useRef(currentCompany)
+  const billCurrentDate = useRef(currentDate)
+
   const handleSubmit = async(e) => {
     const data = {
       Date: billDate.current.value,
-      AccountID: state.location.state.AccountID,
-      AccountNum: state.location.state.AccountNum,
+      AccountID: billAccountID.current.value,
+      AccountNum: billAccountNum.current.value,
       Cost: billCost.current.value,
       DisputedAmount: billDisputedCost.current.value,
       AssetID: billAssetID.current.value,
       ServiceID: billServiceID.current.value,
-      CompanyID: currentCompanyID,
-      CompanyName: currentCompany,
+      CompanyID: currentCompanyID.current.value,
+      CompanyName: currentCompany.current.value,
       LastUpdatedBy: currentUser,
-      LastUpdated: Date()
+      LastUpdated: currentDate.current.value
       
     }  
     console.log(data)
