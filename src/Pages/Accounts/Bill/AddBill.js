@@ -21,8 +21,10 @@ const AddBill = ({
   serviceID,
   modalState,
   resetState,
-  handleUpdated
-
+  handleUpdated,
+  update, 
+  id, 
+  bill
 }) => {
 
   const userContext = useContext(stateContext)
@@ -63,7 +65,9 @@ const AddBill = ({
     }  
     console.log(data)
     try {
-      await db.collection("Bills").doc().set(data)
+      update === false ?
+      await db.collection("Bills").doc().set(data) :
+      await db.collection("Bills").doc(id).update(data)
       setPageSuccess("Bill Added")
       refreshBills()
       handleUpdated()

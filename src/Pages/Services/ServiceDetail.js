@@ -44,6 +44,7 @@ const ServiceDetailEdit = (state) => {
           currentUser } = userContext.userSession
 
   const [activeService, setActiveService] = useState("")
+  const [loading, setLoading] = useState()
   const [pageFields, setPageFields] = useState(serviceDetailFields)
   const [addRelatedValue, setAddRelatedValue] = useState()
   const [modalState, setModalState] = useState()
@@ -59,10 +60,16 @@ const ServiceDetailEdit = (state) => {
   const [toggleHoverField, setToggleHoverField] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
     params.checked === "true" ? setChecked(true) : ""
     params.new === "true" ? setNewService(true) : 
     fetchService()
     fetchBills()
+    
+    
+  }, [])
+
+  useEffect(() => {
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
     handleInitialFieldMapping("Type", serviceTypes, pageFields)
@@ -71,8 +78,7 @@ const ServiceDetailEdit = (state) => {
     handleInitialFieldMapping("OrderNum", orders, pageFields)
     handleInitialFieldMapping("AccountNum", accounts, pageFields)
     handleInitialFieldMapping("Bills", bills, pageFields)
-    
-  }, [])
+  },[loading])
 
   useEffect(() => {
     newService === true ?
@@ -119,6 +125,7 @@ const ServiceDetailEdit = (state) => {
       id: doc.id,
       ...doc.data()}))
     setBills(bills)
+    setLoading(false)
   }  
 
   const handleSubmit = async(e) => {
