@@ -217,7 +217,9 @@ console.log(data)
                     <Columns options="is-mobile">
                       <Column size="is-3">
                         <div className="has-text-weight-semibold" key={el.label}>
-                          {el.label} {el.addBtn === true ? <a className="link is-small" onClick={()=> setModalState(el.relatedCollection)}>(add)</a> : null}
+                          {el.label} 
+                          {el.addBtn === true ? 
+                          <a className="link has-text-weight-normal is-size-7 pl-2" onClick={()=> setModalState(el.relatedCollection)}>(add)</a> : null}
                         </div>
                       </Column>
                       <Column size="is-1 is-narrow">:</Column>

@@ -358,6 +358,11 @@ import React from 'react'
                                 headerName: 'Cost', 
                                 docField: 'Cost', 
                                 fieldType: 'currency'
+                              }, 
+                              {
+                                headerName: 'Disputed', 
+                                docField: 'DisputedAmount', 
+                                fieldType: 'currency'
                               }
                             ], 
         tab: "BILLING",

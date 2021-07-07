@@ -36,32 +36,28 @@ const AddBill = ({
   const currentDate = setCurrentDate()
   
   const billDate = useRef("")
-  const billAccountID = useRef(accountID)
-  const billAccountNum = useRef(accountNum)
+  
   const billCost = useRef("")
   const billDisputedCost = useRef("")
   const billTicketID = useRef("")
   const billTicketNum = useRef("")
-  const billGroupNum = useRef("")
-  const billAssetID = useRef(assetID)
-  const billServiceID = useRef(serviceID)
-  const billCompanyID = useRef(currentCompanyID)
-  const billCompany = useRef(currentCompany)
-  const billCurrentDate = useRef(currentDate)
-
+  
+  
+console.log(accountID)
   const handleSubmit = async(e) => {
     const data = {
       Date: billDate.current.value,
-      AccountID: billAccountID.current.value,
-      AccountNum: billAccountNum.current.value,
+      AccountID: accountID,
+      AccountNum: accountNum,
       Cost: billCost.current.value,
       DisputedAmount: billDisputedCost.current.value,
-      AssetID: billAssetID.current.value,
-      ServiceID: billServiceID.current.value,
-      CompanyID: currentCompanyID.current.value,
-      CompanyName: currentCompany.current.value,
+      GroupNum: groupNum,
+      AssetID: assetID,
+      ServiceID: serviceID,
+      CompanyID: currentCompanyID,
+      CompanyName: currentCompany,
       LastUpdatedBy: currentUser,
-      LastUpdated: currentDate.current.value
+      LastUpdated: currentDate
       
     }  
     console.log(data)
