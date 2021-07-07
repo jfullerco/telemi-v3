@@ -283,7 +283,7 @@ console.log(modalState)
                 serviceID={activeService.id}
                 
                 resetState={()=>handleToggleMapField()}
-                handleUpdated={()=>handleUpdated()}
+                handleUpdated={()=>handleUpdated(!updated)}
               />
             </div>
 

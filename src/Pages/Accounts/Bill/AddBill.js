@@ -26,7 +26,7 @@ const AddBill = ({
 }) => {
 
   const userContext = useContext(stateContext)
-  const {setCurrentDate} = userContext
+  const {setCurrentDate, refreshBills} = userContext
   const {currentUser, currentCompany, currentCompanyID} = userContext.userSession
 
   const history = useHistory()
@@ -65,8 +65,9 @@ const AddBill = ({
     try {
       await db.collection("Bills").doc().set(data)
       setPageSuccess("Bill Added")
+      refreshBills()
       handleUpdated()
-      setTimeout(() => {resetState()}, 1000)
+      autoClose()
     } catch {
       setPageError("Error Adding Bill")
     }
