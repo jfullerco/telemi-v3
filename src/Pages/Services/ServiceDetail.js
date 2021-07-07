@@ -48,7 +48,7 @@ const ServiceDetailEdit = (state) => {
   const [activeService, setActiveService] = useState("")
   const [pageFields, setPageFields] = useState(serviceDetailFields)
   const [addRelatedValue, setAddRelatedValue] = useState()
-  const [modalState, setModalState] = useState(false)
+  const [modalState, setModalState] = useState()
   
   const [data, setData] = useState()
   const [checked, setChecked] = useState(false)
@@ -179,7 +179,12 @@ const handleAddRelatedValue = (e) => {
   console.log(e)
   setAddRelatedValue(e)
 }
-console.log(data)
+
+const handleToggleMapField = (e) => {
+  setModalState(e)
+}
+
+console.log(modalState)
   return (
     <Page 
       title="DETAILS" 
@@ -216,11 +221,21 @@ console.log(data)
                     <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
                     <Columns options="is-mobile">
                       <Column size="is-3">
+
                         <div className="has-text-weight-semibold" key={el.label}>
+                          
                           {el.label} 
+
                           {el.addBtn === true ? 
-                          <a className="link has-text-weight-normal is-size-7 pl-2" onClick={()=> setModalState(el.relatedCollection)}>(add)</a> : null}
+                            <a className="link has-text-weight-normal is-size-7 pl-2" 
+                              onClick={() => handleToggleMapField(el.relatedCollection)}
+                            >   
+                              (add)
+                            </a> : null
+                          }
+
                         </div>
+
                       </Column>
                       <Column size="is-1 is-narrow">:</Column>
                       <Column >
@@ -228,7 +243,7 @@ console.log(data)
                         <PageField 
                           field={el}
                           fieldData={h}
-                          relatedDataMap={el.inputSource}
+                          relatedDataMap={el.inputSource && el.inputSource.filter(f => f[el.relatedDataField] === h.id).map(i => ({...i}))}
                         />
 
                       </Column>
@@ -258,7 +273,7 @@ console.log(data)
                 currentCompany={currentCompany}
                 currentCompanyID={currentCompanyID}
               />
-
+            <div className={modalState === "Bills" ? "" : "is-hidden"}>
               <AddBill 
                 accountID={activeService.AccountID}
                 accountNum={activeService.AccountNum}
@@ -266,9 +281,11 @@ console.log(data)
                 groupNum={activeService.GroupNum}
                 assetID={activeService.AssetID}
                 serviceID={activeService.id}
-                modalState={modalState === "Bills" ? true : false}
-                resetState={()=> setModalState("")}
+                
+                resetState={()=>handleToggleMapField()}
+                handleUpdated={()=>handleUpdated()}
               />
+            </div>
 
           </div>
 

@@ -20,8 +20,8 @@ const AddBill = ({
   assetID,
   serviceID,
   modalState,
-  resetState
-  
+  resetState,
+  handleUpdated
 
 }) => {
 
@@ -33,6 +33,7 @@ const AddBill = ({
   
   const [pageError, setPageError] = useState()
   const [pageSuccess, setPageSuccess] = useState()
+  
   const currentDate = setCurrentDate()
   
   const billDate = useRef("")
@@ -43,7 +44,7 @@ const AddBill = ({
   const billTicketNum = useRef("")
   
   
-console.log(accountID)
+
   const handleSubmit = async(e) => {
     const data = {
       Date: billDate.current.value,
@@ -64,19 +65,20 @@ console.log(accountID)
     try {
       await db.collection("Bills").doc().set(data)
       setPageSuccess("Bill Added")
-      autoClose()
+      handleUpdated()
+      setTimeout(() => {resetState()}, 1000)
     } catch {
       setPageError("Error Adding Bill")
     }
   }
 
   const autoClose = () => {
-    setTimeout(() => {resetState}, 1000)
+    setTimeout(() => {resetState("")}, 1000)
   }
   
 
   return (
-    <Modal title="Add Order" modalState={modalState} handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
+    <Modal title="Add Order" modalState={true} handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
         
       <form>
 

@@ -27,6 +27,8 @@ const PageField = ({field, fieldData, relatedDataMap}) => {
                 <MapListTable 
                   headerFields={f.relatedHeaderFields}
                   data={relatedDataMap}
+                  delBtn={true}
+                  colRef={f.RelatedCollection}
                 />
                 
               </>

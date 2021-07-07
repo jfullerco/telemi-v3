@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-const Modal = ({title, modalState, children, handleSubmit}) => {
+const Modal = ({title, modalState, children, handleSubmit, autoClose}) => {
 
   const [toggleModalState, setToggleModalState] = useState(modalState)
 
@@ -25,7 +25,7 @@ const Modal = ({title, modalState, children, handleSubmit}) => {
             Save
           </button>
         </div>
-        <button className="modal-close is-large" aria-label="close" onClick={()=> setToggleModalState(!toggleModalState)}></button>
+        <button className="modal-close is-large" aria-label="close" onClick={()=> autoClose("")}></button>
         </div>
       </div>
   )
