@@ -52,6 +52,7 @@ const AddBill = ({
       Date: billDate.current.value,
       AccountID: accountID,
       AccountNum: accountNum,
+      SubAccountNum: subAccountNum,
       Cost: billCost.current.value,
       DisputedAmount: billDisputedCost.current.value,
       GroupNum: groupNum,
@@ -65,9 +66,9 @@ const AddBill = ({
     }  
     console.log(data)
     try {
-      update === false ?
-      await db.collection("Bills").doc().set(data) :
-      await db.collection("Bills").doc(id).update(data)
+      
+      await db.collection("Bills").doc().set(data) 
+      
       setPageSuccess("Bill Added")
       refreshBills()
       handleUpdated()

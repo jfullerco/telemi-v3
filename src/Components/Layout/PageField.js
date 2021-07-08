@@ -4,7 +4,7 @@ import MapListTable from '../Tables/MapListTable'
 
 import RelatedFieldDropDown from '../../Components/DropDowns/RelatedFieldDropDown'
 
-const PageField = ({field, fieldData, relatedDataMap, handleViewDrawer, viewDrawer, handleToggleFieldDropDown}) => {
+const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRelatedActive, toggleFieldDropDown}) => {
   
   return(
     <>
@@ -28,7 +28,7 @@ const PageField = ({field, fieldData, relatedDataMap, handleViewDrawer, viewDraw
               <>
                 {fieldData && item.relatedDataType === "Location" ?
                 item.inputSource != "" ? item.inputSource.filter(f => f.id === fieldData[item.relatedDataField]).map(location =>  
-                  <RelatedFieldDropDown label={location.Name} isActive={viewDrawer} handleToggle={()=>handleToggleFieldDropDown()}>
+                  <RelatedFieldDropDown label={location.Name} isActive={isViewRelatedActive} handleToggle={()=>toggleFieldDropDown()}>
 
                   <table>
                     <thead>

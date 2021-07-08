@@ -56,9 +56,11 @@ const ServiceDetailEdit = (state) => {
   const [relatedDataToShow, setRelatedDataToShow] = useState("")
   
   const [tab, setTab] = useState("BASIC_INFO")
-  const [editDrawer, setEditDrawer] = useState(false)
-  const [viewDrawer, setViewDrawer] = useState(false)
+  const [isEditDrawerActive, setIsEditDrawerActive] = useState(false)
+  const [isViewDrawerActive, setIsViewDrawerActive] = useState(false)
+  
   const [addRelatedValue, setAddRelatedValue] = useState()
+  const [isRelatedActive, setIsRelatedActive] = useState(false)
   const [toggleHoverField, setToggleHoverField] = useState(false)
 
   useEffect(() => {
@@ -133,16 +135,15 @@ const ServiceDetailEdit = (state) => {
       await db.collection("Services").doc().set(data) : 
       await db.collection("Services").doc(activeService.id).update(data)
       setPageSuccess("Ticket Added")
-      handleToggle(!checked)
       setNewService(false) 
     } catch {
       setPageError("Error Adding Ticket")
-      handleToggle(!checked)
     } 
+    handleToggle()
   }
 
   const handleToggle = () => {
-    setEditDrawer(!editDrawer)
+    setIsEditDrawerActive(!isEditDrawerActive)
   }
 
   const autoClose = () => {
@@ -201,13 +202,11 @@ const handleToggleViewDrawer = (e) => {
   
   console.log("filtered:", filteredValue, "fields:", fields)
   setRelatedDataToShow({fields: fields, active: filteredValue, type: type})
-  setViewDrawer(true)
+  setIsViewDrawerActive(true)
   
 }
 
-const handleToggleFieldDropDown = () => {
-  setViewDrawer(!viewDrawer)
-}
+
 
   return (
     <Page 
@@ -269,9 +268,9 @@ const handleToggleFieldDropDown = () => {
                               field.inputSource && field.inputSource.filter(item => 
                                 item[field.relatedDataField] === service.id).map(i => ({...i}))
                             }
-                          handleViewDrawer={(e)=>handleToggleViewDrawer(e)}
-                          handleToggleFieldDropDown={()=>handleToggleFieldDropDown()}
-                          viewDrawer={viewDrawer}
+                          toggleViewDrawer={()=>handleToggleViewDrawer(!isViewDrawerActive)}
+                          toggleFieldDropDown={()=>setIsRelatedActive(!isRelatedActive)}
+                          isViewRelatedActive={isRelatedActive}
                         />
 
                       </Column>
@@ -283,8 +282,8 @@ const handleToggleFieldDropDown = () => {
 
               <EditDocDrawer 
                 title="BASIC INFO" 
-                checked={editDrawer} 
-                handleClose={()=>setEditDrawer(!editDrawer)} 
+                checked={isEditDrawerActive} 
+                handleClose={()=>setIsEditDrawerActive(!isEditDrawerActive)} 
                 handleSubmit={()=> handleSubmit()} 
                 handleChange={(e)=> handleChange(e)}
                 handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
@@ -303,9 +302,9 @@ const handleToggleFieldDropDown = () => {
               />
 
               <ViewDocDrawer 
-                checked={""}
+                checked={isViewDrawerActive}
                 dataToShow={relatedDataToShow}
-                handleClose={()=>setViewDrawer(!viewDrawer)} 
+                handleClose={()=>setIsViewDrawerActive(!isViewDrawerActive)} 
                 direction="right"
               />
 
