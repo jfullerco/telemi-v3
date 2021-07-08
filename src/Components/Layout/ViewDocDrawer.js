@@ -31,7 +31,7 @@ console.log(active)
         </div>
         {active && active.map(item => 
           fields.map(value => 
-            <>{item[value.fieldName]}</>
+            <div key={item.id}>{value.label} : {item[value.fieldName]}</div>
             )
           ) 
         }
