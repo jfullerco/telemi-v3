@@ -10,12 +10,9 @@ import Column from '../../Components/Layout/Column'
 import Page from '../../Components/Page'
 import EditDocDrawer from '../../Components/Layout/EditDocDrawer'
 import ViewDocDrawer from '../../Components/Layout/ViewDocDrawer'
-import SelectField from '../../Components/Forms/SelectField'
-import TextArea from '../../Components/Forms/TextArea'
+
 import TabBar from '../../Components/Tabs/TabBar'
-import TextBox from '../../Components/Forms/TextBox'
-import SelectBox from '../../Components/Forms/SelectBox'
-import FieldHover from '../../Components/Layout/FieldHover'
+
 import PageField from '../../Components/Layout/PageField'
 import AddBill from '../Accounts/Bill/AddBill'
 
@@ -208,6 +205,10 @@ const handleToggleViewDrawer = (e) => {
   
 }
 
+const handleToggleFieldDropDown = () => {
+  setViewDrawer(!viewDrawer)
+}
+
   return (
     <Page 
       title="DETAILS" 
@@ -269,6 +270,8 @@ const handleToggleViewDrawer = (e) => {
                                 item[field.relatedDataField] === service.id).map(i => ({...i}))
                             }
                           handleViewDrawer={(e)=>handleToggleViewDrawer(e)}
+                          handleToggleFieldDropDown={()=>handleToggleFieldDropDown()}
+                          viewDrawer={viewDrawer}
                         />
 
                       </Column>
@@ -300,7 +303,7 @@ const handleToggleViewDrawer = (e) => {
               />
 
               <ViewDocDrawer 
-                checked={viewDrawer}
+                checked={""}
                 dataToShow={relatedDataToShow}
                 handleClose={()=>setViewDrawer(!viewDrawer)} 
                 direction="right"

@@ -29,12 +29,21 @@ console.log(active)
           
           <button className="button is-small is-rounded ml-2" onClick={handleClose}>Close</button>
         </div>
-        {active && active.map(item => 
-          fields.map(value => 
-            <div key={item.id}>{value.label} : {item[value.fieldName]}</div>
-            )
+
+        {active && type === "Location" ? 
+          active.map(item => 
+            <table>
+              <thead>
+                <th>
+                  Location
+                </th>
+              </thead>
+              <tbody>
+              <div key={item.id}>{item && `${item.Address1} ${item.Address2} ${item.City}, ${item.State}`}</div>
+              </tbody>
+            </table>
           ) 
-        }
+        : null}
       </div>
       
     </Drawer>

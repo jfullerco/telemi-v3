@@ -2,7 +2,9 @@ import React from 'react'
 
 import MapListTable from '../Tables/MapListTable'
 
-const PageField = ({field, fieldData, relatedDataMap, handleViewDrawer}) => {
+import RelatedFieldDropDown from '../../Components/DropDowns/RelatedFieldDropDown'
+
+const PageField = ({field, fieldData, relatedDataMap, handleViewDrawer, viewDrawer, handleToggleFieldDropDown}) => {
   
   return(
     <>
@@ -24,8 +26,27 @@ const PageField = ({field, fieldData, relatedDataMap, handleViewDrawer}) => {
           case "related-select":
             return (
               <>
-                {[fieldData].map(data => <a onClick={(e)=>handleViewDrawer({id: data[item.relatedDataField], source: item.inputSource, fields: item.relatedViewFields, type: item.relatedDataType})}>{data[item.dataField]} 
-                </a> )}
+                {fieldData && item.relatedDataType === "Location" ?
+                item.inputSource != "" ? item.inputSource.filter(f => f.id === fieldData[item.relatedDataField]).map(location =>  
+                  <RelatedFieldDropDown label={location.Name} isActive={viewDrawer} handleToggle={()=>handleToggleFieldDropDown()}>
+
+                  <table>
+                    <thead>
+                      <th>
+                        Address
+                      </th>
+                    </thead>
+                    <tbody>
+                      {location != undefined ? <div key={location.id}>{`${location.Address1} ${location.Address2} ${location.City}, ${location.State}`}</div> : "No Address Provided"}
+                    </tbody>
+                  </table>
+              
+                </RelatedFieldDropDown>
+                  
+                 
+                )
+                : null : null}
+                
               </>
             )
           case "map-list":
