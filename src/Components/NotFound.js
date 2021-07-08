@@ -12,7 +12,7 @@ const NotFound = () => {
        <p className="title"> <FaRobot /> SORRY ABOUT THIS... </p><p className="block"> CLICK 
          <a className="pl-1" onclick={()=>history.push("/dashboard")}>
           HERE
-        </a> FOR THE DASHBOARD</p></div>
+        </a> FOR THE DASHBOARD</p></div> 
       </div>
     </div>
 

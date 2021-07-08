@@ -80,7 +80,7 @@ const GridComponent = ({
             <thead className="is-size-6">
               <tr>
                 {headerFields && headerFields.map(col => 
-                  <th style={{width: "20%"}} key={col.keyProp}>
+                  <th style={{width: "20%", textAlign: "left"}} key={col.keyProp}>
 
                     {col.headerName && col.headerName}
 
