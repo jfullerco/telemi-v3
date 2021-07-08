@@ -15,6 +15,7 @@ import TabBar from '../../Components/Tabs/TabBar'
 
 import PageField from '../../Components/Layout/PageField'
 import AddBill from '../Accounts/Bill/AddBill'
+import Loading from '../../Components/Loading'
 
 
 const ServiceDetailEdit = (state) => {
@@ -44,7 +45,7 @@ const ServiceDetailEdit = (state) => {
           currentUser } = userContext.userSession
 
   const [newService, setNewService] = useState(false)
-  const [loading, setLoading] = useState()
+  const [loading, setLoading] = useState(true)
   const [updated, setUpdated] = useState(false)
   const [pageFields, setPageFields] = useState(serviceDetailFields)
   const [modalState, setModalState] = useState()
@@ -72,6 +73,7 @@ const ServiceDetailEdit = (state) => {
   }, [])
 
   useEffect(() => {
+    fetchService()
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
     handleInitialFieldMapping("Type", serviceTypes, pageFields)
@@ -108,10 +110,10 @@ const ServiceDetailEdit = (state) => {
     arr[indexRef] = {...arr[indexRef], inputSource: value}
   
   }
-
+  
   const fetchService = async() => {
    
-    const serviceRef = await db.collection("Services").doc(state.location.state.id).get()
+    const serviceRef = await db.collection("Services").doc(params.id).get()
     
     const data = await serviceRef.data()
     const id = await serviceRef.id
@@ -121,7 +123,7 @@ const ServiceDetailEdit = (state) => {
   }
 
   const fetchBills = async() => {
-    const billsRef = await db.collection("Bills").where("ServiceID", "==", state.location.state.id).get()
+    const billsRef = await db.collection("Bills").where("ServiceID", "==", params.id).get()
     const bills = billsRef.docs.map(doc => ({
       id: doc.id,
       ...doc.data()}))
@@ -209,7 +211,9 @@ const handleToggleViewDrawer = (e) => {
 
 
   return (
-    <Page 
+    <Loading active={loading}>
+
+<Page 
       title="DETAILS" 
       subtitle={activeService.AssetID} 
       status="view" 
@@ -328,6 +332,9 @@ const handleToggleViewDrawer = (e) => {
           <div className="tile warning"> No record to display </div>
       }    
     </Page>
+
+    </Loading>
+    
   )
 }
 export default ServiceDetailEdit

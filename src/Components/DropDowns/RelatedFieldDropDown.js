@@ -6,7 +6,7 @@ const RelatedFieldDropDown = ({isActive, handleToggle, label, children, type}) =
     <>
     <div className={isActive === true ? `dropdown is-active`: `dropdown`}>
       <div className="dropdown-trigger" >
-        <div className="has-text-black" style={{textTransform: "uppercase"}} onClick={handleToggle}>
+        <div className="has-text-black" onClick={handleToggle}>
         {label && label}
           <span className="icon">
             {label && <FaAngleDown onClick={handleToggle} style={{marginTop: 'auto'}} />}

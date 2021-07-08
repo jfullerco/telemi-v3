@@ -49,7 +49,7 @@ export default function App() {
        
       <div className="columns is-variable is-1-mobile is-mobile">
       <div className="column is-1 is-hidden-mobile"></div>
-      <div className="column is-12-mobile">
+      <div className="column is-12-mobile has-text-black">
       <div className="container"> 
           <Switch>
             

@@ -10,6 +10,7 @@ import GridComponent from './Components/GridComponent'
 import {useFilterArray} from '../../Components/Tables/useFilterArray'
 import {serviceGridColumns, accountGridColumns} from '../../Contexts/initialFields'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
+import Loading from '../../Components/Loading'
 
 
 const DashboardGrids = ({visible}) => {
@@ -347,7 +348,7 @@ const DashboardGrids = ({visible}) => {
 
 return (
   <>
-    <div className={loadingGrid != false ? "modal is-active" : "modal"}><div className="loading"></div></div>
+    <Loading active={loadingGrid} >
 
     <SelectInputProps placeholder="Change Current View" onChange={(e)=>handleGridChange(e)}>
       <option value="SERVICES">Services</option>
@@ -434,8 +435,9 @@ return (
       toggleIsVisible={()=>{setContractIsVisible(!contractIsVisible)}}
     />
     <p/>
+    </Loading>
   </>
-    
+  
   
   )
 }
