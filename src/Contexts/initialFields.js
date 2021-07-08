@@ -185,30 +185,42 @@ import React from 'react'
         label: "Service Location", 
         dataField: "LocationName", 
         inputFieldType: "related-select", 
-        inputSource: "", 
+        inputSource: "", /** SET BY HANDLEINITIALFIELDMAPPING FN */
         inputID: "id", 
         inputValue: "Name",
         relatedCollection: "Locations", 
         relatedDataField: "LocationID",
-        relatedValues: ["Address1", "City", "State", "Zip"], 
+        relatedViewFields: [
+            {
+              label: "Address 1",
+              fieldName: "Address1"
+            }, 
+            {
+              label: "Address 2",
+              fieldName: "Address2"
+            }, 
+            {
+              label: "City",
+              fieldName: "City"
+            }, 
+            {
+              label: "State",
+              fieldName: "State"
+            }, 
+            {
+              label: "Zip",
+              fieldName: "Zip"
+            }
+          ],
+        relatedDataType: "Location",
         tab: "BASIC_INFO",
         tabLabel: "BASIC INFO"  
-      },
-      { 
-        label: "Service Location ID", 
-        dataField: "LocationID", 
-        visible: false, 
-        inputSource: "", 
-        inputID: "ID", 
-        inputValue: "id", 
-        tab: "BASIC_INFO",
-        tabLabel: "BASIC INFO" 
       },
       { 
         label: "Vendor", 
         dataField: "Vendor", 
         inputFieldType: "select", 
-        inputSource: "", 
+        inputSource: "", /** SET BY HANDLEINITIALFIELDMAPPING FN */
         inputID: "id", 
         inputValue: "Name", 
         tab: "BASIC_INFO",

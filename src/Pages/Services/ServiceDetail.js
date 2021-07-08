@@ -32,6 +32,7 @@ const ServiceDetailEdit = (state) => {
           serviceStatusType,
           vendorList, 
           isStyle,
+          setBills,
           setCurrentDate,
           refreshLocations } = userContext
 
@@ -40,6 +41,7 @@ const ServiceDetailEdit = (state) => {
           orders, 
           accounts,
           tickets,
+          bills,
           currentCompanyID,
           currentCompany,
           currentUser } = userContext.userSession
@@ -54,7 +56,7 @@ const ServiceDetailEdit = (state) => {
 
   const [activeService, setActiveService] = useState("")
   const [data, setData] = useState()
-  const [bills, setBills] = useState()
+  const [relatedDataToShow, setRelatedDataToShow] = useState("")
   
   const [tab, setTab] = useState("BASIC_INFO")
   const [editDrawer, setEditDrawer] = useState(false)
@@ -143,7 +145,7 @@ const ServiceDetailEdit = (state) => {
   }
 
   const handleToggle = () => {
-    setChecked(!checked)
+    setEditDrawer(!editDrawer)
   }
 
   const autoClose = () => {
@@ -195,9 +197,15 @@ const handleToggleMapField = (e) => {
 }
 
 const handleToggleViewDrawer = (e) => {
-  setViewDrawer(e)
-  console.log(viewDrawer)
-
+  
+  const {source, id, fields, type} = e
+  
+  const filteredValue = source && source.filter(f => f.id === id).map(i=> ({...i}))
+  
+  console.log("filtered:", filteredValue, "fields:", fields)
+  setRelatedDataToShow({fields: fields, active: filteredValue, type: type})
+  setViewDrawer(true)
+  
 }
 
   return (
@@ -230,21 +238,20 @@ const handleToggleViewDrawer = (e) => {
                 </ul>
               </nav>
 
-              {activeService && pageFields.map(el => 
+              {activeService && pageFields.map(field => 
                 <>
-                  {[activeService].map(h => 
-                    <div className={el.visible != false & el.tab === tab ? "" : "is-hidden" }> 
+                  {[activeService].map(service => 
+                    <div className={field.visible != false & field.tab === tab ? "" : "is-hidden" }> 
                     <Columns options="is-mobile">
                       <Column size="is-3">
 
-                        <div className="has-text-weight-semibold" key={el.label}>
+                        <div className="has-text-weight-semibold" key={field.label}>
                           
-                          {el.label} 
+                          {field.label} 
 
-                          {el.addBtn === true ? 
+                          {field.addBtn === true ? 
                             <a className="link has-text-weight-normal is-size-7 pl-2" 
-                              onClick={() => handleToggleMapField(el.relatedCollection)}
-                            >   
+                              onClick={() => handleToggleMapField(field.relatedCollection)}>   
                               (add)
                             </a> : null}
 
@@ -255,9 +262,12 @@ const handleToggleViewDrawer = (e) => {
                       <Column >
 
                         <PageField 
-                          field={el}
-                          fieldData={h}
-                          relatedDataMap={el.inputSource && el.inputSource.filter(f => f[el.relatedDataField] === h.id).map(i => ({...i}))}
+                          field={field}
+                          fieldData={service}
+                          relatedDataMap={
+                              field.inputSource && field.inputSource.filter(item => 
+                                item[field.relatedDataField] === service.id).map(i => ({...i}))
+                            }
                           handleViewDrawer={(e)=>handleToggleViewDrawer(e)}
                         />
 
@@ -291,7 +301,7 @@ const handleToggleViewDrawer = (e) => {
 
               <ViewDocDrawer 
                 checked={viewDrawer}
-                data={}
+                dataToShow={relatedDataToShow}
                 handleClose={()=>setViewDrawer(!viewDrawer)} 
                 direction="right"
               />

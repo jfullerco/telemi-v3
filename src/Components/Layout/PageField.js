@@ -6,25 +6,26 @@ const PageField = ({field, fieldData, relatedDataMap, handleViewDrawer}) => {
   
   return(
     <>
-    {field && [field].map(f => {
-      switch (f.inputFieldType) {
+    {field && [field].map(item => {
+      switch (item.inputFieldType) {
 
           case "text":
             return (
               
-              <>  {[fieldData].map(d => d[f.dataField])} </>
+              <>  {[fieldData].map(data => data[item.dataField])} </>
               
             )
           case "currency":
             return (
               <>
-                $ {[fieldData].map(d => d[f.dataField])}
+                $ {[fieldData].map(data => data[item.dataField])}
               </>
             )
           case "related-select":
             return (
               <>
-                {[fieldData].map(d => <a onClick={(e)=>handleViewDrawer({isVisible: true, data: {...d}})}>{d[f.dataField]}</a> )}
+                {[fieldData].map(data => <a onClick={(e)=>handleViewDrawer({id: data[item.relatedDataField], source: item.inputSource, fields: item.relatedViewFields, type: item.relatedDataType})}>{data[item.dataField]} 
+                </a> )}
               </>
             )
           case "map-list":
@@ -32,10 +33,9 @@ const PageField = ({field, fieldData, relatedDataMap, handleViewDrawer}) => {
               <>
 
                 <MapListTable 
-                  headerFields={f.relatedHeaderFields}
+                  headerFields={item.relatedHeaderFields}
                   data={relatedDataMap}
-                  delBtn={true}
-                  colRef={f.RelatedCollection}
+                  colRef={item.RelatedCollection}
                 />
                 
               </>
@@ -43,7 +43,7 @@ const PageField = ({field, fieldData, relatedDataMap, handleViewDrawer}) => {
             default:
               return (
                 <>
-                  {[fieldData].map(d => d[f.dataField])}
+                  {[fieldData].map(data => data[item.dataField])}
                 </>
               )
           }
