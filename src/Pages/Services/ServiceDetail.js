@@ -213,7 +213,7 @@ const handleToggleViewDrawer = (e) => {
   return (
     <Loading active={loading}>
 
-<Page 
+    <Page 
       title="DETAILS" 
       subtitle={activeService.AssetID} 
       status="view" 
@@ -233,7 +233,7 @@ const handleToggleViewDrawer = (e) => {
             </ul>
           </TabBar>
 
-          <div className="box p-4 is-rounded">
+          <div className="box p-4 is-rounded has-text-black">
 
               <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
