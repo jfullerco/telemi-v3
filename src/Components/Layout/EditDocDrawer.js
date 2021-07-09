@@ -42,28 +42,28 @@ const EditDocDrawer = ({
           <button className="button is-rounded is-small is-link" type="submit" onClick={handleSubmit}>Save</button>
           <button className="button is-small is-rounded ml-2" onClick={handleClose}>Close</button>
         </div>
-        {pageFields.filter(t => t.tab === tab).map(h => {
-                switch (h.inputFieldType) {
-
+        {pageFields.filter(t => t.tab === tab).map(field => {
+                switch (field.inputFieldType) {
+                  
                   case "related-select":
                     return (
                       
                           <>
-                          
+                          {console.log([field.inputSource])}
                             <SelectField 
                               type="select" 
-                              title={ h.label } 
-                              name={ h.dataField } 
-                              value={ active && active[h.dataField] } 
-                              handleChange={ (e)=>handleRelatedSelectChange(e, { name: h.dataField, relatedName: h.relatedDataField }) }
-                              addColName={h.relatedCollection} 
+                              title={ field.label } 
+                              name={ field.dataField } 
+                              value={ active && active[field.dataField] } 
+                              handleChange={ (e)=>handleRelatedSelectChange(e, { name: field.dataField, relatedName: field.relatedDataField }) }
+                              addColName={field.relatedCollection} 
                               handleAddValue={(e)=> handleAddRelatedValue(e)}
                               showAddLink={true}
                             >
                                 <option></option>
-                                {h.inputSource && h.inputSource.map(i => 
-                                  <option id={i[h.inputID]} name={i[h.dataField]}>
-                                    {i[h.inputValue]}
+                                {field.inputSource && field.inputSource.map(i => 
+                                  <option id={i[field.inputID]} name={i[field.dataField]}>
+                                    {i[field.inputValue]}
                                   </option>
                                 )}
                             </SelectField>
@@ -74,7 +74,7 @@ const EditDocDrawer = ({
                                 resetAddRelatedValue={()=>resetAddRelatedValue()} 
                                 currentCompany={currentCompany} 
                                 currentCompanyID={currentCompanyID} 
-                                nameRef={h.inputValue} 
+                                nameRef={field.inputValue} 
                               /> : "" }
                           
                           </>
@@ -84,11 +84,11 @@ const EditDocDrawer = ({
                   case "select":
                     return (
                       
-                            <SelectField type="select" title={h.label} name={h.dataField} value={active && active[h.dataField]} handleChange={(e)=>handleChange(e)} >
+                            <SelectField type="select" title={field.label} name={field.dataField} value={active && active[field.dataField]} handleChange={(e)=>handleChange(e)} >
                               <option></option>
-                                {h.inputSource && h.inputSource.map(i => 
-                                  <option name={i[h.dataField]}>
-                                    {i[h.inputValue]} 
+                                {field.inputSource && field.inputSource.map(i => 
+                                  <option name={i[field.dataField]}>
+                                    {i[field.inputValue]} 
                                   </option>
                                 )}
                             </SelectField>
@@ -98,21 +98,21 @@ const EditDocDrawer = ({
                   case "text":
                     return (
                       
-                          <TextBox title={h.label} name={h.dataField} value={active && active[h.dataField]} fieldChanged={handleChange} />
+                          <TextBox title={field.label} name={field.dataField} value={active && active[field.dataField]} fieldChanged={handleChange} />
                         
                     ) 
                   
                     case "currency":
                       return (
                         
-                            <TextBox title={h.label} addOn="currency" name={h.dataField} value={active && active[h.dataField]} fieldChanged={handleChange} />
+                            <TextBox title={field.label} addOn="currency" name={field.dataField} value={active && active[field.dataField]} fieldChanged={handleChange} />
                           
                       )
 
                   case "text-area":
                     return (
                       
-                          <TextArea title={h.label} name={h.dataField} value={active && active[h.dataField]} fieldChanged={handleChange} />
+                          <TextArea title={field.label} name={field.dataField} value={active && active[field.dataField]} fieldChanged={handleChange} />
                         
                     ) 
                   
@@ -121,35 +121,15 @@ const EditDocDrawer = ({
                         
                             <TextBox 
                               id="datetime-local"
-                              title={h.label}
+                              title={field.label}
                               type="date" 
-                              name={h.dataField} 
+                              name={field.dataField} 
                               className="input is-rounded is-small"
-                              value={active && active[h.dataField]} 
+                              value={active && active[field.dataField]} 
                               fieldChanged={(e)=>handleChange(e)} 
                             />
                           
                       )
-
-                      case "map":
-                        return (
-                          
-                              <>
-                              {active[h.dataField].map(item => 
-                                <TextArea value={active} />
-                              )}
-                              <TextBox 
-                                id="datetime-local"
-                                title={h.label}
-                                type="date" 
-                                name={h.dataField} 
-                                className="input is-rounded is-small"
-                                value={active && active[h.dataField]} 
-                                fieldChanged={(e)=>handleChange(e)} 
-                              />
-                              </>
-                            
-                        ) 
   
                   }
                 }

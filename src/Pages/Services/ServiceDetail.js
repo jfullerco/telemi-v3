@@ -94,7 +94,7 @@ const ServiceDetailEdit = (state) => {
   },[newService])
 
   useEffect(() => {
-    fetchService()
+    
     handleSetLastUpdatedFields()
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
@@ -139,11 +139,12 @@ const ServiceDetailEdit = (state) => {
       newService  === true ?
       await db.collection("Services").doc().set(data) : 
       await db.collection("Services").doc(activeService.id).update(data)
-      setPageSuccess("Ticket Added")
-      setNewService(false) 
+      setPageSuccess("Service Added")
     } catch {
-      setPageError("Error Adding Ticket")
+      setPageError("Error Adding Service")
     } 
+    setNewService(false) 
+    setUpdated(true)
     handleToggle()
   }
 
