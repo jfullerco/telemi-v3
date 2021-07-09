@@ -32,9 +32,6 @@ import ContractDetail from './Pages/Contracts/ContractDetail'
 import NotFound from './Components/NotFound'
 import UserSettings from './Pages/Users/UserSettings'
 
-
-
-import DevTools from './Testing/DevTools'
 import "./style.css"
 
 export default function App() {
@@ -80,9 +77,6 @@ export default function App() {
             <Route component={NotFound} />
             </Switch>
             
-          
-          
-        <DevTools view="false" />
         </div>
         </div>
         <div className="column is-1 is-hidden-mobile"></div>

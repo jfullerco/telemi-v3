@@ -531,6 +531,7 @@ import React from 'react'
       { 
         label: "Service Asset", 
         dataField: "AccountServiceName", 
+        visible: false,
         inputFieldType: "related-select", 
         inputID: "id", 
         inputValue: "AssetID", 
@@ -584,6 +585,44 @@ import React from 'react'
                               }, 
                               
                             ], 
+        tab: "BILLING",
+        tabLabel: "BILLING",
+        addBtn: true 
+      },
+      { 
+        label: "Total Billing Services", 
+        dataField: "Bills", 
+        inputFieldType: "", 
+        relatedCollection: "Bills", 
+        relatedDataField: "AccountID",
+        relatedHeaderFields: [
+                              {
+                                headerName: 'Asset ID', 
+                                docField: 'AssetID', 
+                                fieldType: 'text'
+                              },
+                              
+                            ], 
+        relatedDataType: "reduce",
+        tab: "BILLING",
+        tabLabel: "BILLING",
+        addBtn: true 
+      },
+      { 
+        label: "Total Billing Disputed", 
+        dataField: "Bills", 
+        inputFieldType: "", 
+        relatedCollection: "Bills", 
+        relatedDataField: "AccountID",
+        relatedHeaderFields: [
+                              {
+                                headerName: 'Disputed Cost', 
+                                docField: 'DisputedCost', 
+                                fieldType: 'currency'
+                              }, 
+                              
+                            ], 
+        relatedDataType: "reduce",
         tab: "BILLING",
         tabLabel: "BILLING",
         addBtn: true 

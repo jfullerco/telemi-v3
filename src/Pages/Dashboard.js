@@ -17,7 +17,7 @@ import Login from './Login'
 const Dashboard = () => {
   
   const userContext = useContext(stateContext)
-  const { setUserType } = userContext
+  const { setUserType, setCurrentCompany, setCurrentCompanyID, setCompanies, setDataLoading } = userContext
   const { 
     currentUser, 
     userType, 
@@ -47,7 +47,7 @@ const Dashboard = () => {
     
     await userContext.setUserFirstName(user[0].FirstName)
     await setUserType(user[0].Type)
-    setIsUserAdmin(user[0].Type)
+    
   }
 
   const isCurrentCompany = () => {
@@ -59,24 +59,24 @@ const Dashboard = () => {
   const fetchCompanies = async() => {
     const companiesRef = await db.collection("Companies").where("Users", "array-contains", currentUser).get() 
      
-    const companies = companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    const companies = await companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
     
-    userContext.setCurrentCompanyID(companies[0].id)
-    userContext.setCurrentCompany(companies[0].Name)
-    userContext.setCompanies(companies)
-    userContext.setDataLoading(false)
+    setCurrentCompanyID(companies[0].id)
+    setCurrentCompany(companies[0].Name)
+    setCompanies(companies)
+    setDataLoading(false)
     console.log("Not Admin")
   }
 
   const fetchCompaniesAdmin = async() => {
     const companiesRef = await db.collection("Companies").get() 
     
-    const companies = companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    const companies = await companiesRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
     
-    userContext.setCurrentCompanyID(companies[0].id)
-    userContext.setCurrentCompany(companies[0].Name)
-    userContext.setCompanies(companies)
-    userContext.setDataLoading(false)
+    setCurrentCompanyID(companies[0].id)
+    setCurrentCompany(companies[0].Name)
+    setCompanies(companies)
+    setDataLoading(false)
     console.log("Is Admin")
   }
   
