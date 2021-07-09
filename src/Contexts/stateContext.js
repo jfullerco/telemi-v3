@@ -135,20 +135,161 @@ export const StateProvider = (props) => {
       Name: "Microsoft"}
     ]
 
-    const refreshLocations = async() => {
-      const locationsRef = await db.collection("Locations").where("CompanyID", "==", userSession.currentCompanyID).get()
-      const locations = locationsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    //** Global Service Calls */
+
+    const fetchLocations = async() => {
+      const locationsRef = await db.collection("Locations")
+        .where("CompanyID", "==", userSession.currentCompanyID).get()
+      const locations = locationsRef.docs.map(doc => ({
+        id: doc.id, 
+        ...doc.data()
+      }))
       setLocations(locations)
-      
     }
 
-    const refreshBills = async() => {
-      const billsRef = await db.collection("Bills").where("CompanyID", "==", userSession.currentCompanyID).get()
-      const bills = billsRef.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    const refreshLocations = async() => {
+      const locationsRef = await db.collection("Locations")
+        .where("CompanyID", "==", userSession.currentCompanyID).get()
+      const locations = locationsRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setLocations(locations)
+    }
+
+    const fetchServices = async() => {
+      const servicesRef = await db.collection("Services")
+        .where("CompanyID", "==", userSession.currentCompanyID)
+        .orderBy("LocationName").get()
+      const services = servicesRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setServices(services)
+    }
+
+    const refreshServices = async() => {
+      const servicesRef = await db.collection("Services")
+        .where("CompanyID", "==", userSession.currentCompanyID)
+        .orderBy("LocationName").get()
+      const services = servicesRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setServices(services)
+    }
+
+    const fetchTickets = async() => {
+      const ticketsRef = await db.collection("Tickets")
+        .where("CompanyID", "==", userSession.currentCompanyID).get()
+      const tickets = ticketsRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()}))
+      setTickets(tickets)
+    }
+
+    const refreshTickets = async() => {
+      const ticketsRef = await db.collection("Tickets")
+        .where("CompanyID", "==", userSession.currentCompanyID).get()
+      const tickets = ticketsRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()}))
+      setTickets(tickets)
+    }
+
+    const fetchOrders = async() => {
+      const ordersRef = await db.collection("Orders")
+        .where("CompanyID", "==", userSession.currentCompanyID).get()
+      const orders = ordersRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()}))
+      setOrders(orders)
+    }
+
+    const refreshOrders = async() => {
+      const ordersRef = await db.collection("Orders")
+        .where("CompanyID", "==", userSession.currentCompanyID).get()
+      const orders = ordersRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()}))
+      setOrders(orders)
+    }
+
+    const fetchAccounts = async() => {
+      const accountsRef = await db.collection("Accounts")
+        .where("CompanyID", "==", userSession.currentCompanyID).orderBy("AccountNum").get()
+      const accounts = accountsRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()}))
+      setAccounts(accounts)
+    }
+
+    const refreshAccounts = async() => {
+      const accountsRef = await db.collection("Accounts")
+        .where("CompanyID", "==", userSession.currentCompanyID).orderBy("AccountNum").get()
+      const accounts = accountsRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()}))
+      setAccounts(accounts)
+    }
+
+    const fetchBills = async() => {
+      const billsRef = await db.collection("Bills")
+        .where("CompanyID", "==", userSession.currentCompanyID).get()
+      const bills = billsRef.docs.map(doc => ({
+        id: doc.id, 
+        ...doc.data()
+      }))
       setBills(bills)
-      
+    }
+    
+    const refreshBills = async() => {
+      const billsRef = await db.collection("Bills")
+        .where("CompanyID", "==", userSession.currentCompanyID).get()
+      const bills = billsRef.docs.map(doc => ({
+        id: doc.id, 
+        ...doc.data()
+      }))
+      setBills(bills)
     }
 
+    const fetchUsers = async() => {
+      const usersRef = await db.collection("Users")
+        .where("Companies", "array-contains", userSession.currentCompanyID).get()
+      const users = usersRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()}))
+      setUsers(users)
+    }
+
+    const refreshUsers = async() => {
+      const usersRef = await db.collection("Users")
+        .where("Companies", "array-contains", userSession.currentCompanyID).get()
+      const users = usersRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()}))
+      setUsers(users)
+    }
+
+    const fetchContracts = async() => {
+      const contractsRef = await db.collection("Contracts")
+        .where("CompanyID", "==", userSession.currentCompanyID).get()
+      const contracts = contractsRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()}))
+      setContracts(contracts)
+    }
+
+    const refreshContracts = async() => {
+      const contractsRef = await db.collection("Contracts")
+        .where("CompanyID", "==", userSession.currentCompanyID).get()
+      const contracts = contractsRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()}))
+      setContracts(contracts)
+    }
+    
+    /** Global Style Variables */
     const isStyle = {
       headerStyle: {
         borderBottomStyle: "solid",
@@ -165,10 +306,17 @@ export const StateProvider = (props) => {
     
     const [userSession, dispatch] = useReducer(stateReducer, initialState)
 
-      const setLoggedIn = (loginState) => {
+      const setUserFirstName = (name) => {
         dispatch({
-          type: "LOGGED_IN",
-          payload: loginState
+          type: "SET_USER_FNAME",
+          payload: name
+        })
+      };  
+
+      const setUserType = (userType) => {
+        dispatch({
+          type: "SET_USER_TYPE",
+          payload: userType
         })
       };
 
@@ -178,19 +326,12 @@ export const StateProvider = (props) => {
           payload: user
         })
       };
-
-      const setUserType = (userType) => {
-        dispatch({
-          type: "SET_USER_TYPE",
-          payload: userType
-        })
-      };
-
-      const setUserFirstName = (name) => {
-        dispatch({
-          type: "SET_USER_FNAME",
-          payload: name
-        })
+    
+      const setLoggedIn = (loginState) => {
+          dispatch({
+            type: "LOGGED_IN",
+            payload: loginState
+          })
       };
 
       const setCompanies = (companies) => {
@@ -200,31 +341,17 @@ export const StateProvider = (props) => {
         })
       };
 
-      const setServices = (services) => {
-        dispatch({
-          type: "SET_SERVICES",
-          payload: services
-        })
-      };
-
-      const setAccounts = (accounts) => {
-        dispatch({
-          type: "SET_ACCOUNTS",
-          payload: accounts
-        })
-      };
-
-      const setBills = (bills) => {
-        dispatch({
-          type: "SET_BILLS",
-          payload: bills
-        })
-      };
-
       const setLocations = (locations) => {
         dispatch({
           type: "SET_LOCATIONS",
           payload: locations
+        })
+      };
+
+      const setServices = (services) => {
+        dispatch({
+          type: "SET_SERVICES",
+          payload: services
         })
       };
 
@@ -241,6 +368,20 @@ export const StateProvider = (props) => {
           payload: orders
         })
       }
+
+      const setAccounts = (accounts) => {
+        dispatch({
+          type: "SET_ACCOUNTS",
+          payload: accounts
+        })
+      };
+
+      const setBills = (bills) => {
+        dispatch({
+          type: "SET_BILLS",
+          payload: bills
+        })
+      };
 
       const setUsers = (users) => {
         dispatch({
@@ -364,18 +505,23 @@ export const StateProvider = (props) => {
     return (
       <Provider value={{ 
           isStyle,
-          setCurrentDate,
-          setDataLoading,
+
+          setUserFirstName,
+          setUserType,
+          setCurrentUser,
           setLoggedIn,
+          setCurrentDate,
+
           setCompanies,
-          setServices,
-          setAccounts,
-          setBills,
           setLocations,
+          setServices,
           setTickets,
           setOrders,
+          setAccounts,
+          setBills,
           setUsers,
           setContracts,
+
           setCurrentCompanyID,
           setCurrentCompany,
           setCurrentLocationID,
@@ -388,23 +534,35 @@ export const StateProvider = (props) => {
           setCurrentOrderNum,
           setCurrentAccountID,
           setCurrentAccountNum,
-          setCurrentGrid,
+          
+          fetchCompanies,
+          fetchLocations,
+          refreshLocations,
+          fetchServices,
+          refreshServices,
+          fetchTickets,
+          refreshTickets,
+          fetchOrders,
+          refreshOrders,
+          fetchAccounts,
+          refreshAccounts,
+          fetchBills,
+          refreshBills,
+          fetchUsers,
+          refreshUsers,
+          fetchContracts,
+          refreshContracts,
+
+          vendorList,
           serviceTypes,
           accessTypes,
-          vendorList,
           serviceStatusType,
           orderStatusType,
           orderType,
-          fetchCompanies,
-          toggleAdmin,
-          setToggleDevTools,
-          toggleAdmin,
-          setToggleAdmin,
-          setUserFirstName,
-          setUserType,
-          setCurrentUser,
-          refreshLocations,
-          refreshBills,
+
+          setDataLoading,
+          setCurrentGrid,
+
           userSession
       }}>
         {props.children}

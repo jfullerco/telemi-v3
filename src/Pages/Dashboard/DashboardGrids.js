@@ -8,7 +8,12 @@ import { db } from '../../Contexts/firebase'
 
 import GridComponent from './Components/GridComponent'
 import {useFilterArray} from '../../Components/Tables/useFilterArray'
-import {serviceGridColumns, accountGridColumns} from '../../Contexts/initialFields'
+import {serviceGridColumns,
+        ticketGridColumns,
+        orderGridColumns,
+        accountGridColumns,
+        userGridColumns,
+        contractGridColumns} from '../../Contexts/initialFields'
 import SelectInputProps from '../../Components/Forms/SelectInputProps'
 import Loading from '../../Components/Loading'
 
@@ -19,27 +24,37 @@ const DashboardGrids = ({visible}) => {
   const history = useHistory()
 
   const { isStyle, 
-          setDataLoading,
-          setCurrentGrid,
+          fetchLocations,
+          fetchServices,
+          fetchTickets,
+          fetchOrders,
+          fetchAccounts,
+          fetchBills,
+          fetchUsers,
+          fetchContracts,
           setLocations,
           setServices,
           setTickets,
           setOrders,
           setAccounts,
           setUsers,
-          setContracts } = userContext
+          setBills,
+          setContracts,
+          setDataLoading,
+          setCurrentGrid, } = userContext
 
   const { dataLoading,
-          currentCompany,
           currentUser,
-          currentGrid,
+          currentCompany,
           locations,
           services,
           tickets,
           orders,
           accounts,
+          bills,
           users,
-          contracts } = userContext.userSession
+          contracts,
+          currentGrid } = userContext.userSession
 
   const searchRef = useRef("")
 
@@ -67,84 +82,6 @@ const DashboardGrids = ({visible}) => {
   const cancelLoading = () => {
     setTimeout(() => {setLoadingGrid(false)}, 1000) 
   }
-  
-  const fetchLocations = async() => {
-
-    const locationsRef = await db.collection("Locations").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const locations = locationsRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setLocations(locations)
-    userContext.setDataLoading(false)
-  }
-
-  const fetchOrders = async() => {
-
-    const ordersRef = await db.collection("Orders").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const orders = ordersRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setOrders(orders)
-    userContext.setDataLoading(false)
-  }
-
-  const fetchServices = async() => {
-
-    const servicesRef = await db.collection("Services").where("CompanyID", "==", userContext.userSession.currentCompanyID).orderBy("LocationName").get()
-
-    const services = servicesRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setServices(services)
-    userContext.setDataLoading(false)
-  }
-
-  const fetchContracts = async() => {
-
-    const contractsRef = await db.collection("Contracts").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const contracts = contractsRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setContracts(contracts)
-    userContext.setDataLoading(false)
-  }
-
-  const fetchAccounts = async() => {
-
-    const accountsRef = await db.collection("Accounts").where("CompanyID", "==", userContext.userSession.currentCompanyID).orderBy("AccountNum").get()
-
-    const accounts = accountsRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setAccounts(accounts)
-    userContext.setDataLoading(false)
-  }
-
-  const fetchTickets = async() => {
-
-    const ticketsRef = await db.collection("Tickets").where("CompanyID", "==", userContext.userSession.currentCompanyID).get()
-
-    const tickets = ticketsRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setTickets(tickets)
-
-  }
-
-  const fetchUsers = async() => {
-
-    const usersRef = await db.collection("Users").where("Companies", "array-contains", userContext.userSession.currentCompanyID).get()
-
-    const users = usersRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setUsers(users)
-
-  }
-
 
   const handleChangeSearchServices = (e) => {
     
@@ -152,8 +89,7 @@ const DashboardGrids = ({visible}) => {
     value == "" ? fetchServices() : ""
     const servicesAC = services.filter(({LocationName, AssetID, Vendor, Type}) => LocationName.indexOf(value) > -1 || AssetID.indexOf(value) > -1 || Vendor.indexOf(value) > -1 || Type.indexOf(value) > -1 )
     searchRef.current = value
-    setServices(servicesAC) 
-    
+    setServices(servicesAC)   
   }
 
   const handleServicesSuggestedRef = (name, id) => {
@@ -361,7 +297,7 @@ return (
 
     <GridComponent 
       label="SERVICES"
-      headerFields={serviceColumns}
+      headerFields={serviceGridColumns}
       data={services}
       resetter={(e)=>setServices(e)}
       handleFilter={(e)=>handleFilterServiceClick(e)}
@@ -375,7 +311,7 @@ return (
 
     <GridComponent 
       label="TICKETS"
-      headerFields={ticketColumns}
+      headerFields={ticketGridColumns}
       data={tickets}
       resetter={(e)=>setTickets(e)}
       handleFilter={(e)=>handleFilterTicketClick(e)}
@@ -389,7 +325,7 @@ return (
 
     <GridComponent 
       label="ORDERS"
-      headerFields={orderColumns}
+      headerFields={orderGridColumns}
       data={orders}
       resetter={(e)=>setOrders(e)}
       handleFilter={(e)=>handleFilterOrderClick(e)}
@@ -415,7 +351,7 @@ return (
 
     <GridComponent 
       label="USERS"
-      headerFields={userColumns}
+      headerFields={userGridColumns}
       data={users}
       handleClick={(e)=>handleAccountClick(e)}
       handleAddBtn={() => history.push("/adduser")}
@@ -426,7 +362,7 @@ return (
 
     <GridComponent 
       label="CONTRACTS"
-      headerFields={contractColumns}
+      headerFields={contractGridColumns}
       data={contracts}
       handleClick={(e)=>handleAccountClick(e)}
       handleAddBtn={() => history.push("/addcontract")}
