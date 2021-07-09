@@ -147,9 +147,9 @@ export const StateProvider = (props) => {
       setLocations(locations)
     }
 
-    const refreshLocations = async() => {
+    const refreshLocations = async(id) => {
       const locationsRef = await db.collection("Locations")
-        .where("CompanyID", "==", userSession.currentCompanyID).get()
+        .where("CompanyID", "==", id).get()
       const locations = locationsRef.docs.map(doc => ({
         id: doc.id,
         ...doc.data()

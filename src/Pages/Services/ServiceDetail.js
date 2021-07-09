@@ -22,6 +22,10 @@ const ServiceDetailEdit = (state) => {
 
   const params = useParams()
   const history = useHistory()
+  const { currentCompanyID, 
+          isNew, 
+          isDrawerActive,
+          cacheLocations } = state.location.state
 
   const userContext = useContext(stateContext)
 
@@ -42,13 +46,10 @@ const ServiceDetailEdit = (state) => {
           bills,
           currentCompany,
           currentUser } = userContext.userSession
-          
-  const {currentCompanyID} = useParams()
-
   
   const [data, setData] = useState("")
   const [activeService, setActiveService] = useState("")
-  const [newService, setNewService] = useState(false)
+  const [newService, setNewService] = useState(isNew)
   const [loading, setLoading] = useState(true)
   const [updated, setUpdated] = useState(false)
   const [pageFields, setPageFields] = useState(serviceDetailFields)
@@ -60,23 +61,24 @@ const ServiceDetailEdit = (state) => {
   const [relatedDataToShow, setRelatedDataToShow] = useState("")
   
   const [tab, setTab] = useState("BASIC_INFO")
-  const [isEditDrawerActive, setIsEditDrawerActive] = useState(false)
+  const [isEditDrawerActive, setIsEditDrawerActive] = useState(isDrawerActive || false)
   const [isViewDrawerActive, setIsViewDrawerActive] = useState(false)
   
   const [addRelatedValue, setAddRelatedValue] = useState()
   const [isRelatedActive, setIsRelatedActive] = useState(false)
   const [toggleHoverField, setToggleHoverField] = useState(false)
 
+  const checkForState = () => locations === undefined || "" ? refreshLocations(currentCompanyID) : null
+
   useEffect(() => {
     
-    params.checked === "true" ? setIsEditDrawerActive(true) : ""
-    params.new === "true" ? setNewService(true) : 
     setLoading(true)
     fetchService()
     fetchBills()
   }, [])
 
   useEffect(() => {
+    checkForState()
     fetchService()
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
@@ -134,7 +136,7 @@ const ServiceDetailEdit = (state) => {
     setBills(bills)
     setLoading(false)
   }  
-
+console.log(state.location.state)
   const handleSubmit = async(e) => {
     try {
       newService  === true ?

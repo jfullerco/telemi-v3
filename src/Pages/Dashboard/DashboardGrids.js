@@ -103,13 +103,14 @@ const DashboardGrids = ({visible}) => {
   
 /**Row Clicks */
   const handleServiceClick = (id) => {
+                  const cacheLocations = locations.map(location => ({...location}))
                     history.push({
-                      pathname: `/servicedetail/${currentCompanyID}/${id}/${false}/${false}`,
+                      pathname: `/servicedetail/${currentCompanyID}/${id}`,
                       state: {
-                      id: id,
-                      services: services,
-                      locations: locations,
-                      accounts: accounts
+                        currentCompanyID: currentCompanyID,
+                        isNew: true,
+                        isDrawerActive: true,
+                        cacheLocations
                       }
                     })
   }
@@ -156,10 +157,9 @@ const DashboardGrids = ({visible}) => {
                     history.push({
                       pathname: `/servicedetail/${currentCompanyID}/${id}/${true}/${true}`,
                       state: {
-                      id: id,
-                      services: services,
-                      locations: locations,
-                      orders: orders
+                      currentCompanyID: currentCompanyID,
+                      isNew: true,
+                      isEditDrawerActive: true
                       }
                     })
   }
