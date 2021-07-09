@@ -44,6 +44,9 @@ const ServiceDetailEdit = (state) => {
           currentCompany,
           currentUser } = userContext.userSession
 
+  
+  const [data, setData] = useState("")
+  const [activeService, setActiveService] = useState("")
   const [newService, setNewService] = useState(false)
   const [loading, setLoading] = useState(true)
   const [updated, setUpdated] = useState(false)
@@ -52,8 +55,7 @@ const ServiceDetailEdit = (state) => {
   const [pageSuccess, setPageSuccess] = useState(false)
   const [pageError, setPageError] = useState(false)
 
-  const [activeService, setActiveService] = useState("")
-  const [data, setData] = useState()
+  
   const [relatedDataToShow, setRelatedDataToShow] = useState("")
   
   const [tab, setTab] = useState("BASIC_INFO")
@@ -65,9 +67,10 @@ const ServiceDetailEdit = (state) => {
   const [toggleHoverField, setToggleHoverField] = useState(false)
 
   useEffect(() => {
-    setLoading(true)
-    params.checked === "true" ? setChecked(true) : ""
+    
+    params.checked === "true" ? setIsEditDrawerActive(true) : ""
     params.new === "true" ? setNewService(true) : 
+    setLoading(true)
     fetchService()
     fetchBills()
   }, [])
@@ -91,7 +94,7 @@ const ServiceDetailEdit = (state) => {
   },[newService])
 
   useEffect(() => {
-
+    fetchService()
     handleSetLastUpdatedFields()
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
@@ -157,12 +160,16 @@ const handleSetLastUpdatedFields = () => {
   setActiveService({
     ...activeService,  
     ['LastUpdated']: setCurrentDate(),
-    ['LastUpdatedBy']: currentUser
+    ['LastUpdatedBy']: currentUser,
+    ['CompanyID']: currentCompanyID, 
+    ['CompanyName']: currentCompany
   })
   setData({
     ...data, 
     ['LastUpdated']: setCurrentDate(),
-    ['LastUpdatedBy']: currentUser
+    ['LastUpdatedBy']: currentUser,
+    ['CompanyID']: currentCompanyID, 
+    ['CompanyName']: currentCompany
   })
 }  
 
