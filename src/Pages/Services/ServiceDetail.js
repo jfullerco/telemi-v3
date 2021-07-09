@@ -61,25 +61,25 @@ const ServiceDetailEdit = (state) => {
   const [relatedDataToShow, setRelatedDataToShow] = useState("")
   
   const [tab, setTab] = useState("BASIC_INFO")
-  const [isEditDrawerActive, setIsEditDrawerActive] = useState(isDrawerActive || false)
+  const [isEditDrawerActive, setIsEditDrawerActive] = useState(false)
   const [isViewDrawerActive, setIsViewDrawerActive] = useState(false)
   
   const [addRelatedValue, setAddRelatedValue] = useState()
   const [isRelatedActive, setIsRelatedActive] = useState(false)
   const [toggleHoverField, setToggleHoverField] = useState(false)
 
-  const checkForState = () => locations === undefined || "" ? refreshLocations(currentCompanyID) : null
-
   useEffect(() => {
-    
+    locations === "" ? refreshLocations(currentCompanyID) : ""
+    isDrawerActive === "true" ? setIsEditDrawerActive(true) : ""
+    isNew === "true" ? setNewService(true) : 
     setLoading(true)
     fetchService()
     fetchBills()
   }, [])
 
   useEffect(() => {
-    checkForState()
     fetchService()
+    
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
     handleInitialFieldMapping("Type", serviceTypes, pageFields)
@@ -95,6 +95,8 @@ const ServiceDetailEdit = (state) => {
     setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany}) : ""
     console.log(data)
   },[newService])
+
+
 
   useEffect(() => {
     
