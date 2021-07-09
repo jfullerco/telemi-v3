@@ -40,9 +40,10 @@ const ServiceDetailEdit = (state) => {
           accounts,
           tickets,
           bills,
-          currentCompanyID,
           currentCompany,
           currentUser } = userContext.userSession
+          
+  const {currentCompanyID} = useParams()
 
   
   const [data, setData] = useState("")
@@ -215,10 +216,7 @@ const handleToggleViewDrawer = (e) => {
   setIsViewDrawerActive(true)
   
 }
-
-
-
-  return (
+return (
     <Loading active={loading}>
 
     <Page 

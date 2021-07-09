@@ -46,6 +46,7 @@ const DashboardGrids = ({visible}) => {
   const { dataLoading,
           currentUser,
           currentCompany,
+          currentCompanyID,
           locations,
           services,
           tickets,
@@ -103,7 +104,7 @@ const DashboardGrids = ({visible}) => {
 /**Row Clicks */
   const handleServiceClick = (id) => {
                     history.push({
-                      pathname: `/servicedetail/${id}/${false}/${false}`,
+                      pathname: `/servicedetail/${currentCompanyID}/${id}/${false}/${false}`,
                       state: {
                       id: id,
                       services: services,
@@ -153,7 +154,7 @@ const DashboardGrids = ({visible}) => {
 {/**Add Buttons */}
   const handleAddServiceBtn = (id) => {
                     history.push({
-                      pathname: `/servicedetail/${id}/${true}/${true}`,
+                      pathname: `/servicedetail/${currentCompanyID}/${id}/${true}/${true}`,
                       state: {
                       id: id,
                       services: services,
