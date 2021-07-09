@@ -262,7 +262,7 @@ const handleToggleViewDrawer = (e) => {
                         </div>
 
                       </Column>
-                      <Column size="is-1 is-narrow">:</Column>
+                      <Column size="is-narrow">:</Column>
                       <Column >
 
                         <PageField 
