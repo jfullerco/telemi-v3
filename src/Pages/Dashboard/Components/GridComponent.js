@@ -86,7 +86,7 @@ const GridComponent = ({
 
                     {
                       col.mobile != true ? 
-                      <span className="is-hidden-mobile"> {col.headerName && col.headerName} </span> : 
+                      <span > {col.headerName && col.headerName} </span> : 
                       <>{col.headerName && col.headerName} </> 
                     }
 
