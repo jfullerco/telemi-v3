@@ -33,7 +33,7 @@ const EditDocDrawer = ({
       
 
   return(
-    <Drawer anchor={direction} open={checked} onClose={handleClose}>
+    <Drawer anchor={direction} open={checked && checked} onClose={handleClose}>
       <div className="drawerPaper">
         <div className="mb-2">
           <div className="title">EDIT</div>

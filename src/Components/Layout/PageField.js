@@ -1,11 +1,12 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 import MapListTable from '../Tables/MapListTable'
 
 import RelatedFieldDropDown from '../../Components/DropDowns/RelatedFieldDropDown'
 
 const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRelatedActive, toggleFieldDropDown}) => {
-  
+  const history = useHistory()
   return(
     <>
     {field && [field].map(item => {
@@ -45,7 +46,10 @@ const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRe
                   
                  
                 )
-                : null : null}
+                : null : 
+                fieldData && item.relatedDataType === "Account" ? <a onClick={
+                  ()=> history.push(`/accountdetail/${fieldData[item.relatedDataField]}`)}> {[fieldData].map(data => data[item.dataField])} </a> : null
+                }
                 
               </>
             )

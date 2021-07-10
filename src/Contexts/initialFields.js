@@ -331,6 +331,7 @@ import React from 'react'
         inputValue: "AccountNum",
         relatedCollection: "Accounts", 
         relatedDataField: "AccountID", 
+        relatedDataType: "Account",
         tab: "BILLING",
         tabLabel: "BILLING"  
       },

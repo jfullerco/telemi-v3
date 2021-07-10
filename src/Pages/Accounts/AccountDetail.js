@@ -57,8 +57,6 @@ const AccountDetail = (state) => {
     params.new === "true" ? setNewAccount(true) : 
     fetchAccount()
     fetchBills()
-    
-    
   }, [])
 
   useEffect(() => {
@@ -91,7 +89,7 @@ console.log(bills)
   }
   
   const fetchAccount = async() => {
-    const accountRef = await db.collection("Accounts").doc(state.location.state.id).get()
+    const accountRef = await db.collection("Accounts").doc(params.id).get()
     const data = await accountRef.data()
     const id = await accountRef.id
     setActiveAccount({id: id, ...data})
@@ -99,7 +97,7 @@ console.log(bills)
   }
 
   const fetchBills = async() => {
-    const billsRef = await db.collection("Bills").where("AccountID", "==", state.location.state.id).get()
+    const billsRef = await db.collection("Bills").where("AccountID", "==", params.id).get()
     const bills = billsRef.docs.map(doc => ({
       id: doc.id,
       ...doc.data()}))
@@ -111,7 +109,7 @@ console.log(bills)
     newAccount  === true ? 
     
     await db.collection("Accounts").doc().set(data) : 
-    await db.collection("Accounts").doc(state.location.state.id).update(data)
+    await db.collection("Accounts").doc(params.id).update(data)
     userContext.setDataLoading(true)
     handleToggle(!checked)
     setNewAccount(false)

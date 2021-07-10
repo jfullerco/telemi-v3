@@ -16,16 +16,14 @@ import TabBar from '../../Components/Tabs/TabBar'
 import PageField from '../../Components/Layout/PageField'
 import AddBill from '../Accounts/Bill/AddBill'
 import Loading from '../../Components/Loading'
+import CheckFor from '../../Contexts/CheckFor'
 
 
 const ServiceDetailEdit = (state) => {
 
   const params = useParams()
   const history = useHistory()
-  const { currentCompanyID, 
-          isNew, 
-          isDrawerActive,
-          cacheLocations } = state.location.state
+  
 
   const userContext = useContext(stateContext)
 
@@ -36,7 +34,8 @@ const ServiceDetailEdit = (state) => {
           isStyle,
           setBills,
           setCurrentDate,
-          refreshLocations } = userContext
+          setLocations,
+          setAccounts } = userContext
 
   const { locations,
           services, 
@@ -46,18 +45,24 @@ const ServiceDetailEdit = (state) => {
           bills,
           currentCompany,
           currentUser } = userContext.userSession
+
+  const { currentCompanyID } = state.location.state
+  const { isNew } = state.location.state
+  const { isDrawerActive } = state.location.state
+  const { cachedLocations } = state.location.state
+  const { cachedAccounts } = state.location.state
+  
   
   const [data, setData] = useState("")
   const [activeService, setActiveService] = useState("")
-  const [newService, setNewService] = useState(isNew)
+  const [newService, setNewService] = useState()
   const [loading, setLoading] = useState(true)
   const [updated, setUpdated] = useState(false)
   const [pageFields, setPageFields] = useState(serviceDetailFields)
   const [modalState, setModalState] = useState()
   const [pageSuccess, setPageSuccess] = useState(false)
   const [pageError, setPageError] = useState(false)
-
-  
+    
   const [relatedDataToShow, setRelatedDataToShow] = useState("")
   
   const [tab, setTab] = useState("BASIC_INFO")
@@ -69,17 +74,15 @@ const ServiceDetailEdit = (state) => {
   const [toggleHoverField, setToggleHoverField] = useState(false)
 
   useEffect(() => {
-    locations === "" ? refreshLocations(currentCompanyID) : ""
-    isDrawerActive === "true" ? setIsEditDrawerActive(true) : ""
-    isNew === "true" ? setNewService(true) : 
+    checkForNew(isDrawerActive, isNew)
     setLoading(true)
     fetchService()
     fetchBills()
+    
   }, [])
 
   useEffect(() => {
     fetchService()
-    
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
     handleInitialFieldMapping("Type", serviceTypes, pageFields)
@@ -89,14 +92,6 @@ const ServiceDetailEdit = (state) => {
     handleInitialFieldMapping("AccountNum", accounts, pageFields)
     handleInitialFieldMapping("Bills", bills, pageFields)
   },[loading])
-
-  useEffect(() => {
-    newService === true ?
-    setData({...data, ['CompanyID']: currentCompanyID, ['CompanyName']: currentCompany}) : ""
-    console.log(data)
-  },[newService])
-
-
 
   useEffect(() => {
     
@@ -111,6 +106,11 @@ const ServiceDetailEdit = (state) => {
     handleInitialFieldMapping("Bills", bills, pageFields)
     
   },[updated])
+
+  const checkForNew = (isDrawerActive, isNew) => {
+    isDrawerActive === "true" ? setIsEditDrawerActive(true) : ""
+    isNew === "true" ? setNewService(true) : ""
+  }
 
   const handleInitialFieldMapping = (field, value, arr) => {
 
@@ -138,7 +138,7 @@ const ServiceDetailEdit = (state) => {
     setBills(bills)
     setLoading(false)
   }  
-console.log(state.location.state)
+
   const handleSubmit = async(e) => {
     try {
       newService  === true ?
@@ -220,6 +220,10 @@ const handleToggleViewDrawer = (e) => {
   setIsViewDrawerActive(true)
   
 }
+
+const handleSetCache = (value, setValue) => {
+  setValue(value)
+}
 return (
     <Loading active={loading}>
 
@@ -273,20 +277,31 @@ return (
 
                       </Column>
                       <Column size="is-narrow">:</Column>
-                      <Column >
-
-                        <PageField 
-                          field={field}
-                          fieldData={service}
-                          relatedDataMap={
-                              field.inputSource && field.inputSource.filter(item => 
-                                item[field.relatedDataField] === service.id).map(i => ({...i}))
-                            }
-                          toggleViewDrawer={()=>handleToggleViewDrawer(!isViewDrawerActive)}
-                          toggleFieldDropDown={()=>setIsRelatedActive(!isRelatedActive)}
-                          isViewRelatedActive={isRelatedActive}
-                        />
-
+                      <Column>
+                      
+                      <CheckFor 
+                          value={accounts} 
+                          setValue={setAccounts} 
+                          handleSetCache={(value, setValue)=>handleSetCache(value, setValue)} fallbackValue={cachedAccounts}
+                        >  
+                        <CheckFor 
+                          value={locations} 
+                          setValue={setLocations} 
+                          handleSetCache={(value, setValue)=>handleSetCache(value, setValue)} fallbackValue={cachedLocations}
+                        >   
+                          <PageField 
+                            field={field}
+                            fieldData={service}
+                            relatedDataMap={
+                                field.inputSource && field.inputSource.filter(item => 
+                                  item[field.relatedDataField] === service.id).map(i => ({...i}))
+                              }
+                            toggleViewDrawer={()=>handleToggleViewDrawer(!isViewDrawerActive)}
+                            toggleFieldDropDown={()=>setIsRelatedActive(!isRelatedActive)}
+                            isViewRelatedActive={isRelatedActive}
+                          />
+                        </CheckFor>
+                        </CheckFor>
                       </Column>
                     </Columns>
                     </div>

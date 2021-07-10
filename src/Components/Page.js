@@ -49,7 +49,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
 
                       <button 
                         className="button is-rounded is-small mr-1" 
-                        onClick={()=>history.goBack()}
+                        onClick={()=>history.push("/dashboard")}
                       >Back</button>
 
                     </div>
