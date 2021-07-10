@@ -5,6 +5,7 @@ import DeleteButton from '../Buttons/DeleteButton'
 const MapListTable = ({
   data,
   headerFields,
+  handleClick
 }) => {
   return(
     <>

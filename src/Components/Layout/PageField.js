@@ -5,7 +5,7 @@ import MapListTable from '../Tables/MapListTable'
 
 import RelatedFieldDropDown from '../../Components/DropDowns/RelatedFieldDropDown'
 
-const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRelatedActive, toggleFieldDropDown}) => {
+const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRelatedActive, toggleFieldDropDown, handleClick}) => {
   const history = useHistory()
   return(
     <>
@@ -61,6 +61,7 @@ const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRe
                   headerFields={item.relatedHeaderFields}
                   data={relatedDataMap}
                   colRef={item.RelatedCollection}
+                  handleClick={handleClick}
                 />
                 
               </>

@@ -29,13 +29,15 @@ import React from 'react'
         docField: 'LocationName', 
         headerName: 'Location', 
         key: "3", 
-        filterable: true
+        filterable: true,
+        mobile: true
       },
       {
         docField: 'AssetID', 
         headerName: 'Asset ID', 
         key: "4", 
-        filterable: false
+        filterable: false,
+        mobile: true
       },
       {
         docField: 'Type', 
@@ -124,7 +126,7 @@ import React from 'react'
         docField: 'AccountNum',
         headerName: 'Account',
         key: "2",
-        filterable: true,
+        filterable: false,
         visible: true,
         mobile: false
       },
@@ -134,7 +136,8 @@ import React from 'react'
         key: "5",
         filterable: false,
         visible: true,
-        mobile: true
+        mobile: true,
+        type: "currency"
       }
     ]
 

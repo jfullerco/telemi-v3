@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CheckFor = ({value, setValue, fallbackValue, handleSetCache, children}) => {
+const CheckIfNeedsCache = ({value, setValue, fallbackValue, handleSetCache, children}) => {
   value != undefined & value != "" ? value : handleSetCache(fallbackValue, setValue)
   return(
     <>
@@ -8,4 +8,4 @@ const CheckFor = ({value, setValue, fallbackValue, handleSetCache, children}) =>
     </>
   ) 
 }
-export default CheckFor
+export default CheckIfNeedsCache

@@ -16,7 +16,7 @@ import TabBar from '../../Components/Tabs/TabBar'
 import PageField from '../../Components/Layout/PageField'
 import AddBill from '../Accounts/Bill/AddBill'
 import Loading from '../../Components/Loading'
-import CheckFor from '../../Contexts/CheckFor'
+import CheckIfNeedsCache from '../../Contexts/CheckIfNeedsCache'
 
 
 const ServiceDetailEdit = (state) => {
@@ -279,12 +279,12 @@ return (
                       <Column size="is-narrow">:</Column>
                       <Column>
                       
-                      <CheckFor 
+                      <CheckIfNeedsCache 
                           value={accounts} 
                           setValue={setAccounts} 
                           handleSetCache={(value, setValue)=>handleSetCache(value, setValue)} fallbackValue={cachedAccounts}
                         >  
-                        <CheckFor 
+                        <CheckIfNeedsCache 
                           value={locations} 
                           setValue={setLocations} 
                           handleSetCache={(value, setValue)=>handleSetCache(value, setValue)} fallbackValue={cachedLocations}
@@ -300,8 +300,8 @@ return (
                             toggleFieldDropDown={()=>setIsRelatedActive(!isRelatedActive)}
                             isViewRelatedActive={isRelatedActive}
                           />
-                        </CheckFor>
-                        </CheckFor>
+                        </CheckIfNeedsCache>
+                        </CheckIfNeedsCache>
                       </Column>
                     </Columns>
                     </div>

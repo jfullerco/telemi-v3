@@ -84,7 +84,11 @@ const GridComponent = ({
                 {headerFields && headerFields.map(col => 
                   <th style={{width: "20%", textAlign: "left"}} key={col.keyProp}>
 
-                    {col.headerName && col.headerName}
+                    {
+                      col.mobile != true ? 
+                      <span className="is-hidden-mobile"> {col.headerName && col.headerName} </span> : 
+                      <>{col.headerName && col.headerName} </> 
+                    }
 
                     <FilterSelectInput
                       dataRef={data}
@@ -104,7 +108,7 @@ const GridComponent = ({
                 <tr onClick={()=>handleClick(item.id)} key={item.id}> 
                   {headerFields && headerFields.map(col => 
                     <td className="py-5" style={{width: "20%"}} key={item[col.headerName]} >
-                      {item[col.docField]} 
+                      {item[col.docField] && col.type === "currency" ? "$" : null} {item[col.docField]} 
                     </td>
                   )}
                   {/**Insert Expanding Table Field Here */}

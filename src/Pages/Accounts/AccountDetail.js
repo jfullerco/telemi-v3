@@ -168,6 +168,9 @@ const handleToggle = () => {
           }
         })
   }
+  const handleRelatedFieldClick = (e) => {
+    console.log(e)
+  }
 
   return (
     <Page title="Account" subtitle={activeAccount && activeAccount.AccountNum} status={updated === true ? "edit" : "view"} handleToggle={()=> handleToggle()} pageSuccess={pageSuccess} pageError={pageError}>
@@ -207,6 +210,7 @@ const handleToggle = () => {
                           field={el}
                           fieldData={h}
                           relatedDataMap={el.inputSource && el.inputSource.filter(f => f[el.relatedDataField] === h.id).map(i => ({...i}))}
+                          handleClick={(e)=> handleRelatedFieldClick(e)}
                         />
 
                     </Column>
