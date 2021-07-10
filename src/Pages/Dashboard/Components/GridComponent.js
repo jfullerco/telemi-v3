@@ -44,17 +44,19 @@ const GridComponent = ({
                         {headerFields && headerFields.map(rCol => 
                         <th style={{width: "20%"}} key={rCol.keyProp}>   
                             {rCol.headerName}
-                        </th>)}
+                        </th>
+                        )}
                       </tr>
                     </thead>
                     <tbody className="is-size-7">
-                    {data && data != undefined ? data.map(rItem => 
-                      <tr onClick={()=>handleClick(rItem.id)} key={rItem.id}> 
-                      {headerFields && headerFields.map(rCol => 
-                        <td className="py-5" style={{width: "20%"}} key={rItem[rCol.headerName]} >
-                          {rItem[rCol.docField]} 
-                        </td>)}
-                      </tr>
+                      {data && data != undefined ? data.map(rItem => 
+                        <tr onClick={()=>handleClick(rItem.id)} key={rItem.id}> 
+                          {headerFields && headerFields.map(rCol => 
+                            <td className="py-5" style={{width: "20%"}} key={rItem[rCol.headerName]} >
+                              {rItem[rCol.docField]} 
+                            </td>
+                          )}
+                        </tr>
                       ) : ""}
                     </tbody>    
                   </table>
@@ -84,13 +86,13 @@ const GridComponent = ({
 
                     {col.headerName && col.headerName}
 
-                  <FilterSelectInput
-                    dataRef={data}
-                    colRef={col.docField}
-                    onSelect={(e)=>handleFilter(e)}
-                    onReset={(e)=>resetter(e)}
-                    isFilterable={col.filterable}
-                  />
+                    <FilterSelectInput
+                      dataRef={data}
+                      colRef={col.docField}
+                      onSelect={(e)=>handleFilter(e)}
+                      onReset={(e)=>resetter(e)}
+                      isFilterable={col.filterable}
+                    />
 
                   </th>
                 )}
@@ -103,15 +105,13 @@ const GridComponent = ({
                   {headerFields && headerFields.map(col => 
                     <td className="py-5" style={{width: "20%"}} key={item[col.headerName]} >
                       {item[col.docField]} 
-                    </td>)}
+                    </td>
+                  )}
+                  {/**Insert Expanding Table Field Here */}
                 </tr>
               ) : ""}
-          </tbody> 
-          <tfoot>
-            
-          </tfoot>   
+          </tbody>   
         </table>
-      
       </div>  : "" }
   </div> 
   )
