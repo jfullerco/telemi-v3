@@ -18,7 +18,7 @@ import AddOrder from './Pages/Orders/AddOrder'
 import AddTicket from './Pages/Tickets/AddTicket'
 import AddUser from './Pages/Users/AddUser'
 import AddContract from './Pages/Contracts/AddContract'
-import AddBill from './Pages/Accounts/Bill/AddBill'
+
 
 import CompanyDetail from './Pages/Companies/CompanyDetail'
 import ServiceDetail from './Pages/Services/ServiceDetail'
@@ -73,7 +73,7 @@ export default function App() {
             <Route path="/addticket" component={AddTicket} />
             <Route path="/adduser" component={AddUser} />
             <Route path="/addcontract" component={AddContract} />
-            <Route path="/addbill" component={AddBill} />
+            
             <Route component={NotFound} />
             </Switch>
             
