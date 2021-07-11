@@ -1,20 +1,13 @@
 import React from 'react'
-import Drawer from '@material-ui/core/Drawer'
+import { useHistory } from 'react-router-dom'
 
-const DrawerComponent = ({
-    title, 
-    checked, 
-    handleClose,   
-    direction,
-    handleSubmit,
-    children 
-  }) => {
 
+const DrawerPage = ({title, handleSubmit, handleClose, children}) => {
+
+  const history = useHistory()
+  
   return(
-
-    <Drawer anchor={direction} open={checked} onClose={handleClose}>
-
-      <div className="drawerPaper">
+     <div className="drawerPaper">
         
         <div className="mb-2">
 
@@ -30,8 +23,6 @@ const DrawerComponent = ({
         </div>
         {children}
       </div>
-      
-    </Drawer>
   )
 }
-export default DrawerComponent
+export default DrawerPage

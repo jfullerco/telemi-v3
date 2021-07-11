@@ -8,29 +8,30 @@ import TextInput from '../../../Components/Forms/TextInput'
 import TextArea from '../../../Components/Forms/TextArea'
 import SelectInputProps from '../../../Components/Forms/SelectInputProps'
 import TextInputAC from '../../../Components/Forms/TextInputAC'
-import Modal from '../../../Components/Modal'
+import DrawerPage from '../../../Components/DrawerPage'
 import Columns from '../../../Components/Layout/Columns'
 import Column from '../../../Components/Layout/Column'
 
 const AddBill = ({
-  accountID,
-  accountNum,
-  subAccountNum,
-  groupNum,
-  assetID,
-  serviceID,
-  modalState,
-  resetState,
+  active,
   handleUpdated,
-  update, 
-  id, 
-  bill
+  handleClose,
 }) => {
 
   const userContext = useContext(stateContext)
-  const {setCurrentDate, refreshBills} = userContext
-  const {currentUser, currentCompany, currentCompanyID} = userContext.userSession
 
+  const { setCurrentDate, 
+          refreshBills } = userContext
+  const { currentUser, 
+          currentCompany, 
+          currentCompanyID}  = userContext.userSession
+  const { AccountID, 
+          AccountNum, 
+          SubAccountNum, 
+          GroupNum, 
+          AssetID, 
+          id } = active
+console.log(active, AccountID)
   const history = useHistory()
   
   const [pageError, setPageError] = useState()
@@ -50,14 +51,14 @@ const AddBill = ({
   const handleSubmit = async(e) => {
     const data = {
       Date: billDate.current.value,
-      AccountID: accountID,
-      AccountNum: accountNum,
-      SubAccountNum: subAccountNum,
+      AccountID: AccountID && AccountID,
+      AccountNum: AccountNum && AccountNum,
+      SubAccountNum: SubAccountNum && SubAccountNum,
       Cost: billCost.current.value,
       DisputedAmount: billDisputedCost.current.value,
-      GroupNum: groupNum,
-      AssetID: assetID,
-      ServiceID: serviceID,
+      GroupNum: GroupNum && GroupNum,
+      AssetID: AssetID && AssetID,
+      ServiceID: id && id,
       CompanyID: currentCompanyID,
       CompanyName: currentCompany,
       LastUpdatedBy: currentUser,
@@ -72,20 +73,21 @@ const AddBill = ({
       setPageSuccess("Bill Added")
       refreshBills()
       handleUpdated()
-      autoClose()
+      
     } catch {
       setPageError("Error Adding Bill")
     }
+    setTimeout(() => {()=>handleClose(false)}, 1000)
   }
 
   const autoClose = () => {
-    setTimeout(() => {resetState("")}, 1000)
+    setTimeout(() => {()=>handleClose()}, 1000)
   }
   
 
   return (
-    <Modal title="Add Order" modalState={true} handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} autoClose={autoClose}>
-        
+    <DrawerPage title="Add Bill" handleSubmit={handleSubmit} pageError={pageError} pageSuccess={pageSuccess} status="new" backbtn="hide" handleClose={()=>handleClose(false)}>
+      {!AccountID ? <div className="notification is-danger">No Account has been entered</div> : null}  
       <form>
 
           <Column size="is-three-quarters" isVisible={true}>
@@ -130,7 +132,7 @@ const AddBill = ({
       </form>
 
         
-    </Modal>
+    </DrawerPage>
       
   )
 }

@@ -8,8 +8,9 @@ import {serviceDetailFields} from '../../Contexts/initialFields'
 import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
 import Page from '../../Components/Page'
-import EditDocDrawer from '../../Components/Layout/EditDocDrawer'
-import ViewDocDrawer from '../../Components/Layout/ViewDocDrawer'
+import PageInputFields from '../../Components/Forms/PageInputFields'
+import DrawerComponent from '../../Components/Layout/DrawerComponent'
+import DeleteButton from '../../Components/Buttons/DeleteButton'
 
 import TabBar from '../../Components/Tabs/TabBar'
 
@@ -66,8 +67,8 @@ const ServiceDetailEdit = (state) => {
   const [relatedDataToShow, setRelatedDataToShow] = useState("")
   
   const [tab, setTab] = useState("BASIC_INFO")
-  const [isEditDrawerActive, setIsEditDrawerActive] = useState(false)
-  const [isViewDrawerActive, setIsViewDrawerActive] = useState(false)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [isBillDrawerOpen, setIsBillDrawerOpen] = useState(false)
   
   const [addRelatedValue, setAddRelatedValue] = useState()
   const [isRelatedActive, setIsRelatedActive] = useState(false)
@@ -108,7 +109,7 @@ const ServiceDetailEdit = (state) => {
   },[updated])
 
   const checkForNew = (isDrawerActive, isNew) => {
-    isDrawerActive === "true" ? setIsEditDrawerActive(true) : ""
+    isDrawerActive === "true" ? setIsDrawerOpen(true) : ""
     isNew === "true" ? setNewService(true) : ""
   }
 
@@ -150,15 +151,15 @@ const ServiceDetailEdit = (state) => {
     } 
     setNewService(false) 
     setUpdated(true)
-    handleToggle()
-  }
-
-  const handleToggle = () => {
-    setIsEditDrawerActive(!isEditDrawerActive)
+    setIsDrawerOpen(!isDrawerOpen)
   }
 
   const autoClose = () => {
     setTimeout(() => {history.push("/dashboard")}, 1500)
+  }
+
+  const handleToggle = () => {
+    setIsDrawerOpen(!isDrawerOpen)
   }
 
 
@@ -205,8 +206,8 @@ const handleAddRelatedValue = (e) => {
   setAddRelatedValue(e)
 }
 
-const handleToggleMapField = (e) => {
-  setModalState(e)
+const handleToggleRelatedDrawer = (e) => {
+  e === "Bills" ? setIsBillDrawerOpen(!isBillDrawerOpen) : null
 }
 
 const handleToggleViewDrawer = (e) => {
@@ -217,7 +218,7 @@ const handleToggleViewDrawer = (e) => {
   
   console.log("filtered:", filteredValue, "fields:", fields)
   setRelatedDataToShow({fields: fields, active: filteredValue, type: type})
-  setIsViewDrawerActive(true)
+  setIsDrawerOpen(true)
   
 }
 
@@ -237,7 +238,7 @@ return (
     >
       {userContext && userContext.userSession != undefined ? 
         <>
-          <TabBar>
+          <TabBar>{/** Refactor this as Array/Map */}
             <ul>  
               <li className={tab === "BASIC_INFO" ? "is-active" : ""}><a onClick={()=>setTab("BASIC_INFO")}>Basic Info</a></li>
               <li className={tab === "DETAILS" ? "is-active" : ""}><a onClick={()=>setTab("DETAILS")}>Details</a></li>
@@ -249,13 +250,14 @@ return (
 
           <div className="box p-4 is-rounded has-text-black">
 
-              <nav className="breadcrumb" aria-label="breadcrumbs">
+              <nav className="breadcrumb" aria-label="breadcrumbs"> {/** Refactor this as LastUpdatedComponent Component with Hook */}
                 <ul>
                   <li className="is-size-7 is-uppercase">last updated: {activeService.LastUpdated && activeService.LastUpdated}</li>
                   <li className="is-size-7 is-uppercase pl-2">updated by: {activeService.LastUpdatedBy && activeService.LastUpdatedBy}</li>
                 </ul>
               </nav>
 
+              {/** Refactor as ViewPageFields Component */}
               {activeService && pageFields.map(field => 
                 <>
                   {[activeService].map(service => 
@@ -269,7 +271,7 @@ return (
 
                           {field.addBtn === true ? 
                             <a className="link has-text-weight-normal is-size-7 pl-2" 
-                              onClick={() => handleToggleMapField(field.relatedCollection)}>   
+                              onClick={(e) => handleToggleRelatedDrawer(field.relatedCollection)}>   
                               (add)
                             </a> : null}
 
@@ -296,9 +298,10 @@ return (
                                 field.inputSource && field.inputSource.filter(item => 
                                   item[field.relatedDataField] === service.id).map(i => ({...i}))
                               }
-                            toggleViewDrawer={()=>handleToggleViewDrawer(!isViewDrawerActive)}
+                            toggleViewDrawer={()=>handleToggle()}
                             toggleFieldDropDown={()=>setIsRelatedActive(!isRelatedActive)}
                             isViewRelatedActive={isRelatedActive}
+                            handleClick={(e)=> console.log(e)}
                           />
                         </CheckIfNeedsCache>
                         </CheckIfNeedsCache>
@@ -309,47 +312,49 @@ return (
                 </>
               )}
 
-              <EditDocDrawer 
-                title="BASIC INFO" 
-                checked={isEditDrawerActive} 
-                handleClose={()=>setIsEditDrawerActive(!isEditDrawerActive)} 
-                handleSubmit={()=> handleSubmit()} 
-                handleChange={(e)=> handleChange(e)}
-                handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
-                pageFields={pageFields}
-                active={activeService}
-                tab={tab}
+              <DrawerComponent 
+                checked={isDrawerOpen}
+                handleClose={()=>setIsDrawerOpen(!isDrawerOpen)} 
                 direction="right"
-                colRef="Services"
-                docRef={activeService.id}
-                addRelatedValue={addRelatedValue}
-                handleAddRelatedValue={(e)=>handleAddRelatedValue(e)}
-                resetAddRelatedValue={()=>setAddRelatedValue("")}
-                handleUpdated={()=>setUpdated(!updated)}
-                currentCompany={currentCompany}
-                currentCompanyID={currentCompanyID}
-              />
+                handleSubmit={()=> handleSubmit()}
+              >
 
-              <ViewDocDrawer 
-                checked={isViewDrawerActive}
-                dataToShow={relatedDataToShow}
-                handleClose={()=>setIsViewDrawerActive(!isViewDrawerActive)} 
+                <PageInputFields 
+                  checked={isDrawerOpen}
+                  handleClose={()=>setIsDrawerOpen(!isDrawerOpen)}
+                  handleChange={(e)=> handleChange(e)}
+                  handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
+                  pageFields={pageFields}
+                  active={activeService}
+                  tab={tab}
+                  addRelatedValue={addRelatedValue}
+                  handleAddRelatedValue={(e)=>handleAddRelatedValue(e)}
+                  resetAddRelatedValue={()=>setAddRelatedValue("")}
+                  handleUpdated={()=>setUpdated(!updated)}
+                  currentCompany={currentCompany}
+                  currentCompanyID={currentCompanyID}
+                />
+
+                <DeleteButton 
+                  colRef="Services"
+                  docRef={activeService.id}
+                />
+
+              </DrawerComponent>
+
+              <DrawerComponent
+                checked={isBillDrawerOpen}
+                hideBtns={true} 
                 direction="right"
-              />
-
-              <div className={modalState === "Bills" ? "" : "is-hidden"}>
+                handleSubmit={()=> handleBillSubmit()}
+              >
                 <AddBill 
-                  accountID={activeService.AccountID}
-                  accountNum={activeService.AccountNum}
-                  subAccountNum={activeService.SubAccountNum}
-                  groupNum={activeService.GroupNum}
-                  assetID={activeService.AssetID}
-                  serviceID={activeService.id}
-                  
-                  resetState={()=>handleToggleMapField()}
+                  active={activeService}
+                  handleClose={(e)=>setIsBillDrawerOpen(e)}
                   handleUpdated={()=>handleUpdated(!updated)}
                 />
-              </div>
+
+              </DrawerComponent>
 
           </div>
 

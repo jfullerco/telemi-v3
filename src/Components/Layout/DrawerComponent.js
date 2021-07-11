@@ -6,6 +6,7 @@ const DrawerComponent = ({
     checked, 
     handleClose,   
     direction,
+    hideBtns,
     handleSubmit,
     children 
   }) => {
@@ -22,7 +23,7 @@ const DrawerComponent = ({
 
         </div>
         
-        <div className="mb-2">
+        <div className={hideBtns === true ? "is-hidden" : "mb-2"}>
         
           <button className="button is-rounded is-link" type="submit" onClick={handleSubmit}>Save</button>
           <button className="button is-rounded ml-2" onClick={handleClose}>Close</button>

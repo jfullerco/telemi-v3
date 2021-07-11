@@ -5,7 +5,7 @@ import Columns from './Layout/Columns'
 import Column from './Layout/Column'
 
 
-const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, handleToggle, autoClose, status, children}) => {
+const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, handleToggle, autoClose, status, backbtn, children}) => {
 
   const history = useHistory()
   
@@ -21,7 +21,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
                         {title}
                       </span> 
                       
-                      <span className="is-size-5-mobile is-size-4-tablet title has-text-black">
+                      <span className={status === "new" ? "is-hidden" : "is-size-5-mobile is-size-4-tablet title has-text-black"}>
                         /{subtitle}
                       </span>
                     </div> 
@@ -48,7 +48,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
                       >Save</button>
 
                       <button 
-                        className="button is-rounded is-small mr-1" 
+                        className={backbtn && backbtn === "hide" ? "is-hidden" : "button is-rounded is-small mr-1"} 
                         onClick={()=>history.push("/dashboard")}
                       >Back</button>
 
