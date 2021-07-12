@@ -18,6 +18,7 @@ import TabBar from '../../Components/Tabs/TabBar'
 import DeleteButton from '../../Components/Buttons/DeleteButton'
 import CheckIfNeedsCache from '../../Components/Conditions/CheckIfNeedsCache'
 import Loading from '../../Components/Loading'
+import AddLinkSmall from '../../Components/Buttons/AddLinkSmall'
 
 const OrderDetail = (state) => {
   const params = useParams()
@@ -44,11 +45,11 @@ const OrderDetail = (state) => {
           currentUser,
           currentCompany } = userContext.userSession
 
-  const { currentCompanyID } = state.location.state
-  const { isNew } = state.location.state
-  const { isDrawerActive } = state.location.state
-  const { cachedLocations } = state.location.state
-  const { cachedAccounts } = state.location.state
+  const { currentCompanyID } = params
+  const { isNew } = state.location.state || false
+  const { isDrawerActive } = state.location.state || false
+  const { cachedLocations } = state.location.state || []
+  const { cachedAccounts } = state.location.state || []
 
   const [activeOrder, setActiveOrder] = useState("")
   const [pageFields, setPageFields] = useState(orderDetailFields)
@@ -76,6 +77,7 @@ const OrderDetail = (state) => {
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("Status", orderStatusType, pageFields)
     handleInitialFieldMapping("Type", orderType, pageFields)
+    handleInitialFieldMapping("AssetID", services, pageFields)
   },[loading])
   
   useEffect(() => {
@@ -215,10 +217,8 @@ console.log(data)
                           {field.label} 
 
                           {field.addBtn === true ? 
-                            <a className="link has-text-weight-normal is-size-7 pl-2" 
-                              onClick={(e) => handleToggleRelatedDrawer(field.relatedCollection)}>   
-                              (add)
-                            </a> : null}
+                            <AddLinkSmall onClick={(e) => handleToggleRelatedDrawer(field.relatedCollection)} /> 
+                          : null}
 
                         </div>
 
@@ -247,6 +247,7 @@ console.log(data)
                             toggleFieldDropDown={()=>setIsRelatedActive(!isRelatedActive)}
                             isViewRelatedActive={isRelatedActive}
                             handleClick={(e)=> console.log(e)}
+                            currentCompanyID={currentCompanyID}
                           />
                         </CheckIfNeedsCache>
                         </CheckIfNeedsCache>

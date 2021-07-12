@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 import MapListTable from '../Tables/MapListTable'
 
@@ -7,6 +7,7 @@ import RelatedFieldDropDown from '../../Components/DropDowns/RelatedFieldDropDow
 
 const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRelatedActive, toggleFieldDropDown, handleClick}) => {
   const history = useHistory()
+  const params = useParams()
   return(
     <>
     {field && [field].map(item => {
@@ -17,6 +18,10 @@ const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRe
               
               <>  {[fieldData].map(data => data[item.dataField])} </>
               
+            )
+          case "text-area":
+            return (
+              <div className="textareafield">{[fieldData].map(data => data[item.dataField])}</div>
             )
           case "currency":
             return (
@@ -48,7 +53,13 @@ const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRe
                 )
                 : null : 
                 fieldData && item.relatedDataType === "Account" ? <a onClick={
-                  ()=> history.push(`/accountdetail/${fieldData[item.relatedDataField]}`)}> {[fieldData].map(data => data[item.dataField])} </a> : null
+                  ()=> history.push(`/accountdetail/${fieldData[item.relatedDataField]}`)}> {[fieldData].map(data => data[item.dataField])} </a> 
+                : 
+                fieldData && item.relatedDataType === "Service" ? <a onClick={
+                  ()=> history.push(
+                    `/servicedetail/${params.currentCompanyID}/${fieldData[item.relatedDataField]}`
+                  )}> {[fieldData].map(data => data[item.dataField])} </a> 
+                : null
                 }
                 
               </>
@@ -61,7 +72,7 @@ const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRe
                   headerFields={item.relatedHeaderFields}
                   data={relatedDataMap}
                   colRef={item.RelatedCollection}
-                  handleClick={handleClick}
+                  handleClick={(e)=>handleClick(e)}
                 />
                 
               </>

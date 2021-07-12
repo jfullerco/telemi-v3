@@ -22,7 +22,6 @@ const PageInputFields = ({
     
   }) => {
       
-      
 
   return(
     <>
@@ -32,7 +31,21 @@ const PageInputFields = ({
             return (
               <>
 
-                {console.log([field.inputSource])}
+                {console.log(field.inputSource.filter(f => f[field.checkJoin] === active.id))}
+                
+                {field.inputSource && field.inputSource.filter(f => f[field.checkJoin] === active.id).length > 0 ? 
+                  !active[field.checkJoin] ?
+                    field.inputSource.filter(f => f[field.checkJoin] === active.id).map(value =>
+                      
+                      <a onClick={(e) => handleChange(e)}>
+                        <input name={field.dataField} value={value[field.inputValue]} />
+                        {console.log(active)}
+                      </a> 
+                      
+                      
+
+                    ) : <>Linked to: <a> {value[field.inputValue]}</a></> : 
+
                 <SelectField
                   type="select"
                   title={field.label}
@@ -43,13 +56,15 @@ const PageInputFields = ({
                   handleAddValue={(e) => handleAddRelatedValue(e)}
                   showAddLink={true}
                 >
+                  
                   <option></option>
+
                   {field.inputSource && field.inputSource.map(i =>
                     <option id={i[field.inputID]} name={i[field.dataField]} key={i[field.inputID]}>
                       {i[field.inputValue]}
                     </option>
                   )}
-                </SelectField>
+                </SelectField>}
 
                 {addRelatedValue === "Locations" ?
                   <AddLocationModal
@@ -58,7 +73,10 @@ const PageInputFields = ({
                     currentCompany={currentCompany}
                     currentCompanyID={currentCompanyID}
                     nameRef={field.inputValue}
-                  /> : ""}
+                  /> 
+                : ""}
+
+
 
               </>
 

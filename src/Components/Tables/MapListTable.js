@@ -24,7 +24,7 @@ const MapListTable = ({
         <tbody className="is-size-7">
             
           { data && data != undefined ? data.map(item => 
-            <tr onClick={()=>handleClick(item.id)} key={item.id}> 
+            <tr onClick={(e)=>handleClick(item.id)} key={item.id}> 
               {headerFields && headerFields.map(col => 
 
                 <td className="py-5" style={{width: "20%"}} key={item[col.headerName]} >

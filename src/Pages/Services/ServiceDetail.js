@@ -46,12 +46,13 @@ const ServiceDetailEdit = (state) => {
           bills,
           currentCompany,
           currentUser } = userContext.userSession
-
-  const { currentCompanyID } = state.location.state
-  const { isNew } = state.location.state
-  const { isDrawerActive } = state.location.state
-  const { cachedLocations } = state.location.state
-  const { cachedAccounts } = state.location.state
+  
+  const { currentCompanyID } = params
+  const {isNew}  = state.location.state || false 
+  const {isDrawerActive} = state.location.state || false
+  const { cachedLocations } = state.location.state || []
+  const { cachedAccounts } = state.location.state || []
+  
   
   
   const [data, setData] = useState("")
@@ -225,6 +226,11 @@ const handleToggleViewDrawer = (e) => {
 const handleSetCache = (value, setValue) => {
   setValue(value)
 }
+
+const handleClick = (e) => {
+  history.push(`/orderdetail/${currentCompanyID}/${e}`)
+}
+
 return (
     <Loading active={loading}>
 
@@ -301,7 +307,7 @@ return (
                             toggleViewDrawer={()=>handleToggle()}
                             toggleFieldDropDown={()=>setIsRelatedActive(!isRelatedActive)}
                             isViewRelatedActive={isRelatedActive}
-                            handleClick={(e)=> console.log(e)}
+                            handleClick={(e)=>handleClick(e)}
                           />
                         </CheckIfNeedsCache>
                         </CheckIfNeedsCache>

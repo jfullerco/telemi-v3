@@ -295,14 +295,33 @@ import React from 'react'
         tabLabel: "NOTES" 
       },
       { 
-        label: "Related Order", 
+        label: "Related Orders", 
         dataField: "OrderNum", 
-        inputFieldType: "related-select", 
-        inputSource: orders, 
+        inputFieldType: "map-list", 
+        inputSource: "", 
         inputID: "id", 
         inputValue: "OrderNum",
         relatedCollection: "Orders", 
-        relatedDataField: "OrderID", 
+        relatedDataField: "ServiceID",
+        checkJoin: "ServiceID", 
+        relatedHeaderFields: [
+                              {
+                                headerName: 'Date', 
+                                docField: 'DateOrdered', 
+                                fieldType: 'date-picker'
+                              }, 
+                              {
+                                headerName: 'Order Number', 
+                                docField: 'OrderNum', 
+                                fieldType: 'text'
+                              }, 
+                              {
+                                headerName: 'Status', 
+                                docField: 'Status', 
+                                fieldType: 'text'
+                              }
+        ], 
+        addBtn: true,
         tab: "DETAILS",
         tabLabel: "DETAILS"  
       },
@@ -635,6 +654,41 @@ import React from 'react'
     ]
     const orderDetailFields = [
       { 
+        label: "Location", 
+        dataField: "LocationName", 
+        inputFieldType: "related-select", 
+        inputSource: "", /** SET BY HANDLEINITIALFIELDMAPPING FN */
+        inputID: "id", 
+        inputValue: "Name",
+        relatedCollection: "Locations", 
+        relatedDataField: "LocationID",
+        relatedViewFields: [
+            {
+              label: "Address 1",
+              fieldName: "Address1"
+            }, 
+            {
+              label: "Address 2",
+              fieldName: "Address2"
+            }, 
+            {
+              label: "City",
+              fieldName: "City"
+            }, 
+            {
+              label: "State",
+              fieldName: "State"
+            }, 
+            {
+              label: "Zip",
+              fieldName: "Zip"
+            }
+          ],
+        relatedDataType: "Location",
+        tab: "BASIC_INFO",
+        tabLabel: "BASIC INFO"  
+      },
+      { 
         label: "Order Number", 
         dataField: "OrderNum", 
         inputFieldType: "text", 
@@ -684,41 +738,6 @@ import React from 'react'
         tab: "BASIC_INFO" 
       },
       { 
-        label: "Location", 
-        dataField: "LocationName", 
-        inputFieldType: "related-select", 
-        inputSource: "", /** SET BY HANDLEINITIALFIELDMAPPING FN */
-        inputID: "id", 
-        inputValue: "Name",
-        relatedCollection: "Locations", 
-        relatedDataField: "LocationID",
-        relatedViewFields: [
-            {
-              label: "Address 1",
-              fieldName: "Address1"
-            }, 
-            {
-              label: "Address 2",
-              fieldName: "Address2"
-            }, 
-            {
-              label: "City",
-              fieldName: "City"
-            }, 
-            {
-              label: "State",
-              fieldName: "State"
-            }, 
-            {
-              label: "Zip",
-              fieldName: "Zip"
-            }
-          ],
-        relatedDataType: "Location",
-        tab: "BASIC_INFO",
-        tabLabel: "BASIC INFO"  
-      },
-      { 
         label: "Status", 
         dataField: "Status", 
         inputFieldType: "select", 
@@ -728,16 +747,39 @@ import React from 'react'
         tab: "BASIC_INFO" 
       },
       { 
+        label: "Service", 
+        dataField: "AssetID", 
+        inputFieldType: "related-select", 
+        inputSource: "", /** SET BY HANDLEINITIALFIELDMAPPING FN */
+        inputID: "id", 
+        inputValue: "AssetID",
+        relatedCollection: "Services", 
+        relatedDataField: "ServiceID",
+        relatedViewFields: [
+            {
+              label: "Asset ID",
+              fieldName: "Address1"
+            },
+            {
+              label: "Product",
+              fieldName: "VendorServiceName"
+            }
+          ],
+        relatedDataType: "Service",
+        tab: "DETAILS",
+        tabLabel: "DETAILS"  
+      },
+      { 
         label: "Details", 
         dataField: "Details", 
         inputFieldType: "text-area", 
-        tab: "BASIC_INFO" 
+        tab: "DETAILS" 
       },
       {
         label: "Notes",
         dataField: "Notes",
-        inputFieldType: "text",
-        tab: "DETAILS"
+        inputFieldType: "text-area",
+        tab: "NOTES"
       }
     ]
   
