@@ -20,7 +20,7 @@ import Loading from '../../Components/Loading'
 import CheckIfNeedsCache from '../../Components/Conditions/CheckIfNeedsCache'
 
 
-const ServiceDetailEdit = (state) => {
+const DetailModule = (state) => {
 
   const params = useParams()
   const history = useHistory()
@@ -209,7 +209,7 @@ const handleAddRelatedValue = (e) => {
 
 const handleToggleRelatedDrawer = (e) => {
   e === "Bills" ? setIsBillDrawerOpen(!isBillDrawerOpen) : null
-  e === "Orders" ? 
+  e === "Orders" ? setIsAddDrawerOpen(!isAddDrawerOpen) : null
 }
 
 const handleToggleViewDrawer = (e) => {
@@ -374,4 +374,4 @@ return (
     
   )
 }
-export default ServiceDetailEdit
+export default DetailModule
