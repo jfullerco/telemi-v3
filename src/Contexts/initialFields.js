@@ -687,11 +687,36 @@ import React from 'react'
         label: "Location", 
         dataField: "LocationName", 
         inputFieldType: "related-select", 
-        inputSource: locations, 
+        inputSource: "", /** SET BY HANDLEINITIALFIELDMAPPING FN */
         inputID: "id", 
-        inputValue: "Name", 
-        relatedDataField: "LocationID", 
-        tab: "BASIC_INFO" 
+        inputValue: "Name",
+        relatedCollection: "Locations", 
+        relatedDataField: "LocationID",
+        relatedViewFields: [
+            {
+              label: "Address 1",
+              fieldName: "Address1"
+            }, 
+            {
+              label: "Address 2",
+              fieldName: "Address2"
+            }, 
+            {
+              label: "City",
+              fieldName: "City"
+            }, 
+            {
+              label: "State",
+              fieldName: "State"
+            }, 
+            {
+              label: "Zip",
+              fieldName: "Zip"
+            }
+          ],
+        relatedDataType: "Location",
+        tab: "BASIC_INFO",
+        tabLabel: "BASIC INFO"  
       },
       { 
         label: "Status", 

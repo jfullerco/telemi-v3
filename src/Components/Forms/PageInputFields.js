@@ -45,7 +45,7 @@ const PageInputFields = ({
                 >
                   <option></option>
                   {field.inputSource && field.inputSource.map(i =>
-                    <option id={i[field.inputID]} name={i[field.dataField]}>
+                    <option id={i[field.inputID]} name={i[field.dataField]} key={i[field.inputID]}>
                       {i[field.inputValue]}
                     </option>
                   )}
@@ -70,7 +70,7 @@ const PageInputFields = ({
               <SelectField type="select" title={field.label} name={field.dataField} value={active && active[field.dataField]} handleChange={(e) => handleChange(e)} >
                 <option></option>
                 {field.inputSource && field.inputSource.map(i =>
-                  <option name={i[field.dataField]}>
+                  <option name={i[field.dataField]} key={i[field.inputID]}>
                     {i[field.inputValue]}
                   </option>
                 )}

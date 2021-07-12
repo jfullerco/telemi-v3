@@ -17,6 +17,7 @@ import TextArea from '../../Components/Forms/TextArea'
 import TabBar from '../../Components/Tabs/TabBar'
 import DeleteButton from '../../Components/Buttons/DeleteButton'
 import CheckIfNeedsCache from '../../Components/Conditions/CheckIfNeedsCache'
+import Loading from '../../Components/Loading'
 
 const OrderDetail = (state) => {
   const params = useParams()
@@ -131,7 +132,7 @@ const OrderDetail = (state) => {
     const id = await orderRef.id
     setActiveOrder({id: id, ...data})
     setData(data)
-    
+    setLoading(false)
   }
 
   const handleSubmit = async(e) => {
@@ -187,6 +188,7 @@ const handleSetCache = (value, setValue) => {
 
 console.log(data)
   return (
+    <Loading active={loading}>
       <Page title={`ORDER`} subtitle={activeOrder.OrderNum} active={activeOrder.CompanyName} status="view" handleToggle={()=> handleToggle()} pageSuccess={pageSuccess} pageError={pageError}>
         {userContext && userContext.userSession != undefined ? 
           <>
@@ -299,6 +301,7 @@ console.log(data)
           </div></> : 
         <div className="tile warning"> No record to display </div>}    
       </Page>
+    </Loading>
   )
 }
 export default OrderDetail

@@ -131,7 +131,14 @@ const ServiceDetailEdit = (state) => {
 
   }
 
-  
+  const fetchBills = async() => {
+    const billsRef = await db.collection("Bills").where("ServiceID", "==", params.id).get()
+    const bills = billsRef.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()}))
+    setBills(bills)
+    setLoading(false)
+  }  
 
   const handleSubmit = async(e) => {
     try {
