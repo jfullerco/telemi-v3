@@ -61,8 +61,8 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
                 
                 
           <div className="block">
-            <div className={pageSuccess && pageSuccess != false ? "notification is-success" : "is-hidden"}>Saved</div>
-            <div className={pageError && pageError != false ? "notification is-danger" : "is-hidden"}>Error Saving</div>
+            <div className={pageSuccess && pageSuccess != false ? "notification is-success" : "is-hidden"}>{pageSuccess}</div>
+            <div className={pageError && pageError != false ? "notification is-danger" : "is-hidden"}>{pageError}</div>
           </div>
           
             {children}

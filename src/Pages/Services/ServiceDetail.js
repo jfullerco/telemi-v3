@@ -60,7 +60,7 @@ const ServiceDetailEdit = (state) => {
   const [loading, setLoading] = useState(true)
   const [updated, setUpdated] = useState(false)
   const [pageFields, setPageFields] = useState(serviceDetailFields)
-  const [modalState, setModalState] = useState()
+  
   const [pageSuccess, setPageSuccess] = useState(false)
   const [pageError, setPageError] = useState(false)
     
@@ -131,14 +131,7 @@ const ServiceDetailEdit = (state) => {
 
   }
 
-  const fetchBills = async() => {
-    const billsRef = await db.collection("Bills").where("ServiceID", "==", params.id).get()
-    const bills = billsRef.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()}))
-    setBills(bills)
-    setLoading(false)
-  }  
+  
 
   const handleSubmit = async(e) => {
     try {

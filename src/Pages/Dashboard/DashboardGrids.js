@@ -141,11 +141,12 @@ const DashboardGrids = ({visible}) => {
 
   const handleOrderClick = (id) => {
                     history.push({
-                      pathname: `/orderdetail/${id}/${false}/${false}`,
+                      pathname: `/orderdetail/${currentCompanyID}/${id}`,
                       state: {
                       id: id,
-                      
-                      locations: locations,
+                      currentCompanyID: currentCompanyID,
+                      cachedLocations: locations,
+                      cachedAccounts: accounts
                       
                       }
                     })

@@ -30,6 +30,7 @@ const CompanyDropDown = ({currentCompany, companies, isActive, handleClick, hand
                 className={currentCompany === company.Name ? "dropdown-item is-active": "dropdown-item"} 
                 style={{textTransform: "uppercase"}}
                 onClick={()=>handleClick({id: company.id, name: company.Name})}
+                key={company.id}
               >
                 {company.Name}
               </a>

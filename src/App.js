@@ -60,7 +60,7 @@ export default function App() {
             <Route path="/servicedetail/:currentCompanyID/:id" component={ServiceDetail} />
             <Route path="/accountdetail/:id" component={AccountDetail} />
             <Route path="/locationdetail/:id/:checked/:new" component={LocationDetail} />
-            <Route path="/orderdetail/:id/:checked/:new" component={OrderDetail} />
+            <Route path="/orderdetail/:currentCompanyID/:id" component={OrderDetail} />
             <Route path="/ticketdetail/:id/:checked/:new" component={TicketDetail} />
             <Route path="/contractdetail/:id/:checked/:new" component={ContractDetail} />
             
