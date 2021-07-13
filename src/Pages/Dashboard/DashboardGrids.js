@@ -155,7 +155,7 @@ const DashboardGrids = ({visible}) => {
 {/**Add Buttons */}
   const handleAddServiceBtn = (id) => {
                     history.push({
-                      pathname: `/servicedetail/${currentCompanyID}/${id}`,
+                      pathname: `/Services/${currentCompanyID}/${id}`,
                       state: {
                       currentCompanyID: currentCompanyID,
                       isNew: "true",
