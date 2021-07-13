@@ -209,7 +209,7 @@ const handleAddRelatedValue = (e) => {
 
 const handleToggleRelatedDrawer = (e) => {
   e === "Bills" ? setIsBillDrawerOpen(!isBillDrawerOpen) : null
-  e === "Orders" ? 
+  
 }
 
 const handleToggleViewDrawer = (e) => {

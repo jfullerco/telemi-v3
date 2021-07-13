@@ -4,12 +4,13 @@ import DeleteButton from '../Buttons/DeleteButton'
 
 const MapListTable = ({
   data,
+  colRef,
   headerFields,
   handleClick
 }) => {
   return(
     <>
-      <table className="table is-hoverable is-fullwidth ">
+      <table className="table is-hoverable">
         <thead className="is-size-6">
           <tr>
             {headerFields && headerFields.map(col => 
@@ -24,13 +25,15 @@ const MapListTable = ({
         <tbody className="is-size-7">
             
           { data && data != undefined ? data.map(item => 
-            <tr onClick={(e)=>handleClick(item.id)} key={item.id}> 
-              {headerFields && headerFields.map(col => 
+            <tr key={item.id}> 
+            
+              {headerFields && headerFields.map(col =>
 
-                <td className="py-5" style={{width: "20%"}} key={item[col.headerName]} >
+                <td className="py-5" style={{ width: "20%" }} key={item[col.headerName]} name={col.relatedCollection} value={item[col.docField]}>
 
-                  {col.fieldType === 'currency' ? "$" : ""}{item[col.docField]} 
-
+                  <a onClick={(e) => handleClick({ colRef: colRef, id: item.id })}>
+                    {col.fieldType === 'currency' ? "$" : ""}{item[col.docField]}
+                  </a>
                 </td>
 
               )}

@@ -53,11 +53,11 @@ const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRe
                 )
                 : null : 
                 fieldData && item.relatedDataType === "Account" ? <a onClick={
-                  ()=> history.push(`/accountdetail/${fieldData[item.relatedDataField]}`)}> {[fieldData].map(data => data[item.dataField])} </a> 
+                  ()=> history.push(`/Accounts/${params.currentCompanyID}/${fieldData[item.relatedDataField]}`)}> {[fieldData].map(data => data[item.dataField])} </a> 
                 : 
                 fieldData && item.relatedDataType === "Service" ? <a onClick={
                   ()=> history.push(
-                    `/servicedetail/${params.currentCompanyID}/${fieldData[item.relatedDataField]}`
+                    `/Services/${params.currentCompanyID}/${fieldData[item.relatedDataField]}`
                   )}> {[fieldData].map(data => data[item.dataField])} </a> 
                 : null
                 }
@@ -71,7 +71,7 @@ const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRe
                 <MapListTable 
                   headerFields={item.relatedHeaderFields}
                   data={relatedDataMap}
-                  colRef={item.RelatedCollection}
+                  colRef={item.relatedCollection}
                   handleClick={(e)=>handleClick(e)}
                 />
                 

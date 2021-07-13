@@ -105,7 +105,7 @@ const DashboardGrids = ({visible}) => {
   const handleServiceClick = (id) => {
                   
                     history.push({
-                      pathname: `/servicedetail/${currentCompanyID}/${id}`,
+                      pathname: `/Services/${currentCompanyID}/${id}`,
                       state: {
                         currentCompanyID: currentCompanyID,
                         cachedLocations: locations,
@@ -116,7 +116,7 @@ const DashboardGrids = ({visible}) => {
 
   const handleTicketClick = (id) => {
                     history.push({
-                      pathname: `/ticketdetail/${id}/${false}/${false}`,
+                      pathname: `/Tickets/${currentCompanyID}/${id}`,
                       state: {
                       id: id,
                       services: services,
@@ -129,7 +129,7 @@ const DashboardGrids = ({visible}) => {
 
   const handleAccountClick = (id) => {
                     history.push({
-                      pathname: `/accountdetail/${id}/${false}/${false}`,
+                      pathname: `/Accounts/${currentCompanyID}/${id}`,
                       state: {
                       id: id,
                       services: services,
@@ -141,7 +141,7 @@ const DashboardGrids = ({visible}) => {
 
   const handleOrderClick = (id) => {
                     history.push({
-                      pathname: `/orderdetail/${currentCompanyID}/${id}`,
+                      pathname: `/Orders/${currentCompanyID}/${id}`,
                       state: {
                       id: id,
                       currentCompanyID: currentCompanyID,

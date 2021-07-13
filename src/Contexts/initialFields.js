@@ -261,7 +261,8 @@ import React from 'react'
         dataField: "AssetID", 
         inputFieldType: "text", 
         tab: "BASIC_INFO",
-        tabLabel: "BASIC INFO" 
+        tabLabel: "BASIC INFO", 
+        isHeader: true
       },
       { 
         label: "Bandwidth", 
@@ -414,18 +415,44 @@ import React from 'react'
         label: "Ticket Number", 
         dataField: "TicketNum", 
         inputFieldType: "text", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC_INFO",
+        isHeader: true 
       },
-      { 
-        label: "Service Location", 
+      {
+      label: "Service Location", 
         dataField: "LocationName", 
         inputFieldType: "related-select", 
-        inputSource: locations, 
+        inputSource: "", /** SET BY HANDLEINITIALFIELDMAPPING FN */
         inputID: "id", 
-        inputValue: "Name", 
-        relatedDataField: "LocationID", 
-        tab: "BASIC_INFO"  
-      },
+        inputValue: "Name",
+        relatedCollection: "Locations", 
+        relatedDataField: "LocationID",
+        relatedViewFields: [
+            {
+              label: "Address 1",
+              fieldName: "Address1"
+            }, 
+            {
+              label: "Address 2",
+              fieldName: "Address2"
+            }, 
+            {
+              label: "City",
+              fieldName: "City"
+            }, 
+            {
+              label: "State",
+              fieldName: "State"
+            }, 
+            {
+              label: "Zip",
+              fieldName: "Zip"
+            }
+          ],
+        relatedDataType: "Location",
+        tab: "BASIC_INFO",
+        tabLabel: "BASIC INFO"
+      },  
       { 
         label: "Service Location ID", 
         dataField: "LocationID", 
@@ -782,6 +809,95 @@ import React from 'react'
         tab: "NOTES"
       }
     ]
+    const billsDetailFields = [
+      { 
+        label: "Location", 
+        dataField: "LocationName", 
+        inputFieldType: "related-select", 
+        inputSource: "", /** SET BY HANDLEINITIALFIELDMAPPING FN */
+        inputID: "id", 
+        inputValue: "Name",
+        relatedCollection: "Locations", 
+        relatedDataField: "LocationID",
+        relatedViewFields: [
+            {
+              label: "Address 1",
+              fieldName: "Address1"
+            }, 
+            {
+              label: "Address 2",
+              fieldName: "Address2"
+            }, 
+            {
+              label: "City",
+              fieldName: "City"
+            }, 
+            {
+              label: "State",
+              fieldName: "State"
+            }, 
+            {
+              label: "Zip",
+              fieldName: "Zip"
+            }
+          ],
+        relatedDataType: "Location",
+        tab: "BASIC_INFO",
+        tabLabel: "BASIC INFO"  
+      },
+      { 
+        label: "Account Number", 
+        dataField: "AccountNum", 
+        inputFieldType: "text", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Account ID", 
+        dataField: "AccountID", 
+        inputFieldType: "text", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Vendor", 
+        dataField: "Vendor", 
+        inputFieldType: "select", 
+        inputSource: vendorList, 
+        inputID: "id", 
+        inputValue: "Name", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Amount Billed", 
+        dataField: "Cost", 
+        inputFieldType: "text", 
+        tab: "BASIC_INFO" 
+      },
+      {
+        label: "Asset ID",
+        dataField: "AssetID",
+        inputField: "text",
+        tab: "BASIC_INFO"
+      },
+      { 
+        label: "Disputed Amount", 
+        dataField: "DisputedAmount", 
+        inputFieldType: "text", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Company Name", 
+        dataField: "CompanyName", 
+        inputFieldType: "text", 
+        tab: "BASIC_INFO" 
+      },
+      { 
+        label: "Company ID", 
+        dataField: "CompanyID", 
+        inputFieldType: "text",  
+        tab: "BASIC_INFO" 
+      },
+  
+    ]
   
 
 export {
@@ -794,5 +910,6 @@ export {
     serviceDetailFields,
     ticketDetailFields,
     accountDetailFields,
-    orderDetailFields
+    orderDetailFields,
+    billsDetailFields
 }

@@ -1,23 +1,30 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'
 import {useParams, useHistory} from 'react-router-dom'
 
-import {stateContext} from '../../Contexts/stateContext'
-import { db } from '../../Contexts/firebase'
-import {serviceDetailFields} from '../../Contexts/initialFields'
+import {stateContext} from '../Contexts/stateContext'
+import { db } from '../Contexts/firebase'
+import {
+  serviceDetailFields,
+  orderDetailFields,
+  accountDetailFields,
+  ticketDetailFields,
+  billsDetailFields } from '../Contexts/initialFields'
 
-import Columns from '../../Components/Layout/Columns'
-import Column from '../../Components/Layout/Column'
-import Page from '../../Components/Page'
-import PageInputFields from '../../Components/Forms/PageInputFields'
-import DrawerComponent from '../../Components/Layout/DrawerComponent'
-import DeleteButton from '../../Components/Buttons/DeleteButton'
+import Columns from '../Components/Layout/Columns'
+import Column from '../Components/Layout/Column'
+import Page from '../Components/Page'
+import PageInputFields from '../Components/Forms/PageInputFields'
+import DrawerComponent from '../Components/Layout/DrawerComponent'
+import DeleteButton from '../Components/Buttons/DeleteButton'
 
-import TabBar from '../../Components/Tabs/TabBar'
+import TabBar from '../Components/Tabs/TabBar'
 
-import PageField from '../../Components/Layout/PageField'
-import AddBill from '../Accounts/Bill/AddBill'
-import Loading from '../../Components/Loading'
-import CheckIfNeedsCache from '../../Components/Conditions/CheckIfNeedsCache'
+import PageField from '../Components/Layout/PageField'
+import AddBill from './Accounts/Bill/AddBill'
+import Loading from '../Components/Loading'
+import CheckIfNeedsCache from '../Components/Conditions/CheckIfNeedsCache'
+import QuickAdd from './QuickAdd'
+import FieldLabel from '../Components/Layout/FieldLabel'
 
 
 const DetailModule = (state) => {
@@ -25,6 +32,7 @@ const DetailModule = (state) => {
   const params = useParams()
   const history = useHistory()
   
+  const { isModule } = params.isModule && params || null
 
   const userContext = useContext(stateContext)
 
@@ -53,14 +61,15 @@ const DetailModule = (state) => {
   const { cachedLocations } = state.location.state || []
   const { cachedAccounts } = state.location.state || []
   
-  
-  
   const [data, setData] = useState("")
-  const [activeService, setActiveService] = useState("")
-  const [newService, setNewService] = useState()
+  const [active, setActive] = useState("")
+  const [activeSubtitle, setActiveSubtitle] = useState("")
+  const [docIsNew, setDocIsNew] = useState()
   const [loading, setLoading] = useState(true)
   const [updated, setUpdated] = useState(false)
-  const [pageFields, setPageFields] = useState(serviceDetailFields)
+  const [pageFields, setPageFields] = useState([])
+  const [isQuickAddDataField, setIsQuickAddDataField] = useState("")
+  const [isQuickAddDrawerOpen, setIsQuickAddDrawerOpen] = useState(false)
   
   const [pageSuccess, setPageSuccess] = useState(false)
   const [pageError, setPageError] = useState(false)
@@ -71,20 +80,23 @@ const DetailModule = (state) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [isBillDrawerOpen, setIsBillDrawerOpen] = useState(false)
   
+  
   const [addRelatedValue, setAddRelatedValue] = useState()
   const [isRelatedActive, setIsRelatedActive] = useState(false)
   const [toggleHoverField, setToggleHoverField] = useState(false)
 
   useEffect(() => {
+    handlePageFields()
     checkForNew(isDrawerActive, isNew)
     setLoading(true)
-    fetchService()
+    fetchPage()
     fetchBills()
     
   }, [])
 
   useEffect(() => {
-    fetchService()
+    fetchPage()
+    handlePageFields()
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
     handleInitialFieldMapping("Type", serviceTypes, pageFields)
@@ -93,6 +105,8 @@ const DetailModule = (state) => {
     handleInitialFieldMapping("OrderNum", orders, pageFields)
     handleInitialFieldMapping("AccountNum", accounts, pageFields)
     handleInitialFieldMapping("Bills", bills, pageFields)
+    handleSetHeader()
+    
   },[loading])
 
   useEffect(() => {
@@ -109,9 +123,22 @@ const DetailModule = (state) => {
     
   },[updated])
 
+  const handlePageFields = () => {
+    isModule === "Services" ? setPageFields(serviceDetailFields) : null
+    isModule === "Accounts" ? setPageFields(accountDetailFields) : null
+    isModule === "Orders" ? setPageFields(orderDetailFields) : null
+    isModule === "Tickets" ? setPageFields(ticketDetailFields) : null
+    isModule === "Bills" ? setPageFields(billsDetailFields) : null
+  }
+
   const checkForNew = (isDrawerActive, isNew) => {
     isDrawerActive === "true" ? setIsDrawerOpen(true) : ""
-    isNew === "true" ? setNewService(true) : ""
+    isNew === "true" ? setDocIsNew(true) : ""
+  }
+
+  const handleSetHeader = () => {
+    const subtitle = pageFields.filter(f => f.isHeader === true).map(field => setActiveSubtitle(field.dataField))
+    setLoading(false)
   }
 
   const handleInitialFieldMapping = (field, value, arr) => {
@@ -121,52 +148,73 @@ const DetailModule = (state) => {
   
   }
   
-  const fetchService = async() => {
+  const fetchPage = async() => {
    
-    const serviceRef = await db.collection("Services").doc(params.id).get()
+    const pageFieldsRef = await db.collection(isModule).doc(params.id).get()
     
-    const data = await serviceRef.data()
-    const id = await serviceRef.id
-    setActiveService({id: id, ...data})
+    const data = await pageFieldsRef.data()
+    const id = await pageFieldsRef.id
+    setActive({id: id, ...data})
     setData(data)
 
   }
 
   const fetchBills = async() => {
     const billsRef = await db.collection("Bills").where("ServiceID", "==", params.id).get()
-    const bills = billsRef.docs.map(doc => ({
+    const bills = await billsRef.docs.map(doc => ({
       id: doc.id,
       ...doc.data()}))
-    setBills(bills)
-    setLoading(false)
+    await setBills(bills)
+    
+    await setLoading(false)
   }  
-
-  const handleSubmit = async(e) => {
-    try {
-      newService  === true ?
-      await db.collection("Services").doc().set(data) : 
-      await db.collection("Services").doc(activeService.id).update(data)
-      setPageSuccess("Service Added")
-    } catch {
-      setPageError("Error Adding Service")
-    } 
-    setNewService(false) 
-    setUpdated(true)
-    setIsDrawerOpen(!isDrawerOpen)
+console.log(pageFields)
+  const handleSubmit = () => {
+    
+    
+      docIsNew === true ?
+        
+      handleSubmitNew(data) : handleSubmitUpdated(data)
   }
 
   const autoClose = () => {
     setTimeout(() => {history.push("/dashboard")}, 1500)
   }
 
+  const handleSubmitNew = async(data) => {
+    try {
+      await db.collection(isModule).doc().set(data) 
+      
+      setPageSuccess("Saved")
+    } catch {
+      setPageError("Error saving")
+    } 
+    setDocIsNew(false) 
+    setUpdated(true)
+    setIsDrawerOpen(!isDrawerOpen)
+  }
+
+  const handleSubmitUpdated = async(data) => { 
+      try {
+        await db.collection(isModule).doc(params.id).update(data)
+        
+        setPageSuccess("Saved")
+      } catch {
+        setPageError("Error saving")
+      } 
+      setDocIsNew(false) 
+      setUpdated(true)
+      setIsDrawerOpen(!isDrawerOpen)
+  }
+  
   const handleToggle = () => {
     setIsDrawerOpen(!isDrawerOpen)
   }
 
 
 const handleSetLastUpdatedFields = () => {
-  setActiveService({
-    ...activeService,  
+  setActive({
+    ...active,  
     ['LastUpdated']: setCurrentDate(),
     ['LastUpdatedBy']: currentUser,
     ['CompanyID']: currentCompanyID, 
@@ -184,7 +232,7 @@ const handleSetLastUpdatedFields = () => {
 const handleChange = (e) => {
   const {name, value} = e.target
   console.log(name, value)
-  setActiveService({...activeService, [name]: value})
+  setActive({...active, [name]: value})
   setData({...data, [name]: value})
   setUpdated(!updated)
 }
@@ -197,7 +245,7 @@ const handleRelatedSelectChange = (e, relatedDataField) => {
   const {value} = e.target
   
   console.log({[relatedName]: id, [name]: value})
-  setActiveService({...activeService, [relatedName]: id, [name]: value})
+  setActive({...active, [relatedName]: id, [name]: value})
   setData({...data, [relatedName]: id, [name]: value})
   setUpdated(!updated)
 }
@@ -208,8 +256,8 @@ const handleAddRelatedValue = (e) => {
 }
 
 const handleToggleRelatedDrawer = (e) => {
-  e === "Bills" ? setIsBillDrawerOpen(!isBillDrawerOpen) : null
-  e === "Orders" ? setIsAddDrawerOpen(!isAddDrawerOpen) : null
+  setIsQuickAddDataField(e)
+  setIsQuickAddDrawerOpen(true)
 }
 
 const handleToggleViewDrawer = (e) => {
@@ -229,15 +277,26 @@ const handleSetCache = (value, setValue) => {
 }
 
 const handleClick = (e) => {
-  history.push(`/orderdetail/${currentCompanyID}/${e}`)
+  console.log("clicked:",e)
+  setLoading(true)
+ history.push({
+    pathname: `/${e.colRef}/${currentCompanyID}/${e.id}`,
+    state: {
+    isNew: true,
+    services: services,
+    locations: locations,
+    accounts: accounts
+    }
+            }) 
 }
 
+console.log(active)
 return (
     <Loading active={loading}>
 
     <Page 
       title="DETAILS" 
-      subtitle={activeService.AssetID} 
+      subtitle={active && [active].map(item => item[activeSubtitle] && item[activeSubtitle])} 
       status="view" 
       handleToggle={()=> handleToggle()} 
       pageSuccess={pageSuccess} 
@@ -259,34 +318,38 @@ return (
 
               <nav className="breadcrumb" aria-label="breadcrumbs"> {/** Refactor this as LastUpdatedComponent Component with Hook */}
                 <ul>
-                  <li className="is-size-7 is-uppercase">last updated: {activeService.LastUpdated && activeService.LastUpdated}</li>
-                  <li className="is-size-7 is-uppercase pl-2">updated by: {activeService.LastUpdatedBy && activeService.LastUpdatedBy}</li>
+                  <li className="is-size-7 is-uppercase">last updated: {active.LastUpdated && active.LastUpdated}</li>
+                  <li className="is-size-7 is-uppercase pl-2">updated by: {active.LastUpdatedBy && active.LastUpdatedBy}</li>
                 </ul>
               </nav>
 
               {/** Refactor as ViewPageFields Component */}
-              {activeService && pageFields.map(field => 
+              {active && pageFields.map(field => 
                 <>
-                  {[activeService].map(service => 
+                  {[active].map(docItem => 
                     <div className={field.visible != false & field.tab === tab ? "" : "is-hidden" }> 
                     <Columns options="is-mobile">
                       <Column size="is-3">
 
-                        <div className="has-text-weight-semibold" key={field.label}>
-                          
-                          {field.label} 
+                        <FieldLabel>
+                          <Columns options="is-mobile">
+                            <Column size="is-11">
+                              <div key={field.label}>{field.label} 
 
-                          {field.addBtn === true ? 
-                            <a className="link has-text-weight-normal is-size-7 pl-2" 
-                              onClick={(e) => handleToggleRelatedDrawer(field.relatedCollection)}>   
-                              (add)
-                            </a> : null}
-
-                        </div>
+                                {field.addBtn === true ? 
+                                  <a className="link has-text-weight-normal is-size-7 pl-2" 
+                                    onClick={(e) => console.log(field)}>   
+                                    (add) {/**handleToggleRelatedDrawer({colRef: field.relatedCollection, dataField: field.dataField }) */}
+                                  </a> : null}
+                                </div>
+                              </Column>
+                              <Column>:</Column>
+                            </Columns>
+                        </FieldLabel>
 
                       </Column>
-                      <Column size="is-narrow">:</Column>
-                      <Column>
+                     
+                      <Column size="pl-5">
                       
                       <CheckIfNeedsCache 
                           value={accounts} 
@@ -300,10 +363,10 @@ return (
                         >   
                           <PageField 
                             field={field}
-                            fieldData={service}
+                            fieldData={docItem}
                             relatedDataMap={
                                 field.inputSource && field.inputSource.filter(item => 
-                                  item[field.relatedDataField] === service.id).map(i => ({...i}))
+                                  item[field.relatedDataField] === docItem.id).map(i => ({...i}))
                               }
                             toggleViewDrawer={()=>handleToggle()}
                             toggleFieldDropDown={()=>setIsRelatedActive(!isRelatedActive)}
@@ -332,7 +395,7 @@ return (
                   handleChange={(e)=> handleChange(e)}
                   handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
                   pageFields={pageFields}
-                  active={activeService}
+                  active={active}
                   tab={tab}
                   addRelatedValue={addRelatedValue}
                   handleAddRelatedValue={(e)=>handleAddRelatedValue(e)}
@@ -343,20 +406,27 @@ return (
                 />
 
                 <DeleteButton 
-                  colRef="Services"
-                  docRef={activeService.id}
+                  colRef={isModule}
+                  docRef={active.id}
                 />
 
               </DrawerComponent>
 
+              
+
               <DrawerComponent
-                checked={isBillDrawerOpen}
+                checked={isQuickAddDrawerOpen}
                 hideBtns={true} 
                 direction="right"
                 handleSubmit={()=> handleBillSubmit()}
               >
+
+                <QuickAdd 
+                  colRef={isQuickAddDataField.colRef}
+                  dataField={isQuickAddDataField.dataField}
+                />
                 <AddBill 
-                  active={activeService}
+                  active={active}
                   handleClose={(e)=>setIsBillDrawerOpen(e)}
                   handleUpdated={()=>handleUpdated(!updated)}
                 />
