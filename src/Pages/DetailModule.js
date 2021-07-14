@@ -74,7 +74,8 @@ const DetailModule = (state) => {
   const [pageSuccess, setPageSuccess] = useState(false)
   const [pageError, setPageError] = useState(false)
     
-  const [relatedDataToShow, setRelatedDataToShow] = useState("")
+  const [relatedInputData, setRelatedInputData] = useState("")
+  const [isRelatedDrawerOpen, setIsRelatedDrawerOpen] = useState(false)
   
   const [tab, setTab] = useState("BASIC_INFO")
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
@@ -290,7 +291,19 @@ const handleClick = (e) => {
             }) 
 }
 
-console.log(active)
+const handleRelatedSubmit = () => {
+  console.log("this works")
+}
+
+const handleRelatedDrawer = (colRef, dataField, dataLabel) => {
+  console.log({collection: colRef, field: dataField, label: dataLabel})
+  setRelatedInputData({collection: colRef, field: dataField, label: dataLabel})
+  setIsRelatedDrawerOpen(true)
+}
+
+const handleRelatedChange = (e) => {
+  console.log(e.target.value)
+}
 return (
     <Loading active={loading}>
 
@@ -338,7 +351,7 @@ return (
 
                                 {field.addBtn === true ? 
                                   <a className="link has-text-weight-normal is-size-7 pl-2" 
-                                    onClick={(e) => console.log(field)}>   
+                                    onClick={(e) => handleRelatedDrawer(field.relatedCollection, field.dataField, field.relatedInputLabel)}>   
                                     (add) {/**handleToggleRelatedDrawer({colRef: field.relatedCollection, dataField: field.dataField }) */}
                                   </a> : null}
                                 </div>
@@ -415,21 +428,27 @@ return (
               
 
               <DrawerComponent
-                checked={isQuickAddDrawerOpen}
+                checked={isRelatedDrawerOpen}
                 hideBtns={true} 
                 direction="right"
-                handleSubmit={()=> handleBillSubmit()}
+                
               >
 
                 <QuickAdd 
-                  colRef={isQuickAddDataField.colRef}
-                  dataField={isQuickAddDataField.dataField}
+                  colRef={relatedInputData.collection}
+                  dataField={relatedInputData.field}
+                  label={relatedInputData.label}
+                  handleSubmit={(e)=>handleRelatedSubmit(e)}
+                  handleClose={()=>setIsRelatedDrawerOpen(!isRelatedDrawerOpen)}
+                  handleRelatedInputChange={(event)=>handleRelatedChange(event)}
                 />
+                {relatedInputData === "Bills" ? 
                 <AddBill 
                   active={active}
                   handleClose={(e)=>setIsBillDrawerOpen(e)}
                   handleUpdated={()=>handleUpdated(!updated)}
                 />
+                : null}
 
               </DrawerComponent>
 

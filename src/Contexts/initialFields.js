@@ -302,6 +302,7 @@ import React from 'react'
         inputSource: "", 
         inputID: "id", 
         inputValue: "OrderNum",
+        relatedInputLabel: "Order Number",
         relatedCollection: "Orders", 
         relatedDataField: "ServiceID",
         checkJoin: "ServiceID", 
