@@ -38,7 +38,7 @@ const PageInputFields = ({
                   name={field.dataField, <a className="link is-size-7 pl-1" onClick={() => handleAddValue(addColName)}>(add)</a>}
                   value={active && active[field.dataField]}
                   handleChange={(e) => handleRelatedSelectChange(e, { name: field.dataField, relatedName: field.relatedDataField })}
-                  addColName={field.relatedCollection}
+                  field={field}
                   handleAddValue={(e) => handleAddRelatedValue(e)}
                   showAddLink={true}
                 >

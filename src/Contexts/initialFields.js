@@ -193,6 +193,7 @@ import React from 'react'
         inputValue: "Name",
         relatedCollection: "Locations", 
         relatedDataField: "LocationID",
+        relatedInputLabel: "Location Name",
         relatedViewFields: [
             {
               label: "Address 1",

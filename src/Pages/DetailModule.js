@@ -424,7 +424,7 @@ return (
                   active={active}
                   tab={tab}
                   addRelatedValue={addRelatedValue}
-                  handleAddRelatedValue={(e)=>handleAddRelatedValue(e)}
+                  handleAddRelatedValue={(e)=>handleRelatedDrawer(e.relatedCollection, e.dataField, e.relatedInputLabel, e.relatedDataField)}
                   resetAddRelatedValue={()=>setAddRelatedValue("")}
                   handleUpdated={()=>setUpdated(!updated)}
                   currentCompany={currentCompany}
