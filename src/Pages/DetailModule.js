@@ -102,6 +102,7 @@ const DetailModule = (state) => {
     handleInitialFieldMapping("AccessType", accessTypes, pageFields)
     handleInitialFieldMapping("Status", serviceStatusType, pageFields)
     handleInitialFieldMapping("OrderNum", orders, pageFields)
+    handleInitialFieldMapping("ServiceID", services, pageFields)
     handleInitialFieldMapping("AccountNum", accounts, pageFields)
     handleInitialFieldMapping("Bills", bills, pageFields)
     handleSetHeader()
@@ -118,6 +119,7 @@ const DetailModule = (state) => {
     handleInitialFieldMapping("AccessType", accessTypes, pageFields)
     handleInitialFieldMapping("Status", serviceStatusType, pageFields)
     handleInitialFieldMapping("OrderNum", orders, pageFields)
+    handleInitialFieldMapping("ServiceID", services, pageFields)
     handleInitialFieldMapping("AccountNum", accounts, pageFields)
     handleInitialFieldMapping("Bills", bills, pageFields)
     
