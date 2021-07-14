@@ -58,7 +58,7 @@ export default function App() {
             
             
             <Route path="/:isModule/:currentCompanyID/:id" component={DetailModule} />
-            <Route path="/Related/:isModule/:currentCompanyID/:id" component={DetailModule} />
+            
             <Route path="/accountdetail/:id" component={AccountDetail} />
             <Route path="/locationdetail/:id/:checked/:new" component={LocationDetail} />
             <Route path="/orderdetail/:currentCompanyID/:id" component={OrderDetail} />

@@ -31,7 +31,7 @@ const PageInputFields = ({
             return (
               <>
 
-                {console.log(field.inputSource.filter(f => f[field.checkJoin] === active.id))}
+               
                 
                 {field.inputSource && field.inputSource.filter(f => f[field.checkJoin] === active.id).length > 0 ? 
                   !active[field.checkJoin] ?

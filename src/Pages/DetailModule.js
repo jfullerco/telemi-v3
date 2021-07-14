@@ -79,12 +79,10 @@ const DetailModule = (state) => {
   
   const [tab, setTab] = useState("BASIC_INFO")
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const [isBillDrawerOpen, setIsBillDrawerOpen] = useState(false)
-  
   
   const [addRelatedValue, setAddRelatedValue] = useState()
   const [isRelatedActive, setIsRelatedActive] = useState(false)
-  const [toggleHoverField, setToggleHoverField] = useState(false)
+  
 
   useEffect(() => {
     handlePageFields()
@@ -96,7 +94,7 @@ const DetailModule = (state) => {
   }, [])
 
   useEffect(() => {
-    fetchPage()
+    
     handlePageFields()
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
@@ -111,7 +109,8 @@ const DetailModule = (state) => {
   },[loading])
 
   useEffect(() => {
-    
+
+    handlePageFields()
     handleSetLastUpdatedFields()
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
@@ -157,9 +156,9 @@ const DetailModule = (state) => {
     const id = await pageFieldsRef.id
     setActive({id: id, ...data})
     setData(data)
-
+    console.log("fetch:", active, data)
   }
-
+console.log("after", active, data)
   const fetchBills = async() => {
     const billsRef = await db.collection("Bills").where("ServiceID", "==", params.id).get()
     const bills = await billsRef.docs.map(doc => ({
@@ -256,53 +255,54 @@ const handleAddRelatedValue = (e) => {
   setAddRelatedValue(e)
 }
 
-const handleToggleRelatedDrawer = (e) => {
-  setIsQuickAddDataField(e)
-  setIsQuickAddDrawerOpen(true)
-}
-
-const handleToggleViewDrawer = (e) => {
-  
-  const {source, id, fields, type} = e
-  
-  const filteredValue = source && source.filter(f => f.id === id).map(i=> ({...i}))
-  
-  console.log("filtered:", filteredValue, "fields:", fields)
-  setRelatedDataToShow({fields: fields, active: filteredValue, type: type})
-  setIsDrawerOpen(true)
-  
-}
-
 const handleSetCache = (value, setValue) => {
   setValue(value)
 }
 
 const handleClick = (e) => {
-  console.log("clicked:",e)
   setLoading(true)
- history.push({
+  history.push({
     pathname: `/${e.colRef}/${currentCompanyID}/${e.id}`,
     state: {
-    isNew: true,
+    
     services: services,
     locations: locations,
     accounts: accounts
     }
-            }) 
+  }) 
 }
 
-const handleRelatedSubmit = () => {
-  console.log("this works")
+const handleRelatedSubmit = async() => {
+  console.log(relatedInputData)
+  try {
+  await db.collection(relatedInputData.collection).doc().set(relatedInputData.data)
+    setPageSuccess(`New ${relatedInputData.label} Saved`)
+  } catch {
+    setPageError(`Error Saving New ${relatedInputData.label}`)
+  }
+    
+    setUpdated(true)
+    
 }
 
-const handleRelatedDrawer = (colRef, dataField, dataLabel) => {
+const handleRelatedDrawer = (colRef, dataField, dataLabel, relatedDataField) => {
   console.log({collection: colRef, field: dataField, label: dataLabel})
-  setRelatedInputData({collection: colRef, field: dataField, label: dataLabel})
+  setRelatedInputData({collection: colRef, field: dataField, label: dataLabel, fieldRelated: relatedDataField})
   setIsRelatedDrawerOpen(true)
 }
 
-const handleRelatedChange = (e) => {
-  console.log(e.target.value)
+const handleRelatedInputChange = (e) => {
+  const {name, value} = e.target
+  setRelatedInputData({
+    ...relatedInputData, 
+    data: {
+      [name]: value,
+      CompanyID: currentCompanyID,
+      CompanyName: currentCompany,
+      CreatedDate: setCurrentDate(),
+      CreatedBy: currentUser,
+      [relatedInputData.fieldRelated]: params.id
+    }})
 }
 return (
     <Loading active={loading}>
@@ -351,7 +351,7 @@ return (
 
                                 {field.addBtn === true ? 
                                   <a className="link has-text-weight-normal is-size-7 pl-2" 
-                                    onClick={(e) => handleRelatedDrawer(field.relatedCollection, field.dataField, field.relatedInputLabel)}>   
+                                    onClick={(e) => handleRelatedDrawer(field.relatedCollection, field.dataField, field.relatedInputLabel, field.relatedDataField)}>   
                                     (add) {/**handleToggleRelatedDrawer({colRef: field.relatedCollection, dataField: field.dataField }) */}
                                   </a> : null}
                                 </div>
@@ -429,27 +429,20 @@ return (
 
               <DrawerComponent
                 checked={isRelatedDrawerOpen}
-                hideBtns={true} 
                 direction="right"
-                
+                handleClose={()=>setIsRelatedDrawerOpen(!isRelatedDrawerOpen)}
+                handleSubmit={()=>handleRelatedSubmit()}
               >
 
                 <QuickAdd 
                   colRef={relatedInputData.collection}
                   dataField={relatedInputData.field}
                   label={relatedInputData.label}
-                  handleSubmit={(e)=>handleRelatedSubmit(e)}
-                  handleClose={()=>setIsRelatedDrawerOpen(!isRelatedDrawerOpen)}
-                  handleRelatedInputChange={(event)=>handleRelatedChange(event)}
+                  
+                  
+                  handleRelatedInputChange={(e)=>handleRelatedInputChange(e)}
                 />
-                {relatedInputData === "Bills" ? 
-                <AddBill 
-                  active={active}
-                  handleClose={(e)=>setIsBillDrawerOpen(e)}
-                  handleUpdated={()=>handleUpdated(!updated)}
-                />
-                : null}
-
+                
               </DrawerComponent>
 
           </div>
