@@ -20,6 +20,7 @@ import AddUser from './Pages/Users/AddUser'
 import AddContract from './Pages/Contracts/AddContract'
 
 import DetailModule from './Pages/DetailModule'
+import RelatedDetailModule from './Pages/RelatedDetailModule'
 import CompanyDetail from './Pages/Companies/CompanyDetail'
 import ServiceDetail from './Pages/Services/ServiceDetail'
 import AccountDetail from './Pages/Accounts/AccountDetail'
@@ -58,7 +59,7 @@ export default function App() {
             
             
             <Route path="/:isModule/:currentCompanyID/:id" component={DetailModule} />
-            
+            <Route path="/Related/:isModule/:currentCompanyID/:id" component={RelatedDetailModule} />
             <Route path="/accountdetail/:id" component={AccountDetail} />
             <Route path="/locationdetail/:id/:checked/:new" component={LocationDetail} />
             <Route path="/orderdetail/:currentCompanyID/:id" component={OrderDetail} />

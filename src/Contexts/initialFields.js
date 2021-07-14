@@ -719,7 +719,8 @@ import React from 'react'
       { 
         label: "Order Number", 
         dataField: "OrderNum", 
-        inputFieldType: "text", 
+        inputFieldType: "text",
+        isHeader: true, 
         tab: "BASIC_INFO" 
       },
       { 

@@ -27,7 +27,7 @@ import QuickAdd from './QuickAdd'
 import FieldLabel from '../Components/Layout/FieldLabel'
 
 
-const DetailModule = (state) => {
+const RelatedDetailModule = (state) => {
 
   const params = useParams()
   const history = useHistory()
@@ -85,9 +85,9 @@ const DetailModule = (state) => {
   
 
   useEffect(() => {
-    setLoading(true)
-    handlePageFields(isModule)
+    handlePageFields()
     checkForNew(isDrawerActive, isNew)
+    setLoading(true)
     fetchPage()
     fetchBills()
     
@@ -96,7 +96,6 @@ const DetailModule = (state) => {
   useEffect(() => {
     
     handlePageFields()
-    setTab("BASIC_INFO")
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
     handleInitialFieldMapping("Type", serviceTypes, pageFields)
@@ -107,7 +106,7 @@ const DetailModule = (state) => {
     handleInitialFieldMapping("AccountNum", accounts, pageFields)
     handleInitialFieldMapping("Bills", bills, pageFields)
     handleSetHeader()
-    handleFinishedLoading()
+    
   },[loading])
 
   useEffect(() => {
@@ -126,7 +125,7 @@ const DetailModule = (state) => {
     
   },[updated])
 
-  const handlePageFields = (isModule) => {
+  const handlePageFields = () => {
     switch (isModule) {
       case "Services": 
         return (
@@ -158,6 +157,7 @@ const DetailModule = (state) => {
 
   const handleSetHeader = () => {
     const subtitle = pageFields.filter(f => f.isHeader === true).map(field => setActiveSubtitle(field.dataField))
+    setLoading(false)
   }
 
   const handleInitialFieldMapping = (field, value, arr) => {
@@ -169,29 +169,35 @@ const DetailModule = (state) => {
   
   const fetchPage = async() => {
    
-    const pageFieldsRef = await db.collection(isModule).doc(params.id).get() 
+    const pageFieldsRef = await db.collection(isModule).doc(params.id).get()
+    
     const data = await pageFieldsRef.data()
     const id = await pageFieldsRef.id
-    await setActive({id: id, ...data})
-    await setData(data)
-  
+    setActive({id: id, ...data})
+    setData(data)
+    console.log("fetch:", active, data)
   }
-
+console.log("after", active, data)
   const fetchBills = async() => {
     const billsRef = await db.collection("Bills").where("ServiceID", "==", params.id).get()
     const bills = await billsRef.docs.map(doc => ({
       id: doc.id,
       ...doc.data()}))
     await setBills(bills)
-
+    
+    await setLoading(false)
   }  
-  const handleFinishedLoading = () => {
-    setTimeout(() => {setLoading(false)}, 1000)
+console.log(pageFields)
+  const handleSubmit = () => {
+    
+    
+      docIsNew === true ?
+        
+      handleSubmitNew(data) : handleSubmitUpdated(data)
   }
 
-  const handleSubmit = () => {
-      docIsNew === true ?   
-      handleSubmitNew(data) : handleSubmitUpdated(data)
+  const autoClose = () => {
+    setTimeout(() => {history.push("/dashboard")}, 1500)
   }
 
   const handleSubmitNew = async(data) => {
@@ -219,17 +225,11 @@ const DetailModule = (state) => {
       setUpdated(true)
       setIsDrawerOpen(!isDrawerOpen)
   }
-
-  const handleRelatedSubmit = async() => {
-    console.log(relatedInputData)
-    try {
-    await db.collection(relatedInputData.collection).doc().set(relatedInputData.data)
-      setPageSuccess(`New ${relatedInputData.label} Saved`)
-    } catch {
-      setPageError(`Error Saving New ${relatedInputData.label}`)
-    }  
-      setUpdated(true)  
+  
+  const handleToggle = () => {
+    setIsDrawerOpen(!isDrawerOpen)
   }
+
 
 const handleSetLastUpdatedFields = () => {
   setActive({
@@ -246,11 +246,7 @@ const handleSetLastUpdatedFields = () => {
     ['CompanyID']: currentCompanyID, 
     ['CompanyName']: currentCompany
   })
-}
-
-const handleToggle = () => {
-  setIsDrawerOpen(!isDrawerOpen)
-}
+}  
 
 const handleChange = (e) => {
   const {name, value} = e.target
@@ -287,6 +283,7 @@ const handleClick = (e) => {
   history.push({
     pathname: `/${e.colRef}/${currentCompanyID}/${e.id}`,
     state: {
+    
     services: services,
     locations: locations,
     accounts: accounts
@@ -294,13 +291,22 @@ const handleClick = (e) => {
   }) 
 }
 
+const handleRelatedSubmit = async() => {
+  console.log(relatedInputData)
+  try {
+  await db.collection(relatedInputData.collection).doc().set(relatedInputData.data)
+    setPageSuccess(`New ${relatedInputData.label} Saved`)
+  } catch {
+    setPageError(`Error Saving New ${relatedInputData.label}`)
+  }
+    
+    setUpdated(true)
+    
+}
+
 const handleRelatedDrawer = (colRef, dataField, dataLabel, relatedDataField) => {
-  setRelatedInputData({
-    collection: colRef, 
-    field: dataField, 
-    label: dataLabel, 
-    fieldRelated: relatedDataField
-  })
+  console.log({collection: colRef, field: dataField, label: dataLabel})
+  setRelatedInputData({collection: colRef, field: dataField, label: dataLabel, fieldRelated: relatedDataField})
   setIsRelatedDrawerOpen(true)
 }
 
@@ -321,7 +327,7 @@ return (
     <Loading active={loading}>
 
     <Page 
-      title={isModule.toUpperCase() || "DETAILS"}
+      title="DETAILS" 
       subtitle={active && [active].map(item => item[activeSubtitle] && item[activeSubtitle])} 
       status="view" 
       handleToggle={()=> handleToggle()} 
@@ -365,7 +371,7 @@ return (
                                 {field.addBtn === true ? 
                                   <a className="link has-text-weight-normal is-size-7 pl-2" 
                                     onClick={(e) => handleRelatedDrawer(field.relatedCollection, field.dataField, field.relatedInputLabel, field.relatedDataField)}>   
-                                    (add) 
+                                    (add) {/**handleToggleRelatedDrawer({colRef: field.relatedCollection, dataField: field.dataField }) */}
                                   </a> : null}
                                 </div>
                               </Column>
@@ -377,7 +383,7 @@ return (
                      
                       <Column size="pl-5">
                       
-                        <CheckIfNeedsCache 
+                      <CheckIfNeedsCache 
                           value={accounts} 
                           setValue={setAccounts} 
                           handleSetCache={(value, setValue)=>handleSetCache(value, setValue)} fallbackValue={cachedAccounts}
@@ -451,10 +457,10 @@ return (
                   colRef={relatedInputData.collection}
                   dataField={relatedInputData.field}
                   label={relatedInputData.label}
+                  
+                  
                   handleRelatedInputChange={(e)=>handleRelatedInputChange(e)}
                 />
-
-
                 
               </DrawerComponent>
 
@@ -469,4 +475,4 @@ return (
     
   )
 }
-export default DetailModule
+export default RelatedDetailModule

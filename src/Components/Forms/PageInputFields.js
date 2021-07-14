@@ -1,5 +1,6 @@
 import React from 'react'
-import Drawer from '@material-ui/core/Drawer'
+import Columns from '../../Components/Columns'
+import Column from '../../Components/Layout/Column'
 import SelectField from '../../Components/Forms/SelectField'
 import TextBox from '../../Components/Forms/TextBox'
 import TextArea from '../../Components/Forms/TextArea'
@@ -30,26 +31,11 @@ const PageInputFields = ({
           case "related-select":
             return (
               <>
-
-               
-                
-                {field.inputSource && field.inputSource.filter(f => f[field.checkJoin] === active.id).length > 0 ? 
-                  !active[field.checkJoin] ?
-                    field.inputSource.filter(f => f[field.checkJoin] === active.id).map(value =>
-                      
-                      <a onClick={(e) => handleChange(e)}>
-                        <input name={field.dataField} value={value[field.inputValue]} />
-                        {console.log(active)}
-                      </a> 
-                      
-                      
-
-                    ) : <>Linked to: <a> {value[field.inputValue]}</a></> : 
-
+  
                 <SelectField
                   type="select"
                   title={field.label}
-                  name={field.dataField}
+                  name={field.dataField, <a className="link is-size-7 pl-1" onClick={() => handleAddValue(addColName)}>(add)</a>}
                   value={active && active[field.dataField]}
                   handleChange={(e) => handleRelatedSelectChange(e, { name: field.dataField, relatedName: field.relatedDataField })}
                   addColName={field.relatedCollection}
@@ -64,7 +50,7 @@ const PageInputFields = ({
                       {i[field.inputValue]}
                     </option>
                   )}
-                </SelectField>}
+                </SelectField>
 
                 {addRelatedValue === "Locations" ?
                   <AddLocationModal
@@ -75,8 +61,6 @@ const PageInputFields = ({
                     nameRef={field.inputValue}
                   /> 
                 : ""}
-
-
 
               </>
 
