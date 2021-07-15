@@ -21,10 +21,10 @@ const RelatedPageInputFields = ({
         switch (related.fieldType) {
 
           case "text":
-            return (
-
+            return (<>
+{console.log(pageFields)}
               <TextBox title={related.label} name={related.docField} value={""} fieldChanged={(e)=>handleChange(e)} />
-
+</>
             )
 
           case "currency":
