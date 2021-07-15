@@ -96,7 +96,9 @@ const DetailModule = (state) => {
 
   useEffect(() => {
     
-    handlePageFields()
+    handlePageFields(isModule)
+    fetchPage()
+    fetchBills()
     setTab("BASIC_INFO")
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
@@ -229,7 +231,8 @@ const DetailModule = (state) => {
     } catch {
       setPageError(`Error Saving New ${relatedInputData.label}`)
     }  
-      setUpdated(true)  
+      setIsRelatedDrawerOpen(!isRelatedDrawerOpen)
+      setLoading(!loading)  
   }
 
 const handleSetLastUpdatedFields = () => {
@@ -290,12 +293,13 @@ const handleClick = (e) => {
     state: {
     services: services,
     locations: locations,
-    accounts: accounts
+    accounts: accounts,
     }
   }) 
 }
 console.log(relatedInputData)
 const handleRelatedDrawer = (field) => {
+  field.inputFieldType === "map-list" ? (
   setRelatedInputData({
     collection: field.relatedCollection, 
     pageFields: field.relatedInputFields, 
@@ -305,9 +309,21 @@ const handleRelatedDrawer = (field) => {
       ['CompanyName']: currentCompany,
       ['CreatedDate']: setCurrentDate(),
       ['CreatedBy']: currentUser,
-      
+      [field.relatedDataField]: params.id
     }  
-  })
+  })) : (
+  setRelatedInputData({
+    collection: field.relatedCollection, 
+    pageFields: field.relatedInputFields, 
+    label: field.label, 
+    data: {
+      ['CompanyID']: currentCompanyID,
+      ['CompanyName']: currentCompany,
+      ['CreatedDate']: setCurrentDate(),
+      ['CreatedBy']: currentUser,
+      [field.relatedDataField]: params.id
+    }  
+  }))
   setIsRelatedDrawerOpen(true)
 }
 
@@ -364,9 +380,9 @@ return (
                             <Column size="is-11">
                               <div key={field.label}>{field.label} 
 
-                                {field.addBtn === true ? 
+                                {field.inputFieldType === "map-list" ? 
                                   <a className="link has-text-weight-normal is-size-7 pl-2" 
-                                    onClick={(e) => console.log(field)}>   
+                                    onClick={() => handleRelatedDrawer(field)}>   
                                     (add) 
                                   </a> : null}
                                 </div>

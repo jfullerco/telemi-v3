@@ -313,28 +313,27 @@ import React from 'react'
         inputSource: "", 
         inputID: "id", 
         inputValue: "OrderNum",
-        relatedInputLabel: "Order Number",
         relatedCollection: "Orders", 
-        relatedDataField: "ServiceID",
-        checkJoin: "ServiceID", 
-        relatedHeaderFields: [
+        relatedDataField: "ServiceID", 
+        relatedInputLabel: "Order Number",
+        relatedInputFields: [
                               {
-                                headerName: 'Date', 
-                                docField: 'DateOrdered', 
-                                fieldType: 'date-picker'
+                                label: 'Date', 
+                                docField: 'OrderDate', 
+                                fieldType: 'datepicker'
                               }, 
                               {
-                                headerName: 'Order Number', 
+                                label: 'Order Number', 
                                 docField: 'OrderNum', 
                                 fieldType: 'text'
                               }, 
                               {
-                                headerName: 'Status', 
+                                label: 'Status', 
                                 docField: 'Status', 
                                 fieldType: 'text'
                               }
         ], 
-        addBtn: true,
+        
         tab: "DETAILS",
         tabLabel: "DETAILS"  
       },

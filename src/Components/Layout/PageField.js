@@ -8,6 +8,7 @@ import RelatedFieldDropDown from '../../Components/DropDowns/RelatedFieldDropDow
 const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRelatedActive, toggleFieldDropDown, handleClick}) => {
   const history = useHistory()
   const params = useParams()
+  
   return(
     <>
     {field && [field].map(item => {
@@ -66,9 +67,10 @@ const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRe
           case "map-list":
             return (
               <>
+              
 
                 <MapListTable 
-                  headerFields={item.relatedHeaderFields}
+                  headerFields={item.relatedInputFields}
                   data={relatedDataMap}
                   colRef={item.relatedCollection}
                   handleClick={(e)=>handleClick(e)}

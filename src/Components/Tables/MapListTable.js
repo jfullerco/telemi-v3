@@ -16,7 +16,7 @@ const MapListTable = ({
             {headerFields && headerFields.map(col => 
               <th style={{width: "20%"}} key={col.keyProp}>
 
-                {col.headerName && col.headerName}
+                {col.label && col.label}
 
               </th>
             )}
@@ -29,7 +29,7 @@ const MapListTable = ({
             
               {headerFields && headerFields.map(col =>
 
-                <td className="py-5" style={{ width: "20%" }} key={item[col.headerName]} name={col.relatedCollection} value={item[col.docField]}>
+                <td className="py-5" style={{ width: "20%" }} key={item[col.label]} name={col.relatedCollection} value={item[col.docField]}>
 
                   <a onClick={(e) => handleClick({ colRef: colRef, id: item.id })}>
                     {col.fieldType === 'currency' ? "$" : ""}{item[col.docField]}
