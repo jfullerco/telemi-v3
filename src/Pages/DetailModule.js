@@ -14,6 +14,7 @@ import Columns from '../Components/Layout/Columns'
 import Column from '../Components/Layout/Column'
 import Page from '../Components/Page'
 import PageInputFields from '../Components/Forms/PageInputFields'
+import RelatedPageInputFields from '../Components/Forms/PageInputFields'
 import DrawerComponent from '../Components/Layout/DrawerComponent'
 import DeleteButton from '../Components/Buttons/DeleteButton'
 
@@ -294,12 +295,18 @@ const handleClick = (e) => {
   }) 
 }
 
-const handleRelatedDrawer = (colRef, dataField, dataLabel, relatedDataField) => {
+const handleRelatedDrawer = (field) => {
   setRelatedInputData({
-    collection: colRef, 
-    field: dataField, 
-    label: dataLabel, 
-    fieldRelated: relatedDataField
+    collection: field.colRef, 
+    pageFields: field.relatedInputFields, 
+    label: label, 
+    data: {
+      CompanyID: currentCompanyID,
+      CompanyName: currentCompany,
+      CreatedDate: setCurrentDate(),
+      CreatedBy: currentUser,
+      [relatedDataField]: params.id
+    }  
   })
   setIsRelatedDrawerOpen(true)
 }
@@ -310,11 +317,6 @@ const handleRelatedInputChange = (e) => {
     ...relatedInputData, 
     data: {
       [name]: value,
-      CompanyID: currentCompanyID,
-      CompanyName: currentCompany,
-      CreatedDate: setCurrentDate(),
-      CreatedBy: currentUser,
-      [relatedInputData.fieldRelated]: params.id
     }})
 }
 return (
@@ -364,7 +366,7 @@ return (
 
                                 {field.addBtn === true ? 
                                   <a className="link has-text-weight-normal is-size-7 pl-2" 
-                                    onClick={(e) => handleRelatedDrawer(field.relatedCollection, field.dataField, field.relatedInputLabel, field.relatedDataField)}>   
+                                    onClick={(e) => handleRelatedDrawer(field)}>   
                                     (add) 
                                   </a> : null}
                                 </div>
@@ -424,7 +426,7 @@ return (
                   active={active}
                   tab={tab}
                   addRelatedValue={addRelatedValue}
-                  handleAddRelatedValue={(e)=>handleRelatedDrawer(e.relatedCollection, e.dataField, e.relatedInputLabel, e.relatedDataField)}
+                  handleAddRelatedValue={(e)=>handleRelatedDrawer(e.relatedCollection, e.inputValue, e.relatedInputLabel, e.relatedDataField)}
                   resetAddRelatedValue={()=>setAddRelatedValue("")}
                   handleUpdated={()=>setUpdated(!updated)}
                   currentCompany={currentCompany}
@@ -446,14 +448,20 @@ return (
                 handleClose={()=>setIsRelatedDrawerOpen(!isRelatedDrawerOpen)}
                 handleSubmit={()=>handleRelatedSubmit()}
               >
-
+{/** 
                 <QuickAdd 
                   colRef={relatedInputData.collection}
                   dataField={relatedInputData.field}
                   label={relatedInputData.label}
                   handleRelatedInputChange={(e)=>handleRelatedInputChange(e)}
                 />
-
+*/}
+                <RelatedPageInputFields 
+                  pageFields={relatedInputData.pageFields}
+                  handleChange={(e)=>handleRelatedInputChange(e)}
+                  handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
+                  handleUpdated={()=>setUpdated(!updated)}
+                />
 
                 
               </DrawerComponent>

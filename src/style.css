@@ -17,9 +17,13 @@
   padding: 1rem;
 }
 
-.footer {
+
+
+.footerblur {
+  background-color: rgba(194, 192, 192, 0.3);
+  background-blend-mode: overlay;
+  backdrop-filter: blur(10px);
   
-  margin-top: auto;
 }
 
 body {

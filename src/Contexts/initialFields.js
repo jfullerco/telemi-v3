@@ -194,27 +194,37 @@ import React from 'react'
         relatedCollection: "Locations", 
         relatedDataField: "LocationID",
         relatedInputLabel: "Location Name",
-        relatedViewFields: [
-            {
-              label: "Address 1",
-              fieldName: "Address1"
-            }, 
-            {
-              label: "Address 2",
-              fieldName: "Address2"
-            }, 
-            {
-              label: "City",
-              fieldName: "City"
-            }, 
-            {
-              label: "State",
-              fieldName: "State"
-            }, 
-            {
-              label: "Zip",
-              fieldName: "Zip"
-            }
+        relatedInputFields: [
+          {
+            label: 'Location Name',
+            docField: 'Name',
+            fieldType: 'text'
+          },
+          {
+            label: "Address 1",
+            docField: "Address1",
+            fieldType: "text"
+          },
+          {
+            label: "Address 2",
+            docField: "Address2",
+            fieldType: "text"
+          },
+          {
+            label: "City",
+            docField: "City",
+            fieldType: "text"
+          },
+          {
+            label: "State",
+            docField: "State",
+            fieldType: "text"
+          },
+          {
+            label: "Zip",
+            docField: "Zip",
+            fieldType: "text"
+          }
           ],
         relatedDataType: "Location",
         tab: "BASIC_INFO",
@@ -387,6 +397,7 @@ import React from 'react'
         inputFieldType: "map-list", 
         relatedCollection: "Bills", 
         relatedDataField: "ServiceID",
+        relatedInputLabel: "Bill",
         relatedHeaderFields: [
                               {
                                 headerName: 'Date', 

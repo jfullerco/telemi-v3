@@ -9,7 +9,7 @@ import Dashboard from './Pages/Dashboard'
 import Login from './Pages/Login'
 import Register from './Pages/Register'
 import NavBar from './Components/NavBar'
-
+import Footer from './Footer'
 import AddCompany from './Pages/Companies/AddCompany'
 
 import AddAccount from './Pages/Accounts/AddAccount'
@@ -84,11 +84,7 @@ export default function App() {
         <div className="column is-1 is-hidden-mobile"></div>
         </div>  
         
-      <div className="footer">
-      <div className="content has-text-right is-size-7 ">
-        Telemi developed by J Fuller Co | <Link to="/terms">Terms</Link> | <Link to="/settings">Settings</Link> | <a href="https://www.vecteezy.com/free-vector/network">Vectors by Vecteezy</a>
-      </div>
-      </div>
+      <Footer />
       
     </Router>
     </AuthProvider>
