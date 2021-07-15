@@ -448,14 +448,7 @@ return (
                 handleClose={()=>setIsRelatedDrawerOpen(!isRelatedDrawerOpen)}
                 handleSubmit={()=>handleRelatedSubmit()}
               >
-{/** 
-                <QuickAdd 
-                  colRef={relatedInputData.collection}
-                  dataField={relatedInputData.field}
-                  label={relatedInputData.label}
-                  handleRelatedInputChange={(e)=>handleRelatedInputChange(e)}
-                />
-*/}
+
                 <RelatedPageInputFields 
                   pageFields={relatedInputData.pageFields}
                   handleChange={(e)=>handleRelatedInputChange(e)}

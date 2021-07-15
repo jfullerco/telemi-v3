@@ -16,13 +16,13 @@ const RelatedPageInputFields = ({
       console.log(pageFields)
 
   return(
-    <>
+    <>Page
       {pageFields && pageFields.map(related => {
         switch (related.fieldType) {
 
           case "text":
             return (<>
-{console.log(pageFields)}
+
               <TextBox title={related.label} name={related.docField} value={""} fieldChanged={(e)=>handleChange(e)} />
 </>
             )
