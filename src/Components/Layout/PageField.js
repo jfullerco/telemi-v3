@@ -5,7 +5,14 @@ import MapListTable from '../Tables/MapListTable'
 
 import RelatedFieldDropDown from '../../Components/DropDowns/RelatedFieldDropDown'
 
-const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRelatedActive, toggleFieldDropDown, handleClick}) => {
+const PageField = ({
+    field, 
+    fieldData, 
+    relatedDataMap, 
+    toggleViewDrawer, 
+    isViewRelatedActive, 
+    toggleFieldDropDown, 
+    handleClick }) => {
   const history = useHistory()
   const params = useParams()
   
@@ -53,7 +60,7 @@ const PageField = ({field, fieldData, relatedDataMap, toggleViewDrawer, isViewRe
                 )
                 : null : 
                 fieldData && item.relatedDataType === "Account" ? <a onClick={
-                  ()=> history.push(`Related/Accounts/${params.currentCompanyID}/${fieldData[item.relatedDataField]}`)}> {[fieldData].map(data => data[item.dataField])} </a> 
+                  (e)=> handleClick({colRef: "Accounts", id: fieldData[item.relatedDataField]})}> {[fieldData].map(data => data[item.dataField])} </a> 
                 : 
                 fieldData && item.relatedDataType === "Service" ? <a onClick={
                   ()=> history.push(
