@@ -9,36 +9,35 @@ import AddLocationModal from '../../Pages/Locations/AddLocationModal'
 
 
 const RelatedPageInputFields = ({ 
-    relatedPageFields, 
+    pageFields, 
     handleChange, 
-    handleRelatedSelectChange,
     handleUpdated,  
   }) => {
-      
+      console.log(pageFields)
 
   return(
     <>
-      {relatedPageFields && relatedPageFields.map(field => {
-        switch (field.fieldType) {
+      {pageFields && pageFields.map(related => {
+        switch (related.fieldType) {
 
           case "text":
             return (
 
-              <TextBox title={field.label} name={field.docField} value={""} fieldChanged={(e)=>handleChange(e)} />
+              <TextBox title={related.label} name={related.docField} value={""} fieldChanged={(e)=>handleChange(e)} />
 
             )
 
           case "currency":
             return (
 
-              <TextBox title={field.label} addOn="currency" name={field.docField} value={""} fieldChanged={(e)=>handleChange(e)} />
+              <TextBox title={related.label} addOn="currency" name={related.docField} value={""} fieldChanged={(e)=>handleChange(e)} />
 
             )
 
           case "text-area":
             return (
 
-              <TextArea title={field.label} name={field.docField} value={""} fieldChanged={(e)=>handleChange(e)} />
+              <TextArea title={related.label} name={related.docField} value={""} fieldChanged={(e)=>handleChange(e)} />
 
             )
 
@@ -46,9 +45,9 @@ const RelatedPageInputFields = ({
             return (
               <TextBox
                 id="datetime-local"
-                title={field.label}
+                title={related.label}
                 type="date"
-                name={field.docField}
+                name={related.docField}
                 className="input is-rounded is-small"
                 value={""}
                 fieldChanged={(e) => handleChange(e)}

@@ -366,7 +366,7 @@ return (
 
                                 {field.addBtn === true ? 
                                   <a className="link has-text-weight-normal is-size-7 pl-2" 
-                                    onClick={(e) => handleRelatedDrawer(field)}>   
+                                    onClick={(e) => console.log(field)}>   
                                     (add) 
                                   </a> : null}
                                 </div>
@@ -426,7 +426,7 @@ return (
                   active={active}
                   tab={tab}
                   addRelatedValue={addRelatedValue}
-                  handleAddRelatedValue={(e)=>handleRelatedDrawer(e.relatedCollection, e.inputValue, e.relatedInputLabel, e.relatedDataField)}
+                  handleAddRelatedValue={(e)=>handleRelatedDrawer(e)}
                   resetAddRelatedValue={()=>setAddRelatedValue("")}
                   handleUpdated={()=>setUpdated(!updated)}
                   currentCompany={currentCompany}
@@ -457,9 +457,9 @@ return (
                 />
 */}
                 <RelatedPageInputFields 
-                  relatedPageFields={relatedInputData.pageFields}
+                  pageFields={relatedInputData.pageFields}
                   handleChange={(e)=>handleRelatedInputChange(e)}
-                  handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
+                  
                   handleUpdated={()=>setUpdated(!updated)}
                 />
 

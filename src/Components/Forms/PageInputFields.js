@@ -26,7 +26,7 @@ const PageInputFields = ({
 
   return(
     <>
-      {pageFields.filter(t => t.tab === tab).map(field => {
+      {pageFields && pageFields.filter(t => t.tab === tab).map(field => {
         switch (field.inputFieldType) {
           case "related-select":
             return (
@@ -35,7 +35,7 @@ const PageInputFields = ({
                 <SelectField
                   type="select"
                   title={field.label}
-                  name={field.dataField, <a className="link is-size-7 pl-1" onClick={() => handleAddValue(addColName)}>(add)</a>}
+                  name={field.dataField, <a className="link is-size-7 pl-1" onClick={() => handleAddValue(field)}>(add)</a>}
                   value={active && active[field.dataField]}
                   handleChange={(e) => handleRelatedSelectChange(e, { name: field.dataField, relatedName: field.relatedDataField })}
                   field={field}
@@ -120,4 +120,4 @@ const PageInputFields = ({
     </>  
   )
 }
-export default PageInputFields
+export default React.memo(PageInputFields)
