@@ -299,13 +299,13 @@ const handleRelatedDrawer = (field) => {
   setRelatedInputData({
     collection: field.colRef, 
     pageFields: field.relatedInputFields, 
-    label: label, 
+    label: field.label, 
     data: {
       CompanyID: currentCompanyID,
       CompanyName: currentCompany,
       CreatedDate: setCurrentDate(),
       CreatedBy: currentUser,
-      [relatedDataField]: params.id
+      [field.relatedDataField]: params.id
     }  
   })
   setIsRelatedDrawerOpen(true)
@@ -457,7 +457,7 @@ return (
                 />
 */}
                 <RelatedPageInputFields 
-                  pageFields={relatedInputData.pageFields}
+                  relatedPageFields={relatedInputData.pageFields}
                   handleChange={(e)=>handleRelatedInputChange(e)}
                   handleRelatedSelectChange={(e, related)=> handleRelatedSelectChange(e, related)}
                   handleUpdated={()=>setUpdated(!updated)}
