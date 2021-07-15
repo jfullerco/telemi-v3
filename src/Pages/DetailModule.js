@@ -14,7 +14,7 @@ import Columns from '../Components/Layout/Columns'
 import Column from '../Components/Layout/Column'
 import Page from '../Components/Page'
 import PageInputFields from '../Components/Forms/PageInputFields'
-import RelatedPageInputFields from '../Components/Forms/PageInputFields'
+import RelatedPageInputFields from '../Components/Forms/RelatedPageInputFields'
 import DrawerComponent from '../Components/Layout/DrawerComponent'
 import DeleteButton from '../Components/Buttons/DeleteButton'
 
@@ -294,18 +294,18 @@ const handleClick = (e) => {
     }
   }) 
 }
-
+console.log(relatedInputData)
 const handleRelatedDrawer = (field) => {
   setRelatedInputData({
-    collection: field.colRef, 
+    collection: field.relatedCollection, 
     pageFields: field.relatedInputFields, 
     label: field.label, 
     data: {
-      CompanyID: currentCompanyID,
-      CompanyName: currentCompany,
-      CreatedDate: setCurrentDate(),
-      CreatedBy: currentUser,
-      [field.relatedDataField]: params.id
+      ['CompanyID']: currentCompanyID,
+      ['CompanyName']: currentCompany,
+      ['CreatedDate']: setCurrentDate(),
+      ['CreatedBy']: currentUser,
+      
     }  
   })
   setIsRelatedDrawerOpen(true)
@@ -315,7 +315,7 @@ const handleRelatedInputChange = (e) => {
   const {name, value} = e.target
   setRelatedInputData({
     ...relatedInputData, 
-    data: {
+    data: {...relatedInputData.data,
       [name]: value,
     }})
 }
@@ -411,6 +411,7 @@ return (
               )}
 
               <DrawerComponent 
+                title="Edit"
                 checked={isDrawerOpen}
                 handleClose={()=>setIsDrawerOpen(!isDrawerOpen)} 
                 direction="right"
@@ -443,16 +444,23 @@ return (
               
 
               <DrawerComponent
+                title="Add New"
                 checked={isRelatedDrawerOpen}
                 direction="right"
                 handleClose={()=>setIsRelatedDrawerOpen(!isRelatedDrawerOpen)}
                 handleSubmit={()=>handleRelatedSubmit()}
               >
-
+{/** 
+                <QuickAdd 
+                  colRef={relatedInputData.collection}
+                  dataField={relatedInputData.field}
+                  label={relatedInputData.label}
+                  handleRelatedInputChange={(e)=>handleRelatedInputChange(e)}
+                />
+*/}
                 <RelatedPageInputFields 
-                  pageFields={relatedInputData.pageFields}
+                  relatedFields={relatedInputData.pageFields}
                   handleChange={(e)=>handleRelatedInputChange(e)}
-                  
                   handleUpdated={()=>setUpdated(!updated)}
                 />
 

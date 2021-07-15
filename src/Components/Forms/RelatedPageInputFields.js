@@ -9,35 +9,36 @@ import AddLocationModal from '../../Pages/Locations/AddLocationModal'
 
 
 const RelatedPageInputFields = ({ 
-    pageFields, 
+    relatedFields, 
     handleChange, 
     handleUpdated,  
   }) => {
-      console.log(pageFields)
+      console.log(relatedFields)
 
   return(
-    <>Page
-      {pageFields && pageFields.map(related => {
+    <>
+    
+      {relatedFields && relatedFields.map(related => {
         switch (related.fieldType) {
 
           case "text":
             return (<>
 
-              <TextBox title={related.label} name={related.docField} value={""} fieldChanged={(e)=>handleChange(e)} />
+              <TextBox title={related.label} name={related.docField} fieldChanged={handleChange} />
 </>
             )
 
           case "currency":
             return (
 
-              <TextBox title={related.label} addOn="currency" name={related.docField} value={""} fieldChanged={(e)=>handleChange(e)} />
+              <TextBox title={related.label} addOn="currency" name={related.docField} fieldChanged={handleChange} />
 
             )
 
           case "text-area":
             return (
 
-              <TextArea title={related.label} name={related.docField} value={""} fieldChanged={(e)=>handleChange(e)} />
+              <TextArea title={related.label} name={related.docField} fieldChanged={handleChange} />
 
             )
 
@@ -50,7 +51,7 @@ const RelatedPageInputFields = ({
                 name={related.docField}
                 className="input is-rounded is-small"
                 value={""}
-                fieldChanged={(e) => handleChange(e)}
+                fieldChanged={handleChange}
               />
             )
 
