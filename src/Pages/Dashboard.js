@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useContext} from 'react'
-import {Route, Link, useParams, useHistory} from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import { stateContext } from '../Contexts/stateContext'
 
@@ -8,8 +8,6 @@ import { db } from '../Contexts/firebase'
 import CompanyList from './Companies/CompanyList'
 
 import DashboardGrids from './Dashboard/DashboardGrids'
-
-import DocViewer from './DocViewer'
 
 import Login from './Login'
 
@@ -23,13 +21,14 @@ const Dashboard = () => {
     userType, 
     currentCompany, 
     companies } = userContext.userSession
+    
   const history = useHistory()
-
 
   const isUserLoggedIn = currentUser != undefined ? currentUser : ""
   const isUserAdmin = userType != undefined ? userType : ""
-  const [toggleCompanyList, setToggleCompanyList] = useState(false)
-  const [toggleDashboard, setToggleDashboard] = useState(false)
+
+  const [ toggleCompanyList, setToggleCompanyList ] = useState(false)
+  const [ toggleDashboard, setToggleDashboard ] = useState(false)
 
   useEffect(() => {
     fetchUser(currentUser)

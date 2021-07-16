@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useContext, useRef} from 'react'
-import {useParams, useHistory} from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 
-import {stateContext} from '../Contexts/stateContext'
+import { stateContext } from '../Contexts/stateContext'
 import { db } from '../Contexts/firebase'
 import {
   serviceDetailFields,
@@ -13,19 +13,16 @@ import {
 import Columns from '../Components/Layout/Columns'
 import Column from '../Components/Layout/Column'
 import Page from '../Components/Page'
-import PageInputFields from '../Components/Forms/PageInputFields'
-import RelatedPageInputFields from '../Components/Forms/RelatedPageInputFields'
 import DrawerComponent from '../Components/Layout/DrawerComponent'
-import DeleteButton from '../Components/Buttons/DeleteButton'
-
 import TabBar from '../Components/Tabs/TabBar'
-
-import PageField from '../Components/Layout/PageField'
-import AddBill from './Accounts/Bill/AddBill'
 import Loading from '../Components/Loading'
 import CheckIfNeedsCache from '../Components/Conditions/CheckIfNeedsCache'
-import QuickAdd from './QuickAdd'
+import PageField from '../Components/Layout/PageField'
 import FieldLabel from '../Components/Layout/FieldLabel'
+import DeleteButton from '../Components/Buttons/DeleteButton'
+
+import PageInputFields from '../Components/Forms/PageInputFields'
+import RelatedPageInputFields from '../Components/Forms/RelatedPageInputFields'
 
 
 const DetailModule = (state) => {
