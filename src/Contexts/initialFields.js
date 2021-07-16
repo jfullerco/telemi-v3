@@ -707,6 +707,11 @@ import React from 'react'
             label: 'Service Location',
             docField: 'LocationName',
             fieldType: 'text'
+          },
+          {
+            label: 'Group',
+            docField: 'GroupNum',
+            fieldType: 'text'
           }
         ], 
         relatedDataType: 'Service',
