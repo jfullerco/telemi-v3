@@ -83,7 +83,8 @@ const PageField = ({
                 
               </>
             )
-            default:
+
+          default:
               return (
                 <>
                   {[fieldData].map(data => data[item.dataField])}

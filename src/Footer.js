@@ -8,7 +8,11 @@ const Footer = () => {
       <div className="navbar-item is-hoverable"><a className="has-text-grey is-hidden">Delete</a></div>
       <div className="navbar-end">
       
-        <div className="navbar-item has-text-grey is-size-7 pr-3">Telemi developed by J Fuller Co | Terms | Settings | <a href="https://www.vecteezy.com/free-vector/network">Vectors by Vecteezy</a></div>
+        
+        <div className="navbar-item has-text-grey is-size-7 pr-3"> Terms </div> 
+        <div className="navbar-item has-text-grey is-size-7 pr-3">Settings </div>
+        <div className="navbar-item has-text-grey is-size-7 pr-3"> <a href="https://www.vecteezy.com/free-vector/network" className="has-text-grey">Vectors by Vecteezy</a></div>
+        <div className="navbar-item has-text-grey is-size-7 pr-3">Developed by J Fuller Co </div>
      
       </div>
       </nav>

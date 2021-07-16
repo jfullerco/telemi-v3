@@ -24,6 +24,7 @@ export const StateProvider = (props) => {
       orders: "",
       quotes: "",
       contracts: "",
+      notes: "",
       users: "",
       currentCompanyID: "",
       currentCompany: "",
@@ -271,6 +272,24 @@ export const StateProvider = (props) => {
       setUsers(users)
     }
 
+    const fetchNotes = async() => {
+      const notesRef = await db.collection("Notes")
+        .where("CompanyID", "==", userSession.currentCompanyID).get()
+      const notes = notesRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()}))
+      setNotes(notes)
+    }
+
+    const refreshNotes = async() => {
+      const notesRef = await db.collection("Notes")
+        .where("CompanyID", "==", userSession.currentCompanyID).get()
+      const notes = notesRef.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()}))
+      setNotes(notes)
+    }
+
     const fetchContracts = async() => {
       const contractsRef = await db.collection("Contracts")
         .where("CompanyID", "==", userSession.currentCompanyID).get()
@@ -394,6 +413,13 @@ export const StateProvider = (props) => {
         dispatch({
           type: "SET_CONTRACTS",
           payload: contracts
+        })
+      }
+
+      const setNotes = (notes) => {
+        dispatch({
+          type: "SET_NOTES",
+          payload: notes
         })
       }
 
@@ -521,6 +547,7 @@ export const StateProvider = (props) => {
           setBills,
           setUsers,
           setContracts,
+          setNotes,
 
           setCurrentCompanyID,
           setCurrentCompany,
@@ -552,6 +579,8 @@ export const StateProvider = (props) => {
           refreshUsers,
           fetchContracts,
           refreshContracts,
+          fetchNotes,
+          refreshNotes,
 
           vendorList,
           serviceTypes,

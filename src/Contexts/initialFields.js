@@ -300,13 +300,6 @@ import React from 'react'
         tabLabel: "BASIC INFO" 
       },
       { 
-        label: "Notes", 
-        dataField: "Notes", 
-        inputFieldType: "text-area", 
-        tab: "NOTES",
-        tabLabel: "NOTES" 
-      },
-      { 
         label: "Related Orders", 
         dataField: "OrderNum", 
         inputFieldType: "map-list", 
@@ -425,7 +418,28 @@ import React from 'react'
         tab: "BILLING",
         tabLabel: "BILLING", 
       },
-      
+      { 
+        label: "Notes", 
+        dataField: "Notes", 
+        inputFieldType: "map-list", 
+        relatedCollection: "Notes", 
+        relatedDataField: "ServiceID",
+        relatedInputLabel: "Note",
+        relatedInputFields: [
+                              {
+                                label: 'Note Date', 
+                                docField: 'Date', 
+                                fieldType: 'datepicker'
+                              }, 
+                              {
+                                label: 'Note', 
+                                docField: 'NoteBody', 
+                                fieldType: 'text-area'
+                              }, 
+                            ], 
+        tab: "NOTES",
+        tabLabel: "NOTES", 
+      },
       
     ]
     const ticketDetailFields = [
@@ -662,6 +676,18 @@ import React from 'react'
         tab: "BASIC_INFO"
       },
       { 
+        label: "Date Billing Started", 
+        dataField: "BillingStartDate", 
+        inputFieldType: "datepicker", 
+        tab: "DETAILS"
+      },
+      { 
+        label: "Type", 
+        dataField: "Type", 
+        inputFieldType: "text", 
+        tab: "DETAILS" 
+      },
+      { 
         label: "Related Services", 
         dataField: "Services", 
         inputFieldType: "map-list", 
@@ -676,29 +702,17 @@ import React from 'react'
             label: 'Asset ID',
             docField: 'AssetID',
             fieldType: 'text'
+          },
+          {
+            label: 'Service Location',
+            docField: 'LocationName',
+            fieldType: 'text'
           }
         ], 
         relatedDataType: 'Service',
         tab: "DETAILS",  
-        tabLabel: 'DETAILS'
-      },
-      { 
-        label: "Date Billing Started", 
-        dataField: "BillingStartDate", 
-        inputFieldType: "datepicker", 
-        tab: "DETAILS"
-      },
-      { 
-        label: "Type", 
-        dataField: "Type", 
-        inputFieldType: "text", 
-        tab: "DETAILS" 
-      },
-      { 
-        label: "Details", 
-        dataField: "Details", 
-        inputFieldType: "text-area", 
-        tab: "DETAILS" 
+        tabLabel: 'DETAILS',
+        hasBreakBefore: true
       },
       { 
         label: "Bills", 
@@ -706,24 +720,24 @@ import React from 'react'
         inputFieldType: "map-list", 
         relatedCollection: "Bills", 
         relatedDataField: "AccountID",
-        relatedHeaderFields: [
+        relatedInputFields: [
                               {
-                                headerName: 'Date', 
+                                label: 'Date', 
                                 docField: 'Date', 
-                                fieldType: 'date-picker'
+                                fieldType: 'datepicker'
                               }, 
                               {
-                                headerName: 'Sub Account', 
+                                label: 'Sub Account', 
                                 docField: 'SubAccountNum', 
                                 fieldType: 'text'
                               },
                               {
-                                headerName: 'Asset ID', 
+                                label: 'Asset ID', 
                                 docField: 'AssetID', 
                                 fieldType: 'text'
                               },
                               {
-                                headerName: 'Cost', 
+                                label: 'Cost', 
                                 docField: 'Cost', 
                                 fieldType: 'currency'
                               }, 
@@ -731,51 +745,12 @@ import React from 'react'
                             ], 
         tab: "BILLING",
         tabLabel: "BILLING",
-        addBtn: true 
-      },
-      { 
-        label: "Total Billing Services", 
-        dataField: "Bills", 
-        inputFieldType: "", 
-        relatedCollection: "Bills", 
-        relatedDataField: "AccountID",
-        relatedHeaderFields: [
-                              {
-                                headerName: 'Asset ID', 
-                                docField: 'AssetID', 
-                                fieldType: 'text'
-                              },
-                              
-                            ], 
-        relatedDataType: "reduce",
-        tab: "BILLING",
-        tabLabel: "BILLING",
-        addBtn: true 
-      },
-      { 
-        label: "Total Billing Disputed", 
-        dataField: "Bills", 
-        inputFieldType: "", 
-        relatedCollection: "Bills", 
-        relatedDataField: "AccountID",
-        relatedHeaderFields: [
-                              {
-                                headerName: 'Disputed Cost', 
-                                docField: 'DisputedCost', 
-                                fieldType: 'currency'
-                              }, 
-                              
-                            ], 
-        relatedDataType: "reduce",
-        tab: "BILLING",
-        tabLabel: "BILLING",
-        addBtn: true 
       },
       
     ]
     const orderDetailFields = [
       { 
-        label: "Location", 
+        label: "Service Location", 
         dataField: "LocationName", 
         inputFieldType: "related-select", 
         inputSource: "", /** SET BY HANDLEINITIALFIELDMAPPING FN */
@@ -783,27 +758,38 @@ import React from 'react'
         inputValue: "Name",
         relatedCollection: "Locations", 
         relatedDataField: "LocationID",
-        relatedViewFields: [
-            {
-              label: "Address 1",
-              fieldName: "Address1"
-            }, 
-            {
-              label: "Address 2",
-              fieldName: "Address2"
-            }, 
-            {
-              label: "City",
-              fieldName: "City"
-            }, 
-            {
-              label: "State",
-              fieldName: "State"
-            }, 
-            {
-              label: "Zip",
-              fieldName: "Zip"
-            }
+        relatedInputLabel: "Location Name",
+        relatedInputFields: [
+          {
+            label: 'Location Name',
+            docField: 'Name',
+            fieldType: 'text'
+          },
+          {
+            label: "Address 1",
+            docField: "Address1",
+            fieldType: "text"
+          },
+          {
+            label: "Address 2",
+            docField: "Address2",
+            fieldType: "text"
+          },
+          {
+            label: "City",
+            docField: "City",
+            fieldType: "text"
+          },
+          {
+            label: "State",
+            docField: "State",
+            fieldType: "text"
+          },
+          {
+            label: "Zip",
+            docField: "Zip",
+            fieldType: "text"
+          }
           ],
         relatedDataType: "Location",
         tab: "BASIC_INFO",
@@ -848,12 +834,6 @@ import React from 'react'
         tab: "BASIC_INFO"
       },
       { 
-        label: "Bandwidth", 
-        dataField: "Bandwidth", 
-        inputFieldType: "text", 
-        tab: "BASIC_INFO" 
-      },
-      { 
         label: "Monthly Cost", 
         dataField: "MRC", 
         inputFieldType: "currency", 
@@ -869,27 +849,36 @@ import React from 'react'
         tab: "BASIC_INFO" 
       },
       { 
-        label: "Service", 
+        label: "Bandwidth", 
+        dataField: "Bandwidth", 
+        inputFieldType: "text", 
+        tab: "DETAILS" 
+      },
+      { 
+        label: "Related Service", 
         dataField: "AssetID", 
         inputFieldType: "related-select", 
-        inputSource: "", /** SET BY HANDLEINITIALFIELDMAPPING FN */
+        inputSource: services, 
         inputID: "id", 
-        inputValue: "AssetID",
-        relatedCollection: "Services", 
+        inputValue: "AssetID", 
+        relatedCollection: "Services",
         relatedDataField: "ServiceID",
-        relatedViewFields: [
-            {
-              label: "Asset ID",
-              fieldName: "Address1"
-            },
-            {
-              label: "Product",
-              fieldName: "VendorServiceName"
-            }
-          ],
-        relatedDataType: "Service",
-        tab: "DETAILS",
-        tabLabel: "DETAILS"  
+        relatedInputLabel: "Related Asset",
+        relatedInputFields: [
+          {
+            label: 'Asset ID',
+            docField: 'AssetID',
+            fieldType: 'text'
+          }, 
+          {
+            label: 'Location',
+            docField: 'LocationName',
+            fieldType: 'text'
+          }
+        ], 
+        relatedDataType: 'Service',
+        tab: "DETAILS",  
+        tabLabel: 'DETAILS'
       },
       { 
         label: "Details", 
@@ -914,27 +903,38 @@ import React from 'react'
         inputValue: "Name",
         relatedCollection: "Locations", 
         relatedDataField: "LocationID",
-        relatedViewFields: [
-            {
-              label: "Address 1",
-              fieldName: "Address1"
-            }, 
-            {
-              label: "Address 2",
-              fieldName: "Address2"
-            }, 
-            {
-              label: "City",
-              fieldName: "City"
-            }, 
-            {
-              label: "State",
-              fieldName: "State"
-            }, 
-            {
-              label: "Zip",
-              fieldName: "Zip"
-            }
+        relatedInputLabel: "Location Name",
+        relatedInputFields: [
+          {
+            label: 'Location Name',
+            docField: 'Name',
+            fieldType: 'text'
+          },
+          {
+            label: "Address 1",
+            docField: "Address1",
+            fieldType: "text"
+          },
+          {
+            label: "Address 2",
+            docField: "Address2",
+            fieldType: "text"
+          },
+          {
+            label: "City",
+            docField: "City",
+            fieldType: "text"
+          },
+          {
+            label: "State",
+            docField: "State",
+            fieldType: "text"
+          },
+          {
+            label: "Zip",
+            docField: "Zip",
+            fieldType: "text"
+          }
           ],
         relatedDataType: "Location",
         tab: "BASIC_INFO",
@@ -981,19 +981,41 @@ import React from 'react'
       },
       { 
         label: "Company Name", 
+        visible: false,
         dataField: "CompanyName", 
         inputFieldType: "text", 
         tab: "BASIC_INFO" 
       },
       { 
         label: "Company ID", 
+        visible: false,
         dataField: "CompanyID", 
         inputFieldType: "text",  
         tab: "BASIC_INFO" 
       },
   
     ]
-  
+    const notesDetailFields = [
+      {
+        label: 'Note Date',
+        dataField: 'Date',
+        inputFieldType: 'datepicker',
+        tab: 'NOTES',
+        tabLabel: 'NOTES'
+      },
+      {
+        label: 'Note',
+        dataField: 'NoteBody',
+        inputFieldType: 'text-area',
+        tab: 'NOTES',
+        tablLabel: 'NOTES'
+      },
+      {
+        label: 'Attached to',
+        dataField: 'AttachedTo',
+        inputFieldType: 'text'
+      }
+    ]
 
 export {
     serviceGridColumns, 

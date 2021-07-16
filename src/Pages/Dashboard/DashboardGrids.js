@@ -109,7 +109,8 @@ const DashboardGrids = ({visible}) => {
                       state: {
                         currentCompanyID: currentCompanyID,
                         cachedLocations: locations,
-                        cachedAccounts: accounts
+                        cachedAccounts: accounts,
+                        cachedServices: services,
                       }
                     })
   }

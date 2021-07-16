@@ -45,7 +45,9 @@ const DetailModule = (state) => {
           setBills,
           setCurrentDate,
           setLocations,
-          setAccounts } = userContext
+          setAccounts,
+          setServices,
+          setNotes } = userContext
 
   const { locations,
           services, 
@@ -53,6 +55,7 @@ const DetailModule = (state) => {
           accounts,
           tickets,
           bills,
+          notes,
           currentCompany,
           currentUser } = userContext.userSession
   
@@ -61,6 +64,7 @@ const DetailModule = (state) => {
   const {isDrawerActive} = state.location.state || false
   const { cachedLocations } = state.location.state || []
   const { cachedAccounts } = state.location.state || []
+  const { cachedServices } = state.location.state || []
   
   const [data, setData] = useState("")
   const [active, setActive] = useState("")
@@ -91,6 +95,7 @@ const DetailModule = (state) => {
     checkForNew(isDrawerActive, isNew)
     fetchPage()
     fetchBills()
+    fetchNotes()
     
   }, [])
 
@@ -99,6 +104,7 @@ const DetailModule = (state) => {
     handlePageFields(isModule)
     fetchPage()
     fetchBills()
+    fetchNotes()
     setTab("BASIC_INFO")
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
@@ -109,6 +115,7 @@ const DetailModule = (state) => {
     handleInitialFieldMapping("Services", services, pageFields)
     handleInitialFieldMapping("AccountNum", accounts, pageFields)
     handleInitialFieldMapping("Bills", bills, pageFields)
+    handleInitialFieldMapping("Notes", notes, pageFields)
     handleSetHeader()
     handleFinishedLoading()
   },[loading])
@@ -187,7 +194,17 @@ const DetailModule = (state) => {
       ...doc.data()}))
     await setBills(bills)
 
-  }  
+  } 
+  
+  const fetchNotes = async() => {
+    const notesRef = await db.collection("Notes").where("ServiceID", "==", params.id).get()
+    const notes = await notesRef.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()}))
+    await setNotes(notes)
+
+  } 
+
   const handleFinishedLoading = () => {
     setTimeout(() => {setLoading(false)}, 1000)
   }
@@ -372,6 +389,7 @@ return (
                 <>
                   {[active].map(docItem => 
                     <div className={field.visible != false & field.tab === tab ? "" : "is-hidden" }> 
+                    <hr className={field.hasBreakBefore === true ? "" : "is-hidden"} />
                     <Columns options="is-mobile">
                       <Column size="is-3">
 
@@ -404,7 +422,12 @@ return (
                           value={locations} 
                           setValue={setLocations} 
                           handleSetCache={(value, setValue)=>handleSetCache(value, setValue)} fallbackValue={cachedLocations}
-                        >   
+                        >
+                        <CheckIfNeedsCache 
+                          value={services} 
+                          setValue={setServices} 
+                          handleSetCache={(value, setValue)=>handleSetCache(value, setValue)} fallbackValue={cachedServices}
+                        >     
                           <PageField 
                             field={field}
                             fieldData={docItem}
@@ -417,6 +440,7 @@ return (
                             isViewRelatedActive={isRelatedActive}
                             handleClick={(e)=>handleClick(e)}
                           />
+                        </CheckIfNeedsCache>
                         </CheckIfNeedsCache>
                         </CheckIfNeedsCache>
                       </Column>
