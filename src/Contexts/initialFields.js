@@ -437,7 +437,7 @@ import React from 'react'
         tab: "BASIC_INFO",
         isHeader: true 
       },
-/**Done */
+
       { 
         label: "Service Location", 
         dataField: "LocationName", 
@@ -524,7 +524,7 @@ import React from 'react'
         inputValue: "id", 
         tab: "BASIC_INFO" 
       },
-/**Done */
+
       { 
         label: "Related Service", 
         dataField: "ServiceAssetID", 
@@ -663,13 +663,13 @@ import React from 'react'
       },
       { 
         label: "Related Services", 
-        dataField: "AccountServiceName", 
+        dataField: "Services", 
         inputFieldType: "map-list", 
         inputSource: "", 
         inputID: "id", 
         inputValue: "AssetID", 
         relatedCollection: "Services",
-        relatedDataField: "AccountServiceName",
+        relatedDataField: "AccountID",
         relatedInputLabel: "Related Asset",
         relatedInputFields: [
           {
