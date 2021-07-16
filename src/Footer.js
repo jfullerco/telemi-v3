@@ -6,7 +6,7 @@ const Footer = () => {
     <nav className="navbar footerblur is-fixed-bottom">
       
       <div className="navbar-item is-hoverable"><a className="has-text-grey is-hidden">Delete</a></div>
-      <div className="navbar-end">
+      <div className="is-hidden">
       
         
         <div className="navbar-item has-text-grey is-size-7 pr-3"> Terms </div> 
