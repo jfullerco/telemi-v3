@@ -121,7 +121,7 @@ const CompanyList = () => {
                   />
         
         </>
-        : <span className="title is-4 has-text-black">{currentCompany}</span>
+        : <span className="title is-size-4 has-text-black">{currentCompany}</span>
       }
     </>
   )
