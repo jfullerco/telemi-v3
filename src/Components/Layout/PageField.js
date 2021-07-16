@@ -63,9 +63,7 @@ const PageField = ({
                   (e)=> handleClick({colRef: "Accounts", id: fieldData[item.relatedDataField]})}> {[fieldData].map(data => data[item.dataField])} </a> 
                 : 
                 fieldData && item.relatedDataType === "Service" ? <a onClick={
-                  ()=> history.push(
-                    `Related/Services/${params.currentCompanyID}/${fieldData[item.relatedDataField]}`
-                  )}> {[fieldData].map(data => data[item.dataField])} </a> 
+                  (e)=> handleClick({colRef: "Services", id: fieldData[item.relatedDataField]})}> {[fieldData].map(data => data[item.dataField])} </a> 
                 : null
                 }
                 

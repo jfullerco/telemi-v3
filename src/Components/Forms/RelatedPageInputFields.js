@@ -54,6 +54,13 @@ const RelatedPageInputFields = ({
                 fieldChanged={handleChange}
               />
             )
+            
+            case "currency":
+              return (
+  
+                <TextBox title={related.label} addOn="currency" name={field.dataField} fieldChanged={handleChange} />
+  
+              )
 
         }
       }
