@@ -374,13 +374,6 @@ return (
 
           <div className="box p-4 is-rounded has-text-black">
 
-              <nav className="breadcrumb" aria-label="breadcrumbs"> {/** Refactor this as LastUpdatedComponent Component with Hook */}
-                <ul>
-                  <li className="is-size-7 is-uppercase">last updated: {active.LastUpdated && active.LastUpdated}</li>
-                  <li className="is-size-7 is-uppercase pl-2">updated by: {active.LastUpdatedBy && active.LastUpdatedBy}</li>
-                </ul>
-              </nav>
-
               {/** Refactor as ViewPageFields Component */}
               {active && pageFields.map(field => 
                 <>
@@ -442,11 +435,12 @@ return (
                         </CheckIfNeedsCache>
                       </Column>
                     </Columns>
+                      
                     </div>
                   )}
                 </>
               )}
-
+            
               <DrawerComponent 
                 title="Edit"
                 checked={isDrawerOpen}
@@ -505,7 +499,13 @@ return (
               </DrawerComponent>
 
           </div>
-
+          <nav className="breadcrumb" aria-label="breadcrumbs">
+              {/** Refactor this as LastUpdatedComponent Component with Hook */}
+              <ul>
+                <li className="is-size-7 is-uppercase">last updated: {active.LastUpdated && active.LastUpdated}</li>
+                <li className="is-size-7 is-uppercase pl-2">updated by: {active.LastUpdatedBy && active.LastUpdatedBy}</li>
+              </ul>
+            </nav>
         </> : 
           <div className="tile warning"> No record to display </div>
       }    

@@ -58,14 +58,12 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
                   
           </div>
         </section>
-                
-                
-          <div className="block">
+          
+            <div className="py-5">{children}</div>
+            <div className="block">
             <div className={pageSuccess && pageSuccess != false ? "notification is-success" : "is-hidden"}>{pageSuccess}</div>
             <div className={pageError && pageError != false ? "notification is-danger" : "is-hidden"}>{pageError}</div>
           </div>
-          
-            <div className="py-5">{children}</div>
         <Column></Column> 
       </div>
   )
