@@ -65,7 +65,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
             <div className={pageError && pageError != false ? "notification is-danger" : "is-hidden"}>{pageError}</div>
           </div>
           
-            {children}
+            <div className="py-5">{children}</div>
         <Column></Column> 
       </div>
   )

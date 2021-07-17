@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { FaRegCircle } from 'react-icons/fa'
+
 import DeleteButton from '../Buttons/DeleteButton'
 
 const MapListTable = ({
@@ -28,14 +30,15 @@ const MapListTable = ({
             <tr key={item.id}> 
             
               {headerFields && headerFields.map(col =>
-
+                <>
+                
                 <td className="py-2" style={{ width: "20%" }} key={item[col.label]} name={col.relatedCollection} value={item[col.docField]}>
 
                   <a onClick={(e) => handleClick({ colRef: colRef, id: item.id })}>
                     {col.fieldType === 'currency' ? "$" : ""}{item[col.docField]}
                   </a>
                 </td>
-
+                </>
               )}
               
             </tr>
