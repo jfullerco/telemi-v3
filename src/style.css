@@ -17,10 +17,14 @@
   padding: 1rem;
 }
 
-
+.notification {
+  background-color: rgba(230, 230, 230, 0.3);
+  background-blend-mode: screen;
+  backdrop-filter: blur(10px);
+}
 
 .footerblur {
-  background-color: rgba(194, 192, 192, 0.3);
+  background-color: rgba(230, 230, 230, 0.3);
   background-blend-mode: overlay;
   backdrop-filter: blur(10px);
   

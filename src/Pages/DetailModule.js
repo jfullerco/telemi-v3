@@ -20,6 +20,7 @@ import CheckIfNeedsCache from '../Components/Conditions/CheckIfNeedsCache'
 import PageField from '../Components/Layout/PageField'
 import FieldLabel from '../Components/Layout/FieldLabel'
 import DeleteButton from '../Components/Buttons/DeleteButton'
+import DetailViewDropDown from '../Components/Tabs/DetailViewDropDown'
 
 import PageInputFields from '../Components/Forms/PageInputFields'
 import RelatedPageInputFields from '../Components/Forms/RelatedPageInputFields'
@@ -70,7 +71,7 @@ const DetailModule = (state) => {
   const [loading, setLoading] = useState(true)
   const [updated, setUpdated] = useState(false)
   const [pageFields, setPageFields] = useState([])
-  const [isQuickAddDataField, setIsQuickAddDataField] = useState("")
+  const [viewDropDown, setViewDropDown] = useState(false)
   const [isQuickAddDrawerOpen, setIsQuickAddDrawerOpen] = useState(false)
   
   const [pageSuccess, setPageSuccess] = useState(false)
@@ -362,16 +363,14 @@ return (
     >
       {userContext && userContext.userSession != undefined ? 
         <>
-          <TabBar>{/** Refactor this as Array/Map */}
-            <ul>  
-              <li className={tab === "BASIC_INFO" ? "is-active" : ""}><a onClick={()=>setTab("BASIC_INFO")}>Basic Info</a></li>
-              <li className={tab === "DETAILS" ? "is-active" : ""}><a onClick={()=>setTab("DETAILS")}>Details</a></li>
-              <li className={tab === "SUPPORT" ? "is-active" : ""}><a onClick={()=>setTab("SUPPORT")}>Support</a></li>
-              <li className={tab === "BILLING" ? "is-active" : ""}><a onClick={()=>setTab("BILLING")}>Billing</a></li>
-              <li className={tab === "NOTES" ? "is-active" : ""}><a onClick={()=>setTab("NOTES")}>Notes</a></li>
-            </ul>
-          </TabBar>
-
+          
+          <DetailViewDropDown 
+            views={['BASIC INFO', 'DETAILS', 'SUPPORT', 'BILLING', 'NOTES']}
+            activeView='BASIC INFO'
+            handleToggle={()=>setViewDropDown(!viewDropDown)}
+            isActive={viewDropDown}
+            handleView={(e)=>setTab(e)}
+          />
           <div className="box p-4 is-rounded has-text-black">
 
               {/** Refactor as ViewPageFields Component */}
