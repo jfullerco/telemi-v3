@@ -371,7 +371,7 @@ return (
             isActive={viewDropDown}
             handleView={(e)=>setTab(e)}
           />
-          <div className="box p-4 is-rounded has-text-black">
+          <div className="box pm-4 is-rounded has-text-black">
 
               {/** Refactor as ViewPageFields Component */}
               {active && pageFields.map(field => 

@@ -10,10 +10,9 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
   const history = useHistory()
   
   return(
-      <div className="wrapper">
-        <section className="hero is-small">
-          <div className="hero-body">
-
+      <div className="">
+        {/**<section className="hero is-small">
+        <div className="hero-body">
           <Columns options="is-mobile">
                   <Column size="is-three-fifths-mobile is-three-quarters-tablet">
                     <div>
@@ -54,10 +53,10 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
 
                     </div>
                   </Column>
-                  </Columns> 
+  </Columns> 
                   
           </div>
-        </section>
+        </section>*/}
           
             <div className="py-5">{children}</div>
             <div className="block">

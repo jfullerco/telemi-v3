@@ -9,25 +9,26 @@ const RelatedFieldDropDown = ({isActive, handleToggle, views, activeView, handle
   return(
     <div className="notification is-rounded is-12">
       <button className="delete" onClick={()=>history.goBack()}></button>
-    <div className={isActive === true ? `dropdown is-active`: `dropdown`}>
-      <div className="dropdown-trigger" >
-        <div className="title pl-1" onClick={handleToggle}>
-        <span className="pr-1">{activeView && activeView}</span>
-          <span className="icon pl-1">
-             
-              <FaChevronCircleUp onClick={handleToggle} style={{marginTop: 'auto'}} className={isActive === true ? "" : "is-hidden"}/>  
-              <FaChevronCircleDown onClick={handleToggle} style={{marginTop: 'auto'}} className={isActive === false ? "" : "is-hidden"} />
-             
-          </span>
-      </div> 
-      </div>
-      <div className="dropdown-menu" id="dropdown-menu" role="menu">
-        {views.map(view => 
-          <div className="dropdown-content p-4" onClick={()=>handleView(view)}>
-            {view}
+      <div className={isActive === true ? `dropdown is-active` : `dropdown`}>
+        <div className="dropdown-trigger" >
+          <div className="title pl-1" onClick={handleToggle}>
+            <span className="pr-1">{activeView && activeView}</span>
+            <span className="icon pl-1">
+
+              <FaChevronCircleUp onClick={handleToggle} style={{ marginTop: 'auto' }} className={isActive === true ? "" : "is-hidden"} />
+              <FaChevronCircleDown onClick={handleToggle} style={{ marginTop: 'auto' }} className={isActive === false ? "" : "is-hidden"} />
+
+            </span>
           </div>
+        </div>
+      <div className="dropdown-menu" id="dropdown-menu" role="menu">
+      <div className="dropdown-content">
+        {views.map(view => 
+          
+            <a className="dropdown-item" onClick={()=>handleView(view)}>{view}</a>
+          
         )}
-        
+      </div>
       </div>
     </div>
       
