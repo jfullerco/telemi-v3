@@ -1,10 +1,10 @@
 import React from 'react'
 
-const FieldLabel = ({size, children}) => {
+const Field = ({size, children}) => {
   return(
     <div className={size}>
       {children}
     </div>
   )
 }
-export default FieldLabel
+export default Field

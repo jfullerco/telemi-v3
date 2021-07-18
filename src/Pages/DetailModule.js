@@ -19,6 +19,7 @@ import Loading from '../Components/Loading'
 import CheckIfNeedsCache from '../Components/Conditions/CheckIfNeedsCache'
 import PageField from '../Components/Layout/PageField'
 import FieldLabel from '../Components/Layout/FieldLabel'
+import Field from '../Components/Layout/Field'
 import DeleteButton from '../Components/Buttons/DeleteButton'
 import DetailViewDropDown from '../Components/Tabs/DetailViewDropDown'
 
@@ -371,7 +372,7 @@ return (
             isActive={viewDropDown}
             handleView={(e)=>setTab(e)}
           />
-          <div className="box pm-4 is-rounded has-text-black">
+          <div className="box is-rounded has-text-black">
 
               {/** Refactor as ViewPageFields Component */}
               {active && pageFields.map(field => 
@@ -380,7 +381,7 @@ return (
                     <div className={field.visible != false & field.tab === tab ? "" : "is-hidden" }> 
                     <hr className={field.hasBreakBefore === true ? "" : "is-hidden"} />
                     <Columns options="is-mobile">
-                      <Column size="is-3">
+                      <Column size="is-tw-fifths pl-5">
 
                         <FieldLabel>
                           <Columns options="is-mobile">

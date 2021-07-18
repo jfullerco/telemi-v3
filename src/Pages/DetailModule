@@ -1,0 +1,55 @@
+<Columns options="is-mobile">
+                      <Column size="is-3">
+
+                        <FieldLabel>
+                          <Columns options="is-mobile">
+                            <Column size="is-11">
+                              <div key={field.label}>{field.label} 
+
+                                {field.inputFieldType === "map-list" ? 
+                                  <a className="link has-text-weight-normal is-size-7 pl-2" 
+                                    onClick={() => handleRelatedDrawer(field)}>   
+                                    (add) 
+                                  </a> : null}
+                                </div>
+                              </Column>
+                              <Column>:</Column>
+                            </Columns>
+                        </FieldLabel>
+
+                      </Column>
+                     
+                      <Column size="pl-5">
+                      
+                        <CheckIfNeedsCache 
+                          value={accounts} 
+                          setValue={setAccounts} 
+                          handleSetCache={(value, setValue)=>handleSetCache(value, setValue)} fallbackValue={cachedAccounts}
+                        >  
+                        <CheckIfNeedsCache 
+                          value={locations} 
+                          setValue={setLocations} 
+                          handleSetCache={(value, setValue)=>handleSetCache(value, setValue)} fallbackValue={cachedLocations}
+                        >
+                        <CheckIfNeedsCache 
+                          value={services} 
+                          setValue={setServices} 
+                          handleSetCache={(value, setValue)=>handleSetCache(value, setValue)} fallbackValue={cachedServices}
+                        >     
+                          <PageField 
+                            field={field}
+                            fieldData={docItem}
+                            relatedDataMap={
+                                field.inputSource && field.inputSource.filter(item => 
+                                  item[field.relatedDataField] === docItem.id).map(i => ({...i}))
+                              }
+                            toggleViewDrawer={()=>handleToggle()}
+                            toggleFieldDropDown={()=>setIsRelatedActive(!isRelatedActive)}
+                            isViewRelatedActive={isRelatedActive}
+                            handleClick={(e)=>handleClick(e)}
+                          />
+                        </CheckIfNeedsCache>
+                        </CheckIfNeedsCache>
+                        </CheckIfNeedsCache>
+                      </Column>
+                    </Columns>
