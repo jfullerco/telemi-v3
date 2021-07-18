@@ -1,35 +1,37 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { FaAngleDown } from "react-icons/fa"
+import { FaChevronCircleUp, FaChevronCircleDown } from 'react-icons/fa'
+import Columns from '../Layout/Columns'
+import Column from '../Layout/Column'
 
 const CompanyDropDown = ({currentCompany, companies, isActive, handleClick, handleToggle}) => {
   const history = useHistory()
   return(
-    <>
-      <div className={isActive === true ? `dropdown is-active`: `dropdown`}>
-      <div className="dropdown-trigger " >
-        <div className="title has-text-black" style={{textTransform: "uppercase"}} onClick={handleToggle}>
-        {currentCompany}
-          <span className="icon is-large">
-            {currentCompany && <FaAngleDown onClick={handleToggle} style={{marginTop: 'auto'}} />}
-          </span>
-      </div>
-        
-          
-          
-          
+    <div className="">
+     
+      <div className={isActive === true ? `dropdown is-active` : `dropdown`}>
+        <div className="dropdown-trigger" >
+          <div className="title pl-1" onClick={handleToggle}>
+            <span className="pr-1" style={{ fontVariant: ['small-caps'] }}>{currentCompany}</span>
+            <span className="icon pl-1">
+
+              <FaChevronCircleUp onClick={handleToggle} style={{ marginTop: 'auto' }} className={isActive === true ? "icon is-small" : "is-hidden"} />
+              <FaChevronCircleDown onClick={handleToggle} style={{ marginTop: 'auto' }} className={isActive === false ? "icon is-small" : "is-hidden"} />
+
+            </span>
+          </div>
         </div>
 
         <div className="dropdown-menu">
           <div className="dropdown-content">
-            <a className="dropdown-item" onClick={()=> history.push("/addcompany")}>ADD</a>
+            <a className="dropdown-item" onClick={() => history.push("/addcompany")}>ADD</a>
             <hr className="dropdown-divider" />
-            {companies && companies.map(company => 
-              <a 
-                className={currentCompany === company.Name ? "dropdown-item is-active": "dropdown-item"} 
-                style={{textTransform: "uppercase"}}
-                onClick={()=>handleClick({id: company.id, name: company.Name})}
+            {companies && companies.map(company =>
+              <a
+                className={currentCompany === company.Name ? "dropdown-item is-active" : "dropdown-item"}
+                style={{ textTransform: "uppercase" }}
+                onClick={() => handleClick({ id: company.id, name: company.Name })}
                 key={company.id}
               >
                 {company.Name}
@@ -39,7 +41,7 @@ const CompanyDropDown = ({currentCompany, companies, isActive, handleClick, hand
         </div>
 
       </div>
-    </>
+    </div>
   )
 }
 export default CompanyDropDown

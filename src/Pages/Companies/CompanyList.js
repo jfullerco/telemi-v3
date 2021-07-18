@@ -12,9 +12,6 @@ import Columns from '../../Components/Layout/Columns'
 import Column from '../../Components/Layout/Column'
 import Button from '../../Components/Buttons/Button'
 
-
-
-
 const CompanyList = () => {
 
   const history = useHistory()

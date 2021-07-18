@@ -371,6 +371,7 @@ return (
             handleToggle={()=>setViewDropDown(!viewDropDown)}
             isActive={viewDropDown}
             handleView={(e)=>setTab(e)}
+            value={active && [active].map(item => item[activeSubtitle] && item[activeSubtitle])}
           />
           <div className="box is-rounded has-text-black">
 
@@ -381,7 +382,7 @@ return (
                     <div className={field.visible != false & field.tab === tab ? "" : "is-hidden" }> 
                     <hr className={field.hasBreakBefore === true ? "" : "is-hidden"} />
                     <Columns options="is-mobile">
-                      <Column size="is-tw-fifths pl-5">
+                      <Column size="is-two-fifths pl-5">
 
                         <FieldLabel>
                           <Columns options="is-mobile">
@@ -502,8 +503,8 @@ return (
           <nav className="breadcrumb" aria-label="breadcrumbs">
               {/** Refactor this as LastUpdatedComponent Component with Hook */}
               <ul>
-                <li className="is-size-7 is-uppercase">last updated: {active.LastUpdated && active.LastUpdated}</li>
-                <li className="is-size-7 is-uppercase pl-2">updated by: {active.LastUpdatedBy && active.LastUpdatedBy}</li>
+                <li className="is-size-7" style={{fontVariant: [ 'small-caps' ]}}>last updated: {active.LastUpdated && active.LastUpdated}</li>
+                <li className="is-size-7" style={{fontVariant: [ 'small-caps' ]}}>updated by: {active.LastUpdatedBy && active.LastUpdatedBy}</li>
               </ul>
             </nav>
         </> : 

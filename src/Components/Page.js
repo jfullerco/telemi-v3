@@ -10,7 +10,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
   const history = useHistory()
   
   return(
-      <div className="">
+      <div className="wrapper">
         {/**<section className="hero is-small">
         <div className="hero-body">
           <Columns options="is-mobile">
