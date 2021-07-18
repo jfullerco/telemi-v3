@@ -29,7 +29,7 @@ const GridComponent = ({
       
       <div className={isGrid === isVisible ? "box" : "is-hidden"}>
       
-        <div className="title" style={headerStyle}> 
+        <div className="is-size-4" style={headerStyle}> 
           {label} 
           <div className="is-pulled-right is-clearfix">
             <button className="button is-small is-link is-rounded mr-1" onClick={handleAddBtn}>Add</button>

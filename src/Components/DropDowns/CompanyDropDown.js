@@ -12,7 +12,7 @@ const CompanyDropDown = ({currentCompany, companies, isActive, handleClick, hand
      
       <div className={isActive === true ? `dropdown is-active` : `dropdown`}>
         <div className="dropdown-trigger" >
-          <div className="title pl-1" onClick={handleToggle}>
+          <div className="is-size-4 pl-1" onClick={handleToggle}>
             <span className="pr-1" style={{ fontVariant: ['small-caps'] }}>{currentCompany}</span>
             <span className="icon pl-1">
 

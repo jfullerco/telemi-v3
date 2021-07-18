@@ -10,10 +10,12 @@ const RelatedFieldDropDown = ({isActive, handleToggle, views, activeView, handle
     <div className="notification is-rounded is-12">
       <button className="delete" onClick={() => history.goBack()}></button>
       <nav className="level">
+      <span className="is-size-4">{value}</span>
       <div className={isActive === true ? `dropdown is-active` : `dropdown`}>
         <div className="dropdown-trigger" >
           <div className="pl-1" onClick={handleToggle}>
-            <span className=" is-size-4 pr-1" style={{ fontVariant: ['small-caps'] }}>
+            
+            <span className=" is-size-7 pr-1" style={{ fontVariant: ['small-caps'] }}>
               {activeView && activeView}
             </span>
             <span className="icon pl-1">
@@ -34,11 +36,10 @@ const RelatedFieldDropDown = ({isActive, handleToggle, views, activeView, handle
           </div>
         </div>
       </div>
-      <div className="level-right">
-        <div className="level-item">
-          <span className="is-size-4">{value}</span>
-        </div>
-      </div>
+      
+          
+        
+     
               </nav>
     </div>
 
