@@ -3,6 +3,10 @@
   
 }
 
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
 .page {
   display: flex;
   
