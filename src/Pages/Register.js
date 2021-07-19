@@ -28,6 +28,7 @@ const Register = (props) => {
       setSignupError('Failed to create an account')
     }
     setLoading(false)
+    history.push('/login')
     handleModalClose()
   }
 

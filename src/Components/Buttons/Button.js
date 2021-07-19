@@ -4,7 +4,7 @@ const Button = ({label, options, handleSubmit}) => {
   return(
     <div className="field">
     <div className="control">
-      <button className={`button is-link is-rounded ${options}`} onClick={handleSubmit}>{label}</button>
+      <button className={`button is-rounded ${options}`} onClick={handleSubmit}>{label}</button>
     </div>
     </div>
     

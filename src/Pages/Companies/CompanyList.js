@@ -120,6 +120,7 @@ const CompanyList = () => {
         </>
         : <span className="title is-size-4 has-text-black">{currentCompany}</span>
       }
+      {!companies ? <button className="button is-rounded is-link" onClick={() => history.push("/addcompany")}>Add a Company Name</button> : null}
     </>
   )
 }

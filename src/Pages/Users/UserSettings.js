@@ -18,7 +18,9 @@ const UserSettings = () => {
           <p className="title">
             USER SETTINGS
           </p>
-         
+          <p>
+            Current Login: {currentUser}
+          </p>
 
             <div className="control">
               <label>

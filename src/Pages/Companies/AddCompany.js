@@ -1,12 +1,14 @@
 import React, {useEffect, useState, useRef, useContext} from 'react'
 import { useHistory } from 'react-router-dom'
-import Drawer from '@material-ui/core/Drawer'
 
 import {db} from '../../Contexts/firebase'
 import {stateContext} from '../../Contexts/stateContext'
 
 import TextInput from '../../Components/Forms/TextInput'
 import Page from '../../Components/Page'
+import Button from '../../Components/Buttons/Button'
+import Columns from '../../Components/Layout/Columns'
+import Column from '../../Components/Layout/Column'
 
 
 const AddCompany = ({open}) => {
@@ -39,22 +41,32 @@ const AddCompany = ({open}) => {
   }
 
   const autoClose = () => {
-    setTimeout(() => {history.goBack()}, 1500)
+    setTimeout(() => {history.push('/dashboard')}, 1500)
   }
   
 
   return (
     
-      <Page subtitle="Add Company" handleSubmit={handleSubmit} status="new" handleToggleReadOnly={()=> setInputReadOnly(!inputReadOnly)} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
+    <Page subtitle="Add Company" handleSubmit={handleSubmit} status="new" handleToggleReadOnly={() => setInputReadOnly(!inputReadOnly)} pageSuccess={pageSuccess} pageError={pageError} autoClose={autoClose}>
 
-          <form>
-            <TextInput 
-              inputFieldLabel="New Company Name"
-              inputFieldRef={companyName}
-            />
-          </form>
-        
-      </Page>
+      <form>
+        <TextInput
+          inputFieldLabel="Company Name"
+          inputFieldRef={companyName}
+        />
+        <Columns options="is-mobile">
+
+          <Column size="is-narrow">
+            <Button label="Add" handleSubmit={handleSubmit} options="is-link" />
+          </Column>
+          <Column size="is-narrow">
+            <Button label="Cancel" handleSubmit={() => history.push('/dashboard')} />
+          </Column>
+
+        </Columns>
+
+      </form>
+    </Page>
     
   )
 }
