@@ -900,6 +900,12 @@ import React from 'react'
     ]
     const billsDetailFields = [
       { 
+        label: "NOTICE: Thanks for your patience as we add more features!", 
+        dataField: "", 
+        inputFieldType: "text", 
+        tab: "BASIC INFO" 
+      },
+      { 
         label: "Location", 
         dataField: "LocationName", 
         inputFieldType: "related-select", 
