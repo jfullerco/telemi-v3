@@ -715,8 +715,8 @@ import React from 'react'
           }
         ], 
         relatedDataType: 'Service',
-        tab: "DETAILS",  
-        tabLabel: 'DETAILS',
+        tab: "BASIC INFO",  
+        tabLabel: 'BASIC INFO',
         hasBreakBefore: true
       },
       { 
