@@ -12,11 +12,11 @@ body {
   
 }
 .box {
-  min-height: 60vh;
+  min-height: 55vh;
 }
 
 .drawerPaper {
-  width: 70vw;
+  width: 85vw;
   padding: 1rem;
 }
 

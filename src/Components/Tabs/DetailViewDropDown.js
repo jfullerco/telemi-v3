@@ -15,7 +15,7 @@ const RelatedFieldDropDown = ({isActive, handleToggle, views, activeView, handle
         <div className="dropdown-trigger" >
           <div className="pl-1" onClick={handleToggle}>
             
-            <span className=" is-size-7 pr-1" style={{ fontVariant: ['small-caps'] }}>
+            <span className=" is-size-7 pr-1">
               {activeView && activeView}
             </span>
             <span className="icon pl-1">
