@@ -13,7 +13,7 @@ const CompanyDropDown = ({currentCompany, companies, isActive, handleClick, hand
       <div className={isActive === true ? `dropdown is-active` : `dropdown`}>
         <div className="dropdown-trigger" >
           <div className="is-size-4 pl-1" onClick={handleToggle}>
-            <span className="pr-1">{currentCompany}</span>
+            <span className="pr-1"><strong>{currentCompany}</strong></span>
             <span className="icon pl-1">
 
               <FaChevronCircleUp onClick={handleToggle} style={{ marginTop: 'auto' }} className={isActive === true ? "icon is-small" : "is-hidden"} />

@@ -38,7 +38,7 @@ const DeleteButton = ({colRef, docRef}) => {
 
   return(
     <>
-      <button className="button is-small is-danger is-rounded mx-2" onClick={()=> {handleConfirmation()}}>Delete</button>
+      <button className="button is-danger is-rounded mx-1" onClick={()=> {handleConfirmation()}}>Delete</button>
       {toggleConfirmation != false ? 
       <ConfirmationModal header="Confirm Delete">
         {deleteSuccess && <div className="notification is-success">{deleteSuccess}</div>}

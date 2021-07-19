@@ -31,8 +31,8 @@ const NavBar = () => {
     <div className="navbar-brand">
 
       <div className="navbar-item">
-        <Link to="/dashboard" className="has-text-white">
-          TELEMI
+        <Link to="/dashboard" className="has-text-white is-size-5">
+          <strong>TELEMI</strong>
         </Link><span className="is-size-7 pl-1">beta</span>
       </div>
     

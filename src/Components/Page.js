@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import Columns from './Layout/Columns'
 import Column from './Layout/Column'
-
+import { FaArrowLeft } from 'react-icons/fa'
 
 const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, handleToggle, autoClose, status, backbtn, children}) => {
 
@@ -11,6 +11,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
   
   return(
       <div className="wrapper">
+        <FaArrowLeft className="pl-1" onClick={()=>history.goBack()}/>
         {/**<section className="hero is-small">
         <div className="hero-body">
           <Columns options="is-mobile">
@@ -58,7 +59,7 @@ const Page = ({title, subtitle, active, pageError, pageSuccess, handleSubmit, ha
           </div>
         </section>*/}
           
-            <div className="py-5">{children}</div>
+            <div className="">{children}</div>
             <div className="block">
             <div className={pageSuccess && pageSuccess != false ? "notification is-success" : "is-hidden"}>{pageSuccess}</div>
             <div className={pageError && pageError != false ? "notification is-danger" : "is-hidden"}>{pageError}</div>

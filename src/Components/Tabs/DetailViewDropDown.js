@@ -3,14 +3,17 @@ import { useHistory } from 'react-router-dom'
 import { FaChevronCircleDown } from "react-icons/fa"
 import { FaChevronCircleUp } from "react-icons/fa"
 
+
 const RelatedFieldDropDown = ({isActive, handleToggle, views, activeView, handleView, value, handleEditDrawer}) => {
   const history = useHistory()
 
   return(
+    <>
+    
     <div className="notification is-rounded is-12">
-      <button className="delete" onClick={() => history.goBack()}></button>
+      
       <nav className="level">
-      <span className="is-size-4">{value}</span>
+      <span className="is-size-4"><strong>{value}</strong></span>
       <div className={isActive === true ? `dropdown is-active` : `dropdown`}>
         <div className="dropdown-trigger" >
           <div className="pl-1" onClick={handleToggle}>
@@ -44,7 +47,7 @@ const RelatedFieldDropDown = ({isActive, handleToggle, views, activeView, handle
      
               </nav>
     </div>
-
+</>
   )
 }
 export default RelatedFieldDropDown
