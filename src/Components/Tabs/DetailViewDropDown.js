@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { FaChevronCircleDown } from "react-icons/fa"
 import { FaChevronCircleUp } from "react-icons/fa"
 
-const RelatedFieldDropDown = ({isActive, handleToggle, views, activeView, handleView, value}) => {
+const RelatedFieldDropDown = ({isActive, handleToggle, views, activeView, handleView, value, handleEditDrawer}) => {
   const history = useHistory()
 
   return(
@@ -15,7 +15,7 @@ const RelatedFieldDropDown = ({isActive, handleToggle, views, activeView, handle
         <div className="dropdown-trigger" >
           <div className="pl-1" onClick={handleToggle}>
             
-            <span className=" is-size-7 pr-1">
+            <span className="pr-1">
               {activeView && activeView}
             </span>
             <span className="icon pl-1">
@@ -28,6 +28,8 @@ const RelatedFieldDropDown = ({isActive, handleToggle, views, activeView, handle
         </div>
         <div className="dropdown-menu" id="dropdown-menu" role="menu">
           <div className="dropdown-content">
+            <a className="dropdown-item" onClick={()=>handleEditDrawer()}>EDIT</a>
+            <hr className="dropdown-divider" />
             {views.map(view =>
 
               <a className="dropdown-item" onClick={() => handleView(view)}>{view}</a>

@@ -372,6 +372,7 @@ return (
             isActive={viewDropDown}
             handleView={(e)=>setTab(e)}
             value={active && [active].map(item => item[activeSubtitle] && item[activeSubtitle])}
+            handleEditDrawer={()=>handleToggle()}
           />
           <div className="box is-rounded has-text-black">
 
