@@ -104,7 +104,7 @@ const DetailModule = (state) => {
     fetchPage()
     fetchBills()
     fetchNotes()
-    setTab("BASIC_INFO")
+    setTab("BASIC INFO")
     handleInitialFieldMapping("Vendor", vendorList, pageFields)
     handleInitialFieldMapping("LocationName", locations, pageFields)
     handleInitialFieldMapping("Type", serviceTypes, pageFields)

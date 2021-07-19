@@ -227,7 +227,7 @@ import React from 'react'
           }
           ],
         relatedDataType: "Location",
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         tabLabel: "BASIC INFO"  
       },
       { 
@@ -237,7 +237,7 @@ import React from 'react'
         inputSource: "", /** SET BY HANDLEINITIALFIELDMAPPING FN */
         inputID: "id", 
         inputValue: "Name", 
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         tabLabel: "BASIC INFO" 
       },
       { 
@@ -247,14 +247,14 @@ import React from 'react'
         inputSource: serviceTypes, 
         inputID: "id", 
         inputValue: "Name", 
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         tabLabel: "BASIC INFO"
       },
       { 
         label: "Service Name", 
         dataField: "VendorServiceName", 
         inputFieldType: "text", 
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         tabLabel: "BASIC INFO" 
       },
       { 
@@ -264,14 +264,14 @@ import React from 'react'
         inputSource: accessTypes, 
         inputID: "id", 
         inputValue: "Name", 
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         tabLabel: "BASIC INFO" 
       },
       { 
         label: "Asset ID", 
         dataField: "AssetID", 
         inputFieldType: "text", 
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         tabLabel: "BASIC INFO", 
         isHeader: true
       },
@@ -279,14 +279,14 @@ import React from 'react'
         label: "Bandwidth", 
         dataField: "Bandwidth", 
         inputFieldType: "text", 
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         tabLabel: "BASIC INFO" 
       },
       { 
         label: "Monthly Cost", 
         dataField: "MRC", 
         inputFieldType: "currency", 
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         tabLabel: "BASIC INFO" 
       },
       { 
@@ -296,7 +296,7 @@ import React from 'react'
         inputSource: serviceStatusType, 
         inputID: "id", 
         inputValue: "Name", 
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         tabLabel: "BASIC INFO" 
       },
       { 
@@ -448,7 +448,7 @@ import React from 'react'
         label: "Ticket Number", 
         dataField: "TicketNum", 
         inputFieldType: "text", 
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         isHeader: true 
       },
 
@@ -495,7 +495,7 @@ import React from 'react'
           }
           ],
         relatedDataType: "Location",
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         tabLabel: "BASIC INFO"  
       },
       { 
@@ -505,7 +505,7 @@ import React from 'react'
         inputSource: locations, 
         inputID: "ID", 
         inputValue: "id", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Related Account", 
@@ -536,7 +536,7 @@ import React from 'react'
         inputSource: accounts, 
         inputID: "ID", 
         inputValue: "id", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
 
       { 
@@ -567,13 +567,13 @@ import React from 'react'
         inputSource: vendorList, 
         inputID: "id", 
         inputValue: "Name", 
-        tab: "BASIC_INFO"
+        tab: "BASIC INFO"
       },
       { 
         label: "Date Submitted", 
         dataField: "DateSubmitted", 
         inputFieldType: "datepicker", 
-        tab: "BASIC_INFO"
+        tab: "BASIC INFO"
       },
       { 
         label: "Type", 
@@ -595,7 +595,7 @@ import React from 'react'
           ], 
         inputID: "id", 
         inputValue: "Name", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Status", 
@@ -621,13 +621,13 @@ import React from 'react'
           ], 
         inputID: "id", 
         inputValue: "Name", 
-        tab: "BASIC_INFO"  
+        tab: "BASIC INFO"  
       },
       { 
         label: "Details", 
         dataField: "Details", 
         inputFieldType: "text-area", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
 
       { 
@@ -665,7 +665,7 @@ import React from 'react'
         dataField: "AccountNum", 
         inputFieldType: "text",
         isHeader: true, 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Vendor", 
@@ -673,7 +673,7 @@ import React from 'react'
         inputFieldType: "select",  
         inputID: "id", 
         inputValue: "Name", 
-        tab: "BASIC_INFO"
+        tab: "BASIC INFO"
       },
       { 
         label: "Date Billing Started", 
@@ -797,7 +797,7 @@ import React from 'react'
           }
           ],
         relatedDataType: "Location",
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         tabLabel: "BASIC INFO"  
       },
       { 
@@ -805,13 +805,13 @@ import React from 'react'
         dataField: "OrderNum", 
         inputFieldType: "text",
         isHeader: true, 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Date Ordered", 
         dataField: "OrderDate", 
         inputFieldType: "datepicker", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Vendor", 
@@ -820,13 +820,13 @@ import React from 'react'
         inputSource: vendorList, 
         inputID: "id", 
         inputValue: "Name", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Service Name", 
         dataField: "VendorServiceName", 
         inputFieldType: "text", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       {
         label: "Order Type",
@@ -836,13 +836,13 @@ import React from 'react'
         inputSource: "",
         inputID: "id",
         inputValue: "Name",
-        tab: "BASIC_INFO"
+        tab: "BASIC INFO"
       },
       { 
         label: "Monthly Cost", 
         dataField: "MRC", 
         inputFieldType: "currency", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Status", 
@@ -851,7 +851,7 @@ import React from 'react'
         inputSource: "", 
         inputID: "id", 
         inputValue: "Name", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Bandwidth", 
@@ -942,20 +942,20 @@ import React from 'react'
           }
           ],
         relatedDataType: "Location",
-        tab: "BASIC_INFO",
+        tab: "BASIC INFO",
         tabLabel: "BASIC INFO"  
       },
       { 
         label: "Account Number", 
         dataField: "AccountNum", 
         inputFieldType: "text", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Account ID", 
         dataField: "AccountID", 
         inputFieldType: "text", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Vendor", 
@@ -964,39 +964,39 @@ import React from 'react'
         inputSource: vendorList, 
         inputID: "id", 
         inputValue: "Name", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Amount Billed", 
         dataField: "Cost", 
         inputFieldType: "text", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       {
         label: "Asset ID",
         dataField: "AssetID",
         inputField: "text",
-        tab: "BASIC_INFO"
+        tab: "BASIC INFO"
       },
       { 
         label: "Disputed Amount", 
         dataField: "DisputedAmount", 
         inputFieldType: "text", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Company Name", 
         visible: false,
         dataField: "CompanyName", 
         inputFieldType: "text", 
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
       { 
         label: "Company ID", 
         visible: false,
         dataField: "CompanyID", 
         inputFieldType: "text",  
-        tab: "BASIC_INFO" 
+        tab: "BASIC INFO" 
       },
   
     ]
